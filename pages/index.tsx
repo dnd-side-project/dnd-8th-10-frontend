@@ -1,11 +1,11 @@
 import type { NextPage } from 'next';
-import styles from '../../styles/Home.module.css';
-import useStore from '@/app.modules/store/store';
+import styles from '../styles/Home.module.css';
+import useStore from '../src/app.modules/store';
 
 const Home: NextPage = () => {
 	const { isDark, handleIsDark } = useStore();
 	return (
-		<div className={styles.container}>
+		<div className={`w-screen h-screen ${isDark ? 'bg-black text-white' : 'bg-white text-black'}`}>
 			<h1 className="text-2xl font-bold underline">Hello world!</h1>
 			<p className="italic">tailwind TEST</p>
 			<p>Zustand TEST : 지금 화면은 {isDark ? '다크' : '화이트'} 모드이다</p>

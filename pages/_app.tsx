@@ -1,7 +1,7 @@
-import '../../styles/globals.css';
+import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const queryClient = new QueryClient();
