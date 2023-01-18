@@ -1,15 +1,18 @@
 import type { NextPage } from 'next';
+import { KAKAO_OAUTH2_URL } from 'src/app.features/login/constants';
+import axios from 'axios';
 import styles from '../styles/Home.module.css';
 import useStore from '../src/app.modules/store';
 
 const Home: NextPage = () => {
 	const { isDark, handleIsDark } = useStore();
+	console.log(KAKAO_OAUTH2_URL);
+
 	return (
-		<div className={`w-screen h-screen ${isDark ? 'bg-black text-white' : 'bg-white text-black'}`}>
-			<h1 className="text-2xl font-bold underline">Hello world!</h1>
-			<p className="italic">tailwind TEST</p>
-			<p>Zustand TEST : 지금 화면은 {isDark ? '다크' : '화이트'} 모드이다</p>
-			<button onClick={handleIsDark}>클릭시 화면 모드 변경</button>
+		<div className={`w-screen h-screen  ${isDark ? 'bg-black text-white' : 'bg-white text-black'}`}>
+			<button className="bg-yellow-400 rounded p-2 text-center mx-auto">
+				<a href={KAKAO_OAUTH2_URL}>테스트용 카카오로그인 버튼</a>
+			</button>
 		</div>
 	);
 };
