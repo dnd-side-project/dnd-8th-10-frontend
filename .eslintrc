@@ -17,6 +17,7 @@
     "react/function-component-definition": "off",
     "import/extensions": "off",
     "react/no-unescaped-entities": "off",
-    "react/button-has-type":"off"
+    "react/button-has-type":"off",
+    "import/prefer-default-export":"off"
   }
 }
