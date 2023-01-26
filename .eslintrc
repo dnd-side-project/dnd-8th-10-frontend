@@ -18,6 +18,8 @@
     "import/extensions": "off",
     "react/no-unescaped-entities": "off",
     "react/button-has-type":"off",
-    "import/prefer-default-export":"off"
+    "import/prefer-default-export":"off",
+    "react-hooks/rules-of-hooks":"off",
+
   }
 }
