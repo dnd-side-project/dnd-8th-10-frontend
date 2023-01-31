@@ -20,6 +20,7 @@
     "react/button-has-type":"off",
     "import/prefer-default-export":"off",
     "react-hooks/rules-of-hooks":"off",
+    "react/no-array-index-key":"off"
 
   }
 }
