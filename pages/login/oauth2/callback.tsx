@@ -25,7 +25,7 @@ const Login: NextPage = () => {
 					localStorage.setItem('ACCESS_TOKEN', accessToken);
 					setCookie('REFRESH_TOKEN', refreshToken, { path: '/', secure: true, sameSite: 'none' });
 				}
-				// router.push(SERVICE_URL.home); // TODO: 로그인 이전 페이지로 보내기
+				router.push(SERVICE_URL.home); // TODO: 로그인 이전 페이지로 보내기
 			},
 			onError: (error) => {
 				console.log(error);
