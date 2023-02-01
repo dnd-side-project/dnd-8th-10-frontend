@@ -1,18 +1,44 @@
+import { userAgent } from 'next/server';
 import { PatchUserBody, UserType } from 'src/app.modules/api/user';
 import create from 'zustand';
 
+interface IUser {
+	type: UserType;
+	storeName: string;
+	startTime: {
+		meridiem: 'am' | 'pm';
+		hour: string;
+		minute: string;
+	};
+	endTime: {
+		meridiem: 'am' | 'pm';
+		hour: string;
+		minute: string;
+	};
+	phoneNumber: string;
+}
+
 interface UserState {
-	user: PatchUserBody;
+	user: IUser;
 	initUser: () => void;
 	setType: (type: UserType) => void;
 	setStoreName: (storeName: string) => void;
-	setTime: (time: string) => void;
+	setStartTime: (value: string, name: 'meridiem' | 'hour' | 'minute') => void;
 	setPhoneNumber: (phoneNumber: string) => void;
 }
-const initUser: PatchUserBody = {
+const initUser: IUser = {
 	type: 'employee',
 	storeName: '',
-	time: '',
+	startTime: {
+		meridiem: 'am',
+		hour: '1',
+		minute: '0',
+	},
+	endTime: {
+		meridiem: 'am',
+		hour: '1',
+		minute: '0',
+	},
 	phoneNumber: '',
 };
 const useRegisterUserStore = create<UserState>((set) => ({
@@ -20,7 +46,8 @@ const useRegisterUserStore = create<UserState>((set) => ({
 	initUser: () => set(() => ({ user: initUser })),
 	setType: (type: UserType) => set((prev) => ({ user: { ...prev.user, type } })),
 	setStoreName: (storeName: string) => set((prev) => ({ user: { ...prev.user, storeName } })),
-	setTime: (time: string) => set((prev) => ({ user: { ...prev.user, time } })),
+	setStartTime: (value: string, name: 'meridiem' | 'hour' | 'minute') =>
+		set((prev) => ({ user: { ...prev.user, startTime: { ...prev.user.startTime, [name]: value } } })),
 	setPhoneNumber: (phoneNumber: string) => set((prev) => ({ user: { ...prev.user, phoneNumber } })),
 }));
 
