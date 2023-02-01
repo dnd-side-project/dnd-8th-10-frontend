@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import useRegisterUserStore from '../store';
 
 declare global {
 	interface Window {
@@ -13,12 +14,17 @@ type Store = {
 function SetStoreScreen() {
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
-	const [stores, setStores] = useState<Store[]>();
+	const [searchResults, setSearchResults] = useState<Store[]>();
+	const {
+		user: { storeName },
+		setStoreName,
+	} = useRegisterUserStore();
 	const searchTermHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		console.log(e.target.value);
 		setSearchTerm(e.target.value);
 	};
-
+	const storeNameHandler = (value: string) => {
+		setStoreName(value);
+	};
 	useEffect(() => {
 		const script = document.createElement('script');
 		script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET_SDK}&libraries=services&autoload=false`;
@@ -36,16 +42,16 @@ function SetStoreScreen() {
 		if (!isLoaded || !searchTerm.trim()) return;
 		const onLoadKakaoMap = () => {
 			const { kakao } = window;
+			// 카카오 맵 API는 검색 할 때, 최대 45개의 결과 값만 알려줍니다
 			kakao.maps.load(() => {
 				const places = new kakao.maps.services.Places();
+				// TODO: 검색결과 45개 다 불러오기. 현재는 1페이지만 보고 있음
 				const placesSearchCB = (result: any, status: any, pagination: any) => {
 					if (status === kakao.maps.services.Status.OK) {
-						const res = result.filter((d: any) => {
-							console.log(d.category_group_code, d.category_group_code === 'CS2');
+						const storeRes = result.filter((d: any) => {
 							return d.category_group_code === 'CS2';
 						});
-						console.log(res, res.category_group_code);
-						setStores(res);
+						setSearchResults(storeRes);
 					}
 				};
 				places.keywordSearch(searchTerm, placesSearchCB);
@@ -56,15 +62,25 @@ function SetStoreScreen() {
 	return (
 		<div>
 			<form>
-				<input value={searchTerm} onChange={searchTermHandler} type="search" className="w-full" />
+				<input
+					value={searchTerm}
+					onChange={searchTermHandler}
+					placeholder="편의점 명을 검색해보세요"
+					type="search"
+					className="w-[300px] h-[30px] mt-[20px] py-2 px-4  border border-black rounded-lg  "
+				/>
 			</form>
+			<span className="block mt-[12px]">검색 결과</span>
 			<ul>
-				{stores?.map((store, idx) => (
+				{searchResults?.map((store, idx) => (
 					<li key={idx}>
-						{store.place_name} {store.road_address_name}
+						<button onClick={() => storeNameHandler(store.place_name)} value={store.place_name}>
+							<strong>{store.place_name}</strong> "{store.road_address_name}"
+						</button>
 					</li>
 				))}
 			</ul>
+			<span className="block mt-[12px]">선택된 편의점 : {storeName}</span>
 		</div>
 	);
 }

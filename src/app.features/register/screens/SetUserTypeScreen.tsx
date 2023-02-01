@@ -6,8 +6,8 @@ function UserTypeScreen() {
 		user: { type },
 		setType,
 	} = useRegisterUserStore();
-
-	const typeHandler = (e: any) => {
+	// TODO: any
+	const typeHandler = (e: React.BaseSyntheticEvent) => {
 		setType(e.target.value);
 	};
 
