@@ -1,8 +1,8 @@
 import client from './client';
 
 export const oauth2 = async (code: string) => {
-	//	console.log(code);
 	const res = await client.get(`/oauth/token?code=${code}`);
+
 	return res;
 };
 
