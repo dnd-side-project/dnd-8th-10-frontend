@@ -2,14 +2,12 @@ import React from 'react';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import { IUserInfo } from '../types/indes';
 
-function Schedule(idx: string, todo: { [x: string]: {} | string }) {
+function Schedule(idx: string, schedule: { [x: string]: {} | string }, toDay: string) {
 	let userInfo: IUserInfo = {
 		name: [],
-		time: [],
 	};
-
-	for (let key in todo) {
-		const data = Object.keys(todo[key]);
+	for (let key in schedule) {
+		const data = Object.keys(schedule[key]);
 		for (let i = 0; i < data.length; i++) {
 			const filter = data[i] === getDayOfWeek(idx);
 			if (filter) {
@@ -21,12 +19,18 @@ function Schedule(idx: string, todo: { [x: string]: {} | string }) {
 		return (
 			<div
 				onClick={() => {
-					console.log(idx);
+					console.log(idx, toDay);
 				}}
 				className="cursor-pointer"
 			>
-				{userInfo.name.map((item: string | undefined, index: React.Key | null | undefined) => (
-					<div key={index}>{item}</div>
+				{userInfo.name.map((_item: string, index: number) => (
+					<div key={index}>
+						{idx === toDay ? (
+							<div className="w-[50px] h-[50px] rounded bg-black" key={index}></div>
+						) : (
+							<div className="w-[50px] h-[50px] rounded bg-[#D9D9D9]" key={index}></div>
+						)}
+					</div>
 				))}
 			</div>
 		);

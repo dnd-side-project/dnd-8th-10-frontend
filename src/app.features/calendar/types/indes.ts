@@ -5,12 +5,12 @@ export interface IDumy {
 }
 export interface IUserInfo {
 	name: string[];
-	time: string[];
 }
 export interface IMakeCal {
 	year: number;
 	month: number;
 	firstDay: number;
 	lastDate: number;
-	todo: { [x: string]: {} | string };
+	schedule: { [x: string]: {} | string };
+	toDay: string;
 }
