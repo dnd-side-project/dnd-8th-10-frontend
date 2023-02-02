@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import MakeCalendar from '../components/MakeCalendar';
+import { WEEK } from '../constants';
 import { IDumy } from '../types/indes';
 // 초기 캘린더 더미 상태
 const today = new Date();
@@ -66,6 +68,23 @@ function CalendarScreen() {
 					&gt;
 				</button>
 			</div>
+			<table className="w-[100%] table-fixed">
+				<thead className="text-center">
+					<tr>
+						{WEEK.map((day, index) => (
+							<td key={index}>{day}</td>
+						))}
+					</tr>
+				</thead>
+				<tbody>
+					{MakeCalendar({
+						year,
+						month,
+						firstDay,
+						lastDate,
+					})}
+				</tbody>
+			</table>
 		</div>
 	);
 }
