@@ -1,17 +1,17 @@
 import React from 'react';
+import Schedule from './Schedule';
 import { transIdx } from 'src/app.modules/util/calendar';
 import { IMakeCal } from '../types/indes';
-import Schedule from './Schedule';
 
 function MakeCalendar({ year, month, firstDay, lastDate, schedule, toDay }: IMakeCal) {
-	const result = [];
+	const days = [];
 	const makeDay = (week: number) => {
 		const result = [];
 		// 첫 주
-		if (week == 1) {
+		if (week === 1) {
 			const prevLastDate = Number(new Date(year, month, 0).getDate());
 
-			for (let i = 1; i <= 7; i++) {
+			for (let i = 1; i <= 7; i += 1) {
 				// 저번 달 날짜
 				if (i <= firstDay) {
 					const now = prevLastDate - firstDay + i;
@@ -32,7 +32,7 @@ function MakeCalendar({ year, month, firstDay, lastDate, schedule, toDay }: IMak
 			}
 		} else {
 			const startDate = (week - 1) * 7;
-			for (let i = startDate; i <= week * 7 - 1; i++) {
+			for (let i = startDate; i <= week * 7 - 1; i += 1) {
 				// 현재 달 날짜
 				if (i - firstDay < lastDate) {
 					const now = i - firstDay + 1;
@@ -56,14 +56,14 @@ function MakeCalendar({ year, month, firstDay, lastDate, schedule, toDay }: IMak
 
 	// 주 계산
 	const week = Math.ceil((firstDay + lastDate) / 7);
-	for (let i = 1; i <= week; i++) {
-		result.push(
+	for (let i = 1; i <= week; i += 1) {
+		days.push(
 			<div className="flex justify-around items-center py-[15px]" key={week + i}>
 				{makeDay(i)}
 			</div>
 		);
 	}
-	return result;
+	return days;
 }
 
 export default MakeCalendar;

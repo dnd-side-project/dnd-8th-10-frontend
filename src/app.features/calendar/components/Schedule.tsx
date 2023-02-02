@@ -2,8 +2,8 @@ import React from 'react';
 import { getScheduleMatch } from 'src/app.modules/util/calendar';
 import { IUserInfo } from '../types/indes';
 
-function Schedule(idx: string, schedule: { [x: string]: {} | string }, toDay: string, now: number) {
-	let userInfo: IUserInfo = {
+function Schedule(idx: string, schedule: { [x: string]: object | string }, toDay: string, now: number) {
+	const userInfo: IUserInfo = {
 		name: [],
 	};
 	userInfo.name = getScheduleMatch(schedule, idx);
