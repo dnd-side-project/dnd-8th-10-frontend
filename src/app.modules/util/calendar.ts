@@ -11,3 +11,17 @@ export const getDayOfWeek = (data: any) => {
 	const dayOfWeek = WEEK[new Date(data).getDay()];
 	return dayOfWeek;
 };
+
+export const getScheduleMatch = (schedule: any, idx: any) => {
+	let arr = [];
+	for (let key in schedule) {
+		const data = Object.keys(schedule[key]);
+		for (let i = 0; i < data.length; i++) {
+			const filter = data[i] === getDayOfWeek(idx);
+			if (filter) {
+				arr.push(key);
+			}
+		}
+	}
+	return arr;
+};

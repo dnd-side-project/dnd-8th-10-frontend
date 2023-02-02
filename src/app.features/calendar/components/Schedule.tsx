@@ -1,20 +1,12 @@
 import React from 'react';
-import { getDayOfWeek } from 'src/app.modules/util/calendar';
+import { getScheduleMatch } from 'src/app.modules/util/calendar';
 import { IUserInfo } from '../types/indes';
 
 function Schedule(idx: string, schedule: { [x: string]: {} | string }, toDay: string, now: number) {
 	let userInfo: IUserInfo = {
 		name: [],
 	};
-	for (let key in schedule) {
-		const data = Object.keys(schedule[key]);
-		for (let i = 0; i < data.length; i++) {
-			const filter = data[i] === getDayOfWeek(idx);
-			if (filter) {
-				userInfo.name.push(key);
-			}
-		}
-	}
+	userInfo.name = getScheduleMatch(schedule, idx);
 	if (userInfo.name.length > 0) {
 		return (
 			<>
