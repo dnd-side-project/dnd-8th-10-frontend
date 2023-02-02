@@ -14,7 +14,7 @@ const test = {
 };
 const Login: NextPage = () => {
 	const router = useRouter();
-	const { data } = useQuery(
+	/* const { data } = useQuery(
 		['oauth2', 'google'],
 		() => oauth2(new URL(document.location.toString()).searchParams.get('code') as string),
 		{
@@ -35,8 +35,10 @@ const Login: NextPage = () => {
 			refetchOnReconnect: false,
 			refetchOnWindowFocus: false,
 		}
-	);
-
+	); */
+	useEffect(() => {
+		console.log(new URL(document.location.toString()).searchParams.get('code') as string);
+	}, []);
 	return <div />;
 };
 export default Login;
