@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { transIdx } from 'src/app.modules/util/calendar';
 import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
 import { IDumy } from '../types/indes';
-import { transIdx } from 'src/app.modules/util/calendar';
 // 초기 캘린더 더미 상태
 const today = new Date();
 const dumyData = {
@@ -18,22 +18,18 @@ const dumyData = {
 function CalendarScreen() {
 	const [calendar, setCalendar] = useState<IDumy>(dumyData);
 
-	// 년도, 달
-	const year = calendar.year;
-	const month = calendar.month;
+	// 년도, 달, 일정
+	const { year, month, schedule } = calendar;
 
 	// 오늘 날짜
 	const toDay = transIdx(today.getFullYear(), today.getMonth(), today.getDate());
 
 	// 달력 표시 날짜
-	const yearMonth = year + '.' + (month + 1);
+	const yearMonth = `${year}.${month + 1}`;
 
 	// 해당 달의 첫날과 마지막날
 	const firstDay = Number(new Date(year, month, 1).getDay());
 	const lastDate = Number(new Date(year, month + 1, 0).getDate());
-
-	// 일정
-	const schedule = calendar.schedule;
 
 	// Month 증가
 	const onIncreases = () => {

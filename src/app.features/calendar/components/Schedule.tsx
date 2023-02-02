@@ -6,7 +6,10 @@ function Schedule(idx: string, schedule: { [x: string]: object | string }, toDay
 	const userInfo: IUserInfo = {
 		name: [],
 	};
-	userInfo.name = getScheduleMatch(schedule, idx);
+	if (schedule !== undefined) {
+		userInfo.name = getScheduleMatch(schedule, idx);
+	}
+
 	if (userInfo.name.length > 0) {
 		return (
 			<>
