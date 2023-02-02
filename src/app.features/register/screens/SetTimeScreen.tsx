@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useRegisterUserStore from '../store';
 
 type Flag = 'startTime' | 'endTime' | null;
@@ -151,6 +153,7 @@ function SetTimeScreen() {
 					time={openModalFlag === 'startTime' ? startTime : endTime}
 				/>
 			)}
+			<Link href={`${SERVICE_URL.register}?page=4`}>다음으로</Link>
 		</div>
 	);
 }
