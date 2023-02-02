@@ -12,6 +12,7 @@ function Schedule(idx: string, schedule: { [x: string]: {} | string }, toDay: st
 			<>
 				{userInfo.name.map((_item, index: number) => (
 					<div key={index}>
+						{/* 근무일이 당일 일시 */}
 						{idx === toDay ? (
 							<span className="text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded">
 								{now}
@@ -26,7 +27,11 @@ function Schedule(idx: string, schedule: { [x: string]: {} | string }, toDay: st
 	}
 	return (
 		<div key={now}>
-			<span className="flex justify-center items-center w-[30px] h-[30px]rounded">{now}</span>
+			{idx === toDay ? (
+				<span className="text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded">{now}</span>
+			) : (
+				<span className="flex justify-center items-center w-[30px] h-[30px]rounded">{now}</span>
+			)}
 		</div>
 	);
 }
