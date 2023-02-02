@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import React from 'react';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useRegisterUserStore from '../store';
 
 function UserTypeScreen() {
@@ -12,26 +14,29 @@ function UserTypeScreen() {
 	};
 
 	return (
-		<div className="flex w-full space-x-2">
-			<button
-				type="button"
-				onClick={typeHandler}
-				aria-pressed={type === 'employee'}
-				value="employee"
-				className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
-			>
-				직원
-			</button>
+		<div>
+			<div className="flex w-full space-x-2">
+				<button
+					type="button"
+					onClick={typeHandler}
+					aria-pressed={type === 'employee'}
+					value="employee"
+					className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
+				>
+					직원
+				</button>
 
-			<button
-				type="button"
-				onClick={typeHandler}
-				aria-pressed={type === 'employer'}
-				value="employer"
-				className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
-			>
-				점장
-			</button>
+				<button
+					type="button"
+					onClick={typeHandler}
+					aria-pressed={type === 'employer'}
+					value="employer"
+					className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
+				>
+					점장
+				</button>
+			</div>
+			<Link href={`${SERVICE_URL.register}?page=2`}>다음으로</Link>
 		</div>
 	);
 }

@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useRegisterUserStore from '../store';
 
 declare global {
@@ -81,6 +83,7 @@ function SetStoreScreen() {
 				))}
 			</ul>
 			<span className="block mt-[12px]">선택된 편의점 : {storeName}</span>
+			<Link href={`${SERVICE_URL.register}?page=3`}>다음으로</Link>
 		</div>
 	);
 }
