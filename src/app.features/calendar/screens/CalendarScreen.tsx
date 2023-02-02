@@ -74,35 +74,35 @@ function CalendarScreen() {
 	};
 
 	return (
-		<div>
-			<div className="flex w-[100%] mb-5">
-				<button className="mr-[30px] font-[30px]" onClick={onDecreases}>
+		<div className="p-[20px]">
+			<div className="flex my-[15px]">
+				{/* <button className="mr-[30px] font-[30px]" onClick={onDecreases}>
 					&lt;
-				</button>
+				</button> */}
 				<p className="text-[20px] font-bold ">{yearMonth}</p>
-				<button className="ml-[30px] font-[30px]" onClick={onIncreases}>
+				{/* <button className="ml-[30px] font-[30px]" onClick={onIncreases}>
 					&gt;
-				</button>
+				</button> */}
 			</div>
-			<table className="w-[100%] table-fixed">
-				<thead className="text-center">
-					<tr>
+			<div>
+				<div>
+					<div className="flex justify-around mb-[5px]">
 						{WEEK.map((day, index) => (
-							<td key={index}>{day}</td>
+							<span key={index}>{day}</span>
 						))}
-					</tr>
-				</thead>
-				<tbody>
-					{MakeCalendar({
-						year,
-						month,
-						firstDay,
-						lastDate,
-						schedule,
-						toDay,
-					})}
-				</tbody>
-			</table>
+					</div>
+					<div>
+						{MakeCalendar({
+							year,
+							month,
+							firstDay,
+							lastDate,
+							schedule,
+							toDay,
+						})}
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }

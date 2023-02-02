@@ -17,9 +17,9 @@ function MakeCalendar({ year, month, firstDay, lastDate, schedule, toDay }: IMak
 					const now = prevLastDate - firstDay + i;
 					// 이전 달 예시 날짜
 					result.push(
-						<td className="text-gray-400 align-text-top" key={now}>
+						<span key={now} className="text-gray-400  flex justify-center items-center w-[30px] h-[30px] rounded">
 							{now}
-						</td>
+						</span>
 					);
 				}
 				// 현재 달 날짜
@@ -27,12 +27,7 @@ function MakeCalendar({ year, month, firstDay, lastDate, schedule, toDay }: IMak
 					const now = i - firstDay;
 					// 첫주 날짜
 					const idx = transIdx(year, month, now);
-					result.push(
-						<td className="h-[100px] align-text-top" key={now}>
-							{now}
-							<div>{Schedule(idx, schedule, toDay)}</div>
-						</td>
-					);
+					result.push(<div key={idx}>{Schedule(idx, schedule, toDay, now)}</div>);
 				}
 			}
 		} else {
@@ -43,20 +38,15 @@ function MakeCalendar({ year, month, firstDay, lastDate, schedule, toDay }: IMak
 					const now = i - firstDay + 1;
 					// 2주~4주차 날짜
 					const idx = transIdx(year, month, now);
-					result.push(
-						<td className="h-[100px] align-text-top" key={now}>
-							{now}
-							<div>{Schedule(idx, schedule, toDay)}</div>
-						</td>
-					);
+					result.push(<div key={idx}>{Schedule(idx, schedule, toDay, now)}</div>);
 				}
 				// 다음 달 예시 날짜
 				else {
 					const now = i - lastDate - firstDay + 1;
 					result.push(
-						<td className="text-gray-400 align-text-top" key={now}>
+						<span key={now} className="text-gray-400  flex justify-center items-center w-[30px] h-[30px]rounded">
 							{now}
-						</td>
+						</span>
 					);
 				}
 			}
@@ -67,7 +57,11 @@ function MakeCalendar({ year, month, firstDay, lastDate, schedule, toDay }: IMak
 	// 주 계산
 	const week = Math.ceil((firstDay + lastDate) / 7);
 	for (let i = 1; i <= week; i++) {
-		result.push(<tr key={week + i}>{makeDay(i)}</tr>);
+		result.push(
+			<div className="flex justify-around items-center py-[15px]" key={week + i}>
+				{makeDay(i)}
+			</div>
+		);
 	}
 	return result;
 }

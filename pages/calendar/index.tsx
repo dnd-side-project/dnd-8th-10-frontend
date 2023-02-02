@@ -3,7 +3,7 @@ import CalendarScreen from 'src/app.features/calendar/screens/CalendarScreen';
 
 const CalendarPage: NextPage = () => {
 	return (
-		<div className="flex h-screen flex-col justify-between  bg-slate-50">
+		<div className="w-screen h-scree">
 			<CalendarScreen />
 		</div>
 	);

@@ -2,7 +2,7 @@ import React from 'react';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import { IUserInfo } from '../types/indes';
 
-function Schedule(idx: string, schedule: { [x: string]: {} | string }, toDay: string) {
+function Schedule(idx: string, schedule: { [x: string]: {} | string }, toDay: string, now: number) {
 	let userInfo: IUserInfo = {
 		name: [],
 	};
@@ -17,25 +17,26 @@ function Schedule(idx: string, schedule: { [x: string]: {} | string }, toDay: st
 	}
 	if (userInfo.name.length > 0) {
 		return (
-			<div
-				onClick={() => {
-					console.log(idx, toDay);
-				}}
-				className="cursor-pointer"
-			>
-				{userInfo.name.map((_item: string, index: number) => (
+			<>
+				{userInfo.name.map((_item, index: number) => (
 					<div key={index}>
 						{idx === toDay ? (
-							<div className="w-[50px] h-[50px] rounded bg-black" key={index}></div>
+							<span className="text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded">
+								{now}
+							</span>
 						) : (
-							<div className="w-[50px] h-[50px] rounded bg-[#D9D9D9]" key={index}></div>
+							<span className="flex justify-center items-center w-[30px] h-[30px] bg-gray-200 rounded">{now}</span>
 						)}
 					</div>
 				))}
-			</div>
+			</>
 		);
 	}
-	return null;
+	return (
+		<div key={now}>
+			<span className="flex justify-center items-center w-[30px] h-[30px]rounded">{now}</span>
+		</div>
+	);
 }
 
 export default Schedule;
