@@ -1,7 +1,9 @@
 import React from 'react';
+import { transIdx } from 'src/app.modules/util/calendar';
 import { IMakeCal } from '../types/indes';
+import Schedule from './Schedule';
 
-function MakeCalendar({ year, month, firstDay, lastDate }: IMakeCal) {
+function MakeCalendar({ year, month, firstDay, lastDate, todo }: IMakeCal) {
 	const result = [];
 	const makeDay = (week: number) => {
 		const result = [];
@@ -24,9 +26,11 @@ function MakeCalendar({ year, month, firstDay, lastDate }: IMakeCal) {
 				else {
 					const now = i - firstDay;
 					// 첫주 날짜
+					const idx = transIdx(year, month, now);
 					result.push(
 						<td className="h-[100px] align-text-top" key={now}>
 							{now}
+							<div>{Schedule(idx, todo)}</div>
 						</td>
 					);
 				}
@@ -38,9 +42,11 @@ function MakeCalendar({ year, month, firstDay, lastDate }: IMakeCal) {
 				if (i - firstDay < lastDate) {
 					const now = i - firstDay + 1;
 					// 2주~4주차 날짜
+					const idx = transIdx(year, month, now);
 					result.push(
 						<td className="h-[100px] align-text-top" key={now}>
 							{now}
+							<div>{Schedule(idx, todo)}</div>
 						</td>
 					);
 				}

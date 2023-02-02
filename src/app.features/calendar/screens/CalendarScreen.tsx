@@ -7,6 +7,22 @@ const today = new Date();
 const dumyData = {
 	year: today.getFullYear(),
 	month: today.getMonth(),
+	schedule: {
+		박수빈: {
+			일: '08:00~12:00',
+			목: '14:00~24:00',
+		},
+		정예원: {
+			수: '12:00~20:00',
+			토: '12:00~20:00',
+		},
+		이우진: {
+			일: '12:00~20:00',
+		},
+		김하영: {
+			수: '20:00~24:00',
+		},
+	},
 };
 function CalendarScreen() {
 	const [calendar, setCalendar] = useState<IDumy>(dumyData);
@@ -18,6 +34,9 @@ function CalendarScreen() {
 	// 해당 달의 첫날과 마지막날
 	const firstDay = Number(new Date(year, month, 1).getDay());
 	const lastDate = Number(new Date(year, month + 1, 0).getDate());
+
+	// 일정
+	const todo = calendar.schedule;
 
 	// Month 증가
 	const onIncreases = () => {
@@ -82,6 +101,7 @@ function CalendarScreen() {
 						month,
 						firstDay,
 						lastDate,
+						todo,
 					})}
 				</tbody>
 			</table>
