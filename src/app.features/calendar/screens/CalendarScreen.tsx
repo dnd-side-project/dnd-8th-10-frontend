@@ -10,7 +10,7 @@ const dumyData = {
 	month: today.getMonth(),
 	schedule: {
 		박수빈: {
-			일: '08:00~12:00',
+			일: '08:00~15:00',
 			목: '14:00~24:00',
 		},
 	},
@@ -74,15 +74,19 @@ function CalendarScreen() {
 	};
 
 	return (
-		<div className="p-[20px]">
-			<div className="flex my-[15px]">
+		<div>
+			<div className="flex justify-between mx-[15px] my-[20px]">
 				{/* <button className="mr-[30px] font-[30px]" onClick={onDecreases}>
 					&lt;
 				</button> */}
-				<p className="text-[20px] font-bold ">{yearMonth}</p>
+				<div className="flex items-center">
+					<span className="text-[20px] font-bold mr-[5px]">{yearMonth}</span>
+					<div>버튼</div>
+				</div>
 				{/* <button className="ml-[30px] font-[30px]" onClick={onIncreases}>
 					&gt;
 				</button> */}
+				<div>아이콘</div>
 			</div>
 			<div>
 				<div>
