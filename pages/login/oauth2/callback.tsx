@@ -24,7 +24,6 @@ const Login: NextPage = () => {
 				const refreshToken = res?.headers['refresh']?.split(' ')[1];
 				if (accessToken && refreshToken) {
 					localStorage.setItem('ACCESS_TOKEN', accessToken);
-					client.defaults.headers.Authorization = `Bearer ${accessToken}`;
 					setCookie('REFRESH_TOKEN', refreshToken, { path: '/', secure: true, sameSite: 'none' });
 				}
 				// 필수정보를 입력하지 않은 경우면 register. 아니면 home으로 이동
