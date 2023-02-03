@@ -1,7 +1,7 @@
 import client from './client';
 
 export const getUser = async () => {
-	const res = await client.post(`/api/user`);
+	const res = await client.get(`/api/user`);
 	return res;
 };
 
@@ -16,11 +16,7 @@ export interface MutateUserBody {
 
 export const postUser = async (body: MutateUserBody) => {
 	// TODO: client 헤더 설정 전체에 하기
-	const res = await client.post(
-		`/api/user/signup`,
-		{ ...body },
-		{ headers: { Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}` } }
-	);
+	const res = await client.post(`/api/user/signup`, { ...body });
 	return res;
 };
 

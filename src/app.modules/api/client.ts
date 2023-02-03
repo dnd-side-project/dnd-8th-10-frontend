@@ -1,5 +1,6 @@
 import { UseMutateFunction } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
+import { getCookie, setCookie } from '../cookie';
 
 export type MutateTpye<T> = UseMutateFunction<AxiosResponse<any, any>, unknown, T, unknown>;
 
@@ -10,15 +11,16 @@ const client = axios.create({
 		'Access-Control-Allow-Credentials': true,
 	},
 });
+
 client.interceptors.request.use((config) => {
 	const accessToken = localStorage.getItem('ACCESS_TOKEN');
-	if (accessToken && config?.headers !== undefined) {
-		client.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+	if (accessToken) {
+		client.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`;
 	}
 
 	return config;
 });
-/* client.interceptors.response.use(
+client.interceptors.response.use(
 	(res) => {
 		return res;
 	},
@@ -28,22 +30,23 @@ client.interceptors.request.use((config) => {
 			response: { status },
 		} = error;
 
-		if (status === 401 && config.url !== '/auth/token/refresh') {
+		if (status === 401 && config.url !== '/oauth/token/refresh') {
 			try {
 				const originalRequest = config;
 
 				// token refresh 요청
-
-				const { data } = await client.get(
-					'/auth/token/refresh' // token refresh api
+				const refreshToken = getCookie('REFRESH_TOKEN');
+				const res = await client.get(
+					'/oauth/token/refresh', // token refresh api
+					{ headers: { Refresh: refreshToken } }
 				);
-				// console.log(data.accessToken, data.refreshToken);
-				// 토큰 갱신
-
-				localStorage.setItem('ACCESS_TOKEN', data.accessToken);
-				originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
-
-				// 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
+				const newAccessToken = res?.headers['authorization']?.split(' ')[1]; // TODO: 토큰 발췌 방식 바꾸기
+				const newRefreshToken = res?.headers['refresh']?.split(' ')[1];
+				if (newAccessToken && newRefreshToken) {
+					localStorage.setItem('ACCESS_TOKEN', newAccessToken);
+					client.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
+					setCookie('REFRESH_TOKEN', refreshToken, { path: '/', secure: true, sameSite: 'none' });
+				}
 				return client(originalRequest);
 			} catch (refreshError) {
 				localStorage.removeItem('ACCESS_TOKEN');
@@ -53,5 +56,5 @@ client.interceptors.request.use((config) => {
 		return Promise.reject(error);
 	}
 );
-*/
+
 export default client;
