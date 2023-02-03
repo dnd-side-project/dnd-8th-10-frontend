@@ -1,14 +1,24 @@
-import axios from 'axios';
+import { UseMutateFunction } from '@tanstack/react-query';
+import axios, { AxiosResponse } from 'axios';
+
+export type MutateTpye<T> = UseMutateFunction<AxiosResponse<any, any>, unknown, T, unknown>;
 
 const client = axios.create({
-	baseURL: 'https://wise24life.shop/api/',
+	baseURL: 'https://wise24life.shop/',
 	withCredentials: true,
 	headers: {
 		'Access-Control-Allow-Credentials': true,
 	},
 });
+client.interceptors.request.use((config) => {
+	const accessToken = localStorage.getItem('ACCESS_TOKEN');
+	if (accessToken && config?.headers !== undefined) {
+		client.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+	}
 
-client.interceptors.response.use(
+	return config;
+});
+/* client.interceptors.response.use(
 	(res) => {
 		return res;
 	},
@@ -43,5 +53,5 @@ client.interceptors.response.use(
 		return Promise.reject(error);
 	}
 );
-
+*/
 export default client;

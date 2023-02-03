@@ -5,7 +5,7 @@ import useRegisterUserStore from '../store';
 
 function UserTypeScreen() {
 	const {
-		user: { type },
+		user: { role },
 		setType,
 	} = useRegisterUserStore();
 	// TODO: any
@@ -19,7 +19,7 @@ function UserTypeScreen() {
 				<button
 					type="button"
 					onClick={typeHandler}
-					aria-pressed={type === 'employee'}
+					aria-pressed={role === 'WORKER'}
 					value="employee"
 					className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
 				>
@@ -29,7 +29,7 @@ function UserTypeScreen() {
 				<button
 					type="button"
 					onClick={typeHandler}
-					aria-pressed={type === 'employer'}
+					aria-pressed={role === 'MANAGER'}
 					value="employer"
 					className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
 				>
