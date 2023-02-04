@@ -1,14 +1,14 @@
 import React from 'react';
 import { getScheduleMatch } from 'src/app.modules/util/calendar';
-import { IUserInfo } from '../types';
+import { ISchedule, IUserInfo } from '../types';
 
-function Schedule(idx: string, schedule: { [x: string]: object | string }, toDay: string, now: number) {
+function Schedule(idx: string, schedule: ISchedule, toDay: string, now: number) {
 	const userInfo: IUserInfo = {
 		name: [],
 	};
-	if (schedule !== undefined) {
-		userInfo.name = getScheduleMatch(schedule, idx);
-	}
+
+	// 최적화 필요
+	userInfo.name = getScheduleMatch(schedule, idx);
 
 	if (userInfo.name.length > 0) {
 		return (
