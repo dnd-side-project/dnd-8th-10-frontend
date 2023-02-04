@@ -4,12 +4,12 @@ export const transIdx = (year: number, month: number, day: number) => {
 	return `${year}.${month + 1}.${day}`;
 };
 
-export const getDayOfWeek = (data: any) => {
+export const getDayOfWeek = (data: string) => {
 	const dayOfWeek = WEEK[new Date(data).getDay()];
 	return dayOfWeek;
 };
 
-export const getScheduleMatch = (schedule: any, idx: any) => {
+export const getScheduleMatch = (schedule: { [x: string]: object | string }, idx: string) => {
 	const arr: string[] = [];
 	Object.keys(schedule).forEach((key) => {
 		const data = Object.keys(schedule[key]);
