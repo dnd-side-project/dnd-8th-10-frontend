@@ -3,13 +3,13 @@ import { transIdx } from 'src/app.modules/util/calendar';
 import Schedule from './Schedule';
 import { IMakeCal } from '../types';
 
-function MakeCalendar({ year, month, firstDay, lastDate, schedule, toDay }: IMakeCal) {
+function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: IMakeCal) {
 	const days = [];
 	const makeDay = (week: number) => {
 		const result = [];
 		// 첫 주
 		if (week === 1) {
-			const prevLastDate = Number(new Date(year, month, 0).getDate());
+			const prevLastDate = Number(new Date(year, monthView, 0).getDate());
 
 			for (let i = 1; i <= 7; i += 1) {
 				// 저번 달 날짜
@@ -26,8 +26,12 @@ function MakeCalendar({ year, month, firstDay, lastDate, schedule, toDay }: IMak
 				else {
 					const now = i - firstDay;
 					// 첫주 날짜
-					const idx = transIdx(year, month, now);
-					result.push(<div key={idx}>{Schedule(idx, schedule, toDay, now)}</div>);
+					const idx = transIdx(year, monthView, now);
+					result.push(
+						<div className="cursor-pointer" key={idx}>
+							{Schedule(idx, schedule, toDay, now)}
+						</div>
+					);
 				}
 			}
 		} else {
@@ -37,8 +41,12 @@ function MakeCalendar({ year, month, firstDay, lastDate, schedule, toDay }: IMak
 				if (i - firstDay < lastDate) {
 					const now = i - firstDay + 1;
 					// 2주~4주차 날짜
-					const idx = transIdx(year, month, now);
-					result.push(<div key={idx}>{Schedule(idx, schedule, toDay, now)}</div>);
+					const idx = transIdx(year, monthView, now);
+					result.push(
+						<div className="cursor-pointer" key={idx}>
+							{Schedule(idx, schedule, toDay, now)}
+						</div>
+					);
 				}
 				// 다음 달 예시 날짜
 				else {

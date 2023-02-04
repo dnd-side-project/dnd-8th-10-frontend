@@ -6,7 +6,7 @@ export interface IUserInfo {
 }
 export interface IMakeCal {
 	year: number;
-	month: number;
+	monthView: number;
 	firstDay: number;
 	lastDate: number;
 	schedule: ISchedule;

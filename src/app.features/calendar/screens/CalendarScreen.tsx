@@ -7,11 +7,9 @@ import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
 import { ISchedule } from '../types';
 
-// 초기 캘린더 더미 상태
-
 function CalendarScreen() {
 	// 더미 스케쥴
-	const [schedule, Setschedule] = useState<ISchedule>({
+	const [schedule, _Setschedule] = useState<ISchedule>({
 		박수빈: {
 			일: '08:00~15:00',
 			목: '14:00~24:00',
@@ -29,14 +27,14 @@ function CalendarScreen() {
 	const lastDate = Number(new Date(year, month + 1, 0).getDate());
 
 	const onChangeMonth = (swiper: SwiperCore) => {
+		// month와 monthView(스와이프) 동기화
+		setCalendar((prev) => ({
+			...prev,
+			month: swiper.realIndex,
+		}));
 		// 다음 슬라이드
 		if (swiper.swipeDirection === 'next') {
-			if (month < 11) {
-				setCalendar((prev) => ({
-					...prev,
-					month: month + 1,
-				}));
-			} else {
+			if (month === 11) {
 				setCalendar((prev) => ({
 					...prev,
 					month: 0,
@@ -46,12 +44,7 @@ function CalendarScreen() {
 		}
 		// 이전 슬라이드
 		if (swiper.swipeDirection === 'prev') {
-			if (month > 0) {
-				setCalendar((prev) => ({
-					...prev,
-					month: month - 1,
-				}));
-			} else {
+			if (month === 0) {
 				setCalendar((prev) => ({
 					...prev,
 					month: 11,
@@ -70,11 +63,11 @@ function CalendarScreen() {
 					onChangeMonth(swiper);
 				}}
 			>
-				{[...new Array(12)].map((_data, key) => (
-					<SwiperSlide key={key}>
+				{[...new Array(12)].map((_data, monthView) => (
+					<SwiperSlide key={monthView}>
 						<div className="flex justify-between mx-[15px] my-[20px]">
 							<div className="flex items-center">
-								<span className="text-[20px] font-bold mr-[5px]">{`${year}.${month + 1}`}</span>
+								<span className="text-[20px] font-bold mr-[5px]">{`${year}.${monthView + 1}`}</span>
 								<div>버튼</div>
 							</div>
 							<div>아이콘</div>
@@ -89,7 +82,7 @@ function CalendarScreen() {
 								<div>
 									{MakeCalendar({
 										year,
-										month,
+										monthView,
 										firstDay,
 										lastDate,
 										schedule,
