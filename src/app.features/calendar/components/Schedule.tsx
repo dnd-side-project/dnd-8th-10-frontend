@@ -1,6 +1,6 @@
 import React from 'react';
 import { getScheduleMatch } from 'src/app.modules/util/calendar';
-import { IUserInfo } from '../types/indes';
+import { IUserInfo } from '../types';
 
 function Schedule(idx: string, schedule: { [x: string]: object | string }, toDay: string, now: number) {
 	const userInfo: IUserInfo = {

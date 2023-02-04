@@ -1,7 +1,7 @@
 import React from 'react';
 import { transIdx } from 'src/app.modules/util/calendar';
 import Schedule from './Schedule';
-import { IMakeCal } from '../types/indes';
+import { IMakeCal } from '../types';
 
 function MakeCalendar({ year, month, firstDay, lastDate, schedule, toDay }: IMakeCal) {
 	const days = [];

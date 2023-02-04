@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { transIdx } from 'src/app.modules/util/calendar';
 import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
-import { IDumy } from '../types/indes';
+import { IDumy } from '../types';
 // 초기 캘린더 더미 상태
 const today = new Date();
 const dumyData = {
