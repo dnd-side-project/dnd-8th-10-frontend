@@ -8,6 +8,7 @@ import { WEEK } from '../constants';
 import { ISchedule } from '../types';
 
 function CalendarScreen() {
+	const [fakeYear, setFakeYear] = useState<number>(0);
 	// 더미 스케쥴
 	const [schedule, _Setschedule] = useState<ISchedule>({
 		박수빈: {
@@ -28,10 +29,14 @@ function CalendarScreen() {
 
 	const onChangeMonth = (swiper: SwiperCore) => {
 		// month와 monthView(스와이프) 동기화
+
 		setCalendar((prev) => ({
 			...prev,
 			month: swiper.realIndex,
 		}));
+
+		setFakeYear(0);
+
 		// 다음 슬라이드
 		if (swiper.swipeDirection === 'next') {
 			if (month === 11) {
@@ -54,6 +59,17 @@ function CalendarScreen() {
 		}
 	};
 
+	const onChageFakeYear = (swiper: SwiperCore, progress: number) => {
+		// 년도 미리보기 증가
+		if (swiper.swipeDirection === 'next') {
+			if (Number((progress * 10).toFixed(1)) % 1 > 0.1) {
+				if (swiper.realIndex === 11) {
+					setFakeYear(1);
+				}
+			}
+		}
+	};
+
 	return (
 		<div>
 			<Swiper
@@ -62,12 +78,20 @@ function CalendarScreen() {
 				onSlideChangeTransitionStart={(swiper) => {
 					onChangeMonth(swiper);
 				}}
+				onProgress={(swiper, progress) => {
+					onChageFakeYear(swiper, progress);
+				}}
+				onTouchEnd={() => {
+					setTimeout(() => {
+						setFakeYear(0);
+					}, 100);
+				}}
 			>
 				{[...new Array(12)].map((_data, monthView) => (
 					<SwiperSlide key={monthView}>
 						<div className="flex justify-between mx-[15px] my-[20px]">
 							<div className="flex items-center">
-								<span className="text-[20px] font-bold mr-[5px]">{`${year}.${monthView + 1}`}</span>
+								<span className="text-[20px] font-bold mr-[5px]">{`${year + fakeYear}.${monthView + 1}`}</span>
 								<div>버튼</div>
 							</div>
 							<div>아이콘</div>
