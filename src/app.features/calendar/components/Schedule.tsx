@@ -17,11 +17,11 @@ function Schedule(idx: string, schedule: ISchedule, toDay: string, now: number) 
 					<div key={index}>
 						{/* 근무일이 당일 일시 */}
 						{idx === toDay ? (
-							<span className="text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded">
+							<span className="text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded-lg">
 								{now}
 							</span>
 						) : (
-							<span className="flex justify-center items-center w-[30px] h-[30px] bg-gray-200 rounded">{now}</span>
+							<span className="flex justify-center items-center w-[30px] h-[30px] bg-gray-200 rounded-lg">{now}</span>
 						)}
 					</div>
 				))}
@@ -31,9 +31,11 @@ function Schedule(idx: string, schedule: ISchedule, toDay: string, now: number) 
 	return (
 		<div key={now}>
 			{idx === toDay ? (
-				<span className="text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded">{now}</span>
+				<span className="text-white flex justify-center items-center w-[30px] h-[30px] bg-[#026FEB] rounded-lg">
+					{now}
+				</span>
 			) : (
-				<span className="flex justify-center items-center w-[30px] h-[30px]rounded">{now}</span>
+				<span className="flex justify-center items-center w-[30px] h-[30px] rounded-lg">{now}</span>
 			)}
 		</div>
 	);

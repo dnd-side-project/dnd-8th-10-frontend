@@ -6,12 +6,12 @@ interface IUser {
 	role: RoleType;
 	storeName: string;
 	startTime: {
-		meridiem: 'am' | 'pm';
+		meridiem: '오전' | '오후';
 		hour: string;
 		minute: string;
 	};
 	endTime: {
-		meridiem: 'am' | 'pm';
+		meridiem: '오전' | '오후';
 		hour: string;
 		minute: string;
 	};
@@ -30,14 +30,14 @@ const initUser: IUser = {
 	role: 'WORKER',
 	storeName: '',
 	startTime: {
-		meridiem: 'am',
-		hour: '1',
-		minute: '0',
+		meridiem: '오전',
+		hour: '00',
+		minute: '00',
 	},
 	endTime: {
-		meridiem: 'am',
-		hour: '1',
-		minute: '0',
+		meridiem: '오전',
+		hour: '00',
+		minute: '00',
 	},
 	phoneNumber: '',
 };

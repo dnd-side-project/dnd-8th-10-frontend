@@ -12,20 +12,20 @@ interface Props {
     ()=>void 형태로 선언해도 됨.
     */
 	time: {
-		meridiem: 'am' | 'pm';
+		meridiem: '오전' | '오후';
 		hour: string;
 		minute: string;
 	}; // 현재 눌러져있는 버튼
 }
 function SetTimeButtons({ timeHandler, time }: Props) {
 	return (
-		<div className="w-[500px] h-[5000x] bg-slate-200">
+		<div className="w-[screen] h-[5000x] bg-slate-200">
 			<div>
 				<button
 					type="button"
 					onClick={timeHandler}
-					aria-pressed={time.meridiem === 'am'}
-					value="am"
+					aria-pressed={time.meridiem === '오전'}
+					value="오전"
 					name="meridiem"
 					className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
 				>
@@ -35,8 +35,8 @@ function SetTimeButtons({ timeHandler, time }: Props) {
 				<button
 					type="button"
 					onClick={timeHandler}
-					aria-pressed={time.meridiem === 'pm'}
-					value="pm"
+					aria-pressed={time.meridiem === '오후'}
+					value="오후"
 					name="meridiem"
 					className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
 				>
