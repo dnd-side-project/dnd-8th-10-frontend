@@ -8,7 +8,6 @@ import { WEEK } from '../constants';
 import { ISchedule } from '../types';
 
 function CalendarScreen() {
-	const [fakeYear, setFakeYear] = useState<number>(0);
 	// 더미 스케쥴
 	const [schedule, _Setschedule] = useState<ISchedule>({
 		박수빈: {
@@ -18,6 +17,7 @@ function CalendarScreen() {
 	});
 
 	const today = new Date();
+	const [fakeYear, setFakeYear] = useState<number>(0);
 	const [calendar, setCalendar] = useState({ year: today.getFullYear(), month: today.getMonth() });
 	// 년도, 달, 일정
 	const { year, month } = calendar;
@@ -29,13 +29,10 @@ function CalendarScreen() {
 
 	const onChangeMonth = (swiper: SwiperCore) => {
 		// month와 monthView(스와이프) 동기화
-
 		setCalendar((prev) => ({
 			...prev,
 			month: swiper.realIndex,
 		}));
-
-		setFakeYear(0);
 
 		// 다음 슬라이드
 		if (swiper.swipeDirection === 'next') {
@@ -60,13 +57,20 @@ function CalendarScreen() {
 	};
 
 	const onChageFakeYear = (swiper: SwiperCore, progress: number) => {
-		// 년도 미리보기 증가
+		const valid = Number((progress * 10).toFixed(1)) % 1;
+		// 다음 슬라이딩 년도 미리보기 증가
+
 		if (swiper.swipeDirection === 'next') {
-			if (Number((progress * 10).toFixed(1)) % 1 > 0.1) {
-				if (swiper.realIndex === 11) {
-					setFakeYear(1);
-				}
+			// 우측 미리보기
+			if (month === 11 && valid >= 0.19) {
+				setFakeYear(1);
 			}
+			// 루프 초기화시 미리보기 안먹는 경우
+			if (month === 11 && (valid === 0.1 || valid === 0.9)) {
+				setFakeYear(0);
+			}
+		} else {
+			setFakeYear(0);
 		}
 	};
 
@@ -75,6 +79,7 @@ function CalendarScreen() {
 			<Swiper
 				loop
 				initialSlide={month}
+				slidesPerGroup={1}
 				onSlideChangeTransitionStart={(swiper) => {
 					onChangeMonth(swiper);
 				}}
