@@ -5,6 +5,7 @@ interface IStore {
 	isDay: string;
 	workDay: string;
 	modalIsOpen: (isDay: string, workDay: string) => void;
+	modalIsClose: () => void;
 }
 
 const useStore = create<IStore>((set) => ({
@@ -13,6 +14,7 @@ const useStore = create<IStore>((set) => ({
 	toDay: '',
 	workDay: '',
 	modalIsOpen: (isDay, workDay) => set(() => ({ isOpen: true, isDay, workDay })),
+	modalIsClose: () => set(() => ({ isOpen: false })),
 }));
 
 export default useStore;

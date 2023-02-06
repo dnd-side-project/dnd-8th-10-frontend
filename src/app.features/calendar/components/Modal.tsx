@@ -6,6 +6,7 @@ import useStore from '../store';
 import { ISchedule } from '../types';
 type Flag = 'startTime' | 'endTime' | null;
 function Modal() {
+	const { modalIsClose } = useStore();
 	// 더미 스케쥴
 	const [schedule, _Setschedule] = useState<ISchedule>({
 		박수빈: {
@@ -68,9 +69,13 @@ function Modal() {
 		return arr;
 	};
 
+	const commute = () => {
+		// 출근 post
+		setOpenModalGroup(true);
+	};
 	return (
 		<div className="z-10  bg-[#F8F8F8] w-screen  absolute bottom-0 flex-col items-center justify-center">
-			<div className="flex justify-center mt-3">
+			<div onClick={() => modalIsClose()} className="flex justify-center mt-3">
 				<div className="w-[55px] h-[4px] bg-[#D9D9D9] rounded-lg"></div>
 			</div>
 			{!openModalGroup ? (
@@ -108,10 +113,7 @@ function Modal() {
 						</div>
 					)}
 					<div className="mt-5 mb-7">
-						<button
-							className="bg-[#D9D9D9] w-full py-[20px] font-semibold rounded-lg"
-							onClick={() => setOpenModalGroup(true)}
-						>
+						<button className="bg-[#D9D9D9] w-full py-[20px] font-semibold rounded-lg" onClick={() => commute()}>
 							출근하기
 						</button>
 					</div>
