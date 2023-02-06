@@ -33,6 +33,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					if (idx === toDay) {
 						data.push(
 							<span
+								key={idx}
 								aria-pressed={idx === isDay}
 								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded-lg"
 							>
@@ -42,6 +43,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					} else if (workDay) {
 						data.push(
 							<span
+								key={idx}
 								aria-pressed={idx === isDay}
 								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-gray-200 rounded-lg"
 							>
@@ -51,6 +53,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					} else {
 						data.push(
 							<span
+								key={idx}
 								aria-pressed={idx === isDay}
 								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white  flex justify-center items-center w-[30px] h-[30px] rounded-lg"
 							>
@@ -79,6 +82,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					if (idx === toDay) {
 						data.push(
 							<span
+								key={idx}
 								aria-pressed={idx === isDay}
 								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded-lg"
 							>
@@ -88,6 +92,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					} else if (workDay) {
 						data.push(
 							<span
+								key={idx}
 								aria-pressed={idx === isDay}
 								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-gray-200 rounded-lg"
 							>
@@ -97,6 +102,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					} else {
 						data.push(
 							<span
+								key={idx}
 								aria-pressed={idx === isDay}
 								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white  flex justify-center items-center w-[30px] h-[30px] rounded-lg"
 							>
