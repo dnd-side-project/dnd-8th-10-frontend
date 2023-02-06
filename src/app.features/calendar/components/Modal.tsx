@@ -13,6 +13,10 @@ function Modal() {
 			목: '오후 2시~오후 12시',
 		},
 	});
+
+	// api출근 시간 리스트 받고 본인이 있으면 openModalGroup true로 바꿔 리스트 보여줌
+	// 없으면 시간수정이 가능한 출근하기 버튼
+
 	// 더미 그룹 스케쥴
 	const [scheduleGroup, _setScheduleGroup] = useState<{ [key: string]: { [key: string]: string } }>({
 		박수빈: {
@@ -38,9 +42,19 @@ function Modal() {
 		setTime(value, name, openModalFlag as 'startTime' | 'endTime');
 	};
 
+	// const listMatch = () => {
+	// 	Object.keys(schedule).forEach((list) => {
+	// 		Object.keys(scheduleGroup).forEach((user) => {
+	// 			if (list === user) {
+	// 				setOpenModalGroup(true);
+	// 			}
+	// 		});
+	// 	});
+	// };
 	useEffect(() => {
-		setOpenModalFlag(null);
 		setOpenModalGroup(false);
+		setOpenModalFlag(null);
+		// listMatch();
 	}, [isDay]);
 
 	const time = () => {
