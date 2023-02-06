@@ -5,14 +5,24 @@ import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import useStore from '../store';
 import { ISchedule } from '../types';
 type Flag = 'startTime' | 'endTime' | null;
-function Modal({ children }: any) {
+function Modal() {
 	// 더미 스케쥴
-	const [schedule, _Setschedule] = useState({
+	const [schedule, _Setschedule] = useState<ISchedule>({
 		박수빈: {
 			일: '오전 8시~오후 3시',
 			목: '오후 2시~오후 12시',
 		},
 	});
+	// 더미 그룹 스케쥴
+	const [scheduleGroup, _setScheduleGroup] = useState<{ [key: string]: { [key: string]: string } }>({
+		박수빈: {
+			일: '오전 8시~오후 3시',
+		},
+		정예원: {
+			일: '오후 12시~오후 4시',
+		},
+	});
+
 	const { isDay, workDay } = useStore();
 	const {
 		user: { startTime, endTime },
@@ -35,7 +45,7 @@ function Modal({ children }: any) {
 
 	const time = () => {
 		let arr: string = '';
-		const objectData: { [key: string]: string } = schedule.박수빈;
+		const objectData: any = schedule.박수빈;
 		Object.keys(objectData).forEach((key) => {
 			if (getDayOfWeek(isDay) === key) {
 				arr = objectData[key];
@@ -60,14 +70,22 @@ function Modal({ children }: any) {
 							className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg"
 							onClick={() => setOpenModalFlag('startTime')}
 						>
-							{workDay ? time().split('~')[0] : `${startTime.meridiem} ${startTime.hour}시 ${startTime.minute}분`}
+							{workDay
+								? !openModalFlag
+									? time().split('~')[1]
+									: `${startTime.meridiem} ${startTime.hour}시 ${startTime.minute}분`
+								: `${startTime.meridiem} ${startTime.hour}시 ${startTime.minute}분`}
 						</div>
 						<span className="mx-[10px]">~</span>
 						<div
 							className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg"
 							onClick={() => setOpenModalFlag('endTime')}
 						>
-							{workDay ? time().split('~')[1] : `${endTime.meridiem} ${endTime.hour}시 ${endTime.minute}분`}
+							{workDay
+								? !openModalFlag
+									? time().split('~')[1]
+									: `${endTime.meridiem} ${endTime.hour}시 ${endTime.minute}분`
+								: `${endTime.meridiem} ${endTime.hour}시 ${endTime.minute}분`}
 						</div>
 					</div>
 					{openModalFlag !== null && (
@@ -85,7 +103,24 @@ function Modal({ children }: any) {
 					</div>
 				</div>
 			) : (
-				<div>출근내역</div>
+				// 유저들의 출근 시간 리스트 api 받아오고 뿌려주는 곳
+				<div className="px-[20px] py-[40px]">
+					<div className="flex justify-between">
+						<div>
+							{isDay} {getDayOfWeek(isDay)}
+						</div>
+						<div>출근수정</div>
+					</div>
+					<div>
+						{Object.entries(scheduleGroup)
+							.map(([name, schedule]) => ({ name, schedule }))
+							.map(({ name, schedule }: { name: string; schedule: { [key: string]: string } }) => (
+								<div key={name}>
+									{name}: {schedule[getDayOfWeek(isDay)]}
+								</div>
+							))}
+					</div>
+				</div>
 			)}
 		</div>
 	);
