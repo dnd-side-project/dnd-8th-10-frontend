@@ -1,9 +1,10 @@
 import React from 'react';
-import { transIdx } from 'src/app.modules/util/calendar';
-import Schedule from './Schedule';
+import { getScheduleMatch, transIdx } from 'src/app.modules/util/calendar';
 import { IMakeCal } from '../types';
+import useStore from '../store';
 
 function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: IMakeCal) {
+	const { isDay, modalIsOpen } = useStore();
 	const days = [];
 	const makeDay = (week: number) => {
 		const result = [];
@@ -17,7 +18,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					const now = prevLastDate - firstDay + i;
 					// 이전 달 예시 날짜
 					result.push(
-						<span key={now} className="text-gray-400  flex justify-center items-center w-[30px] h-[30px] rounded">
+						<span key={now} className="text-gray-400  flex justify-center items-center w-[30px] h-[30px]">
 							{now}
 						</span>
 					);
@@ -27,10 +28,41 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					const now = i - firstDay;
 					// 첫주 날짜
 					const idx = transIdx(year, monthView, now);
+					const workDay = getScheduleMatch(schedule, idx);
+					const data = [];
+					if (idx === toDay) {
+						data.push(
+							<span
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					} else if (workDay) {
+						data.push(
+							<span
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-gray-200 rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					} else {
+						data.push(
+							<span
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white  flex justify-center items-center w-[30px] h-[30px] rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					}
+
 					result.push(
-						<div className="cursor-pointer" key={idx}>
-							{Schedule(idx, schedule, toDay, now)}
-						</div>
+						<button type="button" onClick={() => modalIsOpen(idx, workDay)} className="cursor-pointer" key={idx}>
+							{data}
+						</button>
 					);
 				}
 			}
@@ -42,10 +74,41 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					const now = i - firstDay + 1;
 					// 2주~4주차 날짜
 					const idx = transIdx(year, monthView, now);
+					const workDay = getScheduleMatch(schedule, idx);
+					const data = [];
+					if (idx === toDay) {
+						data.push(
+							<span
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					} else if (workDay) {
+						data.push(
+							<span
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-gray-200 rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					} else {
+						data.push(
+							<span
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white  flex justify-center items-center w-[30px] h-[30px] rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					}
+
 					result.push(
-						<div className="cursor-pointer" key={idx}>
-							{Schedule(idx, schedule, toDay, now)}
-						</div>
+						<button type="button" onClick={() => modalIsOpen(idx, workDay)} className="cursor-pointer" key={idx}>
+							{data}
+						</button>
 					);
 				}
 				// 다음 달 예시 날짜

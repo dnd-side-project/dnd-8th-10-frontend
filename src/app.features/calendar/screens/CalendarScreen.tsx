@@ -6,6 +6,8 @@ import 'swiper/css';
 import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
 import { ISchedule } from '../types';
+import Modal from '../components/Modal';
+import useStore from '../store';
 
 function CalendarScreen() {
 	// 더미 스케쥴
@@ -15,8 +17,9 @@ function CalendarScreen() {
 			목: '14:00~24:00',
 		},
 	});
-
+	const { isOpen } = useStore();
 	const today = new Date();
+	const [fakeYear, setFakeYear] = useState<number>(0);
 	const [calendar, setCalendar] = useState({ year: today.getFullYear(), month: today.getMonth() });
 	// 년도, 달, 일정
 	const { year, month } = calendar;
@@ -32,6 +35,7 @@ function CalendarScreen() {
 			...prev,
 			month: swiper.realIndex,
 		}));
+
 		// 다음 슬라이드
 		if (swiper.swipeDirection === 'next') {
 			if (month === 11) {
@@ -54,6 +58,24 @@ function CalendarScreen() {
 		}
 	};
 
+	const onChageFakeYear = (swiper: SwiperCore, progress: number) => {
+		const valid = Number((progress * 10).toFixed(1)) % 1;
+		// 다음 슬라이딩 년도 미리보기 증가
+
+		if (swiper.swipeDirection === 'next') {
+			// 우측 미리보기
+			if (month === 11 && valid >= 0.19) {
+				setFakeYear(1);
+			}
+			// 루프 초기화시 미리보기 안먹는 경우
+			if (month === 11 && (valid === 0.1 || valid === 0.9)) {
+				setFakeYear(0);
+			}
+		} else {
+			setFakeYear(0);
+		}
+	};
+
 	return (
 		<div>
 			<Swiper
@@ -62,12 +84,20 @@ function CalendarScreen() {
 				onSlideChangeTransitionStart={(swiper) => {
 					onChangeMonth(swiper);
 				}}
+				onProgress={(swiper, progress) => {
+					onChageFakeYear(swiper, progress);
+				}}
+				onTouchEnd={() => {
+					setTimeout(() => {
+						setFakeYear(0);
+					}, 100);
+				}}
 			>
-				{[...new Array(12)].map((_data, monthView) => (
+				{[...new Array(12)].map((_, monthView) => (
 					<SwiperSlide key={monthView}>
 						<div className="flex justify-between mx-[15px] my-[20px]">
 							<div className="flex items-center">
-								<span className="text-[20px] font-bold mr-[5px]">{`${year}.${monthView + 1}`}</span>
+								<span className="text-[20px] font-bold mr-[5px]">{`${year + fakeYear}.${monthView + 1}`}</span>
 								<div>버튼</div>
 							</div>
 							<div>아이콘</div>
@@ -94,6 +124,7 @@ function CalendarScreen() {
 					</SwiperSlide>
 				))}
 			</Swiper>
+			{isOpen && <Modal />}
 		</div>
 	);
 }
