@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { MutateUserBody } from 'src/app.modules/api/user';
-import useRegisterUserStore from '../store';
+import useRegisterUserStore, { dayMap } from '../store';
 
 interface Props {
 	postUser: MutateTpye<MutateUserBody>;
@@ -17,12 +17,13 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 	const getWorkTimeString = () => {
 		try {
 			return Object.entries(workTime)
-				.map(
-					([day, time]) =>
-						`${day}(${time.startTime.hour + time.startTime.meridiem === 'am' ? 0 : 12}:${time.startTime.minute}~${
-							time.endTime.hour + time.endTime.meridiem === 'am' ? 0 : 12
-						}:${time.endTime.minute})`
-				)
+				.sort(([a], [b]) => (a < b ? -1 : 1))
+				.map(([day, time]) => {
+					const { startTime, endTime } = time;
+					return `${dayMap.get(+day)}(${startTime.hour + startTime.meridiem === 'am' ? 0 : 12}:${startTime.minute}~${
+						endTime.hour + endTime.meridiem === 'am' ? 0 : 12
+					}:${endTime.minute})`;
+				})
 				.toString();
 		} catch (e) {
 			console.log(e);

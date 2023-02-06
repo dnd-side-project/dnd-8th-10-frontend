@@ -2,18 +2,19 @@ import Link from 'next/link';
 import React, { BaseSyntheticEvent, useState } from 'react';
 import SetTimeButtons from 'src/app.components/SetTimeButtons';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
-import useRegisterUserStore, { DayType, WorkTimeType } from '../store';
+import useRegisterUserStore, { dayMap, DayType } from '../store';
 
 // TODO: 시간 유효성체크 (끝나는 시간이 시작하는 시간보다 빠른지)
 type Flag = 'startTime' | 'endTime' | null;
+
 function SetTimeScreen() {
-	const [selectedDay, setSelectedDay] = useState<DayType>('일');
+	const [selectedDay, setSelectedDay] = useState<DayType>(6);
 	const {
 		user: { workTime },
 		setTime,
 	} = useRegisterUserStore();
 	// TODO: 모달오픈할때 기록했던 시간 보여주기
-	// TODO: 넘어 갈 수 있는 조건 달성하는지 검사하기. 근무 요일이 있어야하고, 요일 선택했을경우, 시작시간 끝시간 모두 입력해야함
+
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const INIT_WORK_TIME = { meridiem: 'am' as 'am' | 'pm', hour: '1', minute: '0' };
 	const [workTimeOnModal, setWorkTimeOnModal] = useState<{
@@ -55,7 +56,7 @@ function SetTimeScreen() {
 				<div>
 					<h2>요일 선택</h2>
 					<ul className="grid  grid-cols-7">
-						{['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
+						{[6, 0, 1, 2, 3, 4, 5].map((day, index) => (
 							<li key={index}>
 								<button
 									name="day"
@@ -64,7 +65,7 @@ function SetTimeScreen() {
 									aria-pressed={selectedDay === day}
 									className="aria-pressed:bg-blue-300 bg-gray-300"
 								>
-									{day}
+									{dayMap.get(day)}
 								</button>
 							</li>
 						))}
@@ -74,15 +75,15 @@ function SetTimeScreen() {
 					<h2>시간 선택</h2>
 					<div className="flex gap-1">
 						<button onClick={() => setOpenModalFlag('startTime')} className="border border-black rounded">
-							시작시간:{selectedDay}
+							시작시간:
 							{workTime[selectedDay]?.startTime?.meridiem}
-							{workTime[selectedDay]?.startTime?.hour ?? ''}시{workTime[selectedDay]?.startTime?.minute}
+							{workTime[selectedDay]?.startTime?.hour ?? ''}시{workTime[selectedDay]?.startTime?.minute}분
 						</button>
 						<span>~</span>
 						<button onClick={() => setOpenModalFlag('endTime')} className="border border-black rounded">
-							종료시간:{selectedDay}
+							종료시간:
 							{workTime[selectedDay]?.startTime?.meridiem}
-							{workTime[selectedDay]?.endTime?.hour ?? ''}시{workTime[selectedDay]?.endTime?.minute}
+							{workTime[selectedDay]?.endTime?.hour ?? ''}시{workTime[selectedDay]?.endTime?.minute}분
 						</button>
 					</div>
 				</div>
@@ -99,19 +100,3 @@ function SetTimeScreen() {
 }
 
 export default SetTimeScreen;
-// : {startTime.hour}시 {startTime.minute}분 {startTime.meridiem}
-// : {endTime.hour}시 {endTime.minute}분 {endTime.meridiem}
-// (timeInfo.startTime.meridiem === 'pm' ? 12 : 0)
-/*
-
-
-{Object.entries(workTime).map(([day, timeInfo], index) => (
-							<li key={index}>
-								{day}(
-								{`${+timeInfo.startTime.hour}:${timeInfo.startTime.minute}~${+timeInfo.startTime.hour}:${
-									timeInfo.endTime.minute
-								}`}
-								)
-							</li>
-						))}
-*/

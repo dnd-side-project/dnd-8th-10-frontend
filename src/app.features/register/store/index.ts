@@ -1,7 +1,16 @@
 import { RoleType } from 'src/app.modules/api/user';
 import create from 'zustand';
 
-export type DayType = '월' | '화' | '수' | '목' | '금' | '토' | '일';
+export const dayMap = new Map([
+	[0, '월'],
+	[1, '화'],
+	[2, '수'],
+	[3, '목'],
+	[4, '금'],
+	[5, '토'],
+	[6, '일'],
+]);
+export type DayType = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export type WorkTimeType = {
 	[day in DayType]: {
 		startTime: {
