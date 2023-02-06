@@ -3,16 +3,16 @@ import create from 'zustand';
 interface IStore {
 	isOpen: boolean;
 	isDay: string;
-	modalIsOpen: (isDay: string) => void;
+	workDay: string;
+	modalIsOpen: (isDay: string, workDay: string) => void;
 }
 
 const useStore = create<IStore>((set) => ({
 	isOpen: false,
 	isDay: '',
-	modalIsOpen: (isDay) => set((state) => ({ isOpen: true, isDay })),
+	toDay: '',
+	workDay: '',
+	modalIsOpen: (isDay, workDay) => set(() => ({ isOpen: true, isDay, workDay })),
 }));
 
 export default useStore;
-
-// 사용 방법
-// `const { isOpen, modalIsOpen } = useStore();` 처럼 구조분해할당 구조로 가져가 사용하면 된다.
