@@ -55,6 +55,7 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 			workTime: workTimeString,
 			phoneNumber,
 		};
+		console.log(body);
 		postUser(body);
 	};
 	return (
