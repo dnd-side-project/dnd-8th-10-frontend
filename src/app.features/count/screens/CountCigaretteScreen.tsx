@@ -39,7 +39,9 @@ function CountCigaretteScreen() {
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [searchCho, setSearchCho] = useState<ChoType>('전체');
 	const [countHistory, setCountHistory] = useState<CountHistoryType>({});
-	const [isModalOpen, setIsModalOpen] = useState<boolean>();
+	// TODO: 모달이름 바꾸기
+	const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);
+	const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 	const searchTermHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value);
 	};
@@ -49,7 +51,6 @@ function CountCigaretteScreen() {
 	const changeDiffHandler = (e: React.BaseSyntheticEvent) => {
 		const {
 			target: {
-				value,
 				name,
 				dataset: { name: cigaretteName },
 			},
@@ -60,11 +61,13 @@ function CountCigaretteScreen() {
 			[cigaretteName]: (countHistory[cigaretteName] ?? diff) + (name === 'decrease' ? -1 : 1),
 		});
 	};
-	useEffect(() => {
-		console.log(countHistory, MOCK_CIGARETTE_NAME_LIST);
-	}, [countHistory]);
+	const onNewCigaretteSubmit = (e: React.BaseSyntheticEvent) => {
+		e.preventDefault();
+		console.log(e.target.newCigarette.value);
+	};
 	return (
 		<div>
+			<button onClick={() => setIsAddModalOpen(true)}>항목추가</button>
 			<input
 				value={searchTerm}
 				onChange={searchTermHandler}
@@ -107,8 +110,8 @@ function CountCigaretteScreen() {
 						</li>
 					))}
 			</ul>
-			<button onClick={() => setIsModalOpen(true)}>점검사항 확인</button>
-			{isModalOpen && (
+			<button onClick={() => setIsSaveModalOpen(true)}>점검사항 확인</button>
+			{isSaveModalOpen && (
 				<div className="bg-blue-300 w-full">
 					<ul className="flex flex-col gap-[8px]">
 						{Object.entries(countHistory).map((history, index) => (
@@ -118,6 +121,18 @@ function CountCigaretteScreen() {
 							</li>
 						))}
 					</ul>
+					<button onClick={() => setIsSaveModalOpen(false)}>점검사항 확인</button>
+				</div>
+			)}
+			{isAddModalOpen && (
+				<div className="bg-blue-300 w-full ">
+					<form onSubmit={onNewCigaretteSubmit} className="flex flex-col">
+						<label htmlFor="newCigarette">항목추가</label>
+						<input id="newCigarette" name="newCigarette" type="text" />
+						<button type="submit" onClick={() => setIsSaveModalOpen(false)}>
+							항목 추가
+						</button>
+					</form>
 				</div>
 			)}
 		</div>
