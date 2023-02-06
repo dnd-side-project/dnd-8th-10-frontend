@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { BaseSyntheticEvent, useState } from 'react';
+import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
 import SetTimeButtons from 'src/app.components/SetTimeButtons';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useRegisterUserStore, { dayMap, DayType } from '../store';
@@ -8,7 +8,7 @@ import useRegisterUserStore, { dayMap, DayType } from '../store';
 type Flag = 'startTime' | 'endTime' | null;
 
 function SetTimeScreen() {
-	const [selectedDay, setSelectedDay] = useState<DayType>(6);
+	const [selectedDay, setSelectedDay] = useState<DayType>('6');
 	const {
 		user: { workTime },
 		setTime,
@@ -42,12 +42,24 @@ function SetTimeScreen() {
 				},
 			},
 		};
+
 		setTime(updatedWorkTime);
 		setOpenModalFlag(null);
 		setWorkTimeOnModal(INIT_WORK_TIME);
 	};
 	const selectedDayHandler = (e: BaseSyntheticEvent) => {
 		setSelectedDay(e.target.value);
+	};
+	const openTimeSetHandler = (e: BaseSyntheticEvent) => {
+		const {
+			target: {
+				dataset: { flag },
+			},
+		} = e;
+		setOpenModalFlag(flag);
+		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as 'startTime' | 'endTime'];
+		if (!newWorkTimeOnModal) return;
+		setWorkTimeOnModal(newWorkTimeOnModal);
 	};
 	console.log(workTime);
 	return (
@@ -56,7 +68,7 @@ function SetTimeScreen() {
 				<div>
 					<h2>요일 선택</h2>
 					<ul className="grid  grid-cols-7">
-						{[6, 0, 1, 2, 3, 4, 5].map((day, index) => (
+						{['6', '0', '1', '2', '3', '4', '5'].map((day, index) => (
 							<li key={index}>
 								<button
 									name="day"
@@ -74,15 +86,15 @@ function SetTimeScreen() {
 				<div>
 					<h2>시간 선택</h2>
 					<div className="flex gap-1">
-						<button onClick={() => setOpenModalFlag('startTime')} className="border border-black rounded">
+						<button onClick={openTimeSetHandler} data-flag="startTime" className="border border-black rounded">
 							시작시간:
 							{workTime[selectedDay]?.startTime?.meridiem}
-							{workTime[selectedDay]?.startTime?.hour ?? ''}시{workTime[selectedDay]?.startTime?.minute}분
+							{workTime[selectedDay]?.startTime?.hour}시{workTime[selectedDay]?.startTime?.minute}분
 						</button>
 						<span>~</span>
-						<button onClick={() => setOpenModalFlag('endTime')} className="border border-black rounded">
+						<button onClick={openTimeSetHandler} data-flag="endTime" className="border border-black rounded">
 							종료시간:
-							{workTime[selectedDay]?.startTime?.meridiem}
+							{workTime[selectedDay]?.endTime?.meridiem}
 							{workTime[selectedDay]?.endTime?.hour ?? ''}시{workTime[selectedDay]?.endTime?.minute}분
 						</button>
 					</div>
