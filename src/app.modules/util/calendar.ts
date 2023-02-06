@@ -10,7 +10,7 @@ export const getDayOfWeek = (data: string) => {
 };
 
 export const getScheduleMatch = (schedule: { [x: string]: object | string }, idx: string) => {
-	let arr: string = '';
+	let arr = '';
 	Object.keys(schedule).forEach((key) => {
 		const data = Object.keys(schedule[key]);
 		for (let i = 0; i < data.length; i += 1) {

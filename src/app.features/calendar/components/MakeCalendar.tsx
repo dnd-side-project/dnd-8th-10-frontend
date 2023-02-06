@@ -29,38 +29,40 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					// 첫주 날짜
 					const idx = transIdx(year, monthView, now);
 					const workDay = getScheduleMatch(schedule, idx);
+					const data = [];
+					if (idx === toDay) {
+						data.push(
+							<span
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					} else if (workDay) {
+						data.push(
+							<span
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-gray-200 rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					} else {
+						data.push(
+							<span
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white  flex justify-center items-center w-[30px] h-[30px] rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					}
+
 					result.push(
-						<div
-							onClick={() => modalIsOpen(idx, workDay)}
-							className="aria-pressed:bg-[#026FEB] aria-pressed:text-white cursor-pointer"
-							key={idx}
-						>
-							{idx === toDay ? (
-								// 당일 검정색 표시
-								<span
-									aria-pressed={idx === isDay}
-									className="aria-pressed:bg-[#026FEB] aria-pressed:text-white text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded-lg"
-								>
-									{now}
-								</span>
-							) : workDay ? (
-								// 근무날 회색 표시
-								<span
-									aria-pressed={idx === isDay}
-									className="aria-pressed:bg-[#026FEB] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-gray-200 rounded-lg"
-								>
-									{now}
-								</span>
-							) : (
-								// 색없는 날짜
-								<span
-									aria-pressed={idx === isDay}
-									className="aria-pressed:bg-[#026FEB] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] rounded-lg"
-								>
-									{now}
-								</span>
-							)}
-						</div>
+						<button type="button" onClick={() => modalIsOpen(idx, workDay)} className="cursor-pointer" key={idx}>
+							{data}
+						</button>
 					);
 				}
 			}
@@ -73,34 +75,40 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					// 2주~4주차 날짜
 					const idx = transIdx(year, monthView, now);
 					const workDay = getScheduleMatch(schedule, idx);
+					const data = [];
+					if (idx === toDay) {
+						data.push(
+							<span
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					} else if (workDay) {
+						data.push(
+							<span
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-gray-200 rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					} else {
+						data.push(
+							<span
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white  flex justify-center items-center w-[30px] h-[30px] rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					}
+
 					result.push(
-						<div onClick={() => modalIsOpen(idx, workDay)} className="cursor-pointer" key={idx}>
-							{idx === toDay ? (
-								// 당일 검정색 표시
-								<span
-									aria-pressed={idx === isDay}
-									className="aria-pressed:bg-[#026FEB] aria-pressed:text-white text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded-lg"
-								>
-									{now}
-								</span>
-							) : workDay ? (
-								// 근무날 회색 표시
-								<span
-									aria-pressed={idx === isDay}
-									className="aria-pressed:bg-[#026FEB] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-gray-200 rounded-lg"
-								>
-									{now}
-								</span>
-							) : (
-								// 색없는 날짜
-								<span
-									aria-pressed={idx === isDay}
-									className="aria-pressed:bg-[#026FEB] aria-pressed:text-white  flex justify-center items-center w-[30px] h-[30px] rounded-lg"
-								>
-									{now}
-								</span>
-							)}
-						</div>
+						<button type="button" onClick={() => modalIsOpen(idx, workDay)} className="cursor-pointer" key={idx}>
+							{data}
+						</button>
 					);
 				}
 				// 다음 달 예시 날짜

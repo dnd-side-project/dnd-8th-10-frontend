@@ -8,6 +8,7 @@ import { WEEK } from '../constants';
 import { ISchedule } from '../types';
 import Modal from '../components/Modal';
 import useStore from '../store';
+
 function CalendarScreen() {
 	// 더미 스케쥴
 	const [schedule, _Setschedule] = useState<ISchedule>({

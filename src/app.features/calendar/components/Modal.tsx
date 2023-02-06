@@ -4,6 +4,7 @@ import useRegisterUserStore from 'src/app.features/register/store';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import useStore from '../store';
 import { ISchedule } from '../types';
+
 type Flag = 'startTime' | 'endTime' | null;
 function Modal() {
 	const { modalIsClose } = useStore();
@@ -59,7 +60,7 @@ function Modal() {
 	}, [isDay]);
 
 	const time = () => {
-		let arr: string = '';
+		let arr = '';
 		const objectData: any = schedule.박수빈;
 		Object.keys(objectData).forEach((key) => {
 			if (getDayOfWeek(isDay) === key) {
@@ -73,10 +74,13 @@ function Modal() {
 		// 출근 post
 		setOpenModalGroup(true);
 	};
+
 	return (
 		<div className="z-10  bg-[#F8F8F8] w-screen  absolute bottom-0 flex-col items-center justify-center">
-			<div onClick={() => modalIsClose()} className="flex justify-center mt-3">
-				<div className="w-[55px] h-[4px] bg-[#D9D9D9] rounded-lg"></div>
+			<div className="flex justify-center mt-3">
+				<button type="button" onClick={() => modalIsClose()} className="w-[55px] h-[4px] bg-[#D9D9D9] rounded-lg">
+					{' '}
+				</button>
 			</div>
 			{!openModalGroup ? (
 				<div className="px-[20px] py-[40px]">
@@ -85,26 +89,21 @@ function Modal() {
 						<div className="w-[50%] font-semibold">종료</div>
 					</div>
 					<div className="flex items-center my-3">
-						<div
-							className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg"
-							onClick={() => setOpenModalFlag('startTime')}
-						>
-							{workDay
-								? !openModalFlag
-									? time().split('~')[1]
-									: `${startTime.meridiem} ${startTime.hour}시 ${startTime.minute}분`
-								: `${startTime.meridiem} ${startTime.hour}시 ${startTime.minute}분`}
+						<div className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg">
+							<button type="button" onClick={() => setOpenModalFlag('startTime')}>
+								{workDay && !openModalFlag
+									? time().split('~')[0]
+									: `${startTime.meridiem} ${startTime.hour}시 ${startTime.minute}분`}
+							</button>
 						</div>
+
 						<span className="mx-[10px]">~</span>
-						<div
-							className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg"
-							onClick={() => setOpenModalFlag('endTime')}
-						>
-							{workDay
-								? !openModalFlag
+						<div className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg">
+							<button type="button" onClick={() => setOpenModalFlag('endTime')}>
+								{workDay && !openModalFlag
 									? time().split('~')[1]
-									: `${endTime.meridiem} ${endTime.hour}시 ${endTime.minute}분`
-								: `${endTime.meridiem} ${endTime.hour}시 ${endTime.minute}분`}
+									: `${endTime.meridiem} ${endTime.hour}시 ${endTime.minute}분`}
+							</button>
 						</div>
 					</div>
 					{openModalFlag !== null && (
@@ -113,7 +112,11 @@ function Modal() {
 						</div>
 					)}
 					<div className="mt-5 mb-7">
-						<button className="bg-[#D9D9D9] w-full py-[20px] font-semibold rounded-lg" onClick={() => commute()}>
+						<button
+							type="button"
+							className="bg-[#D9D9D9] w-full py-[20px] font-semibold rounded-lg"
+							onClick={() => commute()}
+						>
 							출근하기
 						</button>
 					</div>
@@ -129,10 +132,10 @@ function Modal() {
 					</div>
 					<div>
 						{Object.entries(scheduleGroup)
-							.map(([name, schedule]) => ({ name, schedule }))
-							.map(({ name, schedule }: { name: string; schedule: { [key: string]: string } }) => (
-								<div key={name}>
-									{name}: {schedule[getDayOfWeek(isDay)]}
+							.map(([user, day]) => ({ user, day }))
+							.map(({ user, day }) => (
+								<div key={user}>
+									{user}: {day[getDayOfWeek(isDay)]}
 								</div>
 							))}
 					</div>
