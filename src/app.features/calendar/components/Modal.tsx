@@ -30,19 +30,8 @@ function Modal() {
 	});
 
 	const { isDay, workDay } = useStore();
-	const {
-		user: { startTime, endTime },
-		setTime,
-	} = useRegisterUserStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const [openModalGroup, setOpenModalGroup] = useState<boolean>(false);
-	const timeHandler = (e: React.BaseSyntheticEvent) => {
-		const {
-			target: { name, value },
-		} = e;
-
-		setTime(value, name, openModalFlag as 'startTime' | 'endTime');
-	};
 
 	// const listMatch = () => {
 	// 	Object.keys(schedule).forEach((list) => {
@@ -93,7 +82,7 @@ function Modal() {
 							<button type="button" onClick={() => setOpenModalFlag('startTime')}>
 								{workDay && !openModalFlag
 									? time().split('~')[0]
-									: `${startTime.meridiem} ${startTime.hour}시 ${startTime.minute}분`}
+									: '`${startTime.meridiem} ${startTime.hour}시 ${startTime.minute}분`'}
 							</button>
 						</div>
 
@@ -102,13 +91,13 @@ function Modal() {
 							<button type="button" onClick={() => setOpenModalFlag('endTime')}>
 								{workDay && !openModalFlag
 									? time().split('~')[1]
-									: `${endTime.meridiem} ${endTime.hour}시 ${endTime.minute}분`}
+									: '`${endTime.meridiem} ${endTime.hour}시 ${endTime.minute}분`'}
 							</button>
 						</div>
 					</div>
 					{openModalFlag !== null && (
 						<div>
-							<SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} />
+							{/* <SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} /> */}
 						</div>
 					)}
 					<div className="mt-5 mb-7">
