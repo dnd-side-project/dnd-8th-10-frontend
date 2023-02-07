@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import SetTimeButtons from 'src/app.components/SetTimeButtons';
-import useRegisterUserStore from 'src/app.features/register/store';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import useStore from '../store';
 import { ISchedule } from '../types';
@@ -80,18 +78,14 @@ function Modal() {
 					<div className="flex items-center my-3">
 						<div className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg">
 							<button type="button" onClick={() => setOpenModalFlag('startTime')}>
-								{workDay && !openModalFlag
-									? time().split('~')[0]
-									: '`${startTime.meridiem} ${startTime.hour}시 ${startTime.minute}분`'}
+								{workDay && !openModalFlag ? time().split('~')[0] : ''}
 							</button>
 						</div>
 
 						<span className="mx-[10px]">~</span>
 						<div className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg">
 							<button type="button" onClick={() => setOpenModalFlag('endTime')}>
-								{workDay && !openModalFlag
-									? time().split('~')[1]
-									: '`${endTime.meridiem} ${endTime.hour}시 ${endTime.minute}분`'}
+								{workDay && !openModalFlag ? time().split('~')[1] : ''}
 							</button>
 						</div>
 					</div>
