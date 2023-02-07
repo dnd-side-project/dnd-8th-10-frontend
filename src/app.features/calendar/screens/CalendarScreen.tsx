@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { transIdx } from 'src/app.modules/util/calendar';
 import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -75,7 +75,9 @@ function CalendarScreen() {
 			setFakeYear(0);
 		}
 	};
-
+	// useEffect(() => {
+	// 	console.log('달력 변경');
+	// }, [month]);
 	return (
 		<div>
 			<Swiper

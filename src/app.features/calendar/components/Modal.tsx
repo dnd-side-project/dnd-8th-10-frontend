@@ -27,7 +27,7 @@ function Modal() {
 		},
 	});
 
-	const { isDay, workDay } = useStore();
+	const { isDay } = useStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const [openModalGroup, setOpenModalGroup] = useState<boolean>(false);
 
@@ -78,14 +78,14 @@ function Modal() {
 					<div className="flex items-center my-3">
 						<div className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg">
 							<button type="button" onClick={() => setOpenModalFlag('startTime')}>
-								{workDay && !openModalFlag ? time().split('~')[0] : ''}
+								{!openModalFlag ? time().split('~')[0] : ''}
 							</button>
 						</div>
 
 						<span className="mx-[10px]">~</span>
 						<div className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg">
 							<button type="button" onClick={() => setOpenModalFlag('endTime')}>
-								{workDay && !openModalFlag ? time().split('~')[1] : ''}
+								{!openModalFlag ? time().split('~')[1] : ''}
 							</button>
 						</div>
 					</div>
