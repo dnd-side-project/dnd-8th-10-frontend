@@ -9,17 +9,10 @@ const client = axios.create({
 	withCredentials: true,
 	headers: {
 		'Access-Control-Allow-Credentials': true,
+		Authorization: `Bearer ${getCookie('ACCESS_TOKEN')}`,
 	},
 });
 
-client.interceptors.request.use((config) => {
-	const accessToken = localStorage.getItem('ACCESS_TOKEN');
-	if (accessToken) {
-		client.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`;
-	}
-
-	return config;
-});
 client.interceptors.response.use(
 	(res) => {
 		return res;
@@ -45,7 +38,8 @@ client.interceptors.response.use(
 				if (newAccessToken && newRefreshToken) {
 					localStorage.setItem('ACCESS_TOKEN', newAccessToken);
 					client.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
-					setCookie('REFRESH_TOKEN', refreshToken, { path: '/', secure: true, sameSite: 'none' });
+					setCookie('ACCESS_TOKEN', newAccessToken, { path: '/', secure: true, sameSite: 'none' });
+					setCookie('REFRESH_TOKEN', newRefreshToken, { path: '/', secure: true, sameSite: 'none' });
 				}
 				return client(originalRequest);
 			} catch (refreshError) {
