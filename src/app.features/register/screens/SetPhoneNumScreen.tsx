@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { MutateUserBody } from 'src/app.modules/api/user';
-import useRegisterUserStore from '../store';
+import useRegisterUserStore, { dayMap } from '../store';
 
 interface Props {
 	postUser: MutateTpye<MutateUserBody>;
@@ -11,10 +11,31 @@ interface Props {
 // TODO: 전화번호 유효성 검사
 function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 	const {
-		user: { phoneNumber, role, storeName, startTime, endTime },
+		user: { phoneNumber, role, storeName, workTime },
 		setPhoneNumber,
 	} = useRegisterUserStore();
-
+	const getWorkTimeString = () => {
+		try {
+			return Object.entries(workTime)
+				.sort(([a], [b]) => (a < b ? -1 : 1))
+				.map(([day, time]) => {
+					const { startTime, endTime } = time;
+					console.log(endTime.meridiem);
+					// TODO: 코드 이뿌게고치기
+					return `${dayMap.get(day)}(${startTime.hour.length === 1 && startTime.meridiem === 'am' ? '0' : ''}${
+						+startTime.hour + (startTime.meridiem === 'am' ? 0 : 12)
+					}:${startTime.minute.length === 1 ? '0' : ''}${startTime.minute}~${
+						endTime.hour.length === 1 && endTime.meridiem === 'am' ? '0' : ''
+					}${+endTime.hour + (endTime.meridiem === 'am' ? 0 : 12)}:${endTime.minute.length === 1 ? '0' : ''}${
+						endTime.minute
+					})`;
+				})
+				.toString();
+		} catch (e) {
+			console.log(e);
+			return '';
+		}
+	};
 	const phoneNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPhoneNumber(e.target.value);
 	};
@@ -22,7 +43,8 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 		e.preventDefault();
 		console.log('제출');
 		if (isLoading) return;
-		if (!role || !phoneNumber || !storeName || !startTime || !endTime) {
+		const workTimeString = getWorkTimeString();
+		if (!role || !phoneNumber || !storeName || !workTimeString.trim()) {
 			alert('필수 정보를 모두 입력해주세요.');
 			return;
 		}
@@ -30,9 +52,10 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 		const body = {
 			role,
 			workPlace: storeName,
-			workTime: `월(17:00~21:00),화(17:00~21:00)`,
+			workTime: workTimeString,
 			phoneNumber,
 		};
+		console.log(body);
 		postUser(body);
 	};
 	return (
@@ -53,10 +76,8 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 				</h4>
 				<span>유저 타입 : {role}</span>
 				<span>편의점명 : {storeName}</span>
-				<span>
-					근무시간 : {startTime.hour}시 {startTime.minute}분 {startTime.meridiem}-{endTime.hour}시 {endTime.minute}분{' '}
-					{endTime.meridiem}
-				</span>
+				<span>근무시간 : {getWorkTimeString()}</span>
+				{}
 				<span>전화번호 : {phoneNumber}</span>
 			</div>
 		</div>
@@ -64,3 +85,8 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 }
 
 export default SetPhoneNumScreen;
+/*
+
+	근무시간 : {workTime.startTime.hour}시 {startTime.minute}분 {startTime.meridiem}-{endTime.hour}시 {endTime.minute}분{' '}
+					{endTime.meridiem}
+*/

@@ -15,7 +15,7 @@ interface Props {
 		meridiem: 'am' | 'pm';
 		hour: string;
 		minute: string;
-	}; // 현재 눌러져있는 버튼
+	};
 }
 function SetTimeButtons({ timeHandler, time }: Props) {
 	return (
@@ -24,7 +24,7 @@ function SetTimeButtons({ timeHandler, time }: Props) {
 				<button
 					type="button"
 					onClick={timeHandler}
-					aria-pressed={time.meridiem === 'am'}
+					aria-pressed={time?.meridiem === 'am'}
 					value="am"
 					name="meridiem"
 					className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
@@ -35,7 +35,7 @@ function SetTimeButtons({ timeHandler, time }: Props) {
 				<button
 					type="button"
 					onClick={timeHandler}
-					aria-pressed={time.meridiem === 'pm'}
+					aria-pressed={time?.meridiem === 'pm'}
 					value="pm"
 					name="meridiem"
 					className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
@@ -55,7 +55,7 @@ function SetTimeButtons({ timeHandler, time }: Props) {
 										value={hour}
 										name="hour"
 										onClick={timeHandler}
-										aria-pressed={time.hour === `${hour}`}
+										aria-pressed={time?.hour === `${hour}`}
 										className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
 									>
 										{hour}
@@ -78,7 +78,7 @@ function SetTimeButtons({ timeHandler, time }: Props) {
 										value={minute}
 										name="minute"
 										onClick={timeHandler}
-										aria-pressed={time.minute === `${minute}`}
+										aria-pressed={time?.minute === `${minute}`}
 										className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
 									>
 										{minute}

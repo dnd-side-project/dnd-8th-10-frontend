@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import SetTimeButtons from 'src/app.components/SetTimeButtons';
-import useRegisterUserStore from 'src/app.features/register/store';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import useStore from '../store';
 import { ISchedule } from '../types';
@@ -30,19 +28,8 @@ function Modal() {
 	});
 
 	const { isDay, workDay } = useStore();
-	const {
-		user: { startTime, endTime },
-		setTime,
-	} = useRegisterUserStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const [openModalGroup, setOpenModalGroup] = useState<boolean>(false);
-	const timeHandler = (e: React.BaseSyntheticEvent) => {
-		const {
-			target: { name, value },
-		} = e;
-
-		setTime(value, name, openModalFlag as 'startTime' | 'endTime');
-	};
 
 	// const listMatch = () => {
 	// 	Object.keys(schedule).forEach((list) => {
@@ -91,24 +78,20 @@ function Modal() {
 					<div className="flex items-center my-3">
 						<div className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg">
 							<button type="button" onClick={() => setOpenModalFlag('startTime')}>
-								{workDay && !openModalFlag
-									? time().split('~')[0]
-									: `${startTime.meridiem} ${startTime.hour}시 ${startTime.minute}분`}
+								{workDay && !openModalFlag ? time().split('~')[0] : ''}
 							</button>
 						</div>
 
 						<span className="mx-[10px]">~</span>
 						<div className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg">
 							<button type="button" onClick={() => setOpenModalFlag('endTime')}>
-								{workDay && !openModalFlag
-									? time().split('~')[1]
-									: `${endTime.meridiem} ${endTime.hour}시 ${endTime.minute}분`}
+								{workDay && !openModalFlag ? time().split('~')[1] : ''}
 							</button>
 						</div>
 					</div>
 					{openModalFlag !== null && (
 						<div>
-							<SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} />
+							{/* <SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} /> */}
 						</div>
 					)}
 					<div className="mt-5 mb-7">
