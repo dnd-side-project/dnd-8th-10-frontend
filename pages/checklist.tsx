@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import CheckListScreen from 'src/app.features/checkList/screens/CheckListScreen';
-import { getCheckList } from 'src/app.modules/api/checklist';
+import { getCheckList, postCheckList } from 'src/app.modules/api/checklist';
 
 function checkList() {
 	const formatDate = (year: number, month: number, date: number) => {
@@ -21,9 +21,8 @@ function checkList() {
 		setDate(formatDate(searchYear, searchMonth, searchDate));
 	};
 	const { data } = useQuery(['checklist'], () => getCheckList(date), {
-		onSuccess: (res) => {
-			console.log(res);
-		},
+		select: (res) => res.data.data.list,
+		onSuccess: (res) => console.log(res),
 		onError: (error) => {
 			console.log(error);
 		},
@@ -32,8 +31,24 @@ function checkList() {
 		refetchOnReconnect: false,
 		refetchOnWindowFocus: false,
 	});
-
-	return <CheckListScreen searchDateHandler={searchDateHandler} />;
+	const { mutate: postChecklist, isLoading: postChecklistLoading } = useMutation(postCheckList, {
+		onSuccess: (res) => {
+			console.log(res);
+		},
+		onError: (error) => alert('오류 발생.'),
+		onSettled: () => {
+			//
+		},
+	});
+	return (
+		<CheckListScreen
+			searchDate={date}
+			searchDateHandler={searchDateHandler}
+			checkList={data}
+			postChecklist={postChecklist}
+			postChecklistLoading={postChecklistLoading}
+		/>
+	);
 }
 
 export default checkList;

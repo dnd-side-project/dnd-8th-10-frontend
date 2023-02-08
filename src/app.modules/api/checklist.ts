@@ -8,7 +8,7 @@ export const getCheckList = async (date: string) => {
 	return res;
 };
 
-interface PostCheckListBody {
+export interface PostCheckListBody {
 	// TODO: 날짜 관련 정규화 알아보기
 	date: string; // "2023-02-06"
 	content: string;
