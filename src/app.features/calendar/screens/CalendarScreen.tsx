@@ -3,12 +3,12 @@ import { transIdx } from 'src/app.modules/util/calendar';
 import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
 import Modal from '../components/Modal';
 import useStore from '../store';
-import { getGray } from '../api';
+import { getGray, getToDay, getWorkList, postWork } from '../api';
 
 function CalendarScreen() {
 	// // 더미 스케쥴
@@ -70,7 +70,8 @@ function CalendarScreen() {
 			setFakeYear(0);
 		}
 	};
-	// const { data, refetch } = useQuery(['day'], getGray, {
+	// 출근했던 회색 데이터
+	// const { data, refetch: getGrayRefetch } = useQuery(['day'], getGray, {
 	// 	onSuccess: (res) => {
 	// 		console.log(res);
 	// 	},
@@ -79,9 +80,20 @@ function CalendarScreen() {
 	// 	},
 	// });
 
-	useEffect(() => {
-		// refetch();
-	}, [month]);
+	// 출근하기
+	const { mutate: postWorkMutate } = useMutation(postWork, {
+		onSuccess: (res) => {
+			console.log(res);
+		},
+		onError: (error) => alert('오류 발생.'),
+		onSettled: () => {
+			//
+		},
+	});
+
+	// useEffect(() => {
+	// 	refetch();
+	// }, [month]);
 	return (
 		<div>
 			<Swiper
@@ -129,7 +141,8 @@ function CalendarScreen() {
 					</SwiperSlide>
 				))}
 			</Swiper>
-			{isOpen && <Modal />}
+			{/* refetch,  mutate */}
+			{isOpen && <Modal postWorkMutate={postWorkMutate} />}
 		</div>
 	);
 }

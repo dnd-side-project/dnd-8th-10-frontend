@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { MutateTpye } from 'src/app.modules/api/client';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
+import { getToDay, getWorkList, MutateBody } from '../api';
 import useStore from '../store';
 
-function Modal() {
+interface Props {
+	postWorkMutate: MutateTpye<MutateBody>;
+}
+function Modal({ postWorkMutate }: Props) {
 	const { toDay, workDay, modalIsClose } = useStore();
 
 	// api출근 시간 리스트 받고 본인이 있으면 openModalGroup true로 바꿔 리스트 보여줌
@@ -10,22 +15,39 @@ function Modal() {
 
 	// 더미 그룹 스케쥴
 	const [scheduleGroup, _setScheduleGroup] = useState({
-		박수빈: '오전 8시~오후 3시',
-		정예원: '오후 12시~오후 4시',
+		박수빈: '오전 11:00 ~ 오후 3:00',
+		정예원: '오전 11:00 ~ 오후 3:00',
 	});
 
 	const { isDay } = useStore();
 	const [openModalFlag, setOpenModalFlag] = useState(false);
 	const [openModalGroup, setOpenModalGroup] = useState<boolean>(false);
-
-	useEffect(() => {
-		setOpenModalGroup(false);
-	}, [isDay]);
-
+	const [year, month, day] = isDay.split('.');
+	// 출근하기 버튼
 	const commute = () => {
-		// 출근 post
-		setOpenModalGroup(true);
+		// postWorkMutate({
+		// 	year,
+		// 	month,
+		// 	day,
+		// 	time: '오전 11:00 ~ 오후 3:00',
+		// 	workHour: 4.5,
+		// });
+		modalIsClose();
 	};
+
+	// 오늘 누른 경우
+	if (isDay === toDay) {
+		// const data = getToDay(getDayOfWeek(isDay));
+	}
+
+	// 과거 누른 경우 & 출근한 날 누른 경우
+	if (new Date(isDay) < new Date(toDay)) {
+		// const data = getWorkList({
+		// 	year,
+		// 	month,
+		// 	day,
+		// });
+	}
 
 	const renderContent = () => {
 		if (!workDay && new Date(isDay) <= new Date(toDay)) {
@@ -61,14 +83,12 @@ function Modal() {
 			);
 		}
 
-		if (!openModalGroup && new Date(isDay) > new Date(toDay)) {
+		if (new Date(isDay) > new Date(toDay)) {
 			// 미래 날짜 클릭시
 			return (
 				<div className="px-[20px] py-[40px]">
 					<div className="flex justify-between">
-						<div>
-							{isDay} {getDayOfWeek(isDay)}
-						</div>
+						<div>{isDay}</div>
 						<div>출근수정</div>
 					</div>
 					<div>아직 기록이 없어요.</div>
@@ -79,17 +99,15 @@ function Modal() {
 		return (
 			<div className="px-[20px] py-[40px]">
 				<div className="flex justify-between">
-					<div>
-						{isDay} {getDayOfWeek(isDay)}
-					</div>
+					<div>{isDay}</div>
 					<div>출근수정</div>
 				</div>
 				<div>
 					{Object.entries(scheduleGroup)
-						.map(([user, day]) => ({ user, day }))
-						.map(({ user, day }) => (
+						.map(([user, schedule]) => ({ user, schedule }))
+						.map(({ user, schedule }) => (
 							<div key={user}>
-								{user}: {day}
+								{user}: {schedule}
 							</div>
 						))}
 				</div>
