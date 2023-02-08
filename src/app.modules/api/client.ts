@@ -26,7 +26,7 @@ client.interceptors.response.use(
 		if (status === 401 && config.url !== '/oauth/token/refresh') {
 			try {
 				const originalRequest = config;
-
+				console.log(config.url);
 				// token refresh 요청
 				const refreshToken = getCookie('REFRESH_TOKEN');
 				const res = await client.get(
@@ -36,14 +36,12 @@ client.interceptors.response.use(
 				const newAccessToken = res?.headers['authorization']?.split(' ')[1]; // TODO: 토큰 발췌 방식 바꾸기
 				const newRefreshToken = res?.headers['refresh']?.split(' ')[1];
 				if (newAccessToken && newRefreshToken) {
-					localStorage.setItem('ACCESS_TOKEN', newAccessToken);
-					client.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
+					originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 					setCookie('ACCESS_TOKEN', newAccessToken, { path: '/', secure: true, sameSite: 'none' });
 					setCookie('REFRESH_TOKEN', newRefreshToken, { path: '/', secure: true, sameSite: 'none' });
 				}
 				return client(originalRequest);
 			} catch (refreshError) {
-				localStorage.removeItem('ACCESS_TOKEN');
 				return Promise.reject(refreshError);
 			}
 		}
