@@ -1,5 +1,7 @@
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { MutateTpye } from 'src/app.modules/api/client';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import { getToDay, getWorkList, MutateBody } from '../api';
 import useStore from '../store';
@@ -100,7 +102,9 @@ function Modal({ postWorkMutate }: Props) {
 			<div className="px-[20px] py-[40px]">
 				<div className="flex justify-between">
 					<div>{isDay}</div>
-					<div>출근수정</div>
+					<Link href={`${SERVICE_URL.calendarModify}`}>
+						<div>출근수정</div>
+					</Link>
 				</div>
 				<div>
 					{Object.entries(scheduleGroup)
