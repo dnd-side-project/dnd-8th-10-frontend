@@ -25,6 +25,7 @@ const Login: NextPage = () => {
 				if (accessToken && refreshToken) {
 					setCookie('REFRESH_TOKEN', refreshToken, { path: '/', secure: true, sameSite: 'none' });
 					setCookie('ACCESS_TOKEN', accessToken, { path: '/', secure: true, sameSite: 'none' });
+					client.defaults.headers.Authorization = `Bearer ${accessToken}`;
 				}
 				// 필수정보를 입력하지 않은 경우면 register. 아니면 home으로 이동
 				const isNewbie = res.data.data.role === null;
