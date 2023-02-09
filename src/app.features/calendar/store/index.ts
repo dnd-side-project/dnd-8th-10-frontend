@@ -1,18 +1,20 @@
+import { transIdx } from 'src/app.modules/util/calendar';
 import create from 'zustand';
 
 interface IStore {
 	isOpen: boolean;
 	isDay: string;
-	workDay: string;
-	modalIsOpen: (isDay: string, workDay: string) => void;
+	toDay: string;
+	workDay: boolean;
+	modalIsOpen: (isDay: string, workDay: boolean) => void;
 	modalIsClose: () => void;
 }
 
 const useStore = create<IStore>((set) => ({
 	isOpen: false,
 	isDay: '',
-	toDay: '',
-	workDay: '',
+	toDay: transIdx(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
+	workDay: false,
 	modalIsOpen: (isDay, workDay) => set(() => ({ isOpen: true, isDay, workDay })),
 	modalIsClose: () => set(() => ({ isOpen: false })),
 }));

@@ -1,10 +1,10 @@
 import React from 'react';
-import { getScheduleMatch, transIdx } from 'src/app.modules/util/calendar';
+import { transIdx } from 'src/app.modules/util/calendar';
 import { IMakeCal } from '../types';
 import useStore from '../store';
 
-function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: IMakeCal) {
-	const { isDay, modalIsOpen } = useStore();
+function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCal) {
+	const { isDay, toDay, modalIsOpen } = useStore();
 	const days = [];
 	const makeDay = (week: number) => {
 		const result = [];
@@ -28,13 +28,24 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					const now = i - firstDay;
 					// 첫주 날짜
 					const idx = transIdx(year, monthView, now);
-					const workDay = getScheduleMatch(schedule, idx);
+					const workDay = schedule.includes(now);
 					const data = [];
-					if (idx === toDay) {
+					if (idx === toDay && workDay) {
 						data.push(
 							<span
+								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[30px] h-[30px] bg-[#E8E8E8] border-2 border-[#5696FC] rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					} else if (idx === toDay) {
+						data.push(
+							<span
+								key={idx}
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[30px] h-[30px] border-2 border-[#5696FC] rounded-lg"
 							>
 								{now}
 							</span>
@@ -42,8 +53,9 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					} else if (workDay) {
 						data.push(
 							<span
+								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-gray-200 rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-[#E8E8E8] rounded-lg"
 							>
 								{now}
 							</span>
@@ -51,8 +63,9 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					} else {
 						data.push(
 							<span
+								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white  flex justify-center items-center w-[30px] h-[30px] rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white  flex justify-center items-center w-[30px] h-[30px] rounded-lg"
 							>
 								{now}
 							</span>
@@ -74,13 +87,24 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					const now = i - firstDay + 1;
 					// 2주~4주차 날짜
 					const idx = transIdx(year, monthView, now);
-					const workDay = getScheduleMatch(schedule, idx);
+					const workDay = schedule.includes(now);
 					const data = [];
-					if (idx === toDay) {
+					if (idx === toDay && workDay) {
 						data.push(
 							<span
+								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white text-white flex justify-center items-center w-[30px] h-[30px] bg-black rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[30px] h-[30px] bg-[#E8E8E8] border-2 border-[#5696FC] rounded-lg"
+							>
+								{now}
+							</span>
+						);
+					} else if (idx === toDay) {
+						data.push(
+							<span
+								key={idx}
+								aria-pressed={idx === isDay}
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[30px] h-[30px] border-2 border-[#5696FC] rounded-lg"
 							>
 								{now}
 							</span>
@@ -88,8 +112,9 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					} else if (workDay) {
 						data.push(
 							<span
+								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-gray-200 rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-[#E8E8E8] rounded-lg"
 							>
 								{now}
 							</span>
@@ -97,8 +122,9 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, toDay }: 
 					} else {
 						data.push(
 							<span
+								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#026FEB] aria-pressed:text-white  flex justify-center items-center w-[30px] h-[30px] rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white  flex justify-center items-center w-[30px] h-[30px] rounded-lg"
 							>
 								{now}
 							</span>
