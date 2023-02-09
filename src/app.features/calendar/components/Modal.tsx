@@ -9,7 +9,7 @@ import useStore from '../store';
 interface Props {
 	postWorkMutate: MutateTpye<MutateBody>;
 }
-//{ postWorkMutate }: Props
+// { postWorkMutate }: Props
 function Modal() {
 	const { toDay, workDay, modalIsClose } = useStore();
 
@@ -56,7 +56,7 @@ function Modal() {
 		data.then((res) => {
 			if (res.data === '') {
 				// 출근하는 날이 아님
-				setWorkTime('오전 00:00 ~ 오후 00:00');
+				setWorkTime('오전00:00~오후00:00');
 			} else {
 				// 출근하는 날
 				setWorkTime(res.data);

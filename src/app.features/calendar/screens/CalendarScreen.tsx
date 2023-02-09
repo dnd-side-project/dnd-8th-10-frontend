@@ -94,6 +94,7 @@ function CalendarScreen() {
 	};
 	useEffect(() => {
 		getGrayData();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [month]);
 	return (
 		<div>
@@ -142,7 +143,7 @@ function CalendarScreen() {
 					</SwiperSlide>
 				))}
 			</Swiper>
-			{/* postWorkMutate={postWorkMutate}*/}
+			{/* postWorkMutate={postWorkMutate} */}
 			{isOpen && <Modal />}
 		</div>
 	);
