@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import CheckListScreen from 'src/app.features/checkList/screens/CheckListScreen';
-import { getCheckList, postCheckList } from 'src/app.modules/api/checklist';
+import { getCheckList, postCheckList, putCheckList } from 'src/app.modules/api/checklist';
 
 function checkList() {
 	const formatDate = (year: number, month: number, date: number) => {
@@ -20,7 +20,7 @@ function checkList() {
 	const searchDateHandler = (searchYear: number, searchMonth: number, searchDate: number) => {
 		setDate(formatDate(searchYear, searchMonth, searchDate));
 	};
-	const { data } = useQuery(['checklist'], () => getCheckList(date), {
+	const { data, refetch } = useQuery(['checklist'], () => getCheckList(date), {
 		select: (res) => res.data.data.list,
 		onSuccess: (res) => console.log(res),
 		onError: (error) => {
@@ -31,9 +31,19 @@ function checkList() {
 		refetchOnReconnect: false,
 		refetchOnWindowFocus: false,
 	});
+	// TODO: get 제외하고 합쳐도 될듯
 	const { mutate: postChecklist, isLoading: postChecklistLoading } = useMutation(postCheckList, {
 		onSuccess: (res) => {
-			console.log(res);
+			refetch();
+		},
+		onError: (error) => alert('오류 발생.'),
+		onSettled: () => {
+			//
+		},
+	});
+	const { mutate: putChecklist, isLoading: putChecklistLoading } = useMutation(putCheckList, {
+		onSuccess: (res) => {
+			refetch();
 		},
 		onError: (error) => alert('오류 발생.'),
 		onSettled: () => {
@@ -44,9 +54,11 @@ function checkList() {
 		<CheckListScreen
 			searchDate={date}
 			searchDateHandler={searchDateHandler}
-			checkList={data}
+			checklist={data}
 			postChecklist={postChecklist}
 			postChecklistLoading={postChecklistLoading}
+			putChecklist={putChecklist}
+			putChecklistLoading={putChecklistLoading}
 		/>
 	);
 }

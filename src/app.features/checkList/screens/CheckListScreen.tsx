@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PostCheckListBody } from 'src/app.modules/api/checklist';
+import { PostCheckListBody, PutCheckListBody } from 'src/app.modules/api/checklist';
 import { MutateTpye } from 'src/app.modules/api/client';
 
 interface ICheckList {
@@ -11,11 +11,22 @@ interface ICheckList {
 interface Props {
 	searchDate: string;
 	searchDateHandler: (searchYear: number, searchMonth: number, searchDay: number) => void;
-	checkList: ICheckList[];
+	checklist: ICheckList[];
 	postChecklist: MutateTpye<PostCheckListBody>;
 	postChecklistLoading: boolean;
+	putChecklist: MutateTpye<PutCheckListBody>;
+	putChecklistLoading: boolean;
 }
-function CheckListScreen({ searchDate, searchDateHandler, checkList, postChecklist, postChecklistLoading }: Props) {
+function CheckListScreen({
+	searchDate,
+	searchDateHandler,
+	checklist,
+	postChecklist,
+	postChecklistLoading,
+	putChecklist,
+	putChecklistLoading,
+}: Props) {
+	console.log(checklist);
 	const [addTodoInputOpen, setAddTodoInputOpen] = useState<boolean>(false);
 	const [newTodo, setNewTodo] = useState<string>('');
 	const addTodoHandler = (e: React.FormEvent) => {
@@ -29,6 +40,7 @@ function CheckListScreen({ searchDate, searchDateHandler, checkList, postCheckli
 		};
 
 		postChecklist(body);
+		setNewTodo('');
 	};
 	const cancelAddTodoHandler = () => {
 		setNewTodo('');
@@ -55,8 +67,8 @@ function CheckListScreen({ searchDate, searchDateHandler, checkList, postCheckli
 					</button>
 				</form>
 				<ul>
-					{checkList &&
-						checkList.map((todo) => (
+					{checklist &&
+						checklist.map((todo) => (
 							<li key={todo.checkIdx} className="flex justify-between">
 								<div className="space-x-[1rem]">
 									<button className="w-[2rem] h-[2rem]">a</button>

@@ -20,7 +20,7 @@ export const postCheckList = async (body: PostCheckListBody) => {
 	return res;
 };
 
-interface PutCheckListBody extends PostCheckListBody {
+export interface PutCheckListBody extends PostCheckListBody {
 	checkIdx: number; // 할일 목록 id
 }
 // 할일 항목 상태 업데이트
