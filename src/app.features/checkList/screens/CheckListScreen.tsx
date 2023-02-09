@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PostCheckListBody, PutCheckListBody } from 'src/app.modules/api/checklist';
 import { MutateTpye } from 'src/app.modules/api/client';
+import SettingIcon from 'src/app.modules/assets/ellipsis.svg';
 
 interface ICheckList {
 	date: string; // '2023-02-09'
@@ -28,6 +29,7 @@ function CheckListScreen({
 }: Props) {
 	console.log(checklist);
 	const [addTodoInputOpen, setAddTodoInputOpen] = useState<boolean>(false);
+	const [editTodoInputOpenIdx, setEditTodoInputOpenIdx] = useState<number | null>(null);
 	const [newTodo, setNewTodo] = useState<string>('');
 	const addTodoHandler = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -61,6 +63,22 @@ function CheckListScreen({
 		};
 		console.log(body);
 		putChecklist(body);
+	};
+	const editTodoHandler = (e: React.BaseSyntheticEvent) => {
+		e.preventDefault();
+		const {
+			target: {
+				editTodo: { value },
+			},
+		} = e;
+		// status: (checked ? 'Y' : 'N') as 'Y' | 'N',
+		const body = {
+			checkIdx: editTodoInputOpenIdx,
+			content: value,
+		};
+	};
+	const deleteTodoHandler = () => {
+		console.log('temp');
 	};
 	return (
 		<div className="w-full">
@@ -100,9 +118,23 @@ function CheckListScreen({
 										/>
 										<label htmlFor={`checkbox-${todo.checkIdx}`} />
 									</div>
-									<span>{todo.content}</span>
+									<span aria-hidden={editTodoInputOpenIdx === todo.checkIdx} className="aria-hidden:hidden">
+										{todo.content}
+									</span>
+									<form
+										onSubmit={editTodoHandler}
+										aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
+										className="aria-hidden:hidden"
+									>
+										<input type="text" name="editTodo" />
+										<button type="button" onClick={deleteTodoHandler}>
+											취소
+										</button>
+									</form>
 								</div>
-								<button>...</button>
+								<button onClick={() => setEditTodoInputOpenIdx(todo.checkIdx)}>
+									<SettingIcon />
+								</button>
 							</li>
 						))}
 				</ul>

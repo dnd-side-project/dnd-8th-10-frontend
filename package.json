@@ -26,6 +26,7 @@
     "zustand": "^4.3.2"
   },
   "devDependencies": {
+    "@svgr/webpack": "^6.5.1",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",
     "autoprefixer": "^10.4.13",
