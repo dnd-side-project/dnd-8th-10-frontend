@@ -3,8 +3,8 @@ input.checklist-checkbox{
 }
 input.checklist-checkbox + label{
     display: inline-block;
-    width: 14px;
-    height: 14px;
+    width: 2rem;
+    height: 2rem;
     position: relative;
 }
 

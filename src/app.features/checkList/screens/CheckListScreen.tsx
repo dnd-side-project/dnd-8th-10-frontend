@@ -46,16 +46,33 @@ function CheckListScreen({
 		setNewTodo('');
 		setAddTodoInputOpen(false);
 	};
+	const todoCheckStateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const {
+			target: {
+				checked,
+				dataset: { checkidx, content },
+			},
+		} = e;
+		if (putChecklistLoading) return;
+		const body = {
+			checkIdx: +(checkidx ?? -1) as number,
+			content: content as string,
+			status: (checked ? 'Y' : 'N') as 'Y' | 'N',
+		};
+		console.log(body);
+		putChecklist(body);
+	};
 	return (
 		<div className="w-full">
 			<div>
 				<button onClick={() => setAddTodoInputOpen(true)} aria-hidden={addTodoInputOpen} className="aria-hidden:hidden">
 					항목 추가하기
 				</button>
-				<form aria-hidden={!addTodoInputOpen} onSubmit={addTodoHandler} className="aria-hidden:hidden">
-					<button type="button" className="w-[2rem] h-[2rem]">
-						a
-					</button>
+				<form aria-hidden={!addTodoInputOpen} onSubmit={addTodoHandler} className="aria-hidden:hidden flex">
+					<div>
+						<input id="newtodo-checkbox" type="checkbox" className="checklist-checkbox" checked={false} readOnly />
+						<label htmlFor="newtodo-checkbox" />
+					</div>
 					<input
 						type="text"
 						name="newTodo"
@@ -70,8 +87,19 @@ function CheckListScreen({
 					{checklist &&
 						checklist.map((todo) => (
 							<li key={todo.checkIdx} className="flex justify-between">
-								<div className="space-x-[1rem]">
-									<button className="w-[2rem] h-[2rem]">a</button>
+								<div className="space-x-[1rem] flex">
+									<div>
+										<input
+											id={`checkbox-${todo.checkIdx}`}
+											type="checkbox"
+											data-checkidx={todo.checkIdx}
+											data-content={todo.content}
+											defaultChecked={todo.status === 'Y'}
+											className="checklist-checkbox"
+											onChange={todoCheckStateHandler}
+										/>
+										<label htmlFor={`checkbox-${todo.checkIdx}`} />
+									</div>
 									<span>{todo.content}</span>
 								</div>
 								<button>...</button>
