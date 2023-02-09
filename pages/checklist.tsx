@@ -59,6 +59,10 @@ function checkList() {
 			//
 		},
 	});
+	useEffect(() => {
+		console.log(date);
+		refetch();
+	}, [date, refetch]);
 	return (
 		<CheckListScreen
 			searchDate={date}
