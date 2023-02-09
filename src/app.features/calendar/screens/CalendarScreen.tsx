@@ -12,7 +12,7 @@ import { getGray, getToDay, getWorkList, postWork } from '../api';
 
 function CalendarScreen() {
 	// // 더미 스케쥴
-	const [schedule, _Setschedule] = useState([3, 6, 7]);
+	const [schedule, setSchedule] = useState<number[]>([]);
 	const { isOpen } = useStore();
 	const today = new Date();
 	const [fakeYear, setFakeYear] = useState<number>(0);
@@ -72,23 +72,25 @@ function CalendarScreen() {
 	};
 
 	// 출근하기
-	const { mutate: postWorkMutate } = useMutation(postWork, {
-		onSuccess: (res) => {
-			console.log(res);
-		},
-		onError: (error) => alert('오류 발생.'),
-		onSettled: () => {
-			//
-		},
-	});
+	// const { mutate: postWorkMutate } = useMutation(postWork, {
+	// 	onSuccess: (res) => {
+	// 		console.log(res);
+	// 	},
+	// 	onError: (error) => alert('오류 발생.'),
+	// 	onSettled: () => {
+	// 		//
+	// 	},
+	// });
 
 	const getGrayData = () => {
 		// 출근했던 회색 데이터
-		const data = getWorkList({
-			year: year.toString(),
-			month: month.toString(),
+		const data = getGray({
+			year: String(year),
+			month: String(month + 1),
 		});
-		console.log(data);
+		data.then((res) => {
+			setSchedule(res.data.data);
+		});
 	};
 	useEffect(() => {
 		getGrayData();
@@ -140,8 +142,8 @@ function CalendarScreen() {
 					</SwiperSlide>
 				))}
 			</Swiper>
-			{/* refetch,  mutate */}
-			{isOpen && <Modal postWorkMutate={postWorkMutate} />}
+			{/* postWorkMutate={postWorkMutate}*/}
+			{isOpen && <Modal />}
 		</div>
 	);
 }

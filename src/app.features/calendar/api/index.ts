@@ -5,6 +5,10 @@ export interface DayBody {
 	month: string;
 	day?: string;
 }
+export interface GrayBody {
+	year: string;
+	month: string;
+}
 export interface MutateBody {
 	year: string;
 	month: string;
@@ -14,7 +18,7 @@ export interface MutateBody {
 }
 
 // 이 달의 출근 일 (캘린더 회색 표시)
-export const getGray = async (body: DayBody) => {
+export const getGray = async (body: GrayBody) => {
 	const res = await client.get('api/calendar', { params: { ...body } });
 	return res;
 };

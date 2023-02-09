@@ -9,11 +9,14 @@ import useStore from '../store';
 interface Props {
 	postWorkMutate: MutateTpye<MutateBody>;
 }
-function Modal({ postWorkMutate }: Props) {
+//{ postWorkMutate }: Props
+function Modal() {
 	const { toDay, workDay, modalIsClose } = useStore();
 
 	// api출근 시간 리스트 받고 본인이 있으면 openModalGroup true로 바꿔 리스트 보여줌
 	// 없으면 시간수정이 가능한 출근하기 버튼
+
+	const [workTime, setWorkTime] = useState<string>('');
 
 	// 더미 그룹 스케쥴
 	const [scheduleGroup, _setScheduleGroup] = useState({
@@ -25,7 +28,6 @@ function Modal({ postWorkMutate }: Props) {
 	const [openModalFlag, setOpenModalFlag] = useState(false);
 	const [openModalGroup, setOpenModalGroup] = useState<boolean>(false);
 	const [year, month, day] = isDay.split('.');
-	console.log(scheduleGroup.박수빈);
 
 	// const calculateDuration = (start: string, end: string) => {
 	// 	const startDate = new Date(`2023-02-09T${start}`);
@@ -50,7 +52,16 @@ function Modal({ postWorkMutate }: Props) {
 
 	// 오늘 누른 경우
 	if (isDay === toDay) {
-		// const data = getToDay(getDayOfWeek(isDay));
+		const data = getToDay(getDayOfWeek(isDay));
+		data.then((res) => {
+			if (res.data === '') {
+				// 출근하는 날이 아님
+				setWorkTime('오전 00:00 ~ 오후 00:00');
+			} else {
+				// 출근하는 날
+				setWorkTime(res.data);
+			}
+		});
 	}
 
 	// 과거 누른 경우 & 출근한 날 누른 경우
@@ -72,9 +83,9 @@ function Modal({ postWorkMutate }: Props) {
 						<div className="w-[50%] font-semibold">종료</div>
 					</div>
 					<div className="flex items-center my-3">
-						<div className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg">{scheduleGroup.박수빈.split('~')[0]}</div>
+						<div className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg">{workTime.split('~')[0]}</div>
 						<span className="mx-[10px]">~</span>
-						<div className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg">{scheduleGroup.박수빈.split('~')[1]}</div>
+						<div className="w-[50%] px-[15px] py-[15px] bg-white rounded-lg">{workTime.split('~')[1]}</div>
 					</div>
 					{openModalFlag !== null && (
 						// 클릭한 날이 일하는 날이면 시간 받아온거 뿌리기
