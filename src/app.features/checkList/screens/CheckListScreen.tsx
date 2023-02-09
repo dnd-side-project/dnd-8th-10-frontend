@@ -66,16 +66,22 @@ function CheckListScreen({
 	};
 	const editTodoHandler = (e: React.BaseSyntheticEvent) => {
 		e.preventDefault();
+		if (putChecklistLoading) return;
 		const {
 			target: {
 				editTodo: { value },
+				dataset: { status },
 			},
 		} = e;
-		// status: (checked ? 'Y' : 'N') as 'Y' | 'N',
+
 		const body = {
-			checkIdx: editTodoInputOpenIdx,
-			content: value,
+			checkIdx: editTodoInputOpenIdx as number,
+			content: value as string,
+			status: status as 'N' | 'Y',
 		};
+		putChecklist(body);
+		// TODO: 엔터치고 이전 데이터 잠시 보이는 현상 해결하기
+		setEditTodoInputOpenIdx(null);
 	};
 	const deleteTodoHandler = () => {
 		console.log('temp');
@@ -124,6 +130,7 @@ function CheckListScreen({
 									<form
 										onSubmit={editTodoHandler}
 										aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
+										data-status={todo.status}
 										className="aria-hidden:hidden"
 									>
 										<input type="text" name="editTodo" />
