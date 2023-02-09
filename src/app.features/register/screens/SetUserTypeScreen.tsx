@@ -6,11 +6,13 @@ import useRegisterUserStore from '../store';
 function UserTypeScreen() {
 	const {
 		user: { role },
-		setType,
+		setRole,
 	} = useRegisterUserStore();
 	// TODO: any
 	const typeHandler = (e: React.BaseSyntheticEvent) => {
-		setType(e.target.value);
+		// console.log(e.target.value);
+		setRole(e.target.value);
+		console.log(role);
 	};
 
 	return (
@@ -20,7 +22,7 @@ function UserTypeScreen() {
 					type="button"
 					onClick={typeHandler}
 					aria-pressed={role === 'WORKER'}
-					value="employee"
+					value="WORKER"
 					className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
 				>
 					직원
@@ -30,7 +32,7 @@ function UserTypeScreen() {
 					type="button"
 					onClick={typeHandler}
 					aria-pressed={role === 'MANAGER'}
-					value="employer"
+					value="MANAGER"
 					className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
 				>
 					점장

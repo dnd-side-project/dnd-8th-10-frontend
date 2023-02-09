@@ -36,7 +36,7 @@ interface IUser {
 interface UserState {
 	user: IUser;
 	initUser: () => void;
-	setType: (type: RoleType) => void;
+	setRole: (role: RoleType) => void;
 	setStoreName: (storeName: string) => void;
 	setTime: (workTime: WorkTimeType) => void;
 	setPhoneNumber: (phoneNumber: string) => void;
@@ -51,7 +51,7 @@ const initUser: IUser = {
 const useRegisterUserStore = create<UserState>((set) => ({
 	user: initUser,
 	initUser: () => set(() => ({ user: initUser })),
-	setType: (type: RoleType) => set((prev) => ({ user: { ...prev.user, type } })),
+	setRole: (role: RoleType) => set((prev) => ({ user: { ...prev.user, role } })),
 	setStoreName: (storeName: string) => set((prev) => ({ user: { ...prev.user, storeName } })),
 	setTime: (workTime: WorkTimeType) => set((prev) => ({ user: { ...prev.user, workTime } })),
 	setPhoneNumber: (phoneNumber: string) => set((prev) => ({ user: { ...prev.user, phoneNumber } })),
