@@ -1,30 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { transIdx } from 'src/app.modules/util/calendar';
 import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
-import { ISchedule } from '../types';
 import Modal from '../components/Modal';
 import useStore from '../store';
+import { getGray, getToDay, getWorkList, postWork } from '../api';
 
 function CalendarScreen() {
-	// 더미 스케쥴
-	const [schedule, _Setschedule] = useState<ISchedule>({
-		박수빈: {
-			일: '08:00~15:00',
-			목: '14:00~24:00',
-		},
-	});
+	// // 더미 스케쥴
+	const [schedule, setSchedule] = useState<number[]>([]);
 	const { isOpen } = useStore();
 	const today = new Date();
 	const [fakeYear, setFakeYear] = useState<number>(0);
 	const [calendar, setCalendar] = useState({ year: today.getFullYear(), month: today.getMonth() });
 	// 년도, 달, 일정
 	const { year, month } = calendar;
-	// 금일
-	const toDay = transIdx(today.getFullYear(), today.getMonth(), today.getDate());
+
 	// 해당 달의 첫날과 마지막날
 	const firstDay = Number(new Date(year, month, 1).getDay());
 	const lastDate = Number(new Date(year, month + 1, 0).getDate());
@@ -76,6 +71,31 @@ function CalendarScreen() {
 		}
 	};
 
+	// 출근하기
+	// const { mutate: postWorkMutate } = useMutation(postWork, {
+	// 	onSuccess: (res) => {
+	// 		console.log(res);
+	// 	},
+	// 	onError: (error) => alert('오류 발생.'),
+	// 	onSettled: () => {
+	// 		//
+	// 	},
+	// });
+
+	const getGrayData = () => {
+		// 출근했던 회색 데이터
+		const data = getGray({
+			year: String(year),
+			month: String(month + 1),
+		});
+		data.then((res) => {
+			setSchedule(res.data.data);
+		});
+	};
+	useEffect(() => {
+		getGrayData();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [month]);
 	return (
 		<div>
 			<Swiper
@@ -116,7 +136,6 @@ function CalendarScreen() {
 										firstDay,
 										lastDate,
 										schedule,
-										toDay,
 									})}
 								</div>
 							</div>
@@ -124,6 +143,7 @@ function CalendarScreen() {
 					</SwiperSlide>
 				))}
 			</Swiper>
+			{/* postWorkMutate={postWorkMutate} */}
 			{isOpen && <Modal />}
 		</div>
 	);

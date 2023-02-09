@@ -6,4 +6,6 @@ export const SERVICE_URL = {
 	countCigarette: '/count/cigarette',
 	countCard: '/count/gift-card',
 	countBag: '/count/standard-plastic-bag',
+	calendar: '/calendar',
+	calendarModify: '/calendar/work-modify',
 };
