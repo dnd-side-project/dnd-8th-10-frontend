@@ -70,15 +70,6 @@ function CalendarScreen() {
 			setFakeYear(0);
 		}
 	};
-	// 출근했던 회색 데이터
-	// const { data, refetch: getGrayRefetch } = useQuery(['day'], getGray, {
-	// 	onSuccess: (res) => {
-	// 		console.log(res);
-	// 	},
-	// 	onError: (error) => {
-	// 		console.log(error);
-	// 	},
-	// });
 
 	// 출근하기
 	const { mutate: postWorkMutate } = useMutation(postWork, {
@@ -91,9 +82,17 @@ function CalendarScreen() {
 		},
 	});
 
-	// useEffect(() => {
-	// 	refetch();
-	// }, [month]);
+	const getGrayData = () => {
+		// 출근했던 회색 데이터
+		const data = getWorkList({
+			year: year.toString(),
+			month: month.toString(),
+		});
+		console.log(data);
+	};
+	useEffect(() => {
+		getGrayData();
+	}, [month]);
 	return (
 		<div>
 			<Swiper

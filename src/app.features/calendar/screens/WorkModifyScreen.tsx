@@ -6,7 +6,7 @@ function WorkModifyScreen() {
 	return (
 		<div>
 			<div>출근수정</div>
-			<div onClick={() => router.back()}>완료</div>
+			<button onClick={() => router.back()}>완료</button>
 		</div>
 	);
 }
