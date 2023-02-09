@@ -81,20 +81,21 @@ function CalendarScreen() {
 	// 		//
 	// 	},
 	// });
-
-	const getGrayData = () => {
-		// 출근했던 회색 데이터
-		const data = getGray({
-			year: String(year),
-			month: String(month + 1),
-		});
-		data.then((res) => {
-			setSchedule(res.data.data);
-		});
-	};
+	const { data, refetch: getGrayRefetch } = useQuery(
+		['gray'],
+		() =>
+			getGray({
+				year: String(year),
+				month: String(month + 1),
+			}),
+		{
+			onSuccess: (res) => {
+				setSchedule(res.data.data);
+			},
+		}
+	);
 	useEffect(() => {
-		getGrayData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		getGrayRefetch();
 	}, [month]);
 	return (
 		<div>
