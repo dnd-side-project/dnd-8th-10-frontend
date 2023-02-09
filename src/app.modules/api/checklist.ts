@@ -32,7 +32,7 @@ export const putCheckList = async (body: PutCheckListBody) => {
 };
 
 // 할일 삭제
-export const deleteCheckList = async (checkIdx: number) => {
-	const res = await client.delete(`/api/checkList?checkIdx=${checkIdx}`);
+export const deleteCheckList = async (check: number) => {
+	const res = await client.delete(`/api/checkList?check=${check}`);
 	return res;
 };

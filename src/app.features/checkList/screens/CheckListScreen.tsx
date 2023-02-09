@@ -17,6 +17,8 @@ interface Props {
 	postChecklistLoading: boolean;
 	putChecklist: MutateTpye<PutCheckListBody>;
 	putChecklistLoading: boolean;
+	deleteChecklist: MutateTpye<number>;
+	deleteChecklistLoading: boolean;
 }
 function CheckListScreen({
 	searchDate,
@@ -26,6 +28,8 @@ function CheckListScreen({
 	postChecklistLoading,
 	putChecklist,
 	putChecklistLoading,
+	deleteChecklist,
+	deleteChecklistLoading,
 }: Props) {
 	console.log(checklist);
 	const [addTodoInputOpen, setAddTodoInputOpen] = useState<boolean>(false);
@@ -84,7 +88,8 @@ function CheckListScreen({
 		setEditTodoInputOpenIdx(null);
 	};
 	const deleteTodoHandler = () => {
-		console.log('temp');
+		if (deleteChecklistLoading) return;
+		deleteChecklist(editTodoInputOpenIdx as number);
 	};
 	return (
 		<div className="w-full">
@@ -104,7 +109,7 @@ function CheckListScreen({
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
 					/>
 					<button type="button" onClick={cancelAddTodoHandler}>
-						취소
+						휴지통
 					</button>
 				</form>
 				<ul>
@@ -134,8 +139,8 @@ function CheckListScreen({
 										className="aria-hidden:hidden"
 									>
 										<input type="text" name="editTodo" />
-										<button type="button" onClick={deleteTodoHandler}>
-											취소
+										<button type="button" name="deleteTodo" onClick={deleteTodoHandler}>
+											휴지통
 										</button>
 									</form>
 								</div>
