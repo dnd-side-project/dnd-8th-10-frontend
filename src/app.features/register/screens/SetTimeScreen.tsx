@@ -5,6 +5,7 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useRegisterUserStore, { dayMap, DayType } from '../store';
 
 // TODO: 시간 유효성체크 (끝나는 시간이 시작하는 시간보다 빠른지)
+// TODO: 오전 0시 24시로 표기
 type Flag = 'startTime' | 'endTime' | null;
 
 function SetTimeScreen() {
@@ -14,6 +15,7 @@ function SetTimeScreen() {
 		setTime,
 	} = useRegisterUserStore();
 	// TODO: 모달오픈할때 기록했던 시간 보여주기
+	//
 
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const INIT_WORK_TIME = { meridiem: 'am' as 'am' | 'pm', hour: '1', minute: '0' };

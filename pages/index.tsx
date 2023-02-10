@@ -19,6 +19,7 @@ const Home: NextPage = () => {
 		refetchOnReconnect: false,
 		refetchOnWindowFocus: false,
 	});
+
 	return <div />;
 };
 

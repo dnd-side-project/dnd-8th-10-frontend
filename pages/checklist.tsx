@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import CheckListScreen from 'src/app.features/checkList/screens/CheckListScreen';
-import { getCheckList, postCheckList, putCheckList } from 'src/app.modules/api/checklist';
+import { deleteCheckList, getCheckList, postCheckList, putCheckList } from 'src/app.modules/api/checklist';
 
 function checkList() {
 	const formatDate = (year: number, month: number, date: number) => {
@@ -50,6 +50,19 @@ function checkList() {
 			//
 		},
 	});
+	const { mutate: deleteChecklist, isLoading: deleteChecklistLoading } = useMutation(deleteCheckList, {
+		onSuccess: (res) => {
+			refetch();
+		},
+		onError: (error) => alert('오류 발생.'),
+		onSettled: () => {
+			//
+		},
+	});
+	useEffect(() => {
+		console.log(date);
+		refetch();
+	}, [date, refetch]);
 	return (
 		<CheckListScreen
 			searchDate={date}
@@ -59,6 +72,8 @@ function checkList() {
 			postChecklistLoading={postChecklistLoading}
 			putChecklist={putChecklist}
 			putChecklistLoading={putChecklistLoading}
+			deleteChecklist={deleteChecklist}
+			deleteChecklistLoading={deleteChecklistLoading}
 		/>
 	);
 }
