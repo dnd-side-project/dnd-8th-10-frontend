@@ -116,16 +116,16 @@ function CalendarScreen() {
 			>
 				{[...new Array(12)].map((_, monthView) => (
 					<SwiperSlide key={monthView}>
-						<div className="flex justify-between mx-[15px] my-[20px]">
+						<div className="flex justify-between mx-[1.5rem] my-[2rem]">
 							<div className="flex items-center">
-								<span className="text-[20px] font-bold mr-[5px]">{`${year + fakeYear}.${monthView + 1}`}</span>
+								<span className="text-[2rem] font-bold mr-[0.5rem]">{`${year + fakeYear}.${monthView + 1}`}</span>
 								<div>버튼</div>
 							</div>
 							<div>아이콘</div>
 						</div>
 						<div>
 							<div>
-								<div className="flex justify-around mb-[5px]">
+								<div className="text-[1.5rem] flex justify-around mb-[0.5rem]">
 									{WEEK.map((day, index) => (
 										<span key={index}>{day}</span>
 									))}
