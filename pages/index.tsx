@@ -27,19 +27,7 @@ const Home: NextPage = () => {
 		if (!Number(newWidth)) return;
 		setWidth(newWidth);
 	};
-	return (
-		<div className="bg-blue-400 w-full h-[100vh]  mx-auto" style={{ maxWidth: `${width}px` }}>
-			<span>화면 너비 확인</span>
-			<form onSubmit={onSubmit}>
-				<input
-					placeholder="원하시는 화면 너비를 입력해보세요.단위 px. px 빼고 입력ex.600px 이면 600으로 입력"
-					type="text"
-					name="width"
-					className="w-full"
-				/>
-			</form>
-		</div>
-	);
+	return <div className="bg-blue-400 w-full h-[100vh]  mx-auto">컨텐츠 영역</div>;
 };
 
 export default Home;
