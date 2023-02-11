@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import PlusIcon from 'src/app.modules/assets/checklist/addCircle.svg';
+import MinusIcon from 'src/app.modules/assets/checklist/minusCircle.svg';
 import { MOCK_CIGARETTE_LIST, MOCK_CIGARETTE_NAME_LIST } from '../mockData/cigarretList';
 
 const getInitialSound = (str: string) => {
@@ -38,6 +40,7 @@ interface ICigaretteList {
 	inventoryIdx: number;
 	inventoryName: string;
 	category: string;
+	inventoryCount: number;
 }
 interface Props {
 	cigaretteList: ICigaretteList[];
@@ -56,17 +59,10 @@ function CountCigaretteScreen({ cigaretteList }: Props) {
 	const searchChoHandler = (e: React.BaseSyntheticEvent) => {
 		setSearchCho(e.target.value);
 	};
-	const changeDiffHandler = (e: React.BaseSyntheticEvent) => {
-		const {
-			target: {
-				name,
-				dataset: { name: cigaretteName },
-			},
-		} = e;
-		const diff = MOCK_CIGARETTE_LIST.get(cigaretteName) as number;
+	const changeDiffHandler = (action: 'decrease' | 'increase', cigaretteName: string, cigaretteDiff: number) => {
 		setCountHistory({
 			...countHistory,
-			[cigaretteName]: (countHistory[cigaretteName] ?? diff) + (name === 'decrease' ? -1 : 1),
+			[cigaretteName]: (countHistory[cigaretteName] ?? cigaretteDiff) + (action === 'decrease' ? -1 : 1),
 		});
 	};
 	const onNewCigaretteSubmit = (e: React.BaseSyntheticEvent) => {
@@ -109,48 +105,43 @@ function CountCigaretteScreen({ cigaretteList }: Props) {
 					)
 						.filter((cigarette) => cigarette.inventoryName.includes(searchTerm))
 						.map((cigarette, index) => (
-							<li key={index} className="flex w-full justify-between space-y-2">
+							<li key={index} className="flex w-full items-center justify-between ">
 								<span>{cigarette.inventoryName}</span>
-								<div className="flex space-x-[1.2rem]">
-									<button name="increase" data-name={cigarette.inventoryName} onClick={changeDiffHandler}>
-										➕
+
+								<div className="flex relative  space-x-[3.2rem]">
+									<button
+										name="increase"
+										data-name={cigarette.inventoryName}
+										data-diff={cigarette.inventoryCount}
+										onClick={() => changeDiffHandler('increase', cigarette.inventoryName, cigarette.inventoryCount)}
+									>
+										<PlusIcon />
 									</button>
-									<span>{0}</span>
-									{/* 재고 차이 정보 안옴! */}
-									<button name="decrease" data-name={cigarette.inventoryName} onClick={changeDiffHandler}>
-										➖
-									</button>
-								</div>
-							</li>
-						))}
-					{(searchCho === '전체'
-						? cigaretteList
-						: cigaretteList.filter((cigarette) => getInitialSound(cigarette.inventoryName) === searchCho)
-					)
-						.filter((cigarette) => cigarette.inventoryName.includes(searchTerm))
-						.map((cigarette, index) => (
-							<li key={index} className="flex w-full justify-between space-y-2">
-								<span>{cigarette.inventoryName}</span>
-								<div className="flex space-x-[1.2rem]">
-									<button name="increase" data-name={cigarette.inventoryName} onClick={changeDiffHandler}>
-										➕
-									</button>
-									<span>{0}</span>
-									{/* 재고 차이 정보 안옴! */}
-									<button name="decrease" data-name={cigarette.inventoryName} onClick={changeDiffHandler}>
-										➖
+									<span className="absolute right-[3.8rem]">
+										{countHistory[cigarette.inventoryName] ?? cigarette.inventoryCount}
+									</span>
+									<button
+										name="decrease"
+										data-name={cigarette.inventoryName}
+										data-diff={cigarette.inventoryCount}
+										onClick={() => changeDiffHandler('decrease', cigarette.inventoryName, cigarette.inventoryCount)}
+									>
+										<MinusIcon />
 									</button>
 								</div>
 							</li>
 						))}
 				</ul>
-				<div className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient   z-50">
+				<div
+					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient   z-50 aria-hidden:hidden"
+					aria-hidden={isSaveModalOpen}
+				>
 					<button onClick={() => setIsSaveModalOpen(true)} className=" w-full py-[2rem] bg-blue-500">
 						점검사항 확인
 					</button>
 				</div>
 				{isSaveModalOpen && (
-					<div className="bg-blue-300 w-full">
+					<div className=" pb-[2rem] pt-[8.8rem]  bg-white aria-hidden:hidden  w-full  left-0 bottom-0   z-50 fixed">
 						<ul className="flex flex-col gap-[8px]">
 							{Object.entries(countHistory).map((history, index) => (
 								<li key={index} className="flex justify-between">
@@ -159,7 +150,9 @@ function CountCigaretteScreen({ cigaretteList }: Props) {
 								</li>
 							))}
 						</ul>
-						<button onClick={() => setIsSaveModalOpen(false)}>점검사항 확인</button>
+						<button onClick={() => setIsSaveModalOpen(false)} className=" w-full py-[2rem] bg-blue-500">
+							점검사항 저장
+						</button>
 					</div>
 				)}
 				{isAddModalOpen && (
