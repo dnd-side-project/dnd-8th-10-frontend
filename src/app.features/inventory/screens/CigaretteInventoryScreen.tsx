@@ -34,7 +34,15 @@ const getInitialSound = (str: string) => {
 // TODO: 담배 추가할때 같은 이름 담배있는지 체크
 type ChoType = '전체' | 'ㄱ' | 'ㄴ' | 'ㄷ' | 'ㄹ' | 'ㅁ' | 'ㅂ' | 'ㅅ' | 'ㅇ' | 'ㅈ' | 'ㅊ' | 'ㅋ' | 'ㅌ' | 'ㅍ' | 'ㅎ';
 type CountHistoryType = { [name: string]: number };
-function CountCigaretteScreen() {
+interface ICigaretteList {
+	inventoryIdx: number;
+	inventoryName: string;
+	category: string;
+}
+interface Props {
+	cigaretteList: ICigaretteList[];
+}
+function CountCigaretteScreen({ cigaretteList }: Props) {
 	const CHO_BUTTONS = ['전체', 'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [searchCho, setSearchCho] = useState<ChoType>('전체');
@@ -91,19 +99,20 @@ function CountCigaretteScreen() {
 			</ul>
 			<ul>
 				{(searchCho === '전체'
-					? MOCK_CIGARETTE_NAME_LIST
-					: MOCK_CIGARETTE_NAME_LIST.filter((cigarette) => getInitialSound(cigarette) === searchCho)
+					? cigaretteList
+					: cigaretteList.filter((cigarette) => getInitialSound(cigarette.inventoryName) === searchCho)
 				)
-					.filter((cigarette) => cigarette.includes(searchTerm))
+					.filter((cigarette) => cigarette.inventoryName.includes(searchTerm))
 					.map((cigarette, index) => (
 						<li key={index} className="flex w-full justify-between space-y-2">
-							<span>{cigarette}</span>
+							<span>{cigarette.inventoryName}</span>
 							<div className="flex">
-								<button name="increase" data-name={cigarette} onClick={changeDiffHandler}>
+								<button name="increase" data-name={cigarette.inventoryName} onClick={changeDiffHandler}>
 									➕
 								</button>
-								<span>{countHistory[cigarette] ?? MOCK_CIGARETTE_LIST.get(cigarette)}</span>
-								<button name="decrease" data-name={cigarette} onClick={changeDiffHandler}>
+								<span>{0}</span>
+								{/* 재고 차이 정보 안옴! */}
+								<button name="decrease" data-name={cigarette.inventoryName} onClick={changeDiffHandler}>
 									➖
 								</button>
 							</div>

@@ -1,11 +1,11 @@
 export const SERVICE_URL = {
 	home: '/',
 	register: '/register',
-	count: '/count',
-	countHistory: '/count/history',
-	countCigarette: '/count/cigarette',
-	countCard: '/count/gift-card',
-	countBag: '/count/standard-plastic-bag',
+	inventory: '/inventory',
+	inventoryHistory: '/inventory/history',
+	inventoryCigarette: '/inventory/cigarette',
+	inventoryCard: '/inventory/gift-card',
+	inventoryBag: '/inventory/garbage-bag',
 	calendar: '/calendar',
 	calendarModify: '/calendar/work-modify',
 };
