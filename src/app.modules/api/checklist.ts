@@ -22,8 +22,8 @@ export const postCheckList = async (body: PostCheckListBody) => {
 
 export interface PutCheckListBody {
 	checkIdx: number; // 할일 목록 id
-	content: string;
-	status: 'Y' | 'N';
+	content: PostCheckListBody['content'];
+	status: PostCheckListBody['status'];
 }
 // 할일 항목 상태 업데이트
 export const putCheckList = async (body: PutCheckListBody) => {
