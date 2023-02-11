@@ -73,7 +73,7 @@ function CountCigaretteScreen() {
 				onChange={searchTermHandler}
 				placeholder="검색어를 입력해주세요."
 				type="search"
-				className="w-full h-[30px] mt-[20px] py-2 px-4  border border-black rounded-lg  "
+				className="w-full h-[4.8rem] rounded-[0.8rem] bg-[#F8F8FA] pl-[4.4rem] text-body2 pr-[1.2rem] py-[1.4rem]"
 			/>
 			<ul className="flex flex-wrap gap-[8px]">
 				{CHO_BUTTONS.map((cho, index) => (
@@ -82,7 +82,7 @@ function CountCigaretteScreen() {
 							value={cho}
 							onClick={searchChoHandler}
 							aria-pressed={searchCho === cho}
-							className="w-[46px] h-[35px] border-[1px] rounded aria-pressed:bg-blue-300  "
+							className="w-[46px]  h-[35px] border-[1px] rounded aria-pressed:bg-blue-300  "
 						>
 							{cho}
 						</button>

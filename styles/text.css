@@ -5,43 +5,43 @@
 
 @layer components {
 
-    .title2{
+    .text-title2{
        @apply font-bold text-[2rem] leading-[2.8rem] -tracking-[0.06rem];
     }
-    .title1{
+    .text-title1{
        @apply font-bold text-[1.8rem] leading-[2.8rem] -tracking-[0.06rem];
     }
-    .subhead4{
+    .text-subhead4{
        @apply font-bold pc:text-[1.6rem] pc:leading-[2.2rem] -tracking-[0.06rem];
     }
-    .subhead-long4{
+    .text-subhead-long4{
        @apply font-bold pc:text-[1.6rem] pc:leading-[2.8rem] -tracking-[0.06rem];
     }
-    .subhead3{
+    .text-subhead3{
        @apply font-medium pc:text-[1.6rem] pc:leading-[2.2rem] -tracking-[0.06rem];
     }
-    .subhead2{
+    .text-subhead2{
        @apply font-medium pc:text-[1.4rem] pc:leading-[2rem] -tracking-[0.06rem];
     }
-    .subhead-long2{
+    .text-subhead-long2{
        @apply font-medium text-[1.4rem] leading-[2.4rem] -tracking-[0.06rem];
     }
-    .subhead1{
+    .text-subhead1{
        @apply font-medium text-[1.2rem] leading-[1.8rem] -tracking-[0.06rem];
     }
-    .body3{ 
+    .text-body3{ 
        @apply font-normal  text-[1.6rem] leading-[2.4rem] -tracking-[0.06rem];
     }
-    .body-long3{
+    .text-body-long3{
        @apply font-normal text-[1.6rem] leading-[2.8rem] -tracking-[0.06rem];
     }
-    .body2{
+    .text-body2{
        @apply font-normal text-[1.4rem] leading-[2.0rem] -tracking-[0.06rem];
     }
-    .body-long2{
+    .text-body-long2{
        @apply font-normal text-[1.4rem] leading-[2.4rem] -tracking-[0.06rem];
     }
-    .body1{
+    .text-body1{
         @apply font-normal text-[1.2rem] leading-[1.8rem] -tracking-[0.06rem];
      }
   
