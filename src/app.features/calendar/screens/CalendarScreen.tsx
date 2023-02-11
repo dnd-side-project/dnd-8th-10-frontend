@@ -71,7 +71,7 @@ function CalendarScreen() {
 	};
 
 	// 출근하기
-	const { mutate: postWorkMutate } = useMutation(postWork, {
+	const { data: WorkData, mutate: WorkMutate } = useMutation(postWork, {
 		onSuccess: (res) => {
 			console.log(res);
 		},
@@ -96,7 +96,7 @@ function CalendarScreen() {
 	);
 	useEffect(() => {
 		getGrayRefetch();
-	}, [month, getGrayRefetch]);
+	}, [month, getGrayRefetch, WorkData]);
 	return (
 		<div>
 			<Swiper
@@ -144,7 +144,7 @@ function CalendarScreen() {
 					</SwiperSlide>
 				))}
 			</Swiper>
-			{isOpen && <Modal postWorkMutate={postWorkMutate} />}
+			{isOpen && <Modal WorkMutate={WorkMutate} />}
 		</div>
 	);
 }

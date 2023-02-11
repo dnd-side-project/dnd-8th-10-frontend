@@ -8,7 +8,7 @@ import useStore from '../store';
 
 type Flag = 'startTime' | 'endTime' | null;
 function WorkModifyScreen() {
-	const [workTime, setWorkTime] = useState<string>('13:00~23:30');
+	const [workTime, setWorkTime] = useState<string | undefined>('');
 	const { isDay } = useStore();
 	const [year, month, day] = isDay.split('.');
 	const router = useRouter();
@@ -24,30 +24,51 @@ function WorkModifyScreen() {
 
 		setTime(value, name, openModalFlag as 'startTime' | 'endTime');
 	};
+
+	const getWorkTimeString = () => {
+		try {
+			return `${startTime.hour.length === 1 && startTime.meridiem === 'am' ? '0' : ''}${
+				+startTime.hour + (startTime.meridiem === 'am' ? 0 : 12)
+			}:${startTime.minute.length === 1 ? '0' : ''}${startTime.minute}~${
+				endTime.hour.length === 1 && endTime.meridiem === 'am' ? '0' : ''
+			}${+endTime.hour + (endTime.meridiem === 'am' ? 0 : 12)}:${endTime.minute.length === 1 ? '0' : ''}${
+				endTime.minute
+			}`;
+		} catch (e) {
+			console.log(e);
+			return '';
+		}
+	};
+
 	// 수정하기
 	const { mutate } = useMutation(putWorkModify, {
 		onSuccess: (res) => {
-			console.log(res);
+			// console.log(res);
+			router.back();
 		},
 		onError: (error) => console.log(error),
 	});
 
 	// 수정 버튼
 	const modifyBtn = () => {
-		const [start, end] = workTime.split('~');
-		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
-		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
-		const timeDiff = (startSplit - endSplit) / 60;
-		mutate({ year, month, day, workTime, workHour: timeDiff });
+		setWorkTime(getWorkTimeString());
+		if (workTime) {
+			const [start, end] = workTime.split('~');
+			const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
+			const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
+			const timeDiff = (startSplit - endSplit) / 60;
+			mutate({ year, month, day, workTime, workHour: timeDiff });
+		}
 	};
 
 	// 삭제 버튼
 	const delBtn = () => {
 		const data = delWorkModify({ year, month, day });
 		data.then((res) => {
-			console.log(res);
+			router.back();
 		});
 	};
+
 	return (
 		<div className="text-[2rem] mx-[1.5rem] my-[2rem]">
 			<div>출근수정</div>

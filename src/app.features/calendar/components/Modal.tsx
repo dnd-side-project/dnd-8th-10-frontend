@@ -10,9 +10,9 @@ import useRegisterUserStore from '../store/time';
 
 type Flag = 'startTime' | 'endTime' | null;
 interface Props {
-	postWorkMutate: MutateTpye<MutateBody>;
+	WorkMutate: MutateTpye<MutateBody>;
 }
-function Modal({ postWorkMutate }: Props) {
+function Modal({ WorkMutate }: Props) {
 	const { toDay, workDay, modalIsClose } = useStore();
 	const [workTime, setWorkTime] = useState<string>('');
 	const { isDay } = useStore();
@@ -26,7 +26,8 @@ function Modal({ postWorkMutate }: Props) {
 
 	useEffect(() => {
 		setOpenModalFlag(null);
-	}, [isDay]);
+		return () => modalIsClose();
+	}, [isDay, modalIsClose]);
 
 	const timeHandler = (e: React.BaseSyntheticEvent) => {
 		const { name, value } = e.target;
@@ -39,7 +40,7 @@ function Modal({ postWorkMutate }: Props) {
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
 		const timeDiff = (startSplit - endSplit) / 60;
-		postWorkMutate({ year, month, day, workTime, workHour: timeDiff });
+		WorkMutate({ year, month, day, workTime, workHour: timeDiff });
 		modalIsClose();
 	};
 
@@ -47,7 +48,7 @@ function Modal({ postWorkMutate }: Props) {
 	if (!workDay && isDay === toDay) {
 		const data = getToDay(getDayOfWeek(isDay));
 		data.then((res) => {
-			console.log(res);
+			// 여러번 요청감
 			if (res.data === '') {
 				setWorkTime('오전00:00~오후00:00');
 			} else {
