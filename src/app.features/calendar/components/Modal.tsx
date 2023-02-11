@@ -6,7 +6,7 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import { getToDay, getWorkList, MutateBody } from '../api';
 import useStore from '../store';
-import useRegisterUserStore from '../store/time';
+import useTimeSetStore from '../store/time';
 
 type Flag = 'startTime' | 'endTime' | null;
 interface Props {
@@ -19,7 +19,7 @@ function Modal({ WorkMutate }: Props) {
 	const {
 		user: { startTime, endTime },
 		setTime,
-	} = useRegisterUserStore();
+	} = useTimeSetStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const [year, month, day] = isDay.split('.');
 	const [userName, setUserName] = useState([]);

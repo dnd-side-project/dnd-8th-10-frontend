@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import SetTimeButtons from 'src/app.components/SetTimeButtons';
 import { useMutation } from '@tanstack/react-query';
-import useRegisterUserStore from '../store/time';
+import useTimeSetStore from '../store/time';
 import { delWorkModify, putWorkModify } from '../api';
 import useStore from '../store';
 
@@ -15,7 +15,7 @@ function WorkModifyScreen() {
 	const {
 		user: { startTime, endTime },
 		setTime,
-	} = useRegisterUserStore();
+	} = useTimeSetStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const timeHandler = (e: React.BaseSyntheticEvent) => {
 		const {
