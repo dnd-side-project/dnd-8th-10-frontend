@@ -57,7 +57,6 @@ function WorkModifyScreen() {
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
 		const timeDiff = Math.abs((startSplit - endSplit) / 60);
 		mutate({ year, month, day, workTime: wrkTimeData, workHour: timeDiff });
-
 		isDayReset();
 	};
 

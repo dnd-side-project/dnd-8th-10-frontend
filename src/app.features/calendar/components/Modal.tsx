@@ -14,7 +14,7 @@ interface Props {
 	WorkMutate: MutateTpye<MutateBody>;
 }
 function Modal({ WorkMutate }: Props) {
-	const { toDay, workDay, modalIsClose } = useStore();
+	const { toDay, workDay, modalIsClose, isDayReset } = useStore();
 	const [workTime, setWorkTime] = useState<string>('');
 	const { isDay } = useStore();
 	const router = useRouter();
@@ -28,6 +28,7 @@ function Modal({ WorkMutate }: Props) {
 
 	useEffect(() => {
 		setOpenModalFlag(null);
+		return () => setUserName([]);
 	}, [isDay]);
 
 	const timeHandler = (e: React.BaseSyntheticEvent) => {
@@ -42,6 +43,7 @@ function Modal({ WorkMutate }: Props) {
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
 		const timeDiff = (startSplit - endSplit) / 60;
 		WorkMutate({ year, month, day, workTime, workHour: timeDiff });
+		isDayReset();
 		modalIsClose();
 	};
 
@@ -62,7 +64,6 @@ function Modal({ WorkMutate }: Props) {
 	if (workDay && new Date(isDay) <= new Date(toDay) && userName.length === 0) {
 		const data = getWorkList({ year, month, day });
 		data.then((res) => {
-			console.log(res);
 			setUserName(res.data.data);
 		});
 	}
