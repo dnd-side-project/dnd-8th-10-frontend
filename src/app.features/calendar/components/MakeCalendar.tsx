@@ -2,6 +2,7 @@ import React from 'react';
 import { transIdx } from 'src/app.modules/util/calendar';
 import { IMakeCal } from '../types';
 import useStore from '../store';
+
 function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCal) {
 	const { isDay, toDay, modalIsOpen } = useStore();
 	const days = [];

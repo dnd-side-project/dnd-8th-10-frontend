@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { transIdx } from 'src/app.modules/util/calendar';
+import { getDayOfWeek, transIdx } from 'src/app.modules/util/calendar';
 import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -52,7 +52,6 @@ function CalendarScreen() {
 			}
 		}
 	};
-
 	const onChageFakeYear = (swiper: SwiperCore, progress: number) => {
 		const valid = Number((progress * 10).toFixed(1)) % 1;
 		// 다음 슬라이딩 년도 미리보기 증가
@@ -72,15 +71,12 @@ function CalendarScreen() {
 	};
 
 	// 출근하기
-	// const { mutate: postWorkMutate } = useMutation(postWork, {
-	// 	onSuccess: (res) => {
-	// 		console.log(res);
-	// 	},
-	// 	onError: (error) => alert('오류 발생.'),
-	// 	onSettled: () => {
-	// 		//
-	// 	},
-	// });
+	const { mutate: postWorkMutate } = useMutation(postWork, {
+		onSuccess: (res) => {
+			console.log(res);
+		},
+		onError: (error) => alert('오류 발생.'),
+	});
 	const { data, refetch: getGrayRefetch } = useQuery(
 		['gray'],
 		() =>
@@ -90,13 +86,17 @@ function CalendarScreen() {
 			}),
 		{
 			onSuccess: (res) => {
-				setSchedule(res.data.data);
+				if (res.data.data.length === 1) {
+					setSchedule(res.data.data.map(Number));
+				} else {
+					setSchedule(res.data.data.map(Number));
+				}
 			},
 		}
 	);
 	useEffect(() => {
 		getGrayRefetch();
-	}, [month]);
+	}, [month, getGrayRefetch]);
 	return (
 		<div>
 			<Swiper
@@ -144,8 +144,7 @@ function CalendarScreen() {
 					</SwiperSlide>
 				))}
 			</Swiper>
-			{/* postWorkMutate={postWorkMutate} */}
-			{isOpen && <Modal />}
+			{isOpen && <Modal postWorkMutate={postWorkMutate} />}
 		</div>
 	);
 }

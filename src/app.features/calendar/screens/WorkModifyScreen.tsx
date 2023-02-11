@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import useRegisterUserStore from '../store/time';
 import SetTimeButtons from 'src/app.components/SetTimeButtons';
+import { useMutation } from '@tanstack/react-query';
+import useRegisterUserStore from '../store/time';
+import { delWorkModify, putWorkModify } from '../api';
+import useStore from '../store';
+
 type Flag = 'startTime' | 'endTime' | null;
 function WorkModifyScreen() {
+	const [workTime, setWorkTime] = useState<string>('13:00~23:30');
+	const { isDay } = useStore();
+	const [year, month, day] = isDay.split('.');
 	const router = useRouter();
 	const {
 		user: { startTime, endTime },
@@ -18,19 +25,35 @@ function WorkModifyScreen() {
 		setTime(value, name, openModalFlag as 'startTime' | 'endTime');
 	};
 	// 수정하기
-	// const { mutate } = useMutation(putWorkModify, {
-	// 	onSuccess: (res) => {
-	// 		console.log(res);
-	// 	},
-	// 	onError: (error) => alert('오류 발생.'),
-	// 	onSettled: () => {
-	// 		//
-	// 	},
-	// });
+	const { mutate } = useMutation(putWorkModify, {
+		onSuccess: (res) => {
+			console.log(res);
+		},
+		onError: (error) => console.log(error),
+	});
+
+	// 수정 버튼
+	const modifyBtn = () => {
+		const [start, end] = workTime.split('~');
+		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
+		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
+		const timeDiff = (startSplit - endSplit) / 60;
+		mutate({ year, month, day, workTime, workHour: timeDiff });
+	};
+
+	// 삭제 버튼
+	const delBtn = () => {
+		const data = delWorkModify({ year, month, day });
+		data.then((res) => {
+			console.log(res);
+		});
+	};
 	return (
 		<div className="text-[2rem] mx-[1.5rem] my-[2rem]">
 			<div>출근수정</div>
-			<button>삭제</button>
+			<button type="button" onClick={() => delBtn()}>
+				삭제
+			</button>
 			<div className="flex items-center my-3">
 				<button
 					onClick={() => setOpenModalFlag('startTime')}
@@ -50,7 +73,11 @@ function WorkModifyScreen() {
 				<SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} />
 			</div>
 			<div className="mt-5 mb-7">
-				<button type="button" className="bg-[#D9D9D9] w-full py-[2rem] font-semibold rounded-lg">
+				<button
+					type="button"
+					onClick={() => modifyBtn()}
+					className="bg-[#D9D9D9] w-full py-[2rem] font-semibold rounded-lg"
+				>
 					수정
 				</button>
 			</div>

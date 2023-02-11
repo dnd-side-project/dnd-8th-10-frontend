@@ -13,7 +13,7 @@ export interface MutateBody {
 	year: string;
 	month: string;
 	day: string;
-	time: string;
+	workTime: string;
 	workHour: number;
 }
 
@@ -49,6 +49,6 @@ export const getWorkList = async (body: DayBody) => {
 
 // 오늘 날짜를 누른 경우
 export const getToDay = async (week: string) => {
-	const res = await client.get(`api/calendar/${week}`);
+	const res = await client.get('api/calendar/week', { params: { week } });
 	return res;
 };
