@@ -12,16 +12,16 @@
        @apply font-bold text-[1.8rem] leading-[2.8rem] -tracking-[0.06rem];
     }
     .text-subhead4{
-       @apply font-bold pc:text-[1.6rem] pc:leading-[2.2rem] -tracking-[0.06rem];
+       @apply font-bold text-[1.6rem] leading-[2.2rem] -tracking-[0.06rem];
     }
     .text-subhead-long4{
-       @apply font-bold pc:text-[1.6rem] pc:leading-[2.8rem] -tracking-[0.06rem];
+       @apply font-bold text-[1.6rem] leading-[2.8rem] -tracking-[0.06rem];
     }
     .text-subhead3{
-       @apply font-medium pc:text-[1.6rem] pc:leading-[2.2rem] -tracking-[0.06rem];
+       @apply font-medium text-[1.6rem] leading-[2.2rem] -tracking-[0.06rem];
     }
     .text-subhead2{
-       @apply font-medium pc:text-[1.4rem] pc:leading-[2rem] -tracking-[0.06rem];
+       @apply font-medium text-[1.4rem] leading-[2rem] -tracking-[0.06rem];
     }
     .text-subhead-long2{
        @apply font-medium text-[1.4rem] leading-[2.4rem] -tracking-[0.06rem];
