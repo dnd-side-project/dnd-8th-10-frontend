@@ -18,7 +18,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 					const now = prevLastDate - firstDay + i;
 					// 이전 달 예시 날짜
 					result.push(
-						<span key={now} className="text-gray-400  flex justify-center items-center w-[30px] h-[30px]">
+						<span key={now} className=" text-gray-400  flex justify-center items-center w-[3rem] h-[3rem]">
 							{now}
 						</span>
 					);
@@ -35,7 +35,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 							<span
 								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[30px] h-[30px] bg-[#E8E8E8] border-2 border-[#5696FC] rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[3rem] h-[3rem] bg-[#E8E8E8] border-solid border-[0.2rem] border-[#5696FC] rounded-lg"
 							>
 								{now}
 							</span>
@@ -45,7 +45,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 							<span
 								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[30px] h-[30px] border-2 border-[#5696FC] rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[3rem] h-[3rem] border-[0.2rem] border-solid border-[#5696FC] rounded-lg"
 							>
 								{now}
 							</span>
@@ -55,7 +55,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 							<span
 								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-[#E8E8E8] rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white flex justify-center items-center w-[3rem] h-[3rem] bg-[#E8E8E8] rounded-lg"
 							>
 								{now}
 							</span>
@@ -65,7 +65,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 							<span
 								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white  flex justify-center items-center w-[30px] h-[30px] rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white  flex justify-center items-center w-[3rem] h-[3rem] rounded-lg"
 							>
 								{now}
 							</span>
@@ -94,7 +94,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 							<span
 								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[30px] h-[30px] bg-[#E8E8E8] border-2 border-[#5696FC] rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[3rem] h-[3rem] bg-[#E8E8E8] border-solid border-[0.2rem] border-[#5696FC] rounded-lg"
 							>
 								{now}
 							</span>
@@ -104,7 +104,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 							<span
 								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[30px] h-[30px] border-2 border-[#5696FC] rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[3rem] h-[3rem] border-solid border-[0.2rem] border-[#5696FC] rounded-lg"
 							>
 								{now}
 							</span>
@@ -114,7 +114,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 							<span
 								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white flex justify-center items-center w-[30px] h-[30px] bg-[#E8E8E8] rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white flex justify-center items-center w-[3rem] h-[3rem] bg-[#E8E8E8] rounded-lg"
 							>
 								{now}
 							</span>
@@ -124,7 +124,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 							<span
 								key={idx}
 								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white  flex justify-center items-center w-[30px] h-[30px] rounded-lg"
+								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white  flex justify-center items-center w-[3rem] h-[3rem] rounded-lg"
 							>
 								{now}
 							</span>
@@ -141,7 +141,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 				else {
 					const now = i - lastDate - firstDay + 1;
 					result.push(
-						<span key={now} className="text-gray-400  flex justify-center items-center w-[30px] h-[30px]rounded">
+						<span key={now} className="text-gray-400  flex justify-center items-center w-[3rem] h-[3rem]rounded">
 							{now}
 						</span>
 					);
@@ -155,7 +155,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 	const week = Math.ceil((firstDay + lastDate) / 7);
 	for (let i = 1; i <= week; i += 1) {
 		days.push(
-			<div className="flex justify-around items-center py-[15px]" key={week + i}>
+			<div className="text-[1.4rem] flex justify-around items-center py-[1.5rem]" key={week + i}>
 				{makeDay(i)}
 			</div>
 		);

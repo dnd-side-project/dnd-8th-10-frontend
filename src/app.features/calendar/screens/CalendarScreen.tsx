@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { transIdx } from 'src/app.modules/util/calendar';
+import { getDayOfWeek, transIdx } from 'src/app.modules/util/calendar';
 import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -52,7 +52,6 @@ function CalendarScreen() {
 			}
 		}
 	};
-
 	const onChageFakeYear = (swiper: SwiperCore, progress: number) => {
 		const valid = Number((progress * 10).toFixed(1)) % 1;
 		// 다음 슬라이딩 년도 미리보기 증가
@@ -72,30 +71,32 @@ function CalendarScreen() {
 	};
 
 	// 출근하기
-	// const { mutate: postWorkMutate } = useMutation(postWork, {
-	// 	onSuccess: (res) => {
-	// 		console.log(res);
-	// 	},
-	// 	onError: (error) => alert('오류 발생.'),
-	// 	onSettled: () => {
-	// 		//
-	// 	},
-	// });
-
-	const getGrayData = () => {
-		// 출근했던 회색 데이터
-		const data = getGray({
-			year: String(year),
-			month: String(month + 1),
-		});
-		data.then((res) => {
-			setSchedule(res.data.data);
-		});
-	};
+	const { data: WorkData, mutate: WorkMutate } = useMutation(postWork, {
+		onSuccess: (res) => {
+			console.log(res);
+		},
+		onError: (error) => alert('오류 발생.'),
+	});
+	const { data, refetch: getGrayRefetch } = useQuery(
+		['gray'],
+		() =>
+			getGray({
+				year: String(year),
+				month: String(month + 1),
+			}),
+		{
+			onSuccess: (res) => {
+				if (res.data.data.length === 1) {
+					setSchedule(res.data.data.map(Number));
+				} else {
+					setSchedule(res.data.data.map(Number));
+				}
+			},
+		}
+	);
 	useEffect(() => {
-		getGrayData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [month]);
+		getGrayRefetch();
+	}, [month, getGrayRefetch, WorkData]);
 	return (
 		<div>
 			<Swiper
@@ -115,16 +116,16 @@ function CalendarScreen() {
 			>
 				{[...new Array(12)].map((_, monthView) => (
 					<SwiperSlide key={monthView}>
-						<div className="flex justify-between mx-[15px] my-[20px]">
+						<div className="flex justify-between mx-[1.5rem] my-[2rem]">
 							<div className="flex items-center">
-								<span className="text-[20px] font-bold mr-[5px]">{`${year + fakeYear}.${monthView + 1}`}</span>
+								<span className="text-[2rem] font-bold mr-[0.5rem]">{`${year + fakeYear}.${monthView + 1}`}</span>
 								<div>버튼</div>
 							</div>
 							<div>아이콘</div>
 						</div>
 						<div>
 							<div>
-								<div className="flex justify-around mb-[5px]">
+								<div className="text-[1.5rem] flex justify-around mb-[0.5rem]">
 									{WEEK.map((day, index) => (
 										<span key={index}>{day}</span>
 									))}
@@ -143,8 +144,7 @@ function CalendarScreen() {
 					</SwiperSlide>
 				))}
 			</Swiper>
-			{/* postWorkMutate={postWorkMutate} */}
-			{isOpen && <Modal />}
+			{isOpen && <Modal WorkMutate={WorkMutate} />}
 		</div>
 	);
 }
