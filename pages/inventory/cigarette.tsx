@@ -22,13 +22,14 @@ function cigarette() {
 	// TODO: get 제외하고 합쳐도 될듯
 	const { mutate: addCigarette, isLoading: addCigaretteLoading } = useMutation(postCigarette, {
 		onSuccess: (res) => {
-			alert('점검사항 저장완료.');
+			alert('담배 추가완료.');
 			refetch();
 		},
 		onError: (error) => alert('오류 발생.'),
 	});
 	const { mutate: editInventory, isLoading: editInventoryLoading } = useMutation(putInventory, {
 		onSuccess: (res) => {
+			alert('점검사항 저장완료.');
 			refetch();
 		},
 		onError: (error) => alert('오류 발생.'),

@@ -3,7 +3,6 @@ import { MutateTpye } from 'src/app.modules/api/client';
 import { PostCigaretteBody, PutInventoryBody } from 'src/app.modules/api/inventory';
 import PlusIcon from 'src/app.modules/assets/checklist/addCircle.svg';
 import MinusIcon from 'src/app.modules/assets/checklist/minusCircle.svg';
-import { MOCK_CIGARETTE_LIST, MOCK_CIGARETTE_NAME_LIST } from '../mockData/cigarretList';
 
 const getInitialSound = (str: string) => {
 	const CHO_LIST = [
@@ -77,11 +76,9 @@ function CountCigaretteScreen({
 			[cigaretteName]: (countHistory[cigaretteName] ?? cigaretteDiff) + (action === 'decrease' ? -1 : 1),
 		});
 	};
-	const onNewCigaretteSubmit = (e: React.BaseSyntheticEvent) => {
-		e.preventDefault();
-		console.log(e.target.newCigarette.value);
-	};
+
 	const submitInventoryRecord = () => {
+		if (editInventoryLoading) return;
 		const list = Object.keys(countHistory).map((inventoryName) => ({
 			inventoryName,
 			diff: countHistory[inventoryName],
@@ -90,12 +87,22 @@ function CountCigaretteScreen({
 		editInventory(body);
 		setIsSaveModalOpen(false);
 	};
-	const submitNewCigarette = () => {};
+	const submitNewCigarette = (e: React.BaseSyntheticEvent) => {
+		e.preventDefault();
+
+		const body = {
+			inventoryName: e.target.newCigarette.value,
+		};
+		addCigarette(body);
+		setIsAddModalOpen(false);
+	};
 	return (
 		<>
-			<header className="w-full h-[5.6rem]">헤더 자리</header>
-			<div className="space-y-[2.4rem]  h-[calc(100vh-5.6rem)] text-[#66666E] relative overflow-hidden">
+			<header className="w-full h-[5.6rem]">
+				헤더 자리
 				<button onClick={() => setIsAddModalOpen(true)}>항목추가</button>
+			</header>
+			<div className="space-y-[2.4rem]  h-[calc(100vh-5.6rem)] text-[#66666E] relative overflow-hidden">
 				<div className="space-y-[1.2rem]">
 					<input
 						value={searchTerm}
@@ -119,7 +126,8 @@ function CountCigaretteScreen({
 						))}
 					</ul>
 				</div>
-				<ul className="text-subhead-long2 fill-linear-gradient space-y-[3.2rem] h-full overflow-y-scroll scrollbar-hidden">
+				{/* TODO: 임시로 리스트 padding-bottom값 넣어둠 수정 필요 */}
+				<ul className="text-subhead-long2 fill-linear-gradient space-y-[3.2rem] h-full pb-[30rem] overflow-y-scroll  scrollbar-hidden">
 					{(searchCho === '전체'
 						? cigaretteList
 						: cigaretteList.filter((cigarette) => getInitialSound(cigarette.inventoryName) === searchCho)
@@ -184,10 +192,10 @@ function CountCigaretteScreen({
 						className=" pb-[2rem] pt-[8.8rem]  bg-white aria-hidden:hidden  w-full  left-0 bottom-0   z-50 fixed"
 						aria-hidden={!isAddModalOpen}
 					>
-						<form onSubmit={onNewCigaretteSubmit} className="flex flex-col">
+						<form onSubmit={submitNewCigarette} className="flex flex-col">
 							<label htmlFor="newCigarette">항목추가</label>
 							<input id="newCigarette" name="newCigarette" type="text" />
-							<button onClick={submitNewCigarette} className=" w-full py-[2rem] bg-blue-500">
+							<button type="submit" className=" w-full py-[2rem] bg-blue-500">
 								항목추가
 							</button>
 						</form>
