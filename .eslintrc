@@ -22,6 +22,7 @@
     "react-hooks/rules-of-hooks":"off",
     "react/no-array-index-key":"off",
     "dot-notation":"off",
+    "react/jsx-no-useless-fragment":"off",
     "jsx-a11y/label-has-associated-control": [
       2,
       {
@@ -29,5 +30,6 @@
       }
     ]
 
-  }
+  },
+ 
 }

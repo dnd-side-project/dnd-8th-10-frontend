@@ -14,3 +14,17 @@ input.checklist-checkbox:checked + label::after {
 input.checklist-checkbox + label::after {
     content: url('/images/checklist/uncheckedbox.svg');
 }
+
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+  
+.scrollbar-hidden {
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+}
+
+.fill-linear-gradient {
+   background:linear-gradient(rgba(255, 255, 255, 0),rgba(255, 255, 255,70.31%))
+}

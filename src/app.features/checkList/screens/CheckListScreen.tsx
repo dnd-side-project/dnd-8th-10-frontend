@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PostCheckListBody, PutCheckListBody } from 'src/app.modules/api/checklist';
 import { MutateTpye } from 'src/app.modules/api/client';
-import SettingIcon from 'src/app.modules/assets/ellipsis.svg';
+import SettingIcon from 'src/app.modules/assets/checklist/ellipsis.svg';
 
 const getKoreaToday = () => {
 	const DATE = new Date(); // 현재 날짜(로컬 기준) 가져오기

@@ -7,13 +7,13 @@ function CountScreen() {
 		<div>
 			<ul>
 				<li>
-					<Link href={SERVICE_URL.countCigarette}>담배</Link>
+					<Link href={SERVICE_URL.inventoryCigarette}>담배</Link>
 				</li>
 				<li>
-					<Link href={SERVICE_URL.countBag}>쓰레기 봉투</Link>
+					<Link href={SERVICE_URL.inventoryBag}>쓰레기 봉투</Link>
 				</li>
 				<li>
-					<Link href={SERVICE_URL.countCard}>문화 상품권</Link>
+					<Link href={SERVICE_URL.inventoryCard}>문화 상품권</Link>
 				</li>
 			</ul>
 		</div>
