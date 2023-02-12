@@ -3,7 +3,7 @@ import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';
 
 function WorkerScreen() {
-	//직원 급여 페이지
+	// 직원 급여 페이지
 	const { year, month } = useStore();
 	return (
 		<div className="text-[1.5rem]">

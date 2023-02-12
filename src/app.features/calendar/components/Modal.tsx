@@ -15,20 +15,20 @@ interface Props {
 function Modal({ WorkMutate }: Props) {
 	const { toDay, workDay, modalIsClose, isDayReset } = useStore();
 	const [workTime, setWorkTime] = useState<string>('');
-	const { isDay } = useStore();
+	const { ClickDay } = useStore();
 	const router = useRouter();
 	const {
 		user: { startTime, endTime },
 		setTime,
 	} = useTimeSetStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
-	const [year, month, day] = isDay.split('.');
+	const [year, month, day] = ClickDay.split('.');
 	const [userName, setUserName] = useState([]);
 
 	useEffect(() => {
 		setOpenModalFlag(null);
 		return () => setUserName([]);
-	}, [isDay]);
+	}, [ClickDay]);
 
 	const timeHandler = (e: React.BaseSyntheticEvent) => {
 		const { name, value } = e.target;
@@ -47,8 +47,8 @@ function Modal({ WorkMutate }: Props) {
 	};
 
 	// 오늘 누른 경우
-	if (!workDay && isDay === toDay) {
-		const data = getToDay(getDayOfWeek(isDay));
+	if (!workDay && ClickDay === toDay) {
+		const data = getToDay(getDayOfWeek(ClickDay));
 		data.then((res) => {
 			// 여러번 요청감
 			if (res.data === '') {
@@ -60,7 +60,7 @@ function Modal({ WorkMutate }: Props) {
 	}
 
 	// 과거 누른 경우 & 출근한 날 누른 경우
-	if (workDay && new Date(isDay) <= new Date(toDay) && userName.length === 0) {
+	if (workDay && new Date(ClickDay) <= new Date(toDay) && userName.length === 0) {
 		const data = getWorkList({ year, month, day });
 		data.then((res) => {
 			setUserName(res.data.data);
@@ -74,7 +74,7 @@ function Modal({ WorkMutate }: Props) {
 
 	const renderContent = () => {
 		// 금일 클릭시
-		if (!workDay && isDay === toDay) {
+		if (!workDay && ClickDay === toDay) {
 			// 출근하기
 			return (
 				<div className="px-[2rem] py-[4rem] text-[2rem]">
@@ -119,13 +119,13 @@ function Modal({ WorkMutate }: Props) {
 			);
 		}
 
-		if (!workDay || new Date(isDay) > new Date(toDay)) {
+		if (!workDay || new Date(ClickDay) > new Date(toDay)) {
 			// 근무 안된 날짜 클릭시, 미래 클릭시
 			return (
 				<div className="px-[2rem] py-[4rem] text-[2rem]">
 					<div className="flex justify-between">
-						<div>{isDay}</div>
-						<div>{new Date(isDay) < new Date(toDay) && <button onClick={() => workModify()}>출근수정</button>}</div>
+						<div>{ClickDay}</div>
+						<div>{new Date(ClickDay) < new Date(toDay) && <button onClick={() => workModify()}>출근수정</button>}</div>
 					</div>
 					<div>아직 기록이 없어요.</div>
 				</div>
@@ -135,7 +135,7 @@ function Modal({ WorkMutate }: Props) {
 		return (
 			<div className="px-[2rem] py-[4rem] text-[2rem]">
 				<div className="flex justify-between">
-					<div>{isDay}</div>
+					<div>{ClickDay}</div>
 					<button onClick={() => workModify()}>출근수정</button>
 				</div>
 				<div>

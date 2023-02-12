@@ -3,7 +3,7 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useStore from '../store';
 
 function ManagerScreen() {
-	//점장 급여 페이지
+	// 점장 급여 페이지
 	const { year, month } = useStore();
 	const router = useRouter();
 	return (
@@ -16,34 +16,37 @@ function ManagerScreen() {
 			<div>
 				<div className="mb-[4rem]">
 					<div>매니저</div>
-					<div
-						onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${99}`)}
-						className="flex justify-between items-center bg-[#F8F8FA] p-[2rem] my-[1rem] rounded-xl"
-					>
+					<div className="flex justify-between items-center bg-[#F8F8FA] p-[2rem] my-[1rem] rounded-xl">
 						<div className="flex">
 							<div>
 								<div>최영진</div>
 								<div>1.1~1.31</div>
 							</div>
 						</div>
-						<div>1,067,000원 {'>'}</div>
+						<div>
+							1,067,000원{' '}
+							<button type="button" onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${99}`)}>
+								{'>'}
+							</button>
+						</div>
 					</div>
 				</div>
 				<div>
 					<div>알바생</div>
 					{[...new Array(4)].map((_data, index) => (
-						<div
-							onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${index}`)}
-							key={index}
-							className="flex justify-between items-center bg-[#F8F8FA] p-[2rem] my-[1rem] rounded-xl"
-						>
+						<div key={index} className="flex justify-between items-center bg-[#F8F8FA] p-[2rem] my-[1rem] rounded-xl">
 							<div className="flex">
 								<div>
 									<div>최영진</div>
 									<div>1.1~1.31</div>
 								</div>
 							</div>
-							<div>1,067,000원 {'>'}</div>
+							<div>
+								1,067,000원{' '}
+								<button type="button" onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${index}`)}>
+									{'>'}
+								</button>
+							</div>
 						</div>
 					))}
 				</div>

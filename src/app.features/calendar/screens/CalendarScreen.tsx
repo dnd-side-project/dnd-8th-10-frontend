@@ -3,13 +3,13 @@ import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import { useRouter } from 'next/router';
 import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
 import Modal from '../components/Modal';
 import useStore from '../store';
 import { getGray, postWork } from '../api';
-import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
-import { useRouter } from 'next/router';
 
 function CalendarScreen() {
 	// // 더미 스케쥴
@@ -116,8 +116,9 @@ function CalendarScreen() {
 								<span className="text-[2rem] font-bold mr-[0.5rem]">{`${year + fakeYear}.${monthView + 1}`}</span>
 								<div>버튼</div>
 							</div>
-							{/* calendarSalary */}
-							<div onClick={() => salary()}>급여</div>
+							<button type="button" onClick={() => salary()}>
+								급여
+							</button>
 						</div>
 						<div>
 							<div>
