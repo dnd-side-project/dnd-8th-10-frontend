@@ -4,7 +4,7 @@ import { Router, useRouter } from 'next/router';
 
 interface Props {
 	title: string;
-	children: React.ReactNode;
+	children?: React.ReactNode;
 }
 function Header({ title, children }: Props) {
 	const router = useRouter();

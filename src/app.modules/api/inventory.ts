@@ -2,7 +2,13 @@ import client from './client';
 
 type Category = 'CIGARETTE' | 'GIFTCARD' | 'GARBAGEBAG';
 // 시재 조회
-export const getCigaretteInventory = async (category: Category) => {
+export interface IInventoryList {
+	inventoryIdx: number;
+	inventoryName: string;
+	category: string;
+	inventoryCount: number;
+}
+export const getInventory = async (category: Category) => {
 	const res = await client.get(`/api/inventory?category=${category}`);
 	return res;
 };
