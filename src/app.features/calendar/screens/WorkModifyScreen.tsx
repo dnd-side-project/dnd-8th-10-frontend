@@ -3,13 +3,13 @@ import { useRouter } from 'next/router';
 import SetTimeButtons from 'src/app.components/SetTimeButtons';
 import { useMutation } from '@tanstack/react-query';
 import useTimeSetStore from '../store/time';
-import { delWorkModify, putWorkModify } from '../api';
+import { delWorkModify, postWork, putWorkModify } from '../api';
 import useStore from '../store';
 
 type Flag = 'startTime' | 'endTime' | null;
 function WorkModifyScreen() {
 	const [workTime, setWorkTime] = useState<string | undefined>('');
-	const { isDay, isDayReset } = useStore();
+	const { isDay, toDay, workDay, isDayReset } = useStore();
 	const [year, month, day] = isDay.split('.');
 	const router = useRouter();
 	const {
@@ -40,6 +40,15 @@ function WorkModifyScreen() {
 		}
 	};
 
+	// 출근하기
+	const { mutate: WorkMutate } = useMutation(postWork, {
+		onSuccess: (res) => {
+			console.log(res);
+			router.back();
+		},
+		onError: (error) => alert('오류 발생.'),
+	});
+
 	// 수정하기
 	const { mutate } = useMutation(putWorkModify, {
 		onSuccess: (res) => {
@@ -56,7 +65,13 @@ function WorkModifyScreen() {
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
 		const timeDiff = Math.abs((startSplit - endSplit) / 60);
-		mutate({ year, month, day, workTime: wrkTimeData, workHour: timeDiff });
+		if (!workDay && new Date(isDay) < new Date(toDay)) {
+			// 출근하기
+			WorkMutate({ year, month, day, workTime: wrkTimeData, workHour: timeDiff });
+		} else {
+			mutate({ year, month, day, workTime: wrkTimeData, workHour: timeDiff });
+		}
+
 		isDayReset();
 	};
 
@@ -90,9 +105,13 @@ function WorkModifyScreen() {
 					{endTime.hour}시 {endTime.minute}분 {endTime.meridiem}
 				</button>
 			</div>
-			<div>
-				<SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} />
-			</div>
+			{openModalFlag !== null && (
+				// 클릭한 날이 일하는 날이면 시간 받아온거 뿌리기
+				// 클릭한 날이 일하는 날이 아니면 00시 00분
+				<div>
+					<SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} />
+				</div>
+			)}
 			<div className="mt-5 mb-7">
 				<button
 					type="button"

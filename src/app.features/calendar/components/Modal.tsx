@@ -151,7 +151,7 @@ function Modal({ WorkMutate }: Props) {
 	};
 
 	return (
-		<div className="z-10  bg-[#F8F8F8] w-screen  absolute bottom-0 flex-col items-center justify-center">
+		<div className="z-10 w-[46rem] bg-[#F8F8F8] absolute bottom-0 flex-col items-center justify-center">
 			<div className="flex justify-center mt-3">
 				<button type="button" onClick={() => modalIsClose()} className="w-[55px] h-[4px] bg-[#D9D9D9] rounded-lg">
 					{' '}
