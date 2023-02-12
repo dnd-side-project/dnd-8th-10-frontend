@@ -9,4 +9,5 @@ export const SERVICE_URL = {
 	calendar: '/calendar',
 	calendarModify: '/calendar/work-modify',
 	calendarSalary: '/calendar/salary',
+	calendarSalaryDetail: '/calendar/salary-detail',
 };

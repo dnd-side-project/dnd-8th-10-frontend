@@ -1,4 +1,5 @@
 import SalaryDetail from '../components/SalaryDetail';
+import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';
 
 function WorkerScreen() {
@@ -10,10 +11,7 @@ function WorkerScreen() {
 				<div className="p-[0.5rem]">
 					{year} {month + 1}월
 				</div>
-				<div className="flex justify-between p-[2rem] m-[2rem] bg-[#5377b1] rounded-lg">
-					<span>이번달 급여</span>
-					<span>800,000원</span>
-				</div>
+				<TotalSalary />
 			</div>
 			<div>
 				<SalaryDetail />
