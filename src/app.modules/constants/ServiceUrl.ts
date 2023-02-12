@@ -8,4 +8,5 @@ export const SERVICE_URL = {
 	countBag: '/count/standard-plastic-bag',
 	calendar: '/calendar',
 	calendarModify: '/calendar/work-modify',
+	calendarSalary: '/calendar/salary',
 };

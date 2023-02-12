@@ -126,7 +126,7 @@ function Modal({ WorkMutate }: Props) {
 				<div className="px-[2rem] py-[4rem] text-[2rem]">
 					<div className="flex justify-between">
 						<div>{isDay}</div>
-						<div>{new Date(isDay) < new Date(toDay) && '출근수정'}</div>
+						<div>{new Date(isDay) < new Date(toDay) && <button onClick={() => workModify()}>출근수정</button>}</div>
 					</div>
 					<div>아직 기록이 없어요.</div>
 				</div>

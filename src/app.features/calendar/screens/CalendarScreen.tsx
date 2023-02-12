@@ -8,6 +8,8 @@ import { WEEK } from '../constants';
 import Modal from '../components/Modal';
 import useStore from '../store';
 import { getGray, postWork } from '../api';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import { useRouter } from 'next/router';
 
 function CalendarScreen() {
 	// // 더미 스케쥴
@@ -16,6 +18,8 @@ function CalendarScreen() {
 	const today = new Date();
 	const [fakeYear, setFakeYear] = useState<number>(0);
 	const [calendar, setCalendar] = useState({ year: today.getFullYear(), month: today.getMonth() });
+
+	const router = useRouter();
 	// 년도, 달, 일정
 	const { year, month } = calendar;
 
@@ -76,6 +80,7 @@ function CalendarScreen() {
 		},
 		onError: (error) => alert('오류 발생.'),
 	});
+
 	const { data, refetch: getGrayRefetch } = useQuery(
 		['gray'],
 		() =>
@@ -96,6 +101,10 @@ function CalendarScreen() {
 	useEffect(() => {
 		getGrayRefetch();
 	}, [month, getGrayRefetch, WorkData]);
+
+	const salary = () => {
+		router.push(`${SERVICE_URL.calendarSalary}`);
+	};
 	return (
 		<div>
 			<Swiper
@@ -120,7 +129,8 @@ function CalendarScreen() {
 								<span className="text-[2rem] font-bold mr-[0.5rem]">{`${year + fakeYear}.${monthView + 1}`}</span>
 								<div>버튼</div>
 							</div>
-							<div>아이콘</div>
+							{/* calendarSalary */}
+							<div onClick={() => salary()}>급여</div>
 						</div>
 						<div>
 							<div>
