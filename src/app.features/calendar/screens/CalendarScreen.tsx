@@ -14,14 +14,12 @@ import { useRouter } from 'next/router';
 function CalendarScreen() {
 	// // 더미 스케쥴
 	const [schedule, setSchedule] = useState<number[]>([]);
-	const { isOpen } = useStore();
-	const today = new Date();
+	const { isOpen, year, month, setCalendar } = useStore();
+
 	const [fakeYear, setFakeYear] = useState<number>(0);
-	const [calendar, setCalendar] = useState({ year: today.getFullYear(), month: today.getMonth() });
 
 	const router = useRouter();
 	// 년도, 달, 일정
-	const { year, month } = calendar;
 
 	// 해당 달의 첫날과 마지막날
 	const firstDay = Number(new Date(year, month, 1).getDay());
@@ -29,29 +27,18 @@ function CalendarScreen() {
 
 	const onChangeMonth = (swiper: SwiperCore) => {
 		// month와 monthView(스와이프) 동기화
-		setCalendar((prev) => ({
-			...prev,
-			month: swiper.realIndex,
-		}));
+		setCalendar(year, swiper.realIndex);
 
 		// 다음 슬라이드
 		if (swiper.swipeDirection === 'next') {
 			if (month === 11) {
-				setCalendar((prev) => ({
-					...prev,
-					month: 0,
-					year: year + 1,
-				}));
+				setCalendar(0, year + 1);
 			}
 		}
 		// 이전 슬라이드
 		if (swiper.swipeDirection === 'prev') {
 			if (month === 0) {
-				setCalendar((prev) => ({
-					...prev,
-					month: 11,
-					year: year - 1,
-				}));
+				setCalendar(11, year - 1);
 			}
 		}
 	};

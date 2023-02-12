@@ -9,7 +9,7 @@ interface Props {
 
 const isAdmin = (): boolean => {
 	// 점장 유효성 검사
-	return false;
+	return true;
 };
 
 const Admin: React.FC<Props> = ({ children }) => {
