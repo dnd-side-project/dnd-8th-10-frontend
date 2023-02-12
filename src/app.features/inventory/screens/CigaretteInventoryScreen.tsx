@@ -3,6 +3,7 @@ import { MutateTpye } from 'src/app.modules/api/client';
 import { PostCigaretteBody, PutInventoryBody } from 'src/app.modules/api/inventory';
 import PlusIcon from 'src/app.modules/assets/checklist/addCircle.svg';
 import MinusIcon from 'src/app.modules/assets/checklist/minusCircle.svg';
+import InputCancleIcon from 'src/app.modules/assets/inputCancel.svg';
 
 const getInitialSound = (str: string) => {
 	const CHO_LIST = [
@@ -96,6 +97,9 @@ function CountCigaretteScreen({
 		addCigarette(body);
 		setIsAddModalOpen(false);
 	};
+	const clearSearchTerm = () => {
+		setSearchTerm('');
+	};
 	return (
 		<>
 			<header className="w-full h-[5.6rem]">
@@ -104,13 +108,23 @@ function CountCigaretteScreen({
 			</header>
 			<div className="space-y-[2.4rem]  h-[calc(100vh-5.6rem)] text-[#66666E] relative overflow-hidden">
 				<div className="space-y-[1.2rem]">
-					<input
-						value={searchTerm}
-						onChange={searchTermHandler}
-						placeholder="검색어를 입력해주세요."
-						type="search"
-						className="w-full h-[4.8rem] rounded-[0.8rem] bg-[#F8F8FA] pl-[4.4rem] text-body2 text-[#9E9EA9] pr-[1.2rem] py-[1.4rem]"
-					/>
+					<form className="relative">
+						<input
+							value={searchTerm}
+							onChange={searchTermHandler}
+							placeholder="검색어를 입력해주세요."
+							type="search"
+							className="w-full h-[4.8rem] rounded-[0.8rem] bg-[#F8F8FA] pl-[4.4rem] text-body2 text-[#9E9EA9] pr-[1.2rem] py-[1.4rem] outline-none"
+						/>
+						<button
+							onClick={clearSearchTerm}
+							type="reset"
+							name="clear"
+							className="absolute right-[1.6rem] top-1/2 -translate-y-1/2"
+						>
+							<InputCancleIcon />
+						</button>
+					</form>
 					<ul className="flex flex-wrap gap-x-[0.4rem] gap-y-[0.8rem] text-subhead2 ">
 						{CHO_BUTTONS.map((cho, index) => (
 							<li key={index}>
