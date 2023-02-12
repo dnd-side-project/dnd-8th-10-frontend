@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import SetTimeButtons from 'src/app.components/SetTimeButtons';
 import { MutateTpye } from 'src/app.modules/api/client';
@@ -6,28 +7,29 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import { getToDay, getWorkList, MutateBody } from '../api';
 import useStore from '../store';
-import useRegisterUserStore from '../store/time';
+import useTimeSetStore from '../store/time';
 
 type Flag = 'startTime' | 'endTime' | null;
 interface Props {
 	WorkMutate: MutateTpye<MutateBody>;
 }
 function Modal({ WorkMutate }: Props) {
-	const { toDay, workDay, modalIsClose } = useStore();
+	const { toDay, workDay, modalIsClose, isDayReset } = useStore();
 	const [workTime, setWorkTime] = useState<string>('');
 	const { isDay } = useStore();
+	const router = useRouter();
 	const {
 		user: { startTime, endTime },
 		setTime,
-	} = useRegisterUserStore();
+	} = useTimeSetStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const [year, month, day] = isDay.split('.');
 	const [userName, setUserName] = useState([]);
 
 	useEffect(() => {
 		setOpenModalFlag(null);
-		return () => modalIsClose();
-	}, [isDay, modalIsClose]);
+		return () => setUserName([]);
+	}, [isDay]);
 
 	const timeHandler = (e: React.BaseSyntheticEvent) => {
 		const { name, value } = e.target;
@@ -41,6 +43,7 @@ function Modal({ WorkMutate }: Props) {
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
 		const timeDiff = (startSplit - endSplit) / 60;
 		WorkMutate({ year, month, day, workTime, workHour: timeDiff });
+		isDayReset();
 		modalIsClose();
 	};
 
@@ -58,12 +61,17 @@ function Modal({ WorkMutate }: Props) {
 	}
 
 	// 과거 누른 경우 & 출근한 날 누른 경우
-	if (workDay && new Date(isDay) >= new Date(toDay) && userName.length === 0) {
+	if (workDay && new Date(isDay) <= new Date(toDay) && userName.length === 0) {
 		const data = getWorkList({ year, month, day });
 		data.then((res) => {
 			setUserName(res.data.data);
 		});
 	}
+
+	const workModify = () => {
+		modalIsClose();
+		router.push(`${SERVICE_URL.calendarModify}`);
+	};
 
 	const renderContent = () => {
 		// 금일 클릭시
@@ -129,9 +137,7 @@ function Modal({ WorkMutate }: Props) {
 			<div className="px-[2rem] py-[4rem] text-[2rem]">
 				<div className="flex justify-between">
 					<div>{isDay}</div>
-					<Link href={`${SERVICE_URL.calendarModify}`}>
-						<div>출근수정</div>
-					</Link>
+					<button onClick={() => workModify()}>출근수정</button>
 				</div>
 				<div>
 					{userName.map((item: { name: string; workTime: string }, index) => (

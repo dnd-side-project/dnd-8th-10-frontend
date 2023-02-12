@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import SetTimeButtons from 'src/app.components/SetTimeButtons';
 import { useMutation } from '@tanstack/react-query';
-import useRegisterUserStore from '../store/time';
+import useTimeSetStore from '../store/time';
 import { delWorkModify, putWorkModify } from '../api';
 import useStore from '../store';
 
 type Flag = 'startTime' | 'endTime' | null;
 function WorkModifyScreen() {
 	const [workTime, setWorkTime] = useState<string | undefined>('');
-	const { isDay } = useStore();
+	const { isDay, isDayReset } = useStore();
 	const [year, month, day] = isDay.split('.');
 	const router = useRouter();
 	const {
 		user: { startTime, endTime },
 		setTime,
-	} = useRegisterUserStore();
+	} = useTimeSetStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const timeHandler = (e: React.BaseSyntheticEvent) => {
 		const {
@@ -51,20 +51,20 @@ function WorkModifyScreen() {
 
 	// 수정 버튼
 	const modifyBtn = () => {
-		setWorkTime(getWorkTimeString());
-		if (workTime) {
-			const [start, end] = workTime.split('~');
-			const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
-			const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
-			const timeDiff = (startSplit - endSplit) / 60;
-			mutate({ year, month, day, workTime, workHour: timeDiff });
-		}
+		const wrkTimeData = getWorkTimeString();
+		const [start, end] = wrkTimeData.split('~');
+		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
+		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
+		const timeDiff = Math.abs((startSplit - endSplit) / 60);
+		mutate({ year, month, day, workTime: wrkTimeData, workHour: timeDiff });
+		isDayReset();
 	};
 
 	// 삭제 버튼
 	const delBtn = () => {
 		const data = delWorkModify({ year, month, day });
 		data.then((res) => {
+			isDayReset();
 			router.back();
 		});
 	};
