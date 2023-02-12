@@ -6,7 +6,7 @@ interface Props {
 }
 
 function Layout({ children }: Props) {
-	return <main className="max-w-[50rem] mx-auto px-[2rem] ">{children}</main>;
+	return <body className="max-w-[50rem] mx-auto px-[2rem] ">{children}</body>;
 }
 
 export default Layout;

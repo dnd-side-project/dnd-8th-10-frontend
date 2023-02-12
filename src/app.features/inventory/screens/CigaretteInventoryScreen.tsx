@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Header from 'src/app.components/Header';
 import SearchInput from 'src/app.components/Input/SearchInput';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { PostCigaretteBody, PutInventoryBody } from 'src/app.modules/api/inventory';
@@ -103,11 +104,16 @@ function CountCigaretteScreen({
 
 	return (
 		<>
-			<header className="w-full h-[5.6rem]">
-				헤더 자리
-				<button onClick={() => setIsAddModalOpen(true)}>항목추가</button>
-			</header>
-			<div className="space-y-[2.4rem]  h-[calc(100vh-5.6rem)] text-[#66666E] relative overflow-hidden">
+			<Header title="담배">
+				<button
+					onClick={() => setIsAddModalOpen(true)}
+					className="absolute right-0  border-[0.15rem] rounded-[0.8rem] border-g42 font-medium text-[1.4rem] leading-[1.96rem] text-[#66666E] w-[6.2rem] h-[2.8rem]"
+				>
+					항목추가
+				</button>
+			</Header>
+
+			<main className="space-y-[2.4rem]  h-[calc(100vh-5.6rem)] text-[#66666E] relative overflow-hidden">
 				<div className="space-y-[1.2rem]">
 					<SearchInput
 						searchTerm={searchTerm}
@@ -204,7 +210,7 @@ function CountCigaretteScreen({
 						</form>
 					</div>
 				)}
-			</div>
+			</main>
 		</>
 	);
 }
