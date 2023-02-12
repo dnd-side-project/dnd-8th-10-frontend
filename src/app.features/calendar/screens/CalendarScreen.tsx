@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { getDayOfWeek, transIdx } from 'src/app.modules/util/calendar';
 import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -8,7 +7,7 @@ import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
 import Modal from '../components/Modal';
 import useStore from '../store';
-import { getGray, getToDay, getWorkList, postWork } from '../api';
+import { getGray, postWork } from '../api';
 
 function CalendarScreen() {
 	// // 더미 스케쥴

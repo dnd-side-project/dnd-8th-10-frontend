@@ -32,7 +32,7 @@ const initUser: IUser = {
 		minute: '0',
 	},
 };
-const useRegisterUserStore = create<UserState>((set) => ({
+const useTimeSetStore = create<UserState>((set) => ({
 	user: initUser,
 	initUser: () => set(() => ({ user: initUser })),
 	setStoreName: (storeName: string) => set((prev) => ({ user: { ...prev.user, storeName } })),
@@ -40,4 +40,4 @@ const useRegisterUserStore = create<UserState>((set) => ({
 		set((prev) => ({ user: { ...prev.user, [flag]: { ...prev.user[flag], [name]: value } } })),
 }));
 
-export default useRegisterUserStore;
+export default useTimeSetStore;
