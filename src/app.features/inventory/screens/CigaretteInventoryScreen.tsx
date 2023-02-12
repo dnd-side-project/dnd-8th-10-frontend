@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { MutateTpye } from 'src/app.modules/api/client';
+import { PostCigaretteBody, PutInventoryBody } from 'src/app.modules/api/inventory';
 import PlusIcon from 'src/app.modules/assets/checklist/addCircle.svg';
 import MinusIcon from 'src/app.modules/assets/checklist/minusCircle.svg';
 import { MOCK_CIGARETTE_LIST, MOCK_CIGARETTE_NAME_LIST } from '../mockData/cigarretList';
@@ -44,8 +46,18 @@ interface ICigaretteList {
 }
 interface Props {
 	cigaretteList: ICigaretteList[];
+	addCigarette: MutateTpye<PostCigaretteBody>;
+	addCigaretteLoading: boolean;
+	editInventory: MutateTpye<PutInventoryBody>;
+	editInventoryLoading: boolean;
 }
-function CountCigaretteScreen({ cigaretteList }: Props) {
+function CountCigaretteScreen({
+	cigaretteList,
+	addCigarette,
+	addCigaretteLoading,
+	editInventory,
+	editInventoryLoading,
+}: Props) {
 	const CHO_BUTTONS = ['전체', 'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [searchCho, setSearchCho] = useState<ChoType>('전체');
@@ -69,7 +81,16 @@ function CountCigaretteScreen({ cigaretteList }: Props) {
 		e.preventDefault();
 		console.log(e.target.newCigarette.value);
 	};
-
+	const submitInventoryRecord = () => {
+		const list = Object.keys(countHistory).map((inventoryName) => ({
+			inventoryName,
+			diff: countHistory[inventoryName],
+		}));
+		const body = { category: 'cigarette', list };
+		editInventory(body);
+		setIsSaveModalOpen(false);
+	};
+	const submitNewCigarette = () => {};
 	return (
 		<>
 			<header className="w-full h-[5.6rem]">헤더 자리</header>
@@ -134,14 +155,17 @@ function CountCigaretteScreen({ cigaretteList }: Props) {
 				</ul>
 				<div
 					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient   z-50 aria-hidden:hidden"
-					aria-hidden={isSaveModalOpen}
+					aria-hidden={isSaveModalOpen || isAddModalOpen}
 				>
 					<button onClick={() => setIsSaveModalOpen(true)} className=" w-full py-[2rem] bg-blue-500">
 						점검사항 확인
 					</button>
 				</div>
 				{isSaveModalOpen && (
-					<div className=" pb-[2rem] pt-[8.8rem]  bg-white aria-hidden:hidden  w-full  left-0 bottom-0   z-50 fixed">
+					<div
+						className=" pb-[2rem] pt-[8.8rem]  bg-white aria-hidden:hidden  w-full  left-0 bottom-0   z-50 fixed"
+						aria-hidden={!isSaveModalOpen}
+					>
 						<ul className="flex flex-col gap-[8px]">
 							{Object.entries(countHistory).map((history, index) => (
 								<li key={index} className="flex justify-between">
@@ -150,18 +174,21 @@ function CountCigaretteScreen({ cigaretteList }: Props) {
 								</li>
 							))}
 						</ul>
-						<button onClick={() => setIsSaveModalOpen(false)} className=" w-full py-[2rem] bg-blue-500">
+						<button onClick={submitInventoryRecord} className=" w-full py-[2rem] bg-blue-500">
 							점검사항 저장
 						</button>
 					</div>
 				)}
 				{isAddModalOpen && (
-					<div className="bg-blue-300 w-full ">
+					<div
+						className=" pb-[2rem] pt-[8.8rem]  bg-white aria-hidden:hidden  w-full  left-0 bottom-0   z-50 fixed"
+						aria-hidden={!isAddModalOpen}
+					>
 						<form onSubmit={onNewCigaretteSubmit} className="flex flex-col">
 							<label htmlFor="newCigarette">항목추가</label>
 							<input id="newCigarette" name="newCigarette" type="text" />
-							<button type="submit" onClick={() => setIsSaveModalOpen(false)}>
-								항목 추가
+							<button onClick={submitNewCigarette} className=" w-full py-[2rem] bg-blue-500">
+								항목추가
 							</button>
 						</form>
 					</div>
