@@ -13,8 +13,11 @@ function SearchInput({
 	resetSearchTerm,
 	placeholder = '검색어를 입력해주세요.',
 }: Props) {
+	const onSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+	};
 	return (
-		<form className="relative">
+		<form onSubmit={onSubmit} className="relative">
 			<input
 				value={searchTerm}
 				onChange={onSearchTermChange}
