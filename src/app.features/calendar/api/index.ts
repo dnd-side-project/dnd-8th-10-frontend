@@ -16,6 +16,11 @@ export interface MutateBody {
 	workTime: string;
 	workHour: number;
 }
+export interface SalaryBody {
+	year: string;
+	month: string;
+	userCode?: number;
+}
 
 // 이 달의 출근 일 (캘린더 회색 표시)
 export const getGray = async (body: GrayBody) => {
@@ -50,5 +55,23 @@ export const getWorkList = async (body: DayBody) => {
 // 오늘 날짜를 누른 경우
 export const getToDay = async (week: string) => {
 	const res = await client.get('api/calendar/week', { params: { week } });
+	return res;
+};
+
+// 직원이 급여 정보 요청
+export const getSalary = async (body: SalaryBody) => {
+	const res = await client.get('api/calendar/salary/worker', { params: { ...body } });
+	return res;
+};
+
+// 점장이 유저 리스트 정보 요청
+export const getSalaryList = async (body: SalaryBody) => {
+	const res = await client.get('api/calendar/salary/manager', { params: { ...body } });
+	return res;
+};
+
+// 점장이 유저 급여 상세 정보 요청
+export const getUserSalary = async (body: SalaryBody) => {
+	const res = await client.get('api/calendar/salary/manager/detail', { params: { ...body } });
 	return res;
 };
