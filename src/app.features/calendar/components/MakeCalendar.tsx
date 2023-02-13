@@ -1,11 +1,13 @@
 import React from 'react';
 import { transIdx } from 'src/app.modules/util/calendar';
+import CalendarButton from 'src/app.components/CalendarButton';
 import { IMakeCal } from '../types';
 import useStore from '../store';
 
 function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCal) {
-	const { isDay, toDay, modalIsOpen } = useStore();
+	const { toDay, clickDay, modalIsOpen } = useStore();
 	const days = [];
+
 	const makeDay = (week: number) => {
 		const result = [];
 		// 첫 주
@@ -29,52 +31,9 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 					// 첫주 날짜
 					const idx = transIdx(year, monthView, now);
 					const workDay = schedule.includes(now);
-					const data = [];
-					if (idx === toDay && workDay) {
-						data.push(
-							<span
-								key={idx}
-								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[3rem] h-[3rem] bg-[#E8E8E8] border-solid border-[0.2rem] border-[#5696FC] rounded-lg"
-							>
-								{now}
-							</span>
-						);
-					} else if (idx === toDay) {
-						data.push(
-							<span
-								key={idx}
-								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[3rem] h-[3rem] border-[0.2rem] border-solid border-[#5696FC] rounded-lg"
-							>
-								{now}
-							</span>
-						);
-					} else if (workDay) {
-						data.push(
-							<span
-								key={idx}
-								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white flex justify-center items-center w-[3rem] h-[3rem] bg-[#E8E8E8] rounded-lg"
-							>
-								{now}
-							</span>
-						);
-					} else {
-						data.push(
-							<span
-								key={idx}
-								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white  flex justify-center items-center w-[3rem] h-[3rem] rounded-lg"
-							>
-								{now}
-							</span>
-						);
-					}
-
 					result.push(
 						<button type="button" onClick={() => modalIsOpen(idx, workDay)} className="cursor-pointer" key={idx}>
-							{data}
+							<CalendarButton idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />
 						</button>
 					);
 				}
@@ -88,52 +47,10 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 					// 2주~4주차 날짜
 					const idx = transIdx(year, monthView, now);
 					const workDay = schedule.includes(now);
-					const data = [];
-					if (idx === toDay && workDay) {
-						data.push(
-							<span
-								key={idx}
-								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[3rem] h-[3rem] bg-[#E8E8E8] border-solid border-[0.2rem] border-[#5696FC] rounded-lg"
-							>
-								{now}
-							</span>
-						);
-					} else if (idx === toDay) {
-						data.push(
-							<span
-								key={idx}
-								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[3rem] h-[3rem] border-solid border-[0.2rem] border-[#5696FC] rounded-lg"
-							>
-								{now}
-							</span>
-						);
-					} else if (workDay) {
-						data.push(
-							<span
-								key={idx}
-								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white flex justify-center items-center w-[3rem] h-[3rem] bg-[#E8E8E8] rounded-lg"
-							>
-								{now}
-							</span>
-						);
-					} else {
-						data.push(
-							<span
-								key={idx}
-								aria-pressed={idx === isDay}
-								className="aria-pressed:bg-[#5696FC] aria-pressed:text-white  flex justify-center items-center w-[3rem] h-[3rem] rounded-lg"
-							>
-								{now}
-							</span>
-						);
-					}
 
 					result.push(
 						<button type="button" onClick={() => modalIsOpen(idx, workDay)} className="cursor-pointer" key={idx}>
-							{data}
+							<CalendarButton idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />
 						</button>
 					);
 				}

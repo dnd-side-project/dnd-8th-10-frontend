@@ -8,4 +8,6 @@ export const SERVICE_URL = {
 	inventoryBag: '/inventory/garbage-bag',
 	calendar: '/calendar',
 	calendarModify: '/calendar/work-modify',
+	calendarSalary: '/calendar/salary',
+	calendarSalaryDetail: '/calendar/salary-detail',
 };
