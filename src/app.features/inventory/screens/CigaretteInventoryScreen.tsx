@@ -5,7 +5,6 @@ import { MutateTpye } from 'src/app.modules/api/client';
 import { IInventoryList, PostCigaretteBody, PutInventoryBody } from 'src/app.modules/api/inventory';
 import InventoryList from '../components/InventoryList';
 import useCountHistory from '../hooks/useCountHistory';
-import { CountHistoryType } from '../types';
 
 const getInitialSound = (str: string) => {
 	const CHO_LIST = [

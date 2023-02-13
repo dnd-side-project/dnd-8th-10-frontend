@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import SetTimeButtons from 'src/app.components/SetTimeButtons';
+import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
 import { useMutation } from '@tanstack/react-query';
 import useTimeSetStore from '../store/time';
 import { delWorkModify, postWork, putWorkModify } from '../api';
