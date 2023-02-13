@@ -1,6 +1,6 @@
 import React from 'react';
 import { transIdx } from 'src/app.modules/util/calendar';
-import CalendarButton from 'src/app.components/CalendarButton';
+import CalendarButton from 'src/app.components/Button/CalendarButton';
 import { IMakeCal } from '../types';
 import useStore from '../store';
 
