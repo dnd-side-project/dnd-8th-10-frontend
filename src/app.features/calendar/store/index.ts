@@ -5,10 +5,10 @@ interface IStore {
 	year: number;
 	month: number;
 	isOpen: boolean;
-	ClickDay: string;
+	clickDay: string;
 	toDay: string;
 	workDay: boolean;
-	modalIsOpen: (ClickDay: string, workDay: boolean) => void;
+	modalIsOpen: (clickDay: string, workDay: boolean) => void;
 	modalIsClose: () => void;
 	isDayReset: () => void;
 	setCalendar: (year: number, month: number) => void;
@@ -18,12 +18,12 @@ const useStore = create<IStore>((set) => ({
 	year: today.getFullYear(),
 	month: today.getMonth(),
 	isOpen: false,
-	ClickDay: '',
+	clickDay: '',
 	toDay: transIdx(today.getFullYear(), today.getMonth(), today.getDate()),
 	workDay: false,
-	modalIsOpen: (ClickDay, workDay) => set(() => ({ isOpen: true, ClickDay, workDay })),
+	modalIsOpen: (clickDay, workDay) => set(() => ({ isOpen: true, clickDay, workDay })),
 	modalIsClose: () => set(() => ({ isOpen: false })),
-	isDayReset: () => set(() => ({ ClickDay: '' })),
+	isDayReset: () => set(() => ({ clickDay: '' })),
 	setCalendar: (year, month) => set(() => ({ year, month })),
 }));
 

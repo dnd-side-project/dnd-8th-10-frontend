@@ -9,8 +9,8 @@ import useStore from '../store';
 type Flag = 'startTime' | 'endTime' | null;
 function WorkModifyScreen() {
 	const [workTime, setWorkTime] = useState<string | undefined>('');
-	const { isDay, toDay, workDay, isDayReset } = useStore();
-	const [year, month, day] = isDay.split('.');
+	const { clickDay, toDay, workDay, isDayReset } = useStore();
+	const [year, month, day] = clickDay.split('.');
 	const router = useRouter();
 	const {
 		user: { startTime, endTime },
@@ -60,16 +60,16 @@ function WorkModifyScreen() {
 
 	// 수정 버튼
 	const modifyBtn = () => {
-		const wrkTimeData = getWorkTimeString();
-		const [start, end] = wrkTimeData.split('~');
+		const workTimeData = getWorkTimeString();
+		const [start, end] = workTimeData.split('~');
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
 		const timeDiff = Math.abs((startSplit - endSplit) / 60);
-		if (!workDay && new Date(isDay) < new Date(toDay)) {
+		if (!workDay && new Date(clickDay) < new Date(toDay)) {
 			// 출근하기
-			WorkMutate({ year, month, day, workTime: wrkTimeData, workHour: timeDiff });
+			WorkMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
 		} else {
-			mutate({ year, month, day, workTime: wrkTimeData, workHour: timeDiff });
+			mutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
 		}
 
 		isDayReset();

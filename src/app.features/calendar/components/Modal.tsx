@@ -15,52 +15,64 @@ interface Props {
 function Modal({ WorkMutate }: Props) {
 	const { toDay, workDay, modalIsClose, isDayReset } = useStore();
 	const [workTime, setWorkTime] = useState<string>('');
-	const { ClickDay } = useStore();
+	const { clickDay } = useStore();
 	const router = useRouter();
 	const {
 		user: { startTime, endTime },
 		setTime,
 	} = useTimeSetStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
-	const [year, month, day] = ClickDay.split('.');
+	const [year, month, day] = clickDay.split('.');
 	const [userName, setUserName] = useState([]);
 
 	useEffect(() => {
 		setOpenModalFlag(null);
 		return () => setUserName([]);
-	}, [ClickDay]);
+	}, [clickDay]);
 
 	const timeHandler = (e: React.BaseSyntheticEvent) => {
 		const { name, value } = e.target;
 		setTime(value, name, openModalFlag as 'startTime' | 'endTime');
 	};
-
+	const getWorkTimeString = () => {
+		try {
+			return `${startTime.hour.length === 1 && startTime.meridiem === 'am' ? '0' : ''}${
+				+startTime.hour + (startTime.meridiem === 'am' ? 0 : 12)
+			}:${startTime.minute.length === 1 ? '0' : ''}${startTime.minute}~${
+				endTime.hour.length === 1 && endTime.meridiem === 'am' ? '0' : ''
+			}${+endTime.hour + (endTime.meridiem === 'am' ? 0 : 12)}:${endTime.minute.length === 1 ? '0' : ''}${
+				endTime.minute
+			}`;
+		} catch (e) {
+			console.log(e);
+			return '';
+		}
+	};
 	// 출근하기 버튼
 	const commute = () => {
-		const [start, end] = workTime.split('~');
+		const workTimeData = workTime || getWorkTimeString();
+		const [start, end] = workTimeData.split('~');
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
-		const timeDiff = (startSplit - endSplit) / 60;
-		WorkMutate({ year, month, day, workTime, workHour: timeDiff });
+		const timeDiff = Math.abs((startSplit - endSplit) / 60);
+		WorkMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
 		isDayReset();
 		modalIsClose();
 	};
 
 	// 오늘 누른 경우
-	if (!workDay && ClickDay === toDay) {
-		const data = getToDay(getDayOfWeek(ClickDay));
+	if (!workDay && clickDay === toDay) {
+		const data = getToDay(getDayOfWeek(clickDay));
 		data.then((res) => {
 			// 여러번 요청감
-			if (res.data === '') {
-				setWorkTime('오전00:00~오후00:00');
-			} else {
+			if (res.data !== '') {
 				setWorkTime(res.data);
 			}
 		});
 	}
 
 	// 과거 누른 경우 & 출근한 날 누른 경우
-	if (workDay && new Date(ClickDay) <= new Date(toDay) && userName.length === 0) {
+	if (workDay && new Date(clickDay) <= new Date(toDay) && userName.length === 0) {
 		const data = getWorkList({ year, month, day });
 		data.then((res) => {
 			setUserName(res.data.data);
@@ -74,7 +86,7 @@ function Modal({ WorkMutate }: Props) {
 
 	const renderContent = () => {
 		// 금일 클릭시
-		if (!workDay && ClickDay === toDay) {
+		if (!workDay && clickDay === toDay) {
 			// 출근하기
 			return (
 				<div className="px-[2rem] py-[4rem] text-[2rem]">
@@ -119,13 +131,13 @@ function Modal({ WorkMutate }: Props) {
 			);
 		}
 
-		if (!workDay || new Date(ClickDay) > new Date(toDay)) {
+		if (!workDay || new Date(clickDay) > new Date(toDay)) {
 			// 근무 안된 날짜 클릭시, 미래 클릭시
 			return (
 				<div className="px-[2rem] py-[4rem] text-[2rem]">
 					<div className="flex justify-between">
-						<div>{ClickDay}</div>
-						<div>{new Date(ClickDay) < new Date(toDay) && <button onClick={() => workModify()}>출근수정</button>}</div>
+						<div>{clickDay}</div>
+						<div>{new Date(clickDay) < new Date(toDay) && <button onClick={() => workModify()}>출근수정</button>}</div>
 					</div>
 					<div>아직 기록이 없어요.</div>
 				</div>
@@ -135,7 +147,7 @@ function Modal({ WorkMutate }: Props) {
 		return (
 			<div className="px-[2rem] py-[4rem] text-[2rem]">
 				<div className="flex justify-between">
-					<div>{ClickDay}</div>
+					<div>{clickDay}</div>
 					<button onClick={() => workModify()}>출근수정</button>
 				</div>
 				<div>

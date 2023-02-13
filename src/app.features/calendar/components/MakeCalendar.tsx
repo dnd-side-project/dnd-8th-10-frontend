@@ -1,11 +1,11 @@
 import React from 'react';
 import { transIdx } from 'src/app.modules/util/calendar';
+import CalendarButton from 'src/app.components/CalendarButton';
 import { IMakeCal } from '../types';
 import useStore from '../store';
-import CalendarButton from 'src/app.components/CalendarButton';
 
 function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCal) {
-	const { toDay, ClickDay, modalIsOpen } = useStore();
+	const { toDay, clickDay, modalIsOpen } = useStore();
 	const days = [];
 
 	const makeDay = (week: number) => {
@@ -33,7 +33,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 					const workDay = schedule.includes(now);
 					result.push(
 						<button type="button" onClick={() => modalIsOpen(idx, workDay)} className="cursor-pointer" key={idx}>
-							<CalendarButton idx={idx} workDay={workDay} day={now} toDay={toDay} ClickDay={ClickDay} />
+							<CalendarButton idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />
 						</button>
 					);
 				}
@@ -50,7 +50,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 
 					result.push(
 						<button type="button" onClick={() => modalIsOpen(idx, workDay)} className="cursor-pointer" key={idx}>
-							<CalendarButton idx={idx} workDay={workDay} day={now} toDay={toDay} ClickDay={ClickDay} />
+							<CalendarButton idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />
 						</button>
 					);
 				}
