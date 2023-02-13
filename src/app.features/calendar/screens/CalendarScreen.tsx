@@ -3,6 +3,8 @@ import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import { useRouter } from 'next/router';
 import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
 import Modal from '../components/Modal';
@@ -12,12 +14,12 @@ import { getGray, postWork } from '../api';
 function CalendarScreen() {
 	// // 더미 스케쥴
 	const [schedule, setSchedule] = useState<number[]>([]);
-	const { isOpen } = useStore();
-	const today = new Date();
+	const { isOpen, year, month, setCalendar } = useStore();
+
 	const [fakeYear, setFakeYear] = useState<number>(0);
-	const [calendar, setCalendar] = useState({ year: today.getFullYear(), month: today.getMonth() });
+
+	const router = useRouter();
 	// 년도, 달, 일정
-	const { year, month } = calendar;
 
 	// 해당 달의 첫날과 마지막날
 	const firstDay = Number(new Date(year, month, 1).getDay());
@@ -25,29 +27,18 @@ function CalendarScreen() {
 
 	const onChangeMonth = (swiper: SwiperCore) => {
 		// month와 monthView(스와이프) 동기화
-		setCalendar((prev) => ({
-			...prev,
-			month: swiper.realIndex,
-		}));
+		setCalendar(year, swiper.realIndex);
 
 		// 다음 슬라이드
 		if (swiper.swipeDirection === 'next') {
 			if (month === 11) {
-				setCalendar((prev) => ({
-					...prev,
-					month: 0,
-					year: year + 1,
-				}));
+				setCalendar(0, year + 1);
 			}
 		}
 		// 이전 슬라이드
 		if (swiper.swipeDirection === 'prev') {
 			if (month === 0) {
-				setCalendar((prev) => ({
-					...prev,
-					month: 11,
-					year: year - 1,
-				}));
+				setCalendar(11, year - 1);
 			}
 		}
 	};
@@ -76,6 +67,7 @@ function CalendarScreen() {
 		},
 		onError: (error) => alert('오류 발생.'),
 	});
+
 	const { data, refetch: getGrayRefetch } = useQuery(
 		['gray'],
 		() =>
@@ -96,6 +88,10 @@ function CalendarScreen() {
 	useEffect(() => {
 		getGrayRefetch();
 	}, [month, getGrayRefetch, WorkData]);
+
+	const salary = () => {
+		router.push(`${SERVICE_URL.calendarSalary}`);
+	};
 	return (
 		<div>
 			<Swiper
@@ -120,7 +116,9 @@ function CalendarScreen() {
 								<span className="text-[2rem] font-bold mr-[0.5rem]">{`${year + fakeYear}.${monthView + 1}`}</span>
 								<div>버튼</div>
 							</div>
-							<div>아이콘</div>
+							<button type="button" onClick={() => salary()}>
+								급여
+							</button>
 						</div>
 						<div>
 							<div>
