@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import Header from 'src/app.components/Header';
+import SearchInput from 'src/app.components/Input/SearchInput';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { PostCigaretteBody, PutInventoryBody } from 'src/app.modules/api/inventory';
-import PlusIcon from 'src/app.modules/assets/checklist/addCircle.svg';
-import MinusIcon from 'src/app.modules/assets/checklist/minusCircle.svg';
-import InputCancleIcon from 'src/app.modules/assets/inputCancel.svg';
+import { IInventoryList, PostCigaretteBody, PutInventoryBody } from 'src/app.modules/api/inventory';
+import InventoryList from '../components/InventoryList';
+import useCountHistory from '../hooks/useCountHistory';
 
 const getInitialSound = (str: string) => {
 	const CHO_LIST = [
@@ -37,94 +38,77 @@ const getInitialSound = (str: string) => {
 // TODO: 타입 한 파일에 정리해 두기
 // TODO: 담배 추가할때 같은 이름 담배있는지 체크
 type ChoType = '전체' | 'ㄱ' | 'ㄴ' | 'ㄷ' | 'ㄹ' | 'ㅁ' | 'ㅂ' | 'ㅅ' | 'ㅇ' | 'ㅈ' | 'ㅊ' | 'ㅋ' | 'ㅌ' | 'ㅍ' | 'ㅎ';
-type CountHistoryType = { [name: string]: number };
-interface ICigaretteList {
-	inventoryIdx: number;
-	inventoryName: string;
-	category: string;
-	inventoryCount: number;
-}
+
 interface Props {
-	cigaretteList: ICigaretteList[];
+	inventoryList: IInventoryList[];
 	addCigarette: MutateTpye<PostCigaretteBody>;
 	addCigaretteLoading: boolean;
 	editInventory: MutateTpye<PutInventoryBody>;
 	editInventoryLoading: boolean;
 }
 function CountCigaretteScreen({
-	cigaretteList,
+	inventoryList,
 	addCigarette,
 	addCigaretteLoading,
 	editInventory,
 	editInventoryLoading,
 }: Props) {
+	const { countHistory, changeDiffHandler } = useCountHistory();
 	const CHO_BUTTONS = ['전체', 'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [searchCho, setSearchCho] = useState<ChoType>('전체');
-	const [countHistory, setCountHistory] = useState<CountHistoryType>({});
+
 	// TODO: 모달이름 바꾸기
 	const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);
 	const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
-	const searchTermHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const onSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value);
 	};
 	const searchChoHandler = (e: React.BaseSyntheticEvent) => {
 		setSearchCho(e.target.value);
 	};
-	const changeDiffHandler = (action: 'decrease' | 'increase', cigaretteName: string, cigaretteDiff: number) => {
-		setCountHistory({
-			...countHistory,
-			[cigaretteName]: (countHistory[cigaretteName] ?? cigaretteDiff) + (action === 'decrease' ? -1 : 1),
-		});
+	const clearSearchTerm = () => {
+		setSearchTerm('');
 	};
 
-	const submitInventoryRecord = () => {
+	const submitInventoryRecord = (category: string) => {
 		if (editInventoryLoading) return;
 		const list = Object.keys(countHistory).map((inventoryName) => ({
 			inventoryName,
 			diff: countHistory[inventoryName],
 		}));
-		const body = { category: 'cigarette', list };
+		const body = { category, list };
 		editInventory(body);
 		setIsSaveModalOpen(false);
 	};
 	const submitNewCigarette = (e: React.BaseSyntheticEvent) => {
 		e.preventDefault();
-
+		if (addCigaretteLoading) return;
 		const body = {
 			inventoryName: e.target.newCigarette.value,
 		};
 		addCigarette(body);
 		setIsAddModalOpen(false);
 	};
-	const clearSearchTerm = () => {
-		setSearchTerm('');
-	};
+
 	return (
 		<>
-			<header className="w-full h-[5.6rem]">
-				헤더 자리
-				<button onClick={() => setIsAddModalOpen(true)}>항목추가</button>
-			</header>
-			<div className="space-y-[2.4rem]  h-[calc(100vh-5.6rem)] text-[#66666E] relative overflow-hidden">
+			<Header title="담배">
+				<button
+					onClick={() => setIsAddModalOpen(true)}
+					className="absolute right-0  border-[0.15rem] rounded-[0.8rem] border-g42 font-medium text-[1.4rem] leading-[1.96rem] text-[#66666E] w-[6.2rem] h-[2.8rem]"
+				>
+					항목추가
+				</button>
+			</Header>
+
+			<main className="space-y-[2.4rem]  h-[calc(100vh-5.6rem)] text-[#66666E] relative overflow-hidden">
 				<div className="space-y-[1.2rem]">
-					<form className="relative">
-						<input
-							value={searchTerm}
-							onChange={searchTermHandler}
-							placeholder="검색어를 입력해주세요."
-							type="search"
-							className="w-full h-[4.8rem] rounded-[0.8rem] bg-[#F8F8FA] pl-[4.4rem] text-body2 text-[#9E9EA9] pr-[1.2rem] py-[1.4rem] outline-none"
-						/>
-						<button
-							onClick={clearSearchTerm}
-							type="reset"
-							name="clear"
-							className="absolute right-[1.6rem] top-1/2 -translate-y-1/2"
-						>
-							<InputCancleIcon />
-						</button>
-					</form>
+					<SearchInput
+						searchTerm={searchTerm}
+						onSearchTermChange={onSearchTermChange}
+						resetSearchTerm={clearSearchTerm}
+					/>
 					<ul className="flex flex-wrap gap-x-[0.4rem] gap-y-[0.8rem] text-subhead2 ">
 						{CHO_BUTTONS.map((cho, index) => (
 							<li key={index}>
@@ -140,41 +124,16 @@ function CountCigaretteScreen({
 						))}
 					</ul>
 				</div>
-				{/* TODO: 임시로 리스트 padding-bottom값 넣어둠 수정 필요 */}
-				<ul className="text-subhead-long2 fill-linear-gradient space-y-[3.2rem] h-full pb-[30rem] overflow-y-scroll  scrollbar-hidden">
-					{(searchCho === '전체'
-						? cigaretteList
-						: cigaretteList.filter((cigarette) => getInitialSound(cigarette.inventoryName) === searchCho)
-					)
-						.filter((cigarette) => cigarette.inventoryName.includes(searchTerm))
-						.map((cigarette, index) => (
-							<li key={index} className="flex w-full items-center justify-between ">
-								<span>{cigarette.inventoryName}</span>
-
-								<div className="flex relative  space-x-[3.2rem]">
-									<button
-										name="increase"
-										data-name={cigarette.inventoryName}
-										data-diff={cigarette.inventoryCount}
-										onClick={() => changeDiffHandler('increase', cigarette.inventoryName, cigarette.inventoryCount)}
-									>
-										<PlusIcon />
-									</button>
-									<span className="absolute right-[3.8rem]">
-										{countHistory[cigarette.inventoryName] ?? cigarette.inventoryCount}
-									</span>
-									<button
-										name="decrease"
-										data-name={cigarette.inventoryName}
-										data-diff={cigarette.inventoryCount}
-										onClick={() => changeDiffHandler('decrease', cigarette.inventoryName, cigarette.inventoryCount)}
-									>
-										<MinusIcon />
-									</button>
-								</div>
-							</li>
-						))}
-				</ul>
+				{inventoryList && (
+					<InventoryList
+						inventoryList={(searchCho === '전체'
+							? inventoryList
+							: inventoryList.filter((inventory) => getInitialSound(inventory.inventoryName) === searchCho)
+						).filter((inventory) => inventory.inventoryName.includes(searchTerm))}
+						countHistory={countHistory}
+						changeDiffHandler={changeDiffHandler}
+					/>
+				)}
 				<div
 					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient   z-50 aria-hidden:hidden"
 					aria-hidden={isSaveModalOpen || isAddModalOpen}
@@ -196,7 +155,7 @@ function CountCigaretteScreen({
 								</li>
 							))}
 						</ul>
-						<button onClick={submitInventoryRecord} className=" w-full py-[2rem] bg-blue-500">
+						<button onClick={() => submitInventoryRecord('cigarette')} className=" w-full py-[2rem] bg-blue-500">
 							점검사항 저장
 						</button>
 					</div>
@@ -215,7 +174,7 @@ function CountCigaretteScreen({
 						</form>
 					</div>
 				)}
-			</div>
+			</main>
 		</>
 	);
 }

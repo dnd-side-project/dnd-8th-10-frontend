@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
-import SetTimeButtons from 'src/app.components/SetTimeButtons';
+import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useRegisterUserStore, { dayMap, DayType } from '../store';
 

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import SetTimeButtons from 'src/app.components/SetTimeButtons';
+import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';

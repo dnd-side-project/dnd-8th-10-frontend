@@ -1,8 +1,9 @@
 import React from 'react';
-import CountScreen from 'src/app.features/inventory/screens/CountScreen';
+import InventoryScreen from 'src/app.features/inventory/screens/InventoryScreen';
 
-function Count() {
-	return <CountScreen />;
+// TODO: 인벤토리 폴더 구조 변경 필요. 겹치는 코드 많음
+function Inventory() {
+	return <InventoryScreen />;
 }
 
-export default Count;
+export default Inventory;
