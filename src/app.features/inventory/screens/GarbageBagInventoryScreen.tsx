@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from 'src/app.components/Header';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { IInventoryList, PutInventoryBody } from 'src/app.modules/api/inventory';
+import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryList';
 import useCountHistory from '../hooks/useCountHistory';
 
@@ -24,19 +25,26 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 		editInventory(body);
 		setIsSaveModalOpen(false);
 	};
-
+	const [filter, setFilter] = useState<'일반 쓰레기' | '음식물 쓰레기'>('일반 쓰레기');
+	const filterHandler = (e: React.BaseSyntheticEvent) => {
+		setFilter(e.target.value);
+	};
 	return (
 		<>
 			<Header title="쓰레기봉투" />
 
-			<main className="space-y-[2.4rem]  h-[calc(100vh-5.6rem)] text-[#66666E] relative overflow-hidden">
+			<main className="space-y-[2.4rem]  pt-[1.6rem] h-[calc(100vh-5.6rem)] text-[#66666E] relative overflow-hidden">
 				<div className="space-y-[1.2rem]">
-					<ul className="flex flex-wrap gap-x-[0.4rem] gap-y-[0.8rem] text-subhead2 " />
+					<FilterButtons
+						filterHandler={filterHandler}
+						selectedFilter={filter}
+						filters={['일반 쓰레기', '음식물 쓰레기']}
+					/>
 				</div>
 
 				{inventoryList && (
 					<InventoryList
-						inventoryList={inventoryList}
+						inventoryList={inventoryList.filter((item) => item.inventoryName.includes(filter))}
 						countHistory={countHistory}
 						changeDiffHandler={changeDiffHandler}
 					/>
