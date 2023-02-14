@@ -2,7 +2,6 @@ import React from 'react';
 
 interface Props {
 	filterHandler: (e: React.BaseSyntheticEvent) => void;
-
 	filters: string[];
 	selectedFilter: string;
 }

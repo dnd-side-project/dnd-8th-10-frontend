@@ -1,6 +1,6 @@
 import client from './client';
 
-type Category = 'CIGARETTE' | 'GIFTCARD' | 'GARBAGEBAG';
+export type Category = 'CIGARETTE' | 'GIFTCARD' | 'GARBAGEBAG';
 // 시재 조회
 export interface IInventoryList {
 	inventoryIdx: number;
@@ -43,7 +43,8 @@ export interface IInventoryHistory {
 	list: Partial<IInventoryList>[]; // inventoryName,diff,category
 }
 // 모든 시재 기록 조회
-export const getInventoryRecord = async () => {
-	const res = await client.get(`/api/inventory/record`);
+export const getInventoryRecord = async (category: Category | 'ALL') => {
+	console.log(category, 'caategor');
+	const res = await client.get(`/api/inventory/record?${category !== 'ALL' ? `category=${category}` : ''}`);
 	return res;
 };

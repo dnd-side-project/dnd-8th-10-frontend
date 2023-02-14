@@ -1,37 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from 'src/app.components/Header';
 import ProfileImage from 'src/app.components/ProfileImage';
 import { IInventoryHistory } from 'src/app.modules/api/inventory';
 import FilterButtons from '../components/FilterButtons';
+import { InventoryType, mappedFilter } from '../types';
 
 interface Props {
 	inventoryHistory: IInventoryHistory[];
+	filter: InventoryType;
+	filterHandler: (e: React.BaseSyntheticEvent) => void;
 }
-type InventoryType = 'ALL' | 'CIGARETTE' | 'GARBAGEBAG' | 'GIFTCARD';
-function InventoryHistoryScreen({ inventoryHistory }: Props) {
-	const [filter, setFilter] = useState<InventoryType>('ALL');
-	const filterHandler = (e: React.BaseSyntheticEvent) => {
-		setFilter(e.target.value);
-	};
 
-	const mappedFilter: { [k in InventoryType]: string } = {
-		ALL: '전체',
-		CIGARETTE: '담배',
-		GARBAGEBAG: '쓰레기 봉투',
-		GIFTCARD: '문화 상품권',
-	};
+function InventoryHistoryScreen({ inventoryHistory, filterHandler, filter }: Props) {
 	const getInventoryImage = (category: string) => {
 		if (category === 'cigarette') return "before:content-[url('/images/checklist/history/CIGARETTE.svg')] ";
 		if (category === 'garbagebag') return "before:content-[url('/images/checklist/history/GARBAGEBAG.svg')] ";
 		return "before:content-[url('/images/checklist/history/GIFTCARD.svg')] ";
 	};
+
 	return (
 		<>
 			<Header title="시재기록" />
 
 			<main className=" space-y-[1.6rem]  text-subhead1 h-[calc(100vh-5.6rem)] text-g9 relative overflow-hidden">
-				<FilterButtons filterHandler={filterHandler} selectedFilter={filter} filters={Object.values(mappedFilter)} />
-				<div className=" py-[1.6rem] h-[calc(100%-6rem)] overflow-y-scroll scrollbar-hidden">
+				<FilterButtons filterHandler={filterHandler} selectedFilter={filter} filters={Object.keys(mappedFilter)} />
+				<div className=" pb-[1.6rem] h-[calc(100%-6rem)] overflow-y-scroll scrollbar-hidden">
 					<ul className="space-y-[0.8rem] ">
 						{inventoryHistory &&
 							inventoryHistory.map((item, index) => (

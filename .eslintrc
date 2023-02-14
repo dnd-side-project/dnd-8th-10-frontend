@@ -23,6 +23,7 @@
     "react/no-array-index-key":"off",
     "dot-notation":"off",
     "react/jsx-no-useless-fragment":"off",
+    "react-hooks/exhaustive-deps":"off",
     "jsx-a11y/label-has-associated-control": [
       2,
       {
