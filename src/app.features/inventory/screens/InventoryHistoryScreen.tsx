@@ -58,7 +58,14 @@ function InventoryHistoryScreen({ inventoryHistory }: Props) {
 													<span>{record.inventoryName}</span>
 												</div>
 												<span>
-													<span>{record.diff}</span>
+													<span
+														className={`${(record?.diff ?? 0) > 0 ? 'text-primary' : ''} ${
+															(record?.diff ?? 0) < 0 ? 'text-secondary' : ''
+														}`}
+													>
+														{(record?.diff ?? 0) > 0 ? '+' : ''}
+														{record.diff}
+													</span>
 												</span>
 											</li>
 										))}
