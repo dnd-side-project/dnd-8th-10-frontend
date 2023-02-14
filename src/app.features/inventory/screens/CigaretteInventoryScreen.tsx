@@ -103,7 +103,7 @@ function CountCigaretteScreen({
 				</button>
 			</Header>
 
-			<main className="space-y-[2.4rem] pt-[1.6rem]  h-[calc(100vh-5.6rem)] text-[#66666E] relative overflow-hidden">
+			<main className="space-y-[2.4rem] pt-[1.6rem]  h-[calc(100vh-5.6rem)] text-g9 relative overflow-hidden">
 				<div className="space-y-[1.2rem]">
 					<SearchInput
 						searchTerm={searchTerm}
