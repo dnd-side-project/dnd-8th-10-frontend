@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Header from 'src/app.components/Header';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { IInventoryList, PutInventoryBody } from 'src/app.modules/api/inventory';
-import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryList';
 import useCountHistory from '../hooks/useCountHistory';
 
@@ -11,8 +10,7 @@ interface Props {
 	editInventory: MutateTpye<PutInventoryBody>;
 	editInventoryLoading: boolean;
 }
-
-function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventoryLoading }: Props) {
+function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLoading }: Props) {
 	const { countHistory, changeDiffHandler } = useCountHistory();
 	const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);
 	const submitInventoryRecord = (category: string) => {
@@ -26,24 +24,14 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 		editInventory(body);
 		setIsSaveModalOpen(false);
 	};
-	const [filter, setFilter] = useState<'일반 쓰레기' | '음식물 쓰레기'>('일반 쓰레기');
-	const filterHandler = (e: React.BaseSyntheticEvent) => {
-		setFilter(e.target.value);
-	};
 	return (
 		<>
-			<Header title="쓰레기봉투" />
+			<Header title="문화 상품권" />
 
 			<main className="space-y-[2.4rem]  pt-[1.6rem] h-[calc(100vh-5.6rem)] text-[#66666E] relative overflow-hidden">
-				<FilterButtons
-					filterHandler={filterHandler}
-					selectedFilter={filter}
-					filters={['일반 쓰레기', '음식물 쓰레기']}
-				/>
-
 				{inventoryList && (
 					<InventoryList
-						inventoryList={inventoryList.filter((item) => item.inventoryName.includes(filter))}
+						inventoryList={inventoryList}
 						countHistory={countHistory}
 						changeDiffHandler={changeDiffHandler}
 					/>
@@ -69,7 +57,7 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 								</li>
 							))}
 						</ul>
-						<button onClick={() => submitInventoryRecord('garbagebag')} className=" w-full py-[2rem] bg-blue-500">
+						<button onClick={() => submitInventoryRecord('giftcard')} className=" w-full py-[2rem] bg-blue-500">
 							점검사항 저장
 						</button>
 					</div>
@@ -79,4 +67,4 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 	);
 }
 
-export default GarbageBagInventoryScreen;
+export default GiftcardInventoryScreen;
