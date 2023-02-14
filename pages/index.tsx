@@ -6,9 +6,11 @@ import { useRouter } from 'next/router';
 import { refreshToken } from 'src/app.modules/api/auth';
 import { getUser } from 'src/app.modules/api/user';
 import React, { useState } from 'react';
+import ProfileImage from 'src/app.components/ProfileImage';
 
 const Home: NextPage = () => {
 	const { data } = useQuery(['user', 'me'], getUser, {
+		select: (res) => res.data.data,
 		onSuccess: (res) => {
 			console.log(res);
 		},
@@ -27,7 +29,12 @@ const Home: NextPage = () => {
 		if (!Number(newWidth)) return;
 		setWidth(newWidth);
 	};
-	return <div className="bg-blue-400 w-full h-[100vh]  mx-auto">컨텐츠 영역</div>;
+
+	return (
+		<div className="bg-blue-400 w-full h-[100vh]  mx-auto">
+			<ProfileImage size="md" userProfileCode={data?.userProfileCode} />
+		</div>
+	);
 };
 
 export default Home;
