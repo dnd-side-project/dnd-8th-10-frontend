@@ -34,7 +34,7 @@ const SalaryPage: NextPage = () => {
 	return (
 		<>
 			{!isLoading && (
-				<Admin data={data?.data.data.role} type={'detail'}>
+				<Admin data={data?.data.data.role} type="detail">
 					<ManagerScreen />
 				</Admin>
 			)}
