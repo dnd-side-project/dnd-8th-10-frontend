@@ -4,7 +4,10 @@ import Header from 'src/app.components/Header';
 import { IInventoryHistory } from 'src/app.modules/api/inventory';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 
-function InventoryScreen() {
+interface Props {
+	inventoryHistory: IInventoryHistory[];
+}
+function InventoryScreen({ inventoryHistory }: Props) {
 	const LINKS = [
 		{
 			name: '담배',
