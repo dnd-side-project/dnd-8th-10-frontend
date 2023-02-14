@@ -7,6 +7,7 @@ export interface IInventoryList {
 	inventoryName: string;
 	category: string;
 	inventoryCount: number;
+	diff?: number;
 }
 export const getInventory = async (category: Category) => {
 	const res = await client.get(`/api/inventory?category=${category}`);
@@ -31,5 +32,18 @@ export interface PutInventoryBody {
 }
 export const putInventory = async (body: PutInventoryBody) => {
 	const res = await client.put(`/api/inventory`, { ...body });
+	return res;
+};
+
+export interface IInventoryHistory {
+	userName: string;
+	workDay: string; // 2월14일
+	workTime: string; // 18:00~23:00
+	userProfileCode: number;
+	list: Partial<IInventoryList>[]; // inventoryName,diff,category
+}
+// 모든 시재 기록 조회
+export const getInventoryRecord = async () => {
+	const res = await client.get(`/api/inventory/record`);
 	return res;
 };

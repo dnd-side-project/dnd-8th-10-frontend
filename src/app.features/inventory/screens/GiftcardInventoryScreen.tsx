@@ -20,7 +20,6 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 			diff: countHistory[inventoryName],
 		}));
 		const body = { category, list };
-		console.log(body);
 		editInventory(body);
 		setIsSaveModalOpen(false);
 	};
