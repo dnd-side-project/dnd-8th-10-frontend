@@ -1,8 +1,16 @@
+import { useQuery } from '@tanstack/react-query';
 import { NextPage } from 'next';
-import React from 'react';
+import React, { useEffect } from 'react';
+import InventoryHistoryScreen from 'src/app.features/inventory/screens/InventoryHistoryScreen';
+
+import useInventoryHistory from 'src/app.modules/hooks/inventory/useInventoryHistory';
 
 const History: NextPage = () => {
-	return <div>history</div>;
+	const { filter, filterHandler, data, refetch } = useInventoryHistory();
+	useEffect(() => {
+		refetch();
+	}, [filter]);
+	return <InventoryHistoryScreen inventoryHistory={data} filter={filter} filterHandler={filterHandler} />;
 };
 
 export default History;

@@ -3,6 +3,7 @@ import Header from 'src/app.components/Header';
 import SearchInput from 'src/app.components/Input/SearchInput';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { IInventoryList, PostCigaretteBody, PutInventoryBody } from 'src/app.modules/api/inventory';
+import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryList';
 import useCountHistory from '../hooks/useCountHistory';
 
@@ -102,27 +103,14 @@ function CountCigaretteScreen({
 				</button>
 			</Header>
 
-			<main className="space-y-[2.4rem]  h-[calc(100vh-5.6rem)] text-[#66666E] relative overflow-hidden">
+			<main className="space-y-[2.4rem] pt-[1.6rem]  h-[calc(100vh-5.6rem)] text-g9 relative overflow-hidden">
 				<div className="space-y-[1.2rem]">
 					<SearchInput
 						searchTerm={searchTerm}
 						onSearchTermChange={onSearchTermChange}
 						resetSearchTerm={clearSearchTerm}
 					/>
-					<ul className="flex flex-wrap gap-x-[0.4rem] gap-y-[0.8rem] text-subhead2 ">
-						{CHO_BUTTONS.map((cho, index) => (
-							<li key={index}>
-								<button
-									value={cho}
-									onClick={searchChoHandler}
-									aria-pressed={searchCho === cho}
-									className="px-[1.05rem] py-[0.8rem] rounded-[0.8rem] border-[0.15rem] border-[#E8E8EB]  aria-pressed:bg-[#66666E]  aria-pressed:text-white aria-pressed:border-[#66666E]  "
-								>
-									{cho}
-								</button>
-							</li>
-						))}
-					</ul>
+					<FilterButtons filterHandler={searchChoHandler} selectedFilter={searchCho} filters={CHO_BUTTONS} />
 				</div>
 				{inventoryList && (
 					<InventoryList

@@ -10,6 +10,7 @@ function ProfileImage({ size, userProfileCode }: Props) {
 		if (size === 'md') return 'w-[3.4rem] h-[3.4rem] min-w-[3.4rem] min-h-[3.4rem]';
 		return 'w-[2.8rem] h-[2.8rem] min-w-[2.8rem] min-h-[2.8rem]';
 	};
+	console.log(userProfileCode);
 	return (
 		<div className={getSize()}>
 			{userProfileCode && <img alt="profile" src={`/images/user/small_profile${userProfileCode}.svg`} />}
