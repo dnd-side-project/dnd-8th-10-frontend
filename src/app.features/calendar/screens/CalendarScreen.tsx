@@ -5,16 +5,20 @@ import 'swiper/css';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { useRouter } from 'next/router';
+import TopModal from 'src/app.components/Modal/TopModal';
+import useModalStore from 'src/app.modules/store/modal';
+import Overlay from 'src/app.components/Modal/Overlay';
 import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
-import Modal from '../components/Modal';
 import useStore from '../store';
 import { getGray, postWork } from '../api';
+import Modal from '../components/Modal';
 
 function CalendarScreen() {
 	// // 더미 스케쥴
 	const [schedule, setSchedule] = useState<number[]>([]);
-	const { isOpen, year, month, setCalendar } = useStore();
+	const { year, month, setCalendar } = useStore();
+	const { isModalOpen } = useModalStore();
 
 	const [fakeYear, setFakeYear] = useState<number>(0);
 
@@ -111,7 +115,7 @@ function CalendarScreen() {
 			>
 				{[...new Array(12)].map((_, monthView) => (
 					<SwiperSlide key={monthView}>
-						<div className="flex justify-between mx-[1.5rem] my-[2rem]">
+						<div className="flex justify-between ">
 							<div className="flex items-center">
 								<span className="text-[2rem] font-bold mr-[0.5rem]">{`${year + fakeYear}.${monthView + 1}`}</span>
 								<div>버튼</div>
@@ -122,7 +126,7 @@ function CalendarScreen() {
 						</div>
 						<div>
 							<div>
-								<div className="text-[1.5rem] flex justify-around mb-[0.5rem]">
+								<div className="text-[1.5rem] flex justify-around">
 									{WEEK.map((day, index) => (
 										<span key={index}>{day}</span>
 									))}
@@ -141,7 +145,14 @@ function CalendarScreen() {
 					</SwiperSlide>
 				))}
 			</Swiper>
-			{isOpen && <Modal WorkMutate={WorkMutate} />}
+			{isModalOpen && (
+				<>
+					<Overlay bgColor="" />
+					<TopModal bgColor="bg-g1">
+						<Modal WorkMutate={WorkMutate} />
+					</TopModal>
+				</>
+			)}
 		</div>
 	);
 }

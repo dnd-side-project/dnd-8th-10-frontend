@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import useModalStore from 'src/app.modules/store/modal';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import { getToDay, getWorkList, MutateBody } from '../api';
 import useStore from '../store';
@@ -13,7 +14,8 @@ interface Props {
 	WorkMutate: MutateTpye<MutateBody>;
 }
 function Modal({ WorkMutate }: Props) {
-	const { toDay, workDay, modalIsClose, isDayReset } = useStore();
+	const { toDay, workDay, isDayReset } = useStore();
+	const { modalIsClose } = useModalStore();
 	const [workTime, setWorkTime] = useState<string>('');
 	const { clickDay } = useStore();
 	const router = useRouter();
@@ -89,7 +91,7 @@ function Modal({ WorkMutate }: Props) {
 		if (!workDay && clickDay === toDay) {
 			// 출근하기
 			return (
-				<div className="px-[2rem] py-[4rem] text-[2rem]">
+				<div className="text-[2rem]">
 					<div className="flex">
 						<div className="w-[50%] font-semibold">시작</div>
 						<div className="w-[50%] font-semibold">종료</div>
@@ -118,7 +120,7 @@ function Modal({ WorkMutate }: Props) {
 							<SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} />
 						</div>
 					)}
-					<div className="mt-5 mb-7">
+					<div>
 						<button
 							type="button"
 							className="bg-[#D9D9D9] w-full py-[2rem] font-semibold rounded-lg"
@@ -134,7 +136,7 @@ function Modal({ WorkMutate }: Props) {
 		if (!workDay || new Date(clickDay) > new Date(toDay)) {
 			// 근무 안된 날짜 클릭시, 미래 클릭시
 			return (
-				<div className="px-[2rem] py-[4rem] text-[2rem]">
+				<div className="text-[2rem]">
 					<div className="flex justify-between">
 						<div>{clickDay}</div>
 						<div>{new Date(clickDay) < new Date(toDay) && <button onClick={() => workModify()}>출근수정</button>}</div>
@@ -145,7 +147,7 @@ function Modal({ WorkMutate }: Props) {
 		}
 		// 출근된 날짜 클릭시
 		return (
-			<div className="px-[2rem] py-[4rem] text-[2rem]">
+			<div className="text-[2rem]">
 				<div className="flex justify-between">
 					<div>{clickDay}</div>
 					<button onClick={() => workModify()}>출근수정</button>
@@ -161,16 +163,7 @@ function Modal({ WorkMutate }: Props) {
 		);
 	};
 
-	return (
-		<div className="z-10 w-[46rem] bg-[#F8F8F8] absolute bottom-0 flex-col items-center justify-center">
-			<div className="flex justify-center mt-3">
-				<button type="button" onClick={() => modalIsClose()} className="w-[55px] h-[4px] bg-[#D9D9D9] rounded-lg">
-					{' '}
-				</button>
-			</div>
-			{renderContent()}
-		</div>
-	);
+	return <div>{renderContent()}</div>;
 }
 
 export default Modal;
