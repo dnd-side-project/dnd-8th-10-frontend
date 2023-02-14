@@ -41,22 +41,22 @@ function ManagerScreen() {
 					<div>
 						<div>
 							<div>알바생</div>
-							{salaryData.map((data, index) => (
+							{salaryData.map((info, index) => (
 								<div
 									key={index}
 									className="flex justify-between items-center bg-[#F8F8FA] p-[2rem] my-[1rem] rounded-xl"
 								>
 									<div className="flex">
 										<div>
-											<div>{data.userName}</div>
+											<div>{info.userName}</div>
 											<div>{getDaysInMonth(year, month)}</div>
 										</div>
 									</div>
 									<div>
-										<span>{data.totalSalary}</span>
+										<span>{info.totalSalary}</span>
 										<button
 											type="button"
-											onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${data.userCode}`)}
+											onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${info.userCode}`)}
 										>
 											{'>'}
 										</button>

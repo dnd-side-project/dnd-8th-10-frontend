@@ -25,8 +25,8 @@ function WorkerScreen() {
 	});
 
 	useEffect(() => {
-		const workHour = salaryData.reduce((acc: number, current: { workHour: number }) => acc + current.workHour, 0);
-		setWorkHour(workHour);
+		const workHourFilter = salaryData.reduce((acc: number, current: { workHour: number }) => acc + current.workHour, 0);
+		setWorkHour(workHourFilter);
 	}, [salaryData]);
 	return (
 		<div className="text-[1.5rem]">
