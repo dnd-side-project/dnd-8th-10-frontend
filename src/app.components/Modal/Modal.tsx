@@ -34,7 +34,11 @@ function Modal({ content, cancel = false, deleteFn, cancelFn }: Props) {
 						<button
 							type="button"
 							onClick={() => {
-								cancelFn ? cancelFn() : modalIsClose();
+								if (cancelFn) {
+									cancelFn();
+								} else {
+									modalIsClose();
+								}
 							}}
 							className="text-[1.4rem] h-[5.6rem] w-full border-solid border-l-[0.15rem] border-b-g3"
 						>
