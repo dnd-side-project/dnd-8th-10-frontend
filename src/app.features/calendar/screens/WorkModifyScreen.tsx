@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
 import { useMutation } from '@tanstack/react-query';
+import Modal from 'src/app.components/Modal/Modal';
+import Overlay from 'src/app.components/Modal/Overlay';
+import useModalStore from 'src/app.modules/store/modal';
 import useTimeSetStore from '../store/time';
 import { delWorkModify, postWork, putWorkModify } from '../api';
 import useStore from '../store';
 
 type Flag = 'startTime' | 'endTime' | null;
 function WorkModifyScreen() {
+	const { isModalOpen, modalIsOpen } = useModalStore();
 	const [workTime, setWorkTime] = useState<string | undefined>('');
 	const { clickDay, toDay, workDay, isDayReset } = useStore();
 	const [year, month, day] = clickDay.split('.');
@@ -87,7 +91,7 @@ function WorkModifyScreen() {
 	return (
 		<div className="text-[2rem] mx-[1.5rem] my-[2rem]">
 			<div>출근수정</div>
-			<button type="button" onClick={() => delBtn()}>
+			<button type="button" onClick={() => modalIsOpen()}>
 				삭제
 			</button>
 			<div className="flex items-center my-3">
@@ -121,6 +125,12 @@ function WorkModifyScreen() {
 					수정
 				</button>
 			</div>
+			{isModalOpen && (
+				<>
+					<Overlay />
+					<Modal content="출근기록이 삭제됩니다!" deleteFn={() => delBtn()} />
+				</>
+			)}
 		</div>
 	);
 }
