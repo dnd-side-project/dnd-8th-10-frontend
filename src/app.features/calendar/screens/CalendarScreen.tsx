@@ -13,7 +13,12 @@ import { WEEK } from '../constants';
 import useStore from '../store';
 import { getGray, postWork } from '../api';
 import Modal from '../components/Modal';
+<<<<<<< HEAD
 
+=======
+import SalaryIcon from 'src/app.modules/assets/calendar/salary.svg';
+import CtlIcon from 'src/app.modules/assets/calendar/control.svg';
+>>>>>>> 2ec56cb (design: 1차 UI)
 function CalendarScreen() {
 	// // 더미 스케쥴
 	const [schedule, setSchedule] = useState<number[]>([]);
@@ -115,17 +120,32 @@ function CalendarScreen() {
 			>
 				{[...new Array(12)].map((_, monthView) => (
 					<SwiperSlide key={monthView}>
+<<<<<<< HEAD
 						<div className="flex justify-between ">
 							<div className="flex items-center">
 								<span className="text-[2rem] font-bold mr-[0.5rem]">{`${year + fakeYear}.${monthView + 1}`}</span>
 								<div>버튼</div>
+=======
+						<header className="w-full h-[5.6rem] flex items-center justify-between relative">
+							<div className="flex items-center h-[2.2rem] justify-between">
+								<span className="text-g10 text-subhead4 mr-[0.4rem]">{`${year + fakeYear}년 ${monthView + 1}월`}</span>
+								<CtlIcon />
+>>>>>>> 2ec56cb (design: 1차 UI)
 							</div>
 							<button type="button" onClick={() => salary()}>
-								급여
+								<SalaryIcon />
 							</button>
-						</div>
+						</header>
 						<div>
+							<div className="flex justify-between mt-[2.4rem] mb-[2.6rem]">
+								{WEEK.map((day, index) => (
+									<span className="text-body2 w-[2.8rem] h-[2rem] text-center" key={index}>
+										{day}
+									</span>
+								))}
+							</div>
 							<div>
+<<<<<<< HEAD
 								<div className="text-[1.5rem] flex justify-around">
 									{WEEK.map((day, index) => (
 										<span key={index}>{day}</span>
@@ -140,6 +160,15 @@ function CalendarScreen() {
 										schedule,
 									})}
 								</div>
+=======
+								{MakeCalendar({
+									year,
+									monthView,
+									firstDay,
+									lastDate,
+									schedule,
+								})}
+>>>>>>> 2ec56cb (design: 1차 UI)
 							</div>
 						</div>
 					</SwiperSlide>
