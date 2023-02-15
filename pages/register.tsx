@@ -6,7 +6,7 @@ import CompleteSettingScreen from 'src/app.features/register/screens/CompleteSet
 import SetPhoneNumScreen from 'src/app.features/register/screens/SetPhoneNumScreen';
 import SetStoreScreen from 'src/app.features/register/screens/SetStoreScreen';
 import SetTimeScreen from 'src/app.features/register/screens/SetTimeScreen';
-import SetUserTypeScreen from 'src/app.features/register/screens/SetUserTypeScreen';
+import SetRoleScreen from 'src/app.features/register/screens/SetRoleScreen';
 import { postUser } from 'src/app.modules/api/user';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 
@@ -27,7 +27,7 @@ const Register: NextPage = () => {
 	// eslint-disable-next-line react/jsx-no-useless-fragment
 	return (
 		<>
-			{page === '1' && <SetUserTypeScreen />}
+			{page === '1' && <SetRoleScreen />}
 			{page === '2' && <SetStoreScreen />}
 			{page === '3' && <SetTimeScreen />}
 			{page === '4' && <SetPhoneNumScreen postUser={mutate} isLoading={isLoading} />}
