@@ -31,7 +31,7 @@ function InventoryScreen({ inventoryHistory }: Props) {
 		<>
 			<Header title="시재점검" />
 
-			<main>
+			<main className="pt-[5.6rem]">
 				<section className="py-[1.6rem]">
 					<div className="p-[1.6rem] space-y-[1.6rem] bg-g1 rounded-[0.8rem]">
 						<div className="flex items-center justify-between text-subhead1">
