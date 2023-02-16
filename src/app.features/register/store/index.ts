@@ -44,9 +44,9 @@ interface UserState {
 
 const initUser: IUser = {
 	role: null,
-	storeName: '',
+	storeName: null,
 	workTime: {} as WorkTimeType,
-	phoneNumber: '',
+	phoneNumber: null,
 };
 const useRegisterUserStore = create<UserState>((set) => ({
 	user: initUser,

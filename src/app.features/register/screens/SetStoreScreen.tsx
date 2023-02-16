@@ -81,6 +81,7 @@ function SetStoreScreen() {
 						searchTerm={searchTerm}
 						onSearchTermChange={searchTermHandler}
 						resetSearchTerm={resetSearchTerm}
+						isSearched={Boolean(storeName?.trim())}
 					/>
 				</div>
 
