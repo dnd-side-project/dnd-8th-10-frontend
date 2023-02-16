@@ -48,6 +48,9 @@ const initUser: IUser = {
 	workTime: {} as WorkTimeType,
 	phoneNumber: null,
 };
+// TODO: 이름 다시 짓기
+export const INIT_WORKTIME = {} as WorkTimeType;
+
 const useRegisterUserStore = create<UserState>((set) => ({
 	user: initUser,
 	initUser: () => set(() => ({ user: initUser })),

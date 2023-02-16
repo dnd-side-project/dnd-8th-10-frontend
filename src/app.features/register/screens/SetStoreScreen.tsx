@@ -16,7 +16,7 @@ type Store = {
 	road_address_name: string;
 };
 function SetStoreScreen() {
-	const [searchTerm, setSearchTerm] = useState<string>('');
+	const [searchTerm, setSearchTerm] = useState<string>();
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 	const [searchResults, setSearchResults] = useState<Store[]>();
 	const {
@@ -38,6 +38,7 @@ function SetStoreScreen() {
 		setSearchTerm('');
 		setSearchResults([]);
 	};
+	console.log('storename', storeName, searchTerm);
 	useEffect(() => {
 		const script = document.createElement('script');
 		script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET_SDK}&libraries=services&autoload=false`;
@@ -52,7 +53,7 @@ function SetStoreScreen() {
 		return () => script.removeEventListener('load', onLoadKakaoMap);
 	}, []);
 	useEffect(() => {
-		if (!isLoaded || !searchTerm.trim()) return;
+		if (!isLoaded || !searchTerm?.trim()) return;
 		const onLoadKakaoMap = () => {
 			const { kakao } = window;
 			// 카카오 맵 API는 검색 할 때, 최대 45개의 결과 값만 알려줍니다
@@ -78,7 +79,7 @@ function SetStoreScreen() {
 				<div className="space-y-[1.6rem]">
 					<h1 className="text-g10 text-title2">어떤지점에서 일하고 계신가요?</h1>
 					<SearchInput
-						searchTerm={searchTerm}
+						searchTerm={searchTerm ?? storeName ?? ''}
 						onSearchTermChange={searchTermHandler}
 						resetSearchTerm={resetSearchTerm}
 						isSearched={Boolean(storeName?.trim())}
