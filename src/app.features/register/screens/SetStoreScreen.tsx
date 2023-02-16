@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import SearchInput from 'src/app.components/Input/SearchInput';
-import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import RoadBadgeSvg from 'src/app.modules/assets/register/roadBadge.svg';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
@@ -28,7 +27,16 @@ function SetStoreScreen() {
 		setSearchTerm(e.target.value);
 	};
 	const storeNameHandler = (value: string) => {
+		setSearchResults([]);
+		setSearchTerm(value);
 		setStoreName(value);
+	};
+	const resetSearchTerm = () => {
+		if (storeName !== null) {
+			setStoreName(null);
+		}
+		setSearchTerm('');
+		setSearchResults([]);
 	};
 	useEffect(() => {
 		const script = document.createElement('script');
@@ -65,19 +73,19 @@ function SetStoreScreen() {
 		onLoadKakaoMap();
 	}, [isLoaded, searchTerm]);
 	return (
-		<RegisterLayout curPage={2} canGoNext={Boolean(storeName.trim())}>
+		<RegisterLayout curPage={2} canGoNext={storeName !== null}>
 			<div className="space-y-[2.4rem] ">
 				<div className="space-y-[1.6rem]">
 					<h1 className="text-g10 text-title2">어떤지점에서 일하고 계신가요?</h1>
 					<SearchInput
 						searchTerm={searchTerm}
 						onSearchTermChange={searchTermHandler}
-						resetSearchTerm={() => setSearchTerm('')}
+						resetSearchTerm={resetSearchTerm}
 					/>
 				</div>
 
-				<div className="h-[calc(100vh-4rem)]">
-					<ul className="space-y-[1.6rem] h-[calc(100%-6rem)] overflow-x-scroll scrollbar-hidden">
+				{storeName === null && (
+					<ul className="space-y-[1.6rem] h-[100vh] pb-[32rem] overflow-x-scroll scrollbar-hidden">
 						{searchResults?.map((store, idx) => (
 							<li key={idx}>
 								<button
@@ -94,8 +102,7 @@ function SetStoreScreen() {
 							</li>
 						))}
 					</ul>
-					<span className="block mt-[12px]">선택된 편의점 : {storeName}</span>
-				</div>
+				)}
 			</div>
 		</RegisterLayout>
 	);

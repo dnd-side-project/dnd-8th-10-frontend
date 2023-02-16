@@ -6,12 +6,14 @@ interface Props {
 	onSearchTermChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	resetSearchTerm: () => void;
 	placeholder?: string;
+	isSearched?: boolean;
 }
 function SearchInput({
 	searchTerm,
 	onSearchTermChange,
 	resetSearchTerm,
 	placeholder = '검색어를 입력해주세요.',
+	isSearched,
 }: Props) {
 	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
