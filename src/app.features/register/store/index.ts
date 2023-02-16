@@ -27,7 +27,7 @@ export type WorkTimeType = {
 };
 // TODO: 백엔드 용어랑 통일시키기
 interface IUser {
-	role: RoleType;
+	role: RoleType | null;
 	storeName: string;
 	workTime: WorkTimeType;
 	phoneNumber: string;
@@ -43,7 +43,7 @@ interface UserState {
 }
 
 const initUser: IUser = {
-	role: 'WORKER',
+	role: null,
 	storeName: '',
 	workTime: {} as WorkTimeType,
 	phoneNumber: '',

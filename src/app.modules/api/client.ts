@@ -26,9 +26,10 @@ client.interceptors.response.use(
 		if (status === 401 && config.url !== '/oauth/token/refresh') {
 			try {
 				const originalRequest = config;
-				console.log(config.url);
 				// token refresh 요청
+
 				const refreshToken = getCookie('REFRESH_TOKEN');
+				console.log('refreshToken', refreshToken);
 				const res = await client.get(
 					'/oauth/token/refresh', // token refresh api
 					{ headers: { Refresh: refreshToken } }

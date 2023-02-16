@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
+import SearchInput from 'src/app.components/Input/SearchInput';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import RoadBadgeSvg from 'src/app.modules/assets/register/roadBadge.svg';
+import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
 
 declare global {
@@ -62,29 +65,39 @@ function SetStoreScreen() {
 		onLoadKakaoMap();
 	}, [isLoaded, searchTerm]);
 	return (
-		<div>
-			<form>
-				<input
-					value={searchTerm}
-					onChange={searchTermHandler}
-					placeholder="편의점 명을 검색해보세요"
-					type="search"
-					className="w-[300px] h-[30px] mt-[20px] py-2 px-4  border border-black rounded-lg  "
-				/>
-			</form>
-			<span className="block mt-[12px]">검색 결과</span>
-			<ul>
-				{searchResults?.map((store, idx) => (
-					<li key={idx}>
-						<button onClick={() => storeNameHandler(store.place_name)} value={store.place_name}>
-							<strong>{store.place_name}</strong> "{store.road_address_name}"
-						</button>
-					</li>
-				))}
-			</ul>
-			<span className="block mt-[12px]">선택된 편의점 : {storeName}</span>
-			<Link href={`${SERVICE_URL.register}?page=3`}>다음으로</Link>
-		</div>
+		<RegisterLayout curPage={2} canGoNext={Boolean(storeName.trim())}>
+			<div className="space-y-[2.4rem] ">
+				<div className="space-y-[1.6rem]">
+					<h1 className="text-g10 text-title2">어떤지점에서 일하고 계신가요?</h1>
+					<SearchInput
+						searchTerm={searchTerm}
+						onSearchTermChange={searchTermHandler}
+						resetSearchTerm={() => setSearchTerm('')}
+					/>
+				</div>
+
+				<div className="h-[calc(100vh-4rem)]">
+					<ul className="space-y-[1.6rem] h-[calc(100%-6rem)] overflow-x-scroll scrollbar-hidden">
+						{searchResults?.map((store, idx) => (
+							<li key={idx}>
+								<button
+									onClick={() => storeNameHandler(store.place_name)}
+									value={store.place_name}
+									className="space-y-[0.4rem] flex flex-col items-start"
+								>
+									<span className="text-subhead2">{store.place_name}</span>
+									<div className="space-x-[0.4rem] flex items-center">
+										<RoadBadgeSvg />
+										<span className="text-body1">{store.road_address_name}</span>
+									</div>
+								</button>
+							</li>
+						))}
+					</ul>
+					<span className="block mt-[12px]">선택된 편의점 : {storeName}</span>
+				</div>
+			</div>
+		</RegisterLayout>
 	);
 }
 
