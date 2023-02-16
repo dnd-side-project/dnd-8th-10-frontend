@@ -23,8 +23,10 @@ const Login: NextPage = () => {
 				const accessToken = res?.headers['authorization']?.split(' ')[1]; // TODO: 토큰 발췌 방식 바꾸기
 				const refreshToken = res?.headers['refresh']?.split(' ')[1];
 				if (accessToken && refreshToken) {
-					setCookie('REFRESH_TOKEN', refreshToken, { path: '/', secure: true, sameSite: 'none' });
-					setCookie('ACCESS_TOKEN', accessToken, { path: '/', secure: true, sameSite: 'none' });
+					const expires = new Date();
+					expires.setFullYear(expires.getFullYear() + 10);
+					setCookie('REFRESH_TOKEN', refreshToken, { path: '/', secure: true, sameSite: 'none', expires });
+					setCookie('ACCESS_TOKEN', accessToken, { path: '/', secure: true, sameSite: 'none', expires });
 					client.defaults.headers.Authorization = `Bearer ${accessToken}`;
 				}
 				// 필수정보를 입력하지 않은 경우면 register. 아니면 home으로 이동

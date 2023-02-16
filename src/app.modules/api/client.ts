@@ -29,7 +29,7 @@ client.interceptors.response.use(
 				// token refresh 요청
 
 				const refreshToken = getCookie('REFRESH_TOKEN');
-				console.log('refreshToken', refreshToken);
+
 				const res = await client.get(
 					'/oauth/token/refresh', // token refresh api
 					{ headers: { Refresh: refreshToken } }
@@ -37,10 +37,13 @@ client.interceptors.response.use(
 				const newAccessToken = res?.headers['authorization']?.split(' ')[1]; // TODO: 토큰 발췌 방식 바꾸기
 				const newRefreshToken = res?.headers['refresh']?.split(' ')[1];
 				if (newAccessToken && newRefreshToken) {
+					const expires = new Date();
+					expires.setFullYear(expires.getFullYear() + 10);
 					originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-					setCookie('ACCESS_TOKEN', newAccessToken, { path: '/', secure: true, sameSite: 'none' });
-					setCookie('REFRESH_TOKEN', newRefreshToken, { path: '/', secure: true, sameSite: 'none' });
+					setCookie('ACCESS_TOKEN', newAccessToken, { path: '/', secure: true, sameSite: 'none', expires });
+					setCookie('REFRESH_TOKEN', newRefreshToken, { path: '/', secure: true, sameSite: 'none', expires });
 				}
+				console.log(originalRequest, 'original');
 				return client(originalRequest);
 			} catch (refreshError) {
 				return Promise.reject(refreshError);
