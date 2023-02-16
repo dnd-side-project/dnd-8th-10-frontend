@@ -27,7 +27,7 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 		<>
 			<Header title="문화 상품권" />
 
-			<main className="space-y-[2.4rem]  pt-[1.6rem] h-[calc(100vh-5.6rem)] text-g9 relative overflow-hidden">
+			<main className="  pt-[7.2rem] h-[100vh] text-g9 relative overflow-hidden">
 				{inventoryList && (
 					<InventoryList
 						inventoryList={inventoryList}
