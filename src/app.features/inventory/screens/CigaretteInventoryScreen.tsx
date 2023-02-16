@@ -94,13 +94,15 @@ function CountCigaretteScreen({
 
 	return (
 		<>
-			<Header title="담배" />
-			<button
-				onClick={() => setIsAddModalOpen(true)}
-				className="absolute right-0  border-[0.15rem] rounded-[0.8rem] border-g42 font-medium text-[1.4rem] leading-[1.96rem] text-[#66666E] w-[6.2rem] h-[2.8rem]"
-			>
-				항목추가
-			</button>
+			<Header title="담배">
+				<button
+					onClick={() => setIsAddModalOpen(true)}
+					className="  border-[0.15rem] rounded-[0.8rem] border-g42 font-medium text-[1.4rem] leading-[1.96rem] text-[#66666E] w-[6.2rem] h-[2.8rem]"
+				>
+					항목추가
+				</button>
+			</Header>
+
 			<main className="space-y-[2.4rem] pt-[1.6rem]  h-[calc(100vh-5.6rem)] text-g9 relative overflow-hidden">
 				<div className="space-y-[1.2rem]">
 					<SearchInput

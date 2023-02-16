@@ -5,8 +5,9 @@ import { Router, useRouter } from 'next/router';
 interface Props {
 	title: string;
 	mode?: 'dark' | 'white';
+	children?: React.ReactNode;
 }
-function Header({ title, mode }: Props) {
+function Header({ title, mode, children }: Props) {
 	const router = useRouter();
 	return (
 		<header
@@ -14,10 +15,11 @@ function Header({ title, mode }: Props) {
 				mode === 'white' ? 'text-w' : 'text-g10 bg-w'
 			}`}
 		>
-			<button onClick={() => router.back()} className="absolute left-[2rem] top-[2.1rem]">
+			<button onClick={() => router.back()} className="absolute left-[2rem] top-1/2 -translate-y-1/2">
 				<BackIcon stroke={`${mode === 'white' ? '#ffffff' : '#66666E'}`} />
 			</button>
 			<h1 className="text-subhead4">{title}</h1>
+			<div className="absolute right-[2rem] top-1/2 -translate-y-1/2">{children}</div>
 		</header>
 	);
 }
