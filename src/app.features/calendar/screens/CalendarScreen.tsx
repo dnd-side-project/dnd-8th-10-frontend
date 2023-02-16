@@ -8,59 +8,40 @@ import { useRouter } from 'next/router';
 import TopModal from 'src/app.components/Modal/TopModal';
 import useModalStore from 'src/app.modules/store/modal';
 import Overlay from 'src/app.components/Modal/Overlay';
+import SalaryIcon from 'src/app.modules/assets/calendar/salary.svg';
+import CtlIcon from 'src/app.modules/assets/calendar/control.svg';
 import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
 import useStore from '../store';
 import { getGray, postWork } from '../api';
 import Modal from '../components/Modal';
+import useKeypadStore from '../store/keypad';
 
 function CalendarScreen() {
-	// // 더미 스케쥴
 	const [schedule, setSchedule] = useState<number[]>([]);
-	const { year, month, setCalendar } = useStore();
-	const { isModalOpen } = useModalStore();
-
-	const [fakeYear, setFakeYear] = useState<number>(0);
-
+	const { year, month, setCalendar, modalCalData } = useStore();
+	const { isModalOpen, modalIsOpen } = useModalStore();
+	const { isJump, keypadChange } = useKeypadStore();
 	const router = useRouter();
-	// 년도, 달, 일정
 
 	// 해당 달의 첫날과 마지막날
 	const firstDay = Number(new Date(year, month, 1).getDay());
 	const lastDate = Number(new Date(year, month + 1, 0).getDate());
 
 	const onChangeMonth = (swiper: SwiperCore) => {
-		// month와 monthView(스와이프) 동기화
 		setCalendar(year, swiper.realIndex);
 
 		// 다음 슬라이드
 		if (swiper.swipeDirection === 'next') {
 			if (month === 11) {
-				setCalendar(0, year + 1);
+				setCalendar(year + 1, 0);
 			}
 		}
 		// 이전 슬라이드
 		if (swiper.swipeDirection === 'prev') {
 			if (month === 0) {
-				setCalendar(11, year - 1);
+				setCalendar(year - 1, 11);
 			}
-		}
-	};
-	const onChageFakeYear = (swiper: SwiperCore, progress: number) => {
-		const valid = Number((progress * 10).toFixed(1)) % 1;
-		// 다음 슬라이딩 년도 미리보기 증가
-
-		if (swiper.swipeDirection === 'next') {
-			// 우측 미리보기
-			if (month === 11 && valid >= 0.19) {
-				setFakeYear(1);
-			}
-			// 루프 초기화시 미리보기 안먹는 경우
-			if (month === 11 && (valid === 0.1 || valid === 0.9)) {
-				setFakeYear(0);
-			}
-		} else {
-			setFakeYear(0);
 		}
 	};
 
@@ -96,50 +77,58 @@ function CalendarScreen() {
 	const salary = () => {
 		router.push(`${SERVICE_URL.calendarSalary}`);
 	};
+
 	return (
 		<div>
+			<header className="w-full h-[5.6rem] flex items-center justify-between relative">
+				<div className="cursor-pointer flex items-center h-[2.2rem] justify-between">
+					<button
+						className="flex items-center"
+						type="button"
+						onClick={() => {
+							modalIsOpen();
+							modalCalData('keypad');
+						}}
+					>
+						<span className="text-g10 text-subhead4 mr-[0.4rem]">{`${year}년 ${month + 1}월`}</span>
+						<CtlIcon />
+					</button>
+				</div>
+				<button className="cursor-pointer" type="button" onClick={() => salary()}>
+					<SalaryIcon />
+				</button>
+			</header>
 			<Swiper
 				loop
 				initialSlide={month}
 				onSlideChangeTransitionStart={(swiper) => {
 					onChangeMonth(swiper);
 				}}
-				onProgress={(swiper, progress) => {
-					onChageFakeYear(swiper, progress);
-				}}
-				onTouchEnd={() => {
-					setTimeout(() => {
-						setFakeYear(0);
-					}, 100);
+				onTouchStart={(swiper) => {
+					if (isJump) {
+						swiper.slideToLoop(month, 0, false);
+						keypadChange();
+					}
 				}}
 			>
 				{[...new Array(12)].map((_, monthView) => (
 					<SwiperSlide key={monthView}>
-						<div className="flex justify-between ">
-							<div className="flex items-center">
-								<span className="text-[2rem] font-bold mr-[0.5rem]">{`${year + fakeYear}.${monthView + 1}`}</span>
-								<div>버튼</div>
+						<div className="mx-[0.2rem]">
+							<div className="flex justify-between mt-[2.4rem] mb-[2.6rem]">
+								{WEEK.map((day, index) => (
+									<span className="text-body2 w-[2.8rem] h-[2rem] text-center" key={index}>
+										{day}
+									</span>
+								))}
 							</div>
-							<button type="button" onClick={() => salary()}>
-								급여
-							</button>
-						</div>
-						<div>
 							<div>
-								<div className="text-[1.5rem] flex justify-around">
-									{WEEK.map((day, index) => (
-										<span key={index}>{day}</span>
-									))}
-								</div>
-								<div>
-									{MakeCalendar({
-										year,
-										monthView,
-										firstDay,
-										lastDate,
-										schedule,
-									})}
-								</div>
+								{MakeCalendar({
+									year,
+									monthView,
+									firstDay,
+									lastDate,
+									schedule,
+								})}
 							</div>
 						</div>
 					</SwiperSlide>

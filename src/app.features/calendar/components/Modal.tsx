@@ -5,16 +5,19 @@ import { MutateTpye } from 'src/app.modules/api/client';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useModalStore from 'src/app.modules/store/modal';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
+import ProfileImage from 'src/app.components/ProfileImage';
 import { getToDay, getWorkList, MutateBody } from '../api';
 import useStore from '../store';
 import useTimeSetStore from '../store/time';
+import Keypad from './Keypad';
 
 type Flag = 'startTime' | 'endTime' | null;
+
 interface Props {
 	WorkMutate: MutateTpye<MutateBody>;
 }
 function Modal({ WorkMutate }: Props) {
-	const { toDay, workDay, isDayReset } = useStore();
+	const { toDay, workDay, isDayReset, year, month } = useStore();
 	const { modalIsClose } = useModalStore();
 	const [workTime, setWorkTime] = useState<string>('');
 	const { clickDay } = useStore();
@@ -24,9 +27,8 @@ function Modal({ WorkMutate }: Props) {
 		setTime,
 	} = useTimeSetStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
-	const [year, month, day] = clickDay.split('.');
+	const [clickYear, clickMonth, day] = clickDay.split('.');
 	const [userName, setUserName] = useState([]);
-
 	useEffect(() => {
 		setOpenModalFlag(null);
 		return () => setUserName([]);
@@ -36,6 +38,7 @@ function Modal({ WorkMutate }: Props) {
 		const { name, value } = e.target;
 		setTime(value, name, openModalFlag as 'startTime' | 'endTime');
 	};
+
 	const getWorkTimeString = () => {
 		try {
 			return `${startTime.hour.length === 1 && startTime.meridiem === 'am' ? '0' : ''}${
@@ -57,7 +60,7 @@ function Modal({ WorkMutate }: Props) {
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
 		const timeDiff = Math.abs((startSplit - endSplit) / 60);
-		WorkMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
+		WorkMutate({ year: clickYear, month: clickMonth, day, workTime: workTimeData, workHour: timeDiff });
 		isDayReset();
 		modalIsClose();
 	};
@@ -66,7 +69,6 @@ function Modal({ WorkMutate }: Props) {
 	if (!workDay && clickDay === toDay) {
 		const data = getToDay(getDayOfWeek(clickDay));
 		data.then((res) => {
-			// 여러번 요청감
 			if (res.data !== '') {
 				setWorkTime(res.data);
 			}
@@ -75,7 +77,7 @@ function Modal({ WorkMutate }: Props) {
 
 	// 과거 누른 경우 & 출근한 날 누른 경우
 	if (workDay && new Date(clickDay) <= new Date(toDay) && userName.length === 0) {
-		const data = getWorkList({ year, month, day });
+		const data = getWorkList({ year: clickYear, month: clickMonth, day });
 		data.then((res) => {
 			setUserName(res.data.data);
 		});
@@ -87,28 +89,35 @@ function Modal({ WorkMutate }: Props) {
 	};
 
 	const renderContent = () => {
-		// 금일 클릭시
+		if (clickDay === 'keypad') {
+			return <Keypad year={year} month={month} />;
+		}
 		if (!workDay && clickDay === toDay) {
+			// 금일 클릭시
 			// 출근하기
 			return (
-				<div className="text-[2rem]">
-					<div className="flex">
-						<div className="w-[50%] font-semibold">시작</div>
-						<div className="w-[50%] font-semibold">종료</div>
+				<div>
+					<div className="flex text-g9 mb-[0.8rem]">
+						<div className="w-[50%]">
+							<span className="text-subhead3">시작</span>
+						</div>
+						<div className="w-[50%]">
+							<span className="text-subhead3 ml-[1.4rem]">종료</span>
+						</div>
 					</div>
-					<div className="flex items-center my-3">
+					<div className="flex items-center mb-[2.4rem]">
 						<button
 							onClick={() => setOpenModalFlag('startTime')}
-							className="w-[50%] px-[1.5rem] py-[1.5rem] bg-white rounded-lg"
+							className="w-[50%] h-[4.8rem] bg-w rounded-[0.8rem] text-body2 text-g9"
 						>
 							{workTime !== ''
 								? workTime.split('~')[0]
 								: `${startTime.hour}시 ${startTime.minute}분 ${startTime.meridiem}`}
 						</button>
-						<span className="mx-[10px]">~</span>
+						<span className="text-subhead3 mx-[1rem]">~</span>
 						<button
 							onClick={() => setOpenModalFlag('endTime')}
-							className="w-[50%] px-[1.5rem] py-[1.5rem] bg-white rounded-lg"
+							className="w-[50%] h-[4.8rem] bg-w rounded-[0.8rem] text-body2 text-g9"
 						>
 							{workTime !== '' ? workTime.split('~')[1] : `${endTime.hour}시 ${endTime.minute}분 ${endTime.meridiem}`}
 						</button>
@@ -123,7 +132,7 @@ function Modal({ WorkMutate }: Props) {
 					<div>
 						<button
 							type="button"
-							className="bg-[#D9D9D9] w-full py-[2rem] font-semibold rounded-lg"
+							className="bg-primary w-full h-[6rem] text-w rounded-[0.8rem] text-subhead4"
 							onClick={() => commute()}
 						>
 							출근하기
@@ -136,26 +145,52 @@ function Modal({ WorkMutate }: Props) {
 		if (!workDay || new Date(clickDay) > new Date(toDay)) {
 			// 근무 안된 날짜 클릭시, 미래 클릭시
 			return (
-				<div className="text-[2rem]">
+				<div>
 					<div className="flex justify-between">
-						<div>{clickDay}</div>
-						<div>{new Date(clickDay) < new Date(toDay) && <button onClick={() => workModify()}>출근수정</button>}</div>
+						<div>
+							<span className="text-subhead3 text-g9">
+								{month}월 {day}일
+							</span>
+						</div>
+						<div>
+							{new Date(clickDay) < new Date(toDay) && (
+								<button
+									className="bg-w px-[0.9rem] py-[0.4rem] border-solid border-[0.15rem] border-g4  rounded-[0.8rem]"
+									onClick={() => workModify()}
+								>
+									<span className="text-[1.4rem] text-g9">출근수정</span>
+								</button>
+							)}
+						</div>
 					</div>
-					<div>아직 기록이 없어요.</div>
+					<div className="text-center m-[2.4rem]">
+						<span className="text-body3 text-g7">아직 기록이 없어요.</span>
+					</div>
 				</div>
 			);
 		}
-		// 출근된 날짜 클릭시
+
 		return (
-			<div className="text-[2rem]">
+			<div>
 				<div className="flex justify-between">
-					<div>{clickDay}</div>
-					<button onClick={() => workModify()}>출근수정</button>
+					<div>
+						<span className="text-subhead3 text-g9">
+							{month}월 {day}일
+						</span>
+					</div>
+					<button
+						className="bg-w px-[0.9rem] py-[0.4rem] border-solid border-[0.15rem] border-g4  rounded-[0.8rem]"
+						onClick={() => workModify()}
+					>
+						<span className="text-[1.4rem] text-g9">출근수정</span>
+					</button>
 				</div>
 				<div>
-					{userName.map((item: { name: string; workTime: string }, index) => (
-						<div key={index}>
-							{item.name} - {item?.workTime}
+					{userName.map((item: { name: string; workTime: string; userProfileCode: number }, index) => (
+						<div className="my-[2.4rem] flex items-center" key={index}>
+							<ProfileImage size="lg" userProfileCode={item?.userProfileCode} />
+							<span className="text-subhead2 text-g10 mx-[0.8rem]">{item.name}</span>
+							<span className="text-body2 text-g8">{item?.workTime}</span>
 						</div>
 					))}
 				</div>

@@ -8,9 +8,12 @@ function TotalSalary({ data }: any) {
 	}, [data]);
 
 	return (
-		<div className="flex justify-between p-[2rem] bg-[#5377b1] rounded-lg">
-			<span>이번달 급여</span>
-			<span>{totalSalary}원</span>
+		<div className="flex justify-between items-center px-[1.6rem] h-[6.4rem] bg-transparent-20% rounded-[0.8rem] text-subhead3">
+			<span className="text-w text-subhead3">이번달 급여</span>
+			<span className="text-[2rem]">
+				{totalSalary?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+				<span className="text-[1.4rem]">원</span>
+			</span>
 		</div>
 	);
 }

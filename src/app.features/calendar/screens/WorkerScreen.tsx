@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import Header from 'src/app.components/Header';
+import CtlIcon from 'src/app.modules/assets/calendar/controlW.svg';
 import { getSalary } from '../api';
 import SalaryDetail from '../components/SalaryDetail';
 import TotalSalary from '../components/TotalSalary';
@@ -29,13 +31,13 @@ function WorkerScreen() {
 		setWorkHour(workHourFilter);
 	}, [salaryData]);
 	return (
-		<div className="text-[1.5rem]">
+		<div>
 			{!isLoading && (
 				<>
-					<div className="text-center text-white bg-[#5696FC] p-[0.2rem]">
-						<div className="p-[0.5rem]">
-							{year} {month + 1}월
-						</div>
+					<div className="text-center w-[calc(100%+4rem)] px-[2rem] pb-[2rem] -translate-x-[2rem] text-w bg-primary">
+						<Header title={`${year}년 ${month + 1}월`}>
+							<CtlIcon className="ml-[0.4rem]" />
+						</Header>
 						<TotalSalary data={workHour} />
 					</div>
 					<div>

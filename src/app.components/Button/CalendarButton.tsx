@@ -12,20 +12,20 @@ interface Props {
 function CalendarButton({ idx, workDay, day, toDay, clickDay }: Props) {
 	const getClassName = () => {
 		if (idx === toDay && workDay) {
-			return 'aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[3rem] h-[3rem] bg-[#E8E8E8] border-solid border-[0.2rem] border-[#5696FC] rounded-lg';
+			return 'aria-pressed:bg-primary aria-pressed:text-white text-primary flex justify-center items-center text-body2 w-[3rem] h-[3rem] text-center bg-g3 border-solid border-[0.2rem] border-primary rounded-[0.8rem]';
 		}
 		if (idx === toDay) {
-			return 'aria-pressed:bg-[#5696FC] aria-pressed:text-white text-[#5696FC] flex justify-center items-center w-[3rem] h-[3rem] border-solid border-[0.2rem] border-[#5696FC] rounded-lg';
+			return 'aria-pressed:bg-primary aria-pressed:text-white text-primary flex justify-center items-center text-body2 w-[3rem] h-[3rem] text-center border-solid border-[0.2rem] border-primary rounded-[0.8rem]';
 		}
 		if (workDay) {
-			return 'aria-pressed:bg-[#5696FC] aria-pressed:text-white flex justify-center items-center w-[3rem] h-[3rem] bg-[#E8E8E8] rounded-lg';
+			return 'aria-pressed:bg-primary aria-pressed:text-white text-g9 flex justify-center items-center text-body2 w-[3rem] h-[3rem] text-center bg-g3 rounded-[0.8rem]';
 		}
-		return 'aria-pressed:bg-[#5696FC] aria-pressed:text-white  flex justify-center items-center w-[3rem] h-[3rem] rounded-lg';
+		return 'aria-pressed:bg-primary aria-pressed:text-white text-g9 flex justify-center items-center text-body2 w-[3rem] h-[3rem] text-center rounded-[0.8rem]';
 	};
 
 	return (
 		<div key={idx} aria-pressed={idx === clickDay} className={getClassName()}>
-			<span>{day}</span>
+			<span className="text-body2 w-[2.8rem] h-[2rem]">{day}</span>
 		</div>
 	);
 }
