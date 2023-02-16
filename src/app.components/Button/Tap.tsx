@@ -14,7 +14,7 @@ function Tap({ value, item, onClick, isPressed, name }: Props) {
 			value={value}
 			onClick={onClick}
 			aria-pressed={isPressed}
-			className="px-[1.05rem] py-[0.7rem] rounded-[0.8rem] border-[0.15rem] border-[#E8E8EB]  aria-pressed:bg-[#66666E]  aria-pressed:text-white aria-pressed:border-[#66666E]  "
+			className="px-[1.05rem] py-[0.7rem] rounded-[0.8rem] border-[0.15rem] border-g3  aria-pressed:bg-[#66666E]  aria-pressed:text-white aria-pressed:border-[#66666E]  "
 		>
 			{item}
 		</button>
