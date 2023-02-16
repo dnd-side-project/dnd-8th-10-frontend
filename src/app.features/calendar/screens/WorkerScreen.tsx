@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import Header from 'src/app.components/Header';
+import CtlIcon from 'src/app.modules/assets/calendar/controlW.svg';
 import { getSalary } from '../api';
 import SalaryDetail from '../components/SalaryDetail';
 import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';
 import { ISalaryData } from '../types';
-import CtlIcon from 'src/app.modules/assets/calendar/controlW.svg';
 
 function WorkerScreen() {
 	// 직원 급여 페이지

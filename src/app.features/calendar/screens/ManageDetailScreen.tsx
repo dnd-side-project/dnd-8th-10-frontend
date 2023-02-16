@@ -1,12 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import ProfileImage from 'src/app.components/ProfileImage';
+import Header from 'src/app.components/Header';
 import { getUserSalary } from '../api';
 import SalaryDetail from '../components/SalaryDetail';
 import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';
 import { ISalaryDetail } from '../types';
-import ProfileImage from 'src/app.components/ProfileImage';
-import Header from 'src/app.components/Header';
+
 function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 	// 급여 상세페이지
 	const { year, month } = useStore();
@@ -27,29 +28,45 @@ function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 			refetchOnWindowFocus: false,
 		}
 	);
-
 	return (
 		<div>
-			<div className="w-[calc(100%+4rem)] px-[2rem] pb-[2rem] -translate-x-[2rem] text-w bg-primary">
-				<Header title="" />
-				<div className="mt-[1.6rem] mb-[2rem]">
-					<div className="flex items-center ml-[0.8rem]">
-						<ProfileImage round={true} userProfileCode={salaryData?.userProfileCode} />
-						<div className="ml-[1.6rem]">
-							<span className="text-w text-subhead4">{salaryData?.userName}</span>
-							<span className="text-g3 text-subhead3 ml-[0.8rem]">{salaryData?.role}</span>
-							<div className="bg-g9 w-fit rounded-[0.4rem] py-[0.2rem] px-[0.8rem] mt-[0.8rem]">
-								<span className="text-w text-body1">{salaryData?.workTime}</span>
+			{!isLoading && salaryData && (
+				<>
+					<div className="w-[calc(100%+4rem)] px-[2rem] pb-[2rem] -translate-x-[2rem] text-w bg-primary">
+						<Header title="" />
+						<div className="mt-[1.6rem] mb-[2rem]">
+							<div className="flex items-center ml-[0.8rem]">
+								<ProfileImage round userProfileCode={salaryData.userProfileCode} />
+								<div className="ml-[1.6rem]">
+									<span className="text-w text-subhead4">{salaryData.userName}</span>
+									<span className="text-g3 text-subhead3 ml-[0.8rem]">{salaryData.role}</span>
+
+									<div className="flex">
+										{salaryData.workTime.includes(',') ? (
+											salaryData.workTime.split(',').map((work, index) => (
+												<div
+													key={index}
+													className="bg-g9 w-fit rounded-[0.4rem] py-[0.2rem] px-[0.8rem] mt-[0.8rem] mr-[0.8rem]"
+												>
+													<span className="text-w text-body1">{work}</span>
+												</div>
+											))
+										) : (
+											<div className="bg-g9 w-fit rounded-[0.4rem] py-[0.2rem] px-[0.8rem] mt-[0.8rem]">
+												<span className="text-w text-body1">{salaryData.workTime.split(',')[0]}</span>
+											</div>
+										)}
+									</div>
+								</div>
 							</div>
 						</div>
+						<TotalSalary data={salaryData.totalSalary} />
 					</div>
-				</div>
-				<TotalSalary data={salaryData?.totalSalary} />
-			</div>
-
-			<div>
-				<SalaryDetail data={salaryData?.daySalary} />
-			</div>
+					<div>
+						<SalaryDetail data={salaryData.daySalary} />
+					</div>
+				</>
+			)}
 		</div>
 	);
 }

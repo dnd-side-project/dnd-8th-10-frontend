@@ -5,17 +5,19 @@ import { MutateTpye } from 'src/app.modules/api/client';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useModalStore from 'src/app.modules/store/modal';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
+import ProfileImage from 'src/app.components/ProfileImage';
 import { getToDay, getWorkList, MutateBody } from '../api';
 import useStore from '../store';
 import useTimeSetStore from '../store/time';
-import ProfileImage from 'src/app.components/ProfileImage';
+import Keypad from './Keypad';
 
 type Flag = 'startTime' | 'endTime' | null;
+
 interface Props {
 	WorkMutate: MutateTpye<MutateBody>;
 }
 function Modal({ WorkMutate }: Props) {
-	const { toDay, workDay, isDayReset } = useStore();
+	const { toDay, workDay, isDayReset, year, month } = useStore();
 	const { modalIsClose } = useModalStore();
 	const [workTime, setWorkTime] = useState<string>('');
 	const { clickDay } = useStore();
@@ -25,9 +27,8 @@ function Modal({ WorkMutate }: Props) {
 		setTime,
 	} = useTimeSetStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
-	const [year, month, day] = clickDay.split('.');
+	const [clickYear, clickMonth, day] = clickDay.split('.');
 	const [userName, setUserName] = useState([]);
-
 	useEffect(() => {
 		setOpenModalFlag(null);
 		return () => setUserName([]);
@@ -37,6 +38,7 @@ function Modal({ WorkMutate }: Props) {
 		const { name, value } = e.target;
 		setTime(value, name, openModalFlag as 'startTime' | 'endTime');
 	};
+
 	const getWorkTimeString = () => {
 		try {
 			return `${startTime.hour.length === 1 && startTime.meridiem === 'am' ? '0' : ''}${
@@ -58,7 +60,7 @@ function Modal({ WorkMutate }: Props) {
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
 		const timeDiff = Math.abs((startSplit - endSplit) / 60);
-		WorkMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
+		WorkMutate({ year: clickYear, month: clickMonth, day, workTime: workTimeData, workHour: timeDiff });
 		isDayReset();
 		modalIsClose();
 	};
@@ -67,7 +69,6 @@ function Modal({ WorkMutate }: Props) {
 	if (!workDay && clickDay === toDay) {
 		const data = getToDay(getDayOfWeek(clickDay));
 		data.then((res) => {
-			// 여러번 요청감
 			if (res.data !== '') {
 				setWorkTime(res.data);
 			}
@@ -76,7 +77,7 @@ function Modal({ WorkMutate }: Props) {
 
 	// 과거 누른 경우 & 출근한 날 누른 경우
 	if (workDay && new Date(clickDay) <= new Date(toDay) && userName.length === 0) {
-		const data = getWorkList({ year, month, day });
+		const data = getWorkList({ year: clickYear, month: clickMonth, day });
 		data.then((res) => {
 			setUserName(res.data.data);
 		});
@@ -88,8 +89,11 @@ function Modal({ WorkMutate }: Props) {
 	};
 
 	const renderContent = () => {
-		// 금일 클릭시
+		if (clickDay === 'keypad') {
+			return <Keypad year={year} month={month} />;
+		}
 		if (!workDay && clickDay === toDay) {
+			// 금일 클릭시
 			// 출근하기
 			return (
 				<div>
@@ -165,6 +169,7 @@ function Modal({ WorkMutate }: Props) {
 				</div>
 			);
 		}
+
 		return (
 			<div>
 				<div className="flex justify-between">

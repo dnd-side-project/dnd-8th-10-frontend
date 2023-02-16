@@ -5,20 +5,16 @@ import { useMutation } from '@tanstack/react-query';
 import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import useModalStore from 'src/app.modules/store/modal';
+import Header from 'src/app.components/Header';
+import DelIcon from 'src/app.modules/assets/calendar/delete.svg';
 import useTimeSetStore from '../store/time';
 import { delWorkModify, postWork, putWorkModify } from '../api';
 import useStore from '../store';
-import Header from 'src/app.components/Header';
-import DelIcon from 'src/app.modules/assets/calendar/delete.svg';
+
 type Flag = 'startTime' | 'endTime' | null;
 function WorkModifyScreen() {
 	const { isModalOpen, modalIsOpen } = useModalStore();
-<<<<<<< HEAD
-	const [workTime, setWorkTime] = useState<string | undefined>('');
-=======
 	const [workTime, setWorkTime] = useState<string>('');
-
->>>>>>> 2ec56cb (design: 1차 UI)
 	const { clickDay, toDay, workDay, isDayReset } = useStore();
 	const [year, month, day] = clickDay.split('.');
 	const router = useRouter();
@@ -95,95 +91,65 @@ function WorkModifyScreen() {
 	};
 
 	return (
-<<<<<<< HEAD
-		<div className="text-[2rem] mx-[1.5rem] my-[2rem]">
-			<div>출근수정</div>
-			<button type="button" onClick={() => modalIsOpen()}>
-				삭제
-			</button>
-			<div className="flex items-center my-3">
-				<button
-					onClick={() => setOpenModalFlag('startTime')}
-					className="w-[50%] px-[1.5rem] py-[1.5rem] bg-white rounded-lg"
-				>
-					{startTime.hour}시 {startTime.minute}분 {startTime.meridiem}
-				</button>
-				<span className="mx-[10px]">~</span>
-				<button
-					onClick={() => setOpenModalFlag('endTime')}
-					className="w-[50%] px-[1.5rem] py-[1.5rem] bg-white rounded-lg"
-				>
-					{endTime.hour}시 {endTime.minute}분 {endTime.meridiem}
-				</button>
-			</div>
-			{openModalFlag !== null && (
-				// 클릭한 날이 일하는 날이면 시간 받아온거 뿌리기
-				// 클릭한 날이 일하는 날이 아니면 00시 00분
+		<>
+			<div className="h-[100vh] flex flex-col justify-between">
 				<div>
-					<SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} />
-=======
-		<div className="h-[100vh] flex flex-col justify-between">
-			<div>
-				<Header title="출근수정">
-					<button className="absolute right-0" type="button" onClick={() => modalIsOpen()}>
-						<DelIcon />
-					</button>
-				</Header>
-				<div className="flex text-g9 mb-[0.8rem]">
-					<div className="w-[50%]">
-						<span className="text-subhead3">시작</span>
+					<Header title="출근수정">
+						<button className="absolute right-0" type="button" onClick={() => modalIsOpen()}>
+							<DelIcon />
+						</button>
+					</Header>
+					<div className="flex text-g9 mb-[0.8rem]">
+						<div className="w-[50%]">
+							<span className="text-subhead3">시작</span>
+						</div>
+						<div className="w-[50%]">
+							<span className="text-subhead3 ml-[1.4rem]">종료</span>
+						</div>
 					</div>
-					<div className="w-[50%]">
-						<span className="text-subhead3 ml-[1.4rem]">종료</span>
+					<div className="flex items-center mb-[2.4rem]">
+						<button
+							onClick={() => setOpenModalFlag('startTime')}
+							className="w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem] text-body2 text-g7"
+						>
+							{workTime !== ''
+								? workTime.split('~')[0]
+								: `${startTime.hour}시 ${startTime.minute}분 ${startTime.meridiem}`}
+						</button>
+						<span className="text-subhead3 mx-[1rem]">~</span>
+						<button
+							onClick={() => setOpenModalFlag('endTime')}
+							className="w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem] text-body2 text-g7"
+						>
+							{workTime !== '' ? workTime.split('~')[1] : `${endTime.hour}시 ${endTime.minute}분 ${endTime.meridiem}`}
+						</button>
 					</div>
->>>>>>> 2ec56cb (design: 1차 UI)
+					{openModalFlag !== null && (
+						// 클릭한 날이 일하는 날이면 시간 받아온거 뿌리기
+						// 클릭한 날이 일하는 날이 아니면 00시 00분
+						<div>
+							<SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} />
+						</div>
+					)}
 				</div>
-				<div className="flex items-center mb-[2.4rem]">
+
+				<div className="mb-[2rem]">
 					<button
-						onClick={() => setOpenModalFlag('startTime')}
-						className="w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem] text-body2 text-g9"
+						type="button"
+						className="bg-g2 w-full h-[6rem] text-w rounded-[0.8rem] text-subhead4"
+						onClick={() => modifyBtn()}
 					>
-						{workTime !== ''
-							? workTime.split('~')[0]
-							: `${startTime.hour}시 ${startTime.minute}분 ${startTime.meridiem}`}
-					</button>
-					<span className="text-subhead3 mx-[1rem]">~</span>
-					<button
-						onClick={() => setOpenModalFlag('endTime')}
-						className="w-[50%] h-[4.8rem] bg-g1 rrounded-[0.8rem] text-body2 text-g7"
-					>
-						{workTime !== '' ? workTime.split('~')[1] : `${endTime.hour}시 ${endTime.minute}분 ${endTime.meridiem}`}
+						<span className="text-g7">수정</span>
 					</button>
 				</div>
-				{openModalFlag !== null && (
-					// 클릭한 날이 일하는 날이면 시간 받아온거 뿌리기
-					// 클릭한 날이 일하는 날이 아니면 00시 00분
-					<div>
-						<SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} />
-					</div>
-				)}
 			</div>
-
-			<div className="mb-[2rem]">
-				<button
-					type="button"
-					className="bg-g2 w-full h-[6rem] text-w rounded-[0.8rem] text-subhead4"
-					onClick={() => modifyBtn()}
-				>
-					<span className="text-g7">수정</span>
-				</button>
-			</div>
-<<<<<<< HEAD
-=======
-
->>>>>>> 2ec56cb (design: 1차 UI)
 			{isModalOpen && (
 				<>
 					<Overlay />
 					<Modal content="출근기록이 삭제됩니다!" deleteFn={() => delBtn()} />
 				</>
 			)}
-		</div>
+		</>
 	);
 }
 

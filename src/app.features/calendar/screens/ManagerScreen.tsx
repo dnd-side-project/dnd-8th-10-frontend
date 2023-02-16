@@ -4,12 +4,13 @@ import { useState } from 'react';
 import Header from 'src/app.components/Header';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { getDaysInMonth } from 'src/app.modules/util/calendar';
-import { getSalaryList } from '../api';
-import useStore from '../store';
-import { ISalaryList } from '../types';
 import CtlIcon from 'src/app.modules/assets/calendar/control.svg';
 import ArrowRight from 'src/app.modules/assets/arrowRight.svg';
 import ProfileImage from 'src/app.components/ProfileImage';
+import { getSalaryList } from '../api';
+import useStore from '../store';
+import { ISalaryList } from '../types';
+
 function ManagerScreen() {
 	// 점장 급여 페이지
 	const { year, month } = useStore();
