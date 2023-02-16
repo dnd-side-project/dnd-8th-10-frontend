@@ -1,10 +1,10 @@
 import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
-import CalendarButton from 'src/app.components/Button/Calendar';
+import DayButton from 'src/app.features/register/components/DayButton';
 import OpenSetTimeModalButtons from 'src/app.components/Button/OpenSetTimeModalButtons';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
 import { TimeType } from 'src/app.modules/types/time';
 import RegisterLayout from '../components/RegisterLayout';
-import useRegisterUserStore, { dayMap, DayType, INIT_WORKTIME, WorkTimeType } from '../store';
+import useRegisterUserStore, { dayMap, DayType, INIT_WORKTIME } from '../store';
 
 // TODO: 시간 유효성체크 (끝나는 시간이 시작하는 시간보다 빠른지)
 // TODO: 오전 0시 24시로 표기
@@ -71,7 +71,7 @@ function SetTimeScreen() {
 							{/* TODO: 간격 화면 크기별로 대응 */}
 							{['6', '0', '1', '2', '3', '4', '5'].map((day, index) => (
 								<li key={index} className="mx-auto">
-									<CalendarButton
+									<DayButton
 										name="day"
 										value={day}
 										item={dayMap.get(day) as string}
