@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Router, useRouter } from 'next/router';
 import React from 'react';
 import Header from 'src/app.components/Header';
+import TopModal from 'src/app.components/Modal/TopModal';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import Progress from './Progress';
 

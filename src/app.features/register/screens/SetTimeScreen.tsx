@@ -3,6 +3,8 @@ import DayButton from 'src/app.features/register/components/DayButton';
 import OpenSetTimeModalButtons from 'src/app.components/Button/OpenSetTimeModalButtons';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
 import { TimeType } from 'src/app.modules/types/time';
+import TopModal from 'src/app.components/Modal/TopModal';
+import Overlay from 'src/app.components/Modal/Overlay';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore, { dayMap, DayType, INIT_WORKTIME } from '../store';
 
@@ -63,7 +65,7 @@ function SetTimeScreen() {
 		<RegisterLayout curPage={3} canGoNext={Boolean(workTime !== INIT_WORKTIME)}>
 			{/* TODO: 다음으로 넘어가는 조건 다시 지정 (더 자세하게) */}
 			<div className="space-y-[3.2rem] ">
-				<h1 className="text-g10 text-title2">근무하는 시간대를 설정해주세요.</h1>
+				<h1 className="text-g10 text-title2">근무하는 시간대를 설정해주세요</h1>
 				<div className="flex flex-col space-y-[3.2rem]">
 					<div className="space-y-[0.8rem] w-full">
 						<h2 className="text-g6 text-subhead1">요일 선택</h2>
@@ -97,15 +99,29 @@ function SetTimeScreen() {
 						/>
 					</div>
 				</div>
-				{openModalFlag !== null && (
-					<div>
-						<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} />
-						<button onClick={workTimeHandler}>완료</button>
-					</div>
-				)}
 			</div>
+			{openModalFlag !== null && (
+				<>
+					<Overlay />
+					<TopModal>
+						<>
+							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} />
+							<button onClick={workTimeHandler}>완료</button>
+						</>
+					</TopModal>
+				</>
+			)}
 		</RegisterLayout>
 	);
 }
 
 export default SetTimeScreen;
+
+/*
+
+<div>
+						
+					</div>
+
+
+*/
