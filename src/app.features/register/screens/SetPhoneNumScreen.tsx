@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import TextInput from 'src/app.components/Input/TextInput';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { MutateUserBody } from 'src/app.modules/api/user';
+import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore, { dayMap } from '../store';
 
 interface Props {
@@ -58,35 +60,25 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 		console.log(body);
 		postUser(body);
 	};
+	const resetPhoneNumberHandler = () => {
+		setPhoneNumber('');
+	};
+	// TODO: 전화번호 포맷 유효하면 넘어가게 수정하기
 	return (
-		<div>
-			<form onSubmit={submitHandler}>
-				<input
+		<RegisterLayout curPage={4} canGoNext={Boolean(phoneNumber?.trim())}>
+			<div className="space-y-[1.6rem]">
+				<h1 className="text-g10 text-title2">전화번호를 알려주세요</h1>
+				<TextInput
 					value={phoneNumber ?? ''}
 					onChange={phoneNumberHandler}
-					placeholder="01012345678"
-					type="text"
-					className="w-[300px] h-[30px] mt-[20px] py-2 px-4  border border-black rounded-lg  "
+					resetHandler={resetPhoneNumberHandler}
+					mode="default"
+					placeholder="010-1234-5678"
 				/>
-				<button type="submit">제출</button>
-			</form>
-			<div className="flex flex-col mt-2">
-				<h4>
-					<strong>입력된 정보</strong>
-				</h4>
-				<span>유저 타입 : {role}</span>
-				<span>편의점명 : {storeName}</span>
-				<span>근무시간 : {getWorkTimeString()}</span>
-				{}
-				<span>전화번호 : {phoneNumber}</span>
 			</div>
-		</div>
+			<button type="submit">제출</button>
+		</RegisterLayout>
 	);
 }
 
 export default SetPhoneNumScreen;
-/*
-
-	근무시간 : {workTime.startTime.hour}시 {startTime.minute}분 {startTime.meridiem}-{endTime.hour}시 {endTime.minute}분{' '}
-					{endTime.meridiem}
-*/
