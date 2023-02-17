@@ -3,17 +3,17 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Header from 'src/app.components/Header';
 import TopModal from 'src/app.components/Modal/TopModal';
-import { getSalaryList } from '../api';
+import Overlay from 'src/app.components/Modal/Overlay';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { getDaysInMonth } from 'src/app.modules/util/calendar';
 import CtlIcon from 'src/app.modules/assets/calendar/control.svg';
 import ArrowRight from 'src/app.modules/assets/arrowRight.svg';
 import ProfileImage from 'src/app.components/ProfileImage';
 import useModalStore from 'src/app.modules/store/modal';
-import Overlay from 'src/app.components/Modal/Overlay';
 import useStore from '../store';
 import { ISalaryList } from '../types';
 import Keypad from '../components/Keypad';
+import { getSalaryList } from '../api';
 
 function ManagerScreen() {
 	// 점장 급여 페이지
