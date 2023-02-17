@@ -9,7 +9,7 @@ function TopModal({ children, bgColor = 'bg-w' }: Props) {
 	const { modalIsClose } = useModalStore();
 	return (
 		<div
-			className={`${bgColor} rounded-t-[1.6rem] z-50 fixed bottom-0 max-w-[40rem] -translate-x-[2rem] mx-auto w-full`}
+			className={`${bgColor} rounded-t-[1.6rem] z-50 fixed bottom-0 max-w-[42rem] -translate-x-[2rem] mx-auto w-full`}
 		>
 			<div className="flex justify-center mt-[0.8rem] mb-[2.4rem]">
 				<button type="button" onClick={() => modalIsClose()} className="w-[5rem] h-[0.4rem] bg-g4 rounded-[1rem]">

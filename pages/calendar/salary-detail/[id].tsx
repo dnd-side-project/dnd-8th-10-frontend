@@ -36,7 +36,9 @@ const Detail: NextPage = () => {
 		<>
 			{!isLoading && (
 				<Admin data={data?.data.data.role}>
-					<ManageDetailScreen id={id} />
+					<div className="h-[100vh]">
+						<ManageDetailScreen id={id} />
+					</div>
 				</Admin>
 			)}
 		</>

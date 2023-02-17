@@ -3,7 +3,10 @@ export interface IMakeCal {
 	monthView: number;
 	firstDay: number;
 	lastDate: number;
-	schedule: number[];
+	schedule: {
+		month: number;
+		day: number[];
+	};
 }
 
 export interface ISalaryData {
