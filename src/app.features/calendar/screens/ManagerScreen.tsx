@@ -7,7 +7,7 @@ import Overlay from 'src/app.components/Modal/Overlay';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { getDaysInMonth } from 'src/app.modules/util/calendar';
 import CtlIcon from 'src/app.modules/assets/calendar/control.svg';
-import NotSalary from 'src/app.modules/assets/calendar/notSalary.svg';
+import EmptySalary from 'src/app.modules/assets/calendar/emptySalary.svg';
 import ArrowRight from 'src/app.modules/assets/arrowRight.svg';
 import ProfileImage from 'src/app.components/ProfileImage';
 import useModalStore from 'src/app.modules/store/modal';
@@ -99,7 +99,7 @@ function ManagerScreen() {
 							</div>
 						) : (
 							<div className="h-[80vh] flex flex-col justify-center items-center">
-								<NotSalary />
+								<EmptySalary />
 								<span className="text-subhead3 text-g7">아직 근무자가 없어요</span>
 							</div>
 						)}

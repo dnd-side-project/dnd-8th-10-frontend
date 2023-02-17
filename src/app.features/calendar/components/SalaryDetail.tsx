@@ -1,6 +1,7 @@
 import PlusIcon from 'src/app.modules/assets/calendar/plus.svg';
+import EmptyWork from 'src/app.modules/assets/calendar/emptyWork.svg';
 import { ISalaryProps } from '../types';
-import NotWork from 'src/app.modules/assets/calendar/notWork.svg';
+
 function SalaryDetail({ data }: ISalaryProps) {
 	return (
 		<div>
@@ -32,7 +33,7 @@ function SalaryDetail({ data }: ISalaryProps) {
 				</div>
 			) : (
 				<div className="mt-[12rem] flex flex-col justify-center items-center">
-					<NotWork />
+					<EmptyWork />
 					<span className="text-subhead3 text-g7">아직 근무내역이 없어요</span>
 				</div>
 			)}
