@@ -67,12 +67,12 @@ function CalendarScreen() {
 			onSuccess: (res) => {
 				if (res.data.data.length === 1) {
 					setSchedule({
-						month: month,
+						month,
 						day: res.data.data.map(Number),
 					});
 				} else {
 					setSchedule({
-						month: month,
+						month,
 						day: res.data.data.map(Number),
 					});
 				}

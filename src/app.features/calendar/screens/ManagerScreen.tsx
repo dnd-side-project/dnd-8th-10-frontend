@@ -7,6 +7,7 @@ import Overlay from 'src/app.components/Modal/Overlay';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { getDaysInMonth } from 'src/app.modules/util/calendar';
 import CtlIcon from 'src/app.modules/assets/calendar/control.svg';
+import NotSalary from 'src/app.modules/assets/calendar/notSalary.svg';
 import ArrowRight from 'src/app.modules/assets/arrowRight.svg';
 import ProfileImage from 'src/app.components/ProfileImage';
 import useModalStore from 'src/app.modules/store/modal';
@@ -17,7 +18,7 @@ import { getSalaryList } from '../api';
 
 function ManagerScreen() {
 	// 점장 급여 페이지
-	const { year, month, modalCalData } = useStore();
+	const { year, month, modalCalData, toDay } = useStore();
 	const { isModalOpen, modalIsOpen } = useModalStore();
 	const router = useRouter();
 	const [salaryData, setSalaryData] = useState<ISalaryList[]>([]);
@@ -40,14 +41,13 @@ function ManagerScreen() {
 	useEffect(() => {
 		refetch();
 	}, [year, month]);
-
 	return (
 		<div>
 			{!isLoading && (
 				<>
 					<div className="pb-[5.6rem]">
 						<Header title="" />
-						<div className="pointer-events-none h-[5.6rem] max-w-[50rem] -translate-x-[2rem] fixed z-50 flex mx-auto w-full items-center justify-center">
+						<div className="pointer-events-none h-[5.6rem] max-w-[40rem] -translate-x-[2rem] fixed z-50 flex mx-auto w-full items-center justify-center">
 							<button
 								type="button"
 								className="flex items-center pointer-events-auto"
@@ -65,36 +65,43 @@ function ManagerScreen() {
 					</div>
 
 					<div>
-						<div>
-							<div className="mt-[1.6rem] mb-[1.2rem]">
-								<span className="text-subhead4">알바생</span>
-							</div>
-							{salaryData.map((info, index) => (
-								<div
-									key={index}
-									className="flex justify-between items-center py-[2.4rem] bg-g1 rounded-[0.8rem] px-[1.6rem]"
-								>
-									<div className="flex items-center">
-										<ProfileImage size="lg" userProfileCode={info.userProfileCode} />
-										<div className="flex flex-col justify-center ml-[1.2rem]">
-											<span className="text-subhead3 text-g10">{info.userName}</span>
-											<span className="text-subhead1 text-g6">{getDaysInMonth(year, month)}</span>
+						{salaryData.filter((salary) => salary.totalSalary !== 0).length > 0 ? (
+							<div>
+								<div className="mt-[1.6rem] mb-[1.2rem]">
+									<span className="text-subhead4">알바생</span>
+								</div>
+								{salaryData.map((info, index) => (
+									<div
+										key={index}
+										className="flex justify-between items-center py-[2.4rem] bg-g1 rounded-[0.8rem] px-[1.6rem]"
+									>
+										<div className="flex items-center">
+											<ProfileImage size="lg" userProfileCode={info.userProfileCode} />
+											<div className="flex flex-col justify-center ml-[1.2rem]">
+												<span className="text-subhead3 text-g10">{info.userName}</span>
+												<span className="text-subhead1 text-g6">{getDaysInMonth(year, month)}</span>
+											</div>
+										</div>
+										<div className="flex">
+											<span className="text-subhead3 text-g10 mr-[0.8rem]">
+												{info.totalSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
+											</span>
+											<button
+												type="button"
+												onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${info.userCode}`)}
+											>
+												<ArrowRight />
+											</button>
 										</div>
 									</div>
-									<div className="flex">
-										<span className="text-subhead3 text-g10 mr-[0.8rem]">
-											{info.totalSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
-										</span>
-										<button
-											type="button"
-											onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${info.userCode}`)}
-										>
-											<ArrowRight />
-										</button>
-									</div>
-								</div>
-							))}
-						</div>
+								))}
+							</div>
+						) : (
+							<div className="h-[80vh] flex flex-col justify-center items-center">
+								<NotSalary />
+								<span className="text-subhead3 text-g7">아직 근무자가 없어요</span>
+							</div>
+						)}
 					</div>
 				</>
 			)}
