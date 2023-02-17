@@ -26,12 +26,12 @@ function SetTimeScreen() {
 
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
-	const INIT_WORK_TIME = {} as WorkTimeOnModalType;
-	const [workTimeOnModal, setWorkTimeOnModal] = useState<{
-		meridiem: 'am' | 'pm';
-		hour: string;
-		minute: string;
-	}>(INIT_WORK_TIME);
+	const INIT_WORK_TIME = {
+		meridiem: 'am',
+		hour: '1',
+		minute: '0',
+	} as WorkTimeOnModalType;
+	const [workTimeOnModal, setWorkTimeOnModal] = useState<WorkTimeOnModalType>(INIT_WORK_TIME);
 	const timeOnModalHandler = (e: React.BaseSyntheticEvent) => {
 		const {
 			target: { name, value },
@@ -62,6 +62,17 @@ function SetTimeScreen() {
 	};
 	const selectedDayHandler = (e: BaseSyntheticEvent) => {
 		setSelectedDay(e.target.value);
+	};
+	const resetTimeHandler = (flag: TimeType) => {
+		const temp = { ...workTime[selectedDay] };
+		delete temp[flag];
+		const updatedWorkTime = {
+			...workTime,
+			[selectedDay]: {
+				...temp,
+			},
+		};
+		setTime(updatedWorkTime);
 	};
 	const openSetTimeModalHandler = (flag: TimeType) => {
 		setOpenModalFlag(flag);
@@ -106,6 +117,7 @@ function SetTimeScreen() {
 							endTimeText={`${workTime[selectedDay]?.endTime?.meridiem === 'am' ? '오전' : '오후'} ${
 								workTime[selectedDay]?.endTime?.hour
 							}시 ${workTime[selectedDay]?.endTime?.minute}분`}
+							resetTimeHandler={resetTimeHandler}
 						/>
 					</div>
 				</div>
