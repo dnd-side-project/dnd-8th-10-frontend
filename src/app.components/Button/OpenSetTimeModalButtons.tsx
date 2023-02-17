@@ -6,6 +6,7 @@ interface Props {
 	openSetTimeModalHandler: (flag: TimeType) => void;
 	isStartTimeSet: boolean;
 	isEndTimeSet: boolean;
+	focusedType?: TimeType;
 	startTimeText: string;
 	endTimeText: string;
 	resetTimeHandler: (flag: TimeType) => void;
@@ -17,10 +18,15 @@ function OpenSetTimeModalButtons({
 	startTimeText,
 	endTimeText,
 	resetTimeHandler,
+	focusedType,
 }: Props) {
 	return (
 		<div className="flex items-center justify-between">
-			<div className="w-[14.5rem] h-[4.8rem] rounded-[0.8rem] bg-g1  text-body2 text-start px-[1.2rem] relative flex items-center">
+			<div
+				className={`${
+					focusedType === 'startTime' ? 'time-set-button-border' : ''
+				} w-[14.5rem] h-[4.8rem] rounded-[0.8rem] bg-g1  text-body2 text-start px-[1.2rem] relative flex items-center`}
+			>
 				<button onClick={() => openSetTimeModalHandler('startTime')}>
 					{!isStartTimeSet ? <span className="text-g7">시작시간</span> : <span>{startTimeText}</span>}
 				</button>
@@ -35,7 +41,11 @@ function OpenSetTimeModalButtons({
 				)}
 			</div>
 			<span className="text-g8 text-subhead3">~</span>
-			<div className="w-[14.5rem] h-[4.8rem] rounded-[0.8rem] bg-g1  text-body2 text-start px-[1.2rem] relative flex items-center">
+			<div
+				className={`${
+					focusedType === 'endTime' ? 'time-set-button-border' : ''
+				} w-[14.5rem] h-[4.8rem] rounded-[0.8rem] bg-g1  text-body2 text-start px-[1.2rem] relative flex items-center`}
+			>
 				<button onClick={() => openSetTimeModalHandler('endTime')}>
 					{!isEndTimeSet ? <span className="text-g7">종료시간</span> : <span>{endTimeText}</span>}
 				</button>
