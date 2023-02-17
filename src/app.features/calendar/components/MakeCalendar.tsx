@@ -21,7 +21,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 				if (i <= firstDay) {
 					const now = prevLastDate - firstDay + i;
 					// 이전 달 예시 날짜
-					result.push(<span key={now} className="w-[2.8rem] h-[2rem]" />);
+					result.push(<span key={now} className="w-[3rem] h-[3rem] mr-[1.8rem] last:mr-0" />);
 				}
 				// 현재 달 날짜
 				else {
@@ -36,7 +36,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 								modalIsOpen();
 								modalCalData(idx, workDay);
 							}}
-							className="cursor-pointer"
+							className="cursor-pointer mr-[1.8rem] last:mr-0"
 							key={idx}
 						>
 							<CalendarButton idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />
@@ -61,7 +61,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 								modalIsOpen();
 								modalCalData(idx, workDay);
 							}}
-							className="cursor-pointer"
+							className="cursor-pointer mr-[1.8rem] last:mr-0"
 							key={idx}
 						>
 							<CalendarButton idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />
@@ -71,7 +71,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 				// 다음 달 예시 날짜
 				else {
 					const now = i - lastDate - firstDay + 1;
-					result.push(<span key={now} className="w-[2.8rem] h-[2rem]" />);
+					result.push(<span key={now} className="w-[3rem] h-[3rem] mr-[1.8rem] last:mr-0" />);
 				}
 			}
 		}
@@ -82,7 +82,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 	const week = Math.ceil((firstDay + lastDate) / 7);
 	for (let i = 1; i <= week; i += 1) {
 		days.push(
-			<div className="flex justify-between mb-[4.2rem] last:mb-0" key={week + i}>
+			<div className="flex mb-[3.2rem] last:mb-0" key={week + i}>
 				{makeDay(i)}
 			</div>
 		);
