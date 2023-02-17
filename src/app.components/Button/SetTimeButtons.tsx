@@ -22,7 +22,7 @@ interface Props {
 // TODO: 중복 코드 줄이기
 function SetTimeButtons({ timeHandler, time }: Props) {
 	return (
-		<div className="w-full space-y-[2.4rem]  bg-slate-200 whitespace-nowrap">
+		<div className="w-full space-y-[2.4rem]   whitespace-nowrap">
 			<div className="w-full flex justify-between items-start">
 				<span className="text-g10 text-subhead3">오전/오후</span>
 				<div className="flex gap-[0.8rem] ">

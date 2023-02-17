@@ -8,6 +8,7 @@ html{
 }
 body{
   background-color: lightsteelblue;
+  border-style:solid !important;
 }
 
 * {
@@ -23,4 +24,8 @@ input::-webkit-search-cancel-button,
 input::-webkit-search-results-button,
 input::-webkit-search-results-decoration{
 	display:none;
+}
+
+.time-set-button-border{
+  border:0.1rem solid #4382FF;
 }
