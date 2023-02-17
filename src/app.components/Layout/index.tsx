@@ -7,7 +7,7 @@ interface Props {
 
 function Layout({ children }: Props) {
 	return (
-		<div id="app" className="max-w-[40rem] mx-auto px-[2rem] bg-w">
+		<div id="app" className="max-w-[42rem] mx-auto px-[2rem] bg-w">
 			{children}
 		</div>
 	);
