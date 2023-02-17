@@ -94,12 +94,14 @@ function WorkModifyScreen() {
 		<>
 			<div className="h-[100vh] flex flex-col justify-between">
 				<div>
-					<Header title="출근수정">
-						<button className="absolute right-0" type="button" onClick={() => modalIsOpen()}>
-							<DelIcon />
-						</button>
-					</Header>
-					<div className="flex text-g9 mb-[0.8rem]">
+					<div className="pb-[5.6rem]">
+						<Header title="출근수정">
+							<button type="button" onClick={() => modalIsOpen()}>
+								<DelIcon />
+							</button>
+						</Header>
+					</div>
+					<div className="flex text-g9 mb-[0.8rem] mt-[1.6rem]">
 						<div className="w-[50%]">
 							<span className="text-subhead3">시작</span>
 						</div>

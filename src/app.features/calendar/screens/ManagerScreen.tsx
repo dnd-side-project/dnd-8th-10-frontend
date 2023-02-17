@@ -1,22 +1,27 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from 'src/app.components/Header';
+import TopModal from 'src/app.components/Modal/TopModal';
+import Overlay from 'src/app.components/Modal/Overlay';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { getDaysInMonth } from 'src/app.modules/util/calendar';
 import CtlIcon from 'src/app.modules/assets/calendar/control.svg';
 import ArrowRight from 'src/app.modules/assets/arrowRight.svg';
 import ProfileImage from 'src/app.components/ProfileImage';
-import { getSalaryList } from '../api';
+import useModalStore from 'src/app.modules/store/modal';
 import useStore from '../store';
 import { ISalaryList } from '../types';
+import Keypad from '../components/Keypad';
+import { getSalaryList } from '../api';
 
 function ManagerScreen() {
 	// 점장 급여 페이지
-	const { year, month } = useStore();
+	const { year, month, modalCalData } = useStore();
+	const { isModalOpen, modalIsOpen } = useModalStore();
 	const router = useRouter();
 	const [salaryData, setSalaryData] = useState<ISalaryList[]>([]);
-	const { data, isLoading } = useQuery(
+	const { data, isLoading, refetch } = useQuery(
 		['salaryList'],
 		() => getSalaryList({ year: String(year), month: String(month + 1) }),
 		{
@@ -32,18 +37,37 @@ function ManagerScreen() {
 			refetchOnWindowFocus: false,
 		}
 	);
+	useEffect(() => {
+		refetch();
+	}, [year, month]);
 
 	return (
-		<div className="text-[1.5rem]">
+		<div>
 			{!isLoading && (
 				<>
-					<Header title={`${year}년 ${month + 1}월`}>
-						<CtlIcon className="ml-[0.4rem]" />
-					</Header>
+					<div className="pb-[5.6rem]">
+						<Header title="" />
+						<div className="pointer-events-none h-[5.6rem] max-w-[50rem] -translate-x-[2rem] fixed z-50 flex mx-auto w-full items-center justify-center">
+							<button
+								type="button"
+								className="flex items-center pointer-events-auto"
+								onClick={() => {
+									modalIsOpen();
+									modalCalData('keypad');
+								}}
+							>
+								<span className="text-g10 text-subhead4">
+									{year}년 {month + 1}월
+								</span>
+								<CtlIcon className="ml-[0.4rem]" />
+							</button>
+						</div>
+					</div>
+
 					<div>
 						<div>
 							<div className="mt-[1.6rem] mb-[1.2rem]">
-								<span className="text-subhead4 ">알바생</span>
+								<span className="text-subhead4">알바생</span>
 							</div>
 							{salaryData.map((info, index) => (
 								<div
@@ -72,6 +96,14 @@ function ManagerScreen() {
 							))}
 						</div>
 					</div>
+				</>
+			)}
+			{isModalOpen && (
+				<>
+					<Overlay />
+					<TopModal bgColor="bg-g1">
+						<Keypad year={year} month={month} />
+					</TopModal>
 				</>
 			)}
 		</div>
