@@ -113,7 +113,7 @@ function CalendarScreen() {
 			>
 				{[...new Array(12)].map((_, monthView) => (
 					<SwiperSlide key={monthView}>
-						<div className="mx-[0.2rem] w-[31.6rem] mt-[2.4rem]">
+						<div className="mx-[0.2rem] w-full mt-[2.4rem] flex flex-col justify-center items-center">
 							<div className="flex mb-[2.1rem]">
 								{WEEK.map((day, index) => (
 									<span className="text-body2 w-[2.8rem] h-[2rem] text-center mr-[2rem] last:mr-0" key={index}>
