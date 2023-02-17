@@ -2,17 +2,17 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Header from 'src/app.components/Header';
+import TopModal from 'src/app.components/Modal/TopModal';
+import { getSalaryList } from '../api';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { getDaysInMonth } from 'src/app.modules/util/calendar';
 import CtlIcon from 'src/app.modules/assets/calendar/control.svg';
 import ArrowRight from 'src/app.modules/assets/arrowRight.svg';
 import ProfileImage from 'src/app.components/ProfileImage';
-import { getSalaryList } from '../api';
-import useStore from '../store';
-import { ISalaryList } from '../types';
 import useModalStore from 'src/app.modules/store/modal';
 import Overlay from 'src/app.components/Modal/Overlay';
-import TopModal from 'src/app.components/Modal/TopModal';
+import useStore from '../store';
+import { ISalaryList } from '../types';
 import Keypad from '../components/Keypad';
 
 function ManagerScreen() {
