@@ -62,7 +62,7 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 		<div>
 			<form onSubmit={submitHandler}>
 				<input
-					value={phoneNumber}
+					value={phoneNumber ?? ''}
 					onChange={phoneNumberHandler}
 					placeholder="01012345678"
 					type="text"

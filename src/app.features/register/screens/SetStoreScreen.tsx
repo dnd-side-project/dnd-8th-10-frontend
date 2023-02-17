@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import SearchInput from 'src/app.components/Input/SearchInput';
-import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import RoadBadgeSvg from 'src/app.modules/assets/register/roadBadge.svg';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
@@ -17,7 +16,7 @@ type Store = {
 	road_address_name: string;
 };
 function SetStoreScreen() {
-	const [searchTerm, setSearchTerm] = useState<string>('');
+	const [searchTerm, setSearchTerm] = useState<string>();
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 	const [searchResults, setSearchResults] = useState<Store[]>();
 	const {
@@ -28,8 +27,18 @@ function SetStoreScreen() {
 		setSearchTerm(e.target.value);
 	};
 	const storeNameHandler = (value: string) => {
+		setSearchResults([]);
+		setSearchTerm(value);
 		setStoreName(value);
 	};
+	const resetSearchTerm = () => {
+		if (storeName !== null) {
+			setStoreName(null);
+		}
+		setSearchTerm('');
+		setSearchResults([]);
+	};
+	console.log('storename', storeName, searchTerm);
 	useEffect(() => {
 		const script = document.createElement('script');
 		script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET_SDK}&libraries=services&autoload=false`;
@@ -44,7 +53,7 @@ function SetStoreScreen() {
 		return () => script.removeEventListener('load', onLoadKakaoMap);
 	}, []);
 	useEffect(() => {
-		if (!isLoaded || !searchTerm.trim()) return;
+		if (!isLoaded || !searchTerm?.trim()) return;
 		const onLoadKakaoMap = () => {
 			const { kakao } = window;
 			// 카카오 맵 API는 검색 할 때, 최대 45개의 결과 값만 알려줍니다
@@ -65,19 +74,20 @@ function SetStoreScreen() {
 		onLoadKakaoMap();
 	}, [isLoaded, searchTerm]);
 	return (
-		<RegisterLayout curPage={2} canGoNext={Boolean(storeName.trim())}>
+		<RegisterLayout curPage={2} canGoNext={storeName !== null}>
 			<div className="space-y-[2.4rem] ">
 				<div className="space-y-[1.6rem]">
 					<h1 className="text-g10 text-title2">어떤지점에서 일하고 계신가요?</h1>
 					<SearchInput
-						searchTerm={searchTerm}
+						searchTerm={searchTerm ?? storeName ?? ''}
 						onSearchTermChange={searchTermHandler}
-						resetSearchTerm={() => setSearchTerm('')}
+						resetSearchTerm={resetSearchTerm}
+						isSearched={Boolean(storeName?.trim())}
 					/>
 				</div>
 
-				<div className="h-[calc(100vh-4rem)]">
-					<ul className="space-y-[1.6rem] h-[calc(100%-6rem)] overflow-x-scroll scrollbar-hidden">
+				{storeName === null && (
+					<ul className="space-y-[1.6rem] h-[100vh] pb-[32rem] overflow-x-scroll scrollbar-hidden">
 						{searchResults?.map((store, idx) => (
 							<li key={idx}>
 								<button
@@ -94,8 +104,7 @@ function SetStoreScreen() {
 							</li>
 						))}
 					</ul>
-					<span className="block mt-[12px]">선택된 편의점 : {storeName}</span>
-				</div>
+				)}
 			</div>
 		</RegisterLayout>
 	);

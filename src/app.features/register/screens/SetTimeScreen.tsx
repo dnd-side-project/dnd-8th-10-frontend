@@ -1,12 +1,14 @@
-import Link from 'next/link';
 import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
+import DayButton from 'src/app.features/register/components/DayButton';
+import OpenSetTimeModalButtons from 'src/app.components/Button/OpenSetTimeModalButtons';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
-import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
-import useRegisterUserStore, { dayMap, DayType } from '../store';
+import { TimeType } from 'src/app.modules/types/time';
+import RegisterLayout from '../components/RegisterLayout';
+import useRegisterUserStore, { dayMap, DayType, INIT_WORKTIME } from '../store';
 
 // TODO: 시간 유효성체크 (끝나는 시간이 시작하는 시간보다 빠른지)
 // TODO: 오전 0시 24시로 표기
-type Flag = 'startTime' | 'endTime' | null;
+type Flag = TimeType | null;
 
 function SetTimeScreen() {
 	const [selectedDay, setSelectedDay] = useState<DayType>('6');
@@ -14,8 +16,6 @@ function SetTimeScreen() {
 		user: { workTime },
 		setTime,
 	} = useRegisterUserStore();
-	// TODO: 모달오픈할때 기록했던 시간 보여주기
-	//
 
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const INIT_WORK_TIME = { meridiem: 'am' as 'am' | 'pm', hour: '1', minute: '0' };
@@ -39,7 +39,7 @@ function SetTimeScreen() {
 			...workTime,
 			[selectedDay]: {
 				...workTime[selectedDay],
-				[openModalFlag as 'startTime' | 'endTime']: {
+				[openModalFlag as TimeType]: {
 					...workTimeOnModal,
 				},
 			},
@@ -52,64 +52,59 @@ function SetTimeScreen() {
 	const selectedDayHandler = (e: BaseSyntheticEvent) => {
 		setSelectedDay(e.target.value);
 	};
-	const openTimeSetHandler = (e: BaseSyntheticEvent) => {
-		const {
-			target: {
-				dataset: { flag },
-			},
-		} = e;
+	const openSetTimeModalHandler = (flag: TimeType) => {
 		setOpenModalFlag(flag);
-		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as 'startTime' | 'endTime'];
+		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as TimeType];
 		if (!newWorkTimeOnModal) return;
 		setWorkTimeOnModal(newWorkTimeOnModal);
 	};
-	console.log(workTime);
+
 	return (
-		<div>
-			<div className="flex flex-col space-y-2">
-				<div>
-					<h2>요일 선택</h2>
-					<ul className="grid  grid-cols-7">
-						{['6', '0', '1', '2', '3', '4', '5'].map((day, index) => (
-							<li key={index}>
-								<button
-									name="day"
-									value={day}
-									onClick={selectedDayHandler}
-									aria-pressed={selectedDay === day}
-									className="aria-pressed:bg-blue-300 bg-gray-300"
-								>
-									{dayMap.get(day)}
-								</button>
-							</li>
-						))}
-					</ul>
-				</div>
-				<div>
-					<h2>시간 선택</h2>
-					<div className="flex gap-1">
-						<button onClick={openTimeSetHandler} data-flag="startTime" className="border border-black rounded">
-							시작시간:
-							{workTime[selectedDay]?.startTime?.meridiem}
-							{workTime[selectedDay]?.startTime?.hour}시{workTime[selectedDay]?.startTime?.minute}분
-						</button>
-						<span>~</span>
-						<button onClick={openTimeSetHandler} data-flag="endTime" className="border border-black rounded">
-							종료시간:
-							{workTime[selectedDay]?.endTime?.meridiem}
-							{workTime[selectedDay]?.endTime?.hour ?? ''}시{workTime[selectedDay]?.endTime?.minute}분
-						</button>
+		<RegisterLayout curPage={3} canGoNext={Boolean(workTime !== INIT_WORKTIME)}>
+			{/* TODO: 다음으로 넘어가는 조건 다시 지정 (더 자세하게) */}
+			<div className="space-y-[3.2rem] ">
+				<h1 className="text-g10 text-title2">근무하는 시간대를 설정해주세요.</h1>
+				<div className="flex flex-col space-y-[3.2rem]">
+					<div className="space-y-[0.8rem] w-full">
+						<h2 className="text-g6 text-subhead1">요일 선택</h2>
+						<ul className="grid  grid-cols-7  ">
+							{/* TODO: 간격 화면 크기별로 대응 */}
+							{['6', '0', '1', '2', '3', '4', '5'].map((day, index) => (
+								<li key={index} className="mx-auto">
+									<DayButton
+										name="day"
+										value={day}
+										item={dayMap.get(day) as string}
+										onClick={selectedDayHandler}
+										state={selectedDay === day ? 'focus' : `${workTime[day as DayType] ? 'selected' : 'default'}`}
+									/>
+								</li>
+							))}
+						</ul>
+					</div>
+					<div className="space-y-[0.8rem]">
+						<h2 className="text-g6 text-subhead1">시간 선택</h2>
+						<OpenSetTimeModalButtons
+							openSetTimeModalHandler={openSetTimeModalHandler}
+							isStartTimeSet={Boolean(workTime[selectedDay]?.startTime)}
+							isEndTimeSet={Boolean(workTime[selectedDay]?.endTime)}
+							startTimeText={`${workTime[selectedDay]?.startTime?.meridiem === 'am' ? '오전' : '오후'} ${
+								workTime[selectedDay]?.startTime?.hour
+							}시 ${workTime[selectedDay]?.startTime?.minute}분`}
+							endTimeText={`${workTime[selectedDay]?.endTime?.meridiem === 'am' ? '오전' : '오후'} ${
+								workTime[selectedDay]?.endTime?.hour
+							}시 ${workTime[selectedDay]?.endTime?.minute}분`}
+						/>
 					</div>
 				</div>
+				{openModalFlag !== null && (
+					<div>
+						<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} />
+						<button onClick={workTimeHandler}>완료</button>
+					</div>
+				)}
 			</div>
-			{openModalFlag !== null && (
-				<div>
-					<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} />
-					<button onClick={workTimeHandler}>완료</button>
-				</div>
-			)}
-			<Link href={`${SERVICE_URL.register}?page=4`}>다음으로</Link>
-		</div>
+		</RegisterLayout>
 	);
 }
 
