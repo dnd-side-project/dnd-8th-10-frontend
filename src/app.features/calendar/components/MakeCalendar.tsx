@@ -8,8 +8,8 @@ import useStore from '../store';
 function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCal) {
 	const { toDay, clickDay, modalCalData } = useStore();
 	const { modalIsOpen } = useModalStore();
+	const { month, day } = schedule;
 	const days = [];
-
 	const makeDay = (week: number) => {
 		const result = [];
 		// 첫 주
@@ -22,8 +22,8 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 					const now = prevLastDate - firstDay + i;
 					// 이전 달 예시 날짜
 					result.push(
-						<div className="cursor-pointer mr-[1.8rem] last:mr-0" key={now}>
-							<div className="aria-pressed:bg-primary aria-pressed:text-white text-g9 flex justify-center items-center text-body2 w-[3rem] h-[3rem] rounded-[0.8rem]" />
+						<div key={now}>
+							<div className="w-[3rem] h-[3rem]" />
 						</div>
 					);
 				}
@@ -32,7 +32,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 					const now = i - firstDay;
 					// 첫주 날짜
 					const idx = transIdx(year, monthView, now);
-					const workDay = schedule.includes(now);
+					const workDay = day.includes(now) && monthView === month;
 					result.push(
 						<button
 							type="button"
@@ -40,7 +40,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 								modalIsOpen();
 								modalCalData(idx, workDay);
 							}}
-							className="cursor-pointer mr-[1.8rem] last:mr-0"
+							className="cursor-pointer"
 							key={idx}
 						>
 							<CalendarButton idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />
@@ -56,8 +56,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 					const now = i - firstDay + 1;
 					// 2주~4주차 날짜
 					const idx = transIdx(year, monthView, now);
-					const workDay = schedule.includes(now);
-
+					const workDay = day.includes(now) && monthView === month;
 					result.push(
 						<button
 							type="button"
@@ -65,11 +64,18 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 								modalIsOpen();
 								modalCalData(idx, workDay);
 							}}
-							className="cursor-pointer mr-[1.8rem] last:mr-0"
+							className="cursor-pointer"
 							key={idx}
 						>
 							<CalendarButton idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />
 						</button>
+					);
+				} else {
+					const now = i - lastDate - firstDay + 1;
+					result.push(
+						<div key={now}>
+							<div className="w-[3rem] h-[3rem]" />
+						</div>
 					);
 				}
 			}
@@ -81,7 +87,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 	const week = Math.ceil((firstDay + lastDate) / 7);
 	for (let i = 1; i <= week; i += 1) {
 		days.push(
-			<div className="flex mb-[3.2rem] last:mb-0" key={week + i}>
+			<div className="flex justify-between mb-[3.2rem] last:mb-0 mx-[0.9rem]" key={week + i}>
 				{makeDay(i)}
 			</div>
 		);

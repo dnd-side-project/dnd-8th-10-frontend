@@ -11,8 +11,8 @@ interface Props {
 }
 function Keypad({ year, month }: Props) {
 	const [openKeypad, setOpenKeypad] = useState<keypad>(null);
-	const [keypadYear, setKeypadYear] = useState<string>('');
-	const [keypadMonth, setKeypadMonth] = useState<string>('');
+	const [keypadYear, setKeypadYear] = useState<string>(String(year));
+	const [keypadMonth, setKeypadMonth] = useState<string>(String(month + 1));
 	const { setCalendar } = useStore();
 	const { keypadChange } = useKeypadStore();
 	const { modalIsClose } = useModalStore();
@@ -37,7 +37,7 @@ function Keypad({ year, month }: Props) {
 							: 'text-body2 text-g7 '
 					}`}
 				>
-					{keypadYear || year}
+					{keypadYear}
 					{openKeypad === 'year' && (
 						<span
 							role="presentation"
@@ -58,7 +58,7 @@ function Keypad({ year, month }: Props) {
 							: 'text-body2 text-g7 '
 					}`}
 				>
-					{keypadMonth || month + 1}
+					{keypadMonth}
 					{openKeypad === 'month' && (
 						<span
 							role="presentation"

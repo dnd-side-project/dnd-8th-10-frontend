@@ -18,7 +18,10 @@ import Modal from '../components/Modal';
 import useKeypadStore from '../store/keypad';
 
 function CalendarScreen() {
-	const [schedule, setSchedule] = useState<number[]>([]);
+	const [schedule, setSchedule] = useState({
+		month: 0,
+		day: [],
+	});
 	const { year, month, setCalendar, modalCalData } = useStore();
 	const { isModalOpen, modalIsOpen } = useModalStore();
 	const { isJump, keypadChange } = useKeypadStore();
@@ -63,9 +66,15 @@ function CalendarScreen() {
 		{
 			onSuccess: (res) => {
 				if (res.data.data.length === 1) {
-					setSchedule(res.data.data.map(Number));
+					setSchedule({
+						month: month,
+						day: res.data.data.map(Number),
+					});
 				} else {
-					setSchedule(res.data.data.map(Number));
+					setSchedule({
+						month: month,
+						day: res.data.data.map(Number),
+					});
 				}
 			},
 		}
@@ -98,45 +107,49 @@ function CalendarScreen() {
 					<SalaryIcon />
 				</button>
 			</header>
-			<Swiper
-				loop
-				initialSlide={month}
-				onSlideChangeTransitionStart={(swiper) => {
-					onChangeMonth(swiper);
-				}}
-				onTouchStart={(swiper) => {
-					if (isJump) {
-						swiper.slideToLoop(month, 0, false);
-						keypadChange();
-					}
-				}}
-			>
-				{[...new Array(12)].map((_, monthView) => (
-					<SwiperSlide key={monthView}>
-						<div className="mx-[0.2rem] w-full mt-[2.4rem] flex flex-col justify-center items-center">
-							<div className="flex mb-[2.1rem]">
-								{WEEK.map((day, index) => (
-									<span className="text-body2 w-[2.8rem] h-[2rem] text-center mr-[2rem] last:mr-0" key={index}>
-										{day}
-									</span>
-								))}
+			<div className="mt-[2.4rem] mx-[0.2rem]">
+				<div className="flex mb-[2.1rem] justify-between">
+					{WEEK.map((day, index) => (
+						<span className="text-body2 w-[2.8rem] h-[2rem] text-center mr-[2rem] last:mr-0" key={index}>
+							{day}
+						</span>
+					))}
+				</div>
+			</div>
+			<div className="w-[calc(100%+1.8rem)] -translate-x-[0.8rem]">
+				<Swiper
+					loop
+					initialSlide={month}
+					onSlideChangeTransitionStart={(swiper) => {
+						onChangeMonth(swiper);
+					}}
+					onTouchStart={(swiper) => {
+						if (isJump) {
+							swiper.slideToLoop(month, 0, false);
+							keypadChange();
+						}
+					}}
+				>
+					{[...new Array(12)].map((_, monthView) => (
+						<SwiperSlide key={monthView}>
+							<div className="mx-[0.2rem]">
+								<div>
+									{MakeCalendar({
+										year,
+										monthView,
+										firstDay,
+										lastDate,
+										schedule,
+									})}
+								</div>
 							</div>
-							<div>
-								{MakeCalendar({
-									year,
-									monthView,
-									firstDay,
-									lastDate,
-									schedule,
-								})}
-							</div>
-						</div>
-					</SwiperSlide>
-				))}
-			</Swiper>
+						</SwiperSlide>
+					))}
+				</Swiper>
+			</div>
 			{isModalOpen && (
 				<>
-					<Overlay bgColor="" />
+					<Overlay />
 					<TopModal bgColor="bg-g1">
 						<Modal WorkMutate={WorkMutate} />
 					</TopModal>
