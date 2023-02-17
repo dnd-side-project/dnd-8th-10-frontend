@@ -41,6 +41,7 @@ function ManagerScreen() {
 	useEffect(() => {
 		refetch();
 	}, [year, month]);
+	console.log(salaryData.filter((salary) => salary.totalSalary !== 0));
 	return (
 		<div>
 			{!isLoading && (
@@ -73,7 +74,7 @@ function ManagerScreen() {
 								{salaryData.map((info, index) => (
 									<div
 										key={index}
-										className="flex justify-between items-center py-[2.4rem] bg-g1 rounded-[0.8rem] px-[1.6rem]"
+										className="flex justify-between items-center py-[2.4rem] bg-g1 rounded-[0.8rem] px-[1.6rem] mb-[0.8rem]"
 									>
 										<div className="flex items-center">
 											<ProfileImage size="lg" userProfileCode={info.userProfileCode} />
