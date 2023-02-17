@@ -5,7 +5,7 @@ interface Props {
 	blur?: boolean;
 }
 
-function Overlay({ bgColor = 'bg-transparent-20%', blur = false }: Props) {
+function Overlay({ bgColor = 'bg-transparent-30%', blur = false }: Props) {
 	const { modalIsClose } = useModalStore();
 	return (
 		<div>
