@@ -1,3 +1,5 @@
+import Chip from '../app.base/Button/Chip';
+
 interface Props {
 	timeHandler: ((e: React.BaseSyntheticEvent) => void) | (() => void); // 시간 설정 handler 저의 경우, hadler를 아래 방식으로 정의했습니다.
 	/*
@@ -17,77 +19,66 @@ interface Props {
 		minute: string;
 	};
 }
+// TODO: 중복 코드 줄이기
 function SetTimeButtons({ timeHandler, time }: Props) {
 	return (
-		<div className="w-[500px] h-[5000x] bg-slate-200">
-			<div>
-				<button
-					type="button"
-					onClick={timeHandler}
-					aria-pressed={time?.meridiem === 'am'}
-					value="am"
-					name="meridiem"
-					className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
-				>
-					오전
-				</button>
-
-				<button
-					type="button"
-					onClick={timeHandler}
-					aria-pressed={time?.meridiem === 'pm'}
-					value="pm"
-					name="meridiem"
-					className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
-				>
-					오후
-				</button>
-			</div>
-			<div>
-				<span>시</span>
-				<div className="space-y-1">
-					{[0, 6].map((offset) => (
-						<ul className="flex space-x-1" key={offset}>
-							{[1 + offset, 2 + offset, 3 + offset, 4 + offset, 5 + offset, 6 + offset].map((hour) => (
-								<li key={hour}>
-									<button
-										type="button"
-										value={hour}
-										name="hour"
-										onClick={timeHandler}
-										aria-pressed={time?.hour === `${hour}`}
-										className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
-									>
-										{hour}
-									</button>
-								</li>
-							))}
-						</ul>
-					))}
+		<div className="w-full space-y-[2.4rem]  bg-slate-200 whitespace-nowrap">
+			<div className="w-full flex justify-between items-start">
+				<span className="text-g10 text-subhead3">오전/오후</span>
+				<div className="flex gap-[0.8rem] ">
+					<Chip
+						onClick={timeHandler}
+						isPressed={time?.meridiem === 'am'}
+						value="am"
+						name="meridiem"
+						item="오전"
+						mode="h40"
+						className="w-[11.25rem]"
+					/>
+					<Chip
+						onClick={timeHandler}
+						isPressed={time?.meridiem === 'pm'}
+						value="pm"
+						name="meridiem"
+						item="오후"
+						mode="h40"
+						className="w-[11.25rem]"
+					/>
 				</div>
 			</div>
-			<div>
-				<span>분</span>
-				<div className="space-y-1">
-					{[0, 30].map((offset) => (
-						<ul className="flex space-x-1" key={offset}>
-							{[0 + offset, 5 + offset, 10 + offset, 15 + offset, 20 + offset, 25 + offset].map((minute) => (
-								<li key={minute}>
-									<button
-										type="button"
-										value={minute}
-										name="minute"
-										onClick={timeHandler}
-										aria-pressed={time?.minute === `${minute}`}
-										className="aria-pressed:bg-blue-400 bg-gray-400 p-2"
-									>
-										{minute}
-									</button>
-								</li>
-							))}
-						</ul>
+			<div className="flex justify-between items-start">
+				<span className="text-g10 text-subhead3">시</span>
+				<ul className="grid grid-cols-6 gap-[0.8rem]">
+					{Array.from({ length: 12 }, (_, i) => i + 1).map((hour) => (
+						<li key={hour}>
+							<Chip
+								name="hour"
+								mode="h32"
+								item={`${hour}`}
+								value={`${hour}`}
+								isPressed={time?.hour === `${hour}`}
+								onClick={timeHandler}
+							/>
+						</li>
 					))}
-				</div>
+				</ul>
+			</div>
+			<div className="flex justify-between items-start">
+				<span className="text-g10 text-subhead3">분</span>
+				<ul className="grid grid-cols-6 gap-[0.8rem]">
+					{Array.from({ length: 12 }, (_, i) => i * 5).map((minute) => (
+						<li key={minute}>
+							<Chip
+								name="minute"
+								mode="h32"
+								item={`${minute}`}
+								value={`${minute}`}
+								isPressed={time?.minute === `${minute}`}
+								onClick={timeHandler}
+							/>
+						</li>
+					))}
+				</ul>
 			</div>
 		</div>
 	);

@@ -1,5 +1,5 @@
 import React from 'react';
-import Tap from 'src/app.components/Button/Tap';
+import Tap from 'src/app.components/app.base/Button/Tap';
 
 interface Props {
 	filterHandler: (e: React.BaseSyntheticEvent) => void;
