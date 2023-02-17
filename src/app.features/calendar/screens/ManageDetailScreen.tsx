@@ -33,13 +33,18 @@ function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 			{!isLoading && salaryData && (
 				<>
 					<div className="w-[calc(100%+4rem)] px-[2rem] pb-[2rem] -translate-x-[2rem] text-w bg-primary">
-						<Header title="" />
+						<div className="pb-[5.6rem]">
+							<Header title="" mode="white" />
+						</div>
+
 						<div className="mt-[1.6rem] mb-[2rem]">
 							<div className="flex items-center ml-[0.8rem]">
 								<ProfileImage round userProfileCode={salaryData.userProfileCode} />
 								<div className="ml-[1.6rem]">
 									<span className="text-w text-subhead4">{salaryData.userName}</span>
-									<span className="text-g3 text-subhead3 ml-[0.8rem]">{salaryData.role}</span>
+									<span className="text-g3 text-subhead3 ml-[0.8rem]">
+										{salaryData.role === 'MANAGER' ? '점장' : '알바생'}
+									</span>
 
 									<div className="flex">
 										{salaryData.workTime.includes(',') ? (
