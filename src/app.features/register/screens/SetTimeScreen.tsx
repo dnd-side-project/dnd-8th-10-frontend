@@ -5,13 +5,18 @@ import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
 import { TimeType } from 'src/app.modules/types/time';
 import TopModal from 'src/app.components/Modal/TopModal';
 import Overlay from 'src/app.components/Modal/Overlay';
+import useModalStore from 'src/app.modules/store/modal';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore, { dayMap, DayType, INIT_WORKTIME } from '../store';
 
 // TODO: 시간 유효성체크 (끝나는 시간이 시작하는 시간보다 빠른지)
 // TODO: 오전 0시 24시로 표기
 type Flag = TimeType | null;
-
+type WorkTimeOnModalType = {
+	meridiem: 'am' | 'pm';
+	hour: string;
+	minute: string;
+};
 function SetTimeScreen() {
 	const [selectedDay, setSelectedDay] = useState<DayType>('6');
 	const {
@@ -20,7 +25,8 @@ function SetTimeScreen() {
 	} = useRegisterUserStore();
 
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
-	const INIT_WORK_TIME = { meridiem: 'am' as 'am' | 'pm', hour: '1', minute: '0' };
+	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	const INIT_WORK_TIME = {} as WorkTimeOnModalType;
 	const [workTimeOnModal, setWorkTimeOnModal] = useState<{
 		meridiem: 'am' | 'pm';
 		hour: string;
@@ -37,6 +43,8 @@ function SetTimeScreen() {
 		});
 	};
 	const workTimeHandler = () => {
+		const { meridiem, hour, minute } = workTimeOnModal;
+		if (!meridiem || !hour || !minute) return;
 		const updatedWorkTime = {
 			...workTime,
 			[selectedDay]: {
@@ -50,12 +58,14 @@ function SetTimeScreen() {
 		setTime(updatedWorkTime);
 		setOpenModalFlag(null);
 		setWorkTimeOnModal(INIT_WORK_TIME);
+		modalIsClose();
 	};
 	const selectedDayHandler = (e: BaseSyntheticEvent) => {
 		setSelectedDay(e.target.value);
 	};
 	const openSetTimeModalHandler = (flag: TimeType) => {
 		setOpenModalFlag(flag);
+		modalIsOpen();
 		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as TimeType];
 		if (!newWorkTimeOnModal) return;
 		setWorkTimeOnModal(newWorkTimeOnModal);
@@ -100,14 +110,14 @@ function SetTimeScreen() {
 					</div>
 				</div>
 			</div>
-			{openModalFlag !== null && (
+			{isModalOpen && (
 				<>
 					<Overlay />
 					<TopModal>
-						<>
+						<div>
 							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} />
 							<button onClick={workTimeHandler}>완료</button>
-						</>
+						</div>
 					</TopModal>
 				</>
 			)}
