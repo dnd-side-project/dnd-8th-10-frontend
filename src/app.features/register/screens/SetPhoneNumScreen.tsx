@@ -41,8 +41,7 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 	const phoneNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPhoneNumber(e.target.value);
 	};
-	const submitHandler = (e: React.FormEvent) => {
-		e.preventDefault();
+	const submitHandler = () => {
 		console.log('제출');
 		if (isLoading) return;
 		const workTimeString = getWorkTimeString();
@@ -65,7 +64,7 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 	};
 	// TODO: 전화번호 포맷 유효하면 넘어가게 수정하기
 	return (
-		<RegisterLayout curPage={4} canGoNext={Boolean(phoneNumber?.trim())}>
+		<RegisterLayout curPage={4} canGoNext={Boolean(phoneNumber?.trim())} registerUser={submitHandler}>
 			<div className="space-y-[1.6rem]">
 				<h1 className="text-g10 text-title2">전화번호를 알려주세요</h1>
 				<TextInput
@@ -76,7 +75,6 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 					placeholder="010-1234-5678"
 				/>
 			</div>
-			<button type="submit">제출</button>
 		</RegisterLayout>
 	);
 }
