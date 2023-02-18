@@ -72,7 +72,7 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 					onChange={phoneNumberHandler}
 					resetHandler={resetPhoneNumberHandler}
 					mode="default"
-					placeholder="010-1234-5678"
+					placeholder="010-0000-0000"
 				/>
 			</div>
 		</RegisterLayout>

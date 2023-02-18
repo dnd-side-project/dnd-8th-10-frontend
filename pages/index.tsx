@@ -7,21 +7,10 @@ import { refreshToken } from 'src/app.modules/api/auth';
 import { getUser } from 'src/app.modules/api/user';
 import React, { useState } from 'react';
 import ProfileImage from 'src/app.components/ProfileImage';
+import useUser from 'src/app.modules/hooks/user/useUser';
 
 const Home: NextPage = () => {
-	const { data } = useQuery(['user', 'me'], getUser, {
-		select: (res) => res.data.data,
-		onSuccess: (res) => {
-			console.log(res);
-		},
-		onError: (error) => {
-			console.log(error);
-		},
-		retry: false,
-		refetchOnMount: false,
-		refetchOnReconnect: false,
-		refetchOnWindowFocus: false,
-	});
+	const { data } = useUser();
 	const [width, setWidth] = useState<string>('600');
 	const onSubmit = (e: React.BaseSyntheticEvent) => {
 		e.preventDefault();
