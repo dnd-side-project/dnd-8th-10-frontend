@@ -25,7 +25,7 @@ function SetRoleScreen({ userName }: Props) {
 		<RegisterLayout curPage={1} canGoNext={role !== null}>
 			<div className="space-y-[11.4rem] ">
 				<h1 className="text-g10 text-title2">
-					안녕하세요,{userName}
+					안녕하세요, {userName}님
 					<br />
 					어떤일을 하고 계신가요?
 				</h1>

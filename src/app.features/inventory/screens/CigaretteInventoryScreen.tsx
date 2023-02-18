@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Header from 'src/app.components/Header';
-import SearchInput from 'src/app.components/Input/SearchInput';
+import SearchInput from 'src/app.components/app.base/Input/SearchInput';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { IInventoryList, PostCigaretteBody, PutInventoryBody } from 'src/app.modules/api/inventory';
 import FilterButtons from '../components/FilterButtons';

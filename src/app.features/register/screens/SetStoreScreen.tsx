@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
-import SearchInput from 'src/app.components/Input/SearchInput';
+import SearchInput from 'src/app.components/app.base/Input/SearchInput';
 import RoadBadgeSvg from 'src/app.modules/assets/register/roadBadge.svg';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';

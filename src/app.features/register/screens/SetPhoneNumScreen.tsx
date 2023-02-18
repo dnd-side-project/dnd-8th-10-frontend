@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import TextInput from 'src/app.components/Input/TextInput';
+import TextInput from 'src/app.components/app.base/Input/TextInput';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { MutateUserBody } from 'src/app.modules/api/user';
 import RegisterLayout from '../components/RegisterLayout';
@@ -71,7 +71,7 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 					value={phoneNumber ?? ''}
 					onChange={phoneNumberHandler}
 					resetHandler={resetPhoneNumberHandler}
-					mode="default"
+					mode="wide"
 					placeholder="010-0000-0000"
 				/>
 			</div>
