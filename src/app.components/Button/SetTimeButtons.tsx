@@ -18,9 +18,10 @@ interface Props {
 		hour: string;
 		minute: string;
 	};
+	mode?: 'dark' | 'white';
 }
 // TODO: 중복 코드 줄이기
-function SetTimeButtons({ timeHandler, time }: Props) {
+function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 	return (
 		<div className="w-full space-y-[2.4rem]   whitespace-nowrap">
 			<div className="w-full flex justify-between items-start">
@@ -33,7 +34,8 @@ function SetTimeButtons({ timeHandler, time }: Props) {
 						name="meridiem"
 						item="오전"
 						mode="h40"
-						className="w-[11.25rem]"
+						className="w-[11.25rem] "
+						bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
 					/>
 					<Chip
 						onClick={timeHandler}
@@ -43,6 +45,7 @@ function SetTimeButtons({ timeHandler, time }: Props) {
 						item="오후"
 						mode="h40"
 						className="w-[11.25rem]"
+						bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
 					/>
 				</div>
 			</div>
@@ -58,6 +61,7 @@ function SetTimeButtons({ timeHandler, time }: Props) {
 								value={`${hour}`}
 								isPressed={time?.hour === `${hour}`}
 								onClick={timeHandler}
+								bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
 							/>
 						</li>
 					))}
@@ -75,6 +79,7 @@ function SetTimeButtons({ timeHandler, time }: Props) {
 								value={`${minute}`}
 								isPressed={time?.minute === `${minute}`}
 								onClick={timeHandler}
+								bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
 							/>
 						</li>
 					))}

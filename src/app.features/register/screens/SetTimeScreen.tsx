@@ -118,6 +118,7 @@ function SetTimeScreen() {
 								workTime[selectedDay]?.endTime?.hour
 							}시 ${workTime[selectedDay]?.endTime?.minute}분`}
 							resetTimeHandler={resetTimeHandler}
+							mode="dark"
 						/>
 					</div>
 				</div>
@@ -127,7 +128,7 @@ function SetTimeScreen() {
 					<Overlay />
 					<TopModal>
 						<div>
-							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} />
+							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} mode="dark" />
 							<button onClick={workTimeHandler}>완료</button>
 						</div>
 					</TopModal>
