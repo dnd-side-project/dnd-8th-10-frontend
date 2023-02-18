@@ -6,11 +6,11 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useModalStore from 'src/app.modules/store/modal';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import ProfileImage from 'src/app.components/ProfileImage';
-import NomalButton from 'src/app.components/Button/NomalButton';
 import { getToDay, getWorkList, MutateBody } from '../api';
 import useStore from '../store';
 import useTimeSetStore from '../store/time';
 import Keypad from './Keypad';
+import Bar from 'src/app.components/app.base/Button/Bar';
 
 type Flag = 'startTime' | 'endTime' | null;
 
@@ -130,7 +130,7 @@ function Modal({ WorkMutate }: Props) {
 						</div>
 					)}
 					<div>
-						<NomalButton
+						<Bar
 							ClickFn={() => commute()}
 							title="출근하기"
 							disabled={workTime === '' && getWorkTimeString() === '01:00~01:00'}

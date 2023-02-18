@@ -9,7 +9,7 @@ interface Props {
 	clickDay: string; // 클릭한 날짜 2023.2.11
 }
 
-function CalendarButton({ idx, workDay, day, toDay, clickDay }: Props) {
+function Calendar({ idx, workDay, day, toDay, clickDay }: Props) {
 	const getClassName = () => {
 		if (idx === toDay && workDay) {
 			return 'aria-pressed:bg-primary aria-pressed:text-white text-primary flex justify-center items-center text-body2 w-[3rem] h-[3rem] bg-g3 border-solid border-[0.2rem] border-primary rounded-[0.8rem]';
@@ -30,4 +30,4 @@ function CalendarButton({ idx, workDay, day, toDay, clickDay }: Props) {
 	);
 }
 
-export default CalendarButton;
+export default Calendar;

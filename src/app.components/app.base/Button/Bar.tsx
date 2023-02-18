@@ -8,7 +8,7 @@ interface Props {
 	disabled?: boolean;
 }
 
-function NomalButton({ title, titleColor, bgColor, ClickFn, disabled = false }: Props) {
+function Bar({ title, titleColor, bgColor, ClickFn, disabled = false }: Props) {
 	const className = () => {
 		if (titleColor !== undefined && bgColor !== undefined) {
 			return `${titleColor} ${bgColor}`;
@@ -32,4 +32,4 @@ function NomalButton({ title, titleColor, bgColor, ClickFn, disabled = false }: 
 	);
 }
 
-export default NomalButton;
+export default Bar;
