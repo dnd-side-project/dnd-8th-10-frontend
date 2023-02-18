@@ -1,16 +1,20 @@
 import React from 'react';
 import InputCancelIcon from 'src/app.modules/assets/inputCancel.svg';
+import SendCommentIcon from 'src/app.modules/assets/sendComment.svg';
 
 interface Props {
 	value: string;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	resetHandler?: () => void;
+	submitHandler?: () => void;
 	placeholder: string;
 	mode: 'default' | 'small' | 'wide';
 }
-function TextInput({ value, onChange, resetHandler, placeholder, mode = 'default' }: Props) {
+function TextInput({ value, onChange, resetHandler, submitHandler, placeholder, mode = 'default' }: Props) {
 	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
+		if (!submitHandler) return;
+		submitHandler();
 	};
 	const getPadding = () => {
 		if (mode === 'wide') return 'p-[2rem] ';
@@ -24,11 +28,21 @@ function TextInput({ value, onChange, resetHandler, placeholder, mode = 'default
 				onChange={onChange}
 				placeholder={placeholder}
 				type="text"
-				className={`w-full h-[4.8rem] rounded-[0.8rem] bg-[#F8F8FA] ${getPadding()} text-body2   placeholder:text-g7 text-g9    outline-none`}
+				className={`w-full ${
+					mode !== 'wide' ? 'rounded-[0.8rem]' : ''
+				} bg-[#F8F8FA] ${getPadding()} text-body2   placeholder:text-g7 text-g9    outline-none`}
 			/>
-			{Boolean(value) && (
+			{Boolean(value) && mode === 'default' && (
 				<button onClick={resetHandler} type="reset" className="absolute right-[1.6rem] top-1/2 -translate-y-1/2">
 					<InputCancelIcon />
+				</button>
+			)}
+			{Boolean(value) && mode === 'wide' && (
+				<button
+					type={mode === 'wide' ? 'submit' : 'reset'}
+					className="absolute right-[1.6rem] top-1/2 -translate-y-1/2"
+				>
+					<SendCommentIcon />
 				</button>
 			)}
 		</form>
