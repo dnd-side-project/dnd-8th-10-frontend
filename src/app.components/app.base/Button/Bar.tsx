@@ -1,14 +1,14 @@
 import React from 'react';
 
 interface Props {
-	title: string;
+	children: React.ReactNode;
 	bgColor?: string;
 	titleColor?: string;
 	ClickFn?: () => void;
 	disabled?: boolean;
 }
 
-function Bar({ title, titleColor, bgColor, ClickFn, disabled = false }: Props) {
+function Bar({ children, titleColor, bgColor, ClickFn, disabled = false }: Props) {
 	const className = () => {
 		if (titleColor !== undefined && bgColor !== undefined) {
 			return `${titleColor} ${bgColor}`;
@@ -27,7 +27,7 @@ function Bar({ title, titleColor, bgColor, ClickFn, disabled = false }: Props) {
 			type="button"
 			className={`${className()} w-full h-[6rem] rounded-[0.8rem] text-subhead4`}
 		>
-			{title}
+			{children}
 		</button>
 	);
 }

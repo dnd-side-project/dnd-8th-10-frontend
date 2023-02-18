@@ -7,10 +7,10 @@ import Overlay from 'src/app.components/Modal/Overlay';
 import useModalStore from 'src/app.modules/store/modal';
 import Header from 'src/app.components/Header';
 import DelIcon from 'src/app.modules/assets/calendar/delete.svg';
+import Bar from 'src/app.components/app.base/Button/Bar';
+import useStore from '../store';
 import useTimeSetStore from '../store/time';
 import { delWorkModify, postWork, putWorkModify } from '../api';
-import useStore from '../store';
-import Bar from 'src/app.components/app.base/Button/Bar';
 
 type Flag = 'startTime' | 'endTime' | null;
 function WorkModifyScreen() {
@@ -113,7 +113,11 @@ function WorkModifyScreen() {
 					<div className="flex items-center mb-[2.4rem]">
 						<button
 							onClick={() => setOpenModalFlag('startTime')}
-							className="w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem] text-body2 text-g7"
+							className={`${
+								openModalFlag === 'startTime'
+									? 'text-g9 text-subhead2 border-solid border-[0.15rem] border-primary'
+									: 'text-g7 text-body2'
+							} w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
 							{workTime !== ''
 								? workTime.split('~')[0]
@@ -122,29 +126,36 @@ function WorkModifyScreen() {
 						<span className="text-subhead3 mx-[1rem]">~</span>
 						<button
 							onClick={() => setOpenModalFlag('endTime')}
-							className="w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem] text-body2 text-g7"
+							className={`${
+								openModalFlag === 'endTime'
+									? 'text-g9 text-subhead2 border-solid border-[0.15rem] border-primary'
+									: 'text-g7 text-body2'
+							} w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
 							{workTime !== '' ? workTime.split('~')[1] : `${endTime.hour}시 ${endTime.minute}분 ${endTime.meridiem}`}
 						</button>
 					</div>
 					{openModalFlag !== null && (
-						// 클릭한 날이 일하는 날이면 시간 받아온거 뿌리기
-						// 클릭한 날이 일하는 날이 아니면 00시 00분
 						<div>
-							<SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} />
+							<SetTimeButtons
+								mode="dark"
+								timeHandler={timeHandler}
+								time={openModalFlag === 'startTime' ? startTime : endTime}
+							/>
 						</div>
 					)}
 				</div>
 
 				<div className="mb-[2rem]">
 					<Bar
-						title="수정"
 						bgColor="bg-g2"
 						titleColor="text-g7"
 						ClickFn={() => {
 							modifyBtn();
 						}}
-					/>
+					>
+						수정
+					</Bar>
 				</div>
 			</div>
 			{isModalOpen && (

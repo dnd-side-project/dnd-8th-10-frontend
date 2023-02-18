@@ -32,7 +32,7 @@ function Keypad({ year, month }: Props) {
 				<button
 					type="button"
 					onClick={() => setOpenKeypad('year')}
-					className={`flex items-center justify-end w-[50%] py-[0.8rem] px-[1.2rem] bg-w rounded-[0.8rem] ${
+					className={`h-[3.6rem] flex items-center justify-end w-[50%] py-[0.8rem] px-[1.2rem] bg-w rounded-[0.8rem] ${
 						openKeypad === 'year'
 							? 'border-solid border-[0.15rem] border-primary text-g9 text-subhead2'
 							: 'text-body2 text-g7 '
@@ -53,7 +53,7 @@ function Keypad({ year, month }: Props) {
 				<button
 					type="button"
 					onClick={() => setOpenKeypad('month')}
-					className={`flex items-center justify-end w-[50%] py-[0.8rem] px-[1.2rem] bg-w rounded-[0.8rem] text-right ${
+					className={`h-[3.6rem] flex items-center justify-end w-[50%] py-[0.8rem] px-[1.2rem] bg-w rounded-[0.8rem] text-right ${
 						openKeypad === 'month'
 							? 'border-solid border-[0.15rem] border-primary text-g9 text-subhead2'
 							: 'text-body2 text-g7 '
@@ -96,14 +96,15 @@ function Keypad({ year, month }: Props) {
 			</div>
 			<div className="mt-[-0.7rem]">
 				<Bar
-					title="이동"
 					ClickFn={() => {
 						setCalendar(Number(keypadYear), Number(keypadMonth) - 1);
 						keypadChange();
 						modalIsClose();
 					}}
 					disabled={keypadYear === '' || keypadMonth === ''}
-				/>
+				>
+					이동
+				</Bar>
 			</div>
 		</div>
 	);
