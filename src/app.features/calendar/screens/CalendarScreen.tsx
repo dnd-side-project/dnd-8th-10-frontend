@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SwiperCore from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import 'swiper/css';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
@@ -79,9 +79,15 @@ function CalendarScreen() {
 			},
 		}
 	);
+
+	const swiperRef = useRef<SwiperCore>();
 	useEffect(() => {
 		getGrayRefetch();
-	}, [month, getGrayRefetch, WorkData]);
+		if (isJump) {
+			swiperRef.current?.slideToLoop(month, 0, false);
+			keypadChange();
+		}
+	}, [month, getGrayRefetch, WorkData, isJump]);
 
 	const salary = () => {
 		router.push(`${SERVICE_URL.calendarSalary}`);
@@ -123,11 +129,8 @@ function CalendarScreen() {
 					onSlideChangeTransitionStart={(swiper) => {
 						onChangeMonth(swiper);
 					}}
-					onTouchStart={(swiper) => {
-						if (isJump) {
-							swiper.slideToLoop(month, 0, false);
-							keypadChange();
-						}
+					onSwiper={(swiper) => {
+						swiperRef.current = swiper;
 					}}
 				>
 					{[...new Array(12)].map((_, monthView) => (

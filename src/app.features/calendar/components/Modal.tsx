@@ -4,13 +4,13 @@ import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useModalStore from 'src/app.modules/store/modal';
-import { getDayOfWeek } from 'src/app.modules/util/calendar';
+import Bar from 'src/app.components/app.base/Button/Bar';
 import ProfileImage from 'src/app.components/ProfileImage';
+import { getDayOfWeek } from 'src/app.modules/util/calendar';
+import useTimeSetStore from '../store/time';
 import { getToDay, getWorkList, MutateBody } from '../api';
 import useStore from '../store';
-import useTimeSetStore from '../store/time';
 import Keypad from './Keypad';
-import Bar from 'src/app.components/app.base/Button/Bar';
 
 type Flag = 'startTime' | 'endTime' | null;
 
@@ -26,12 +26,14 @@ function Modal({ WorkMutate }: Props) {
 	const {
 		user: { startTime, endTime },
 		setTime,
+		initUser,
 	} = useTimeSetStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const [clickYear, clickMonth, day] = clickDay.split('.');
 	const [userName, setUserName] = useState([]);
 	useEffect(() => {
 		setOpenModalFlag(null);
+		initUser();
 		return () => setUserName([]);
 	}, [clickDay]);
 
@@ -88,6 +90,7 @@ function Modal({ WorkMutate }: Props) {
 		modalIsClose();
 		router.push(`${SERVICE_URL.calendarModify}`);
 	};
+
 	const renderContent = () => {
 		if (clickDay === 'keypad') {
 			return <Keypad year={year} month={month} />;
@@ -108,7 +111,11 @@ function Modal({ WorkMutate }: Props) {
 					<div className="flex items-center mb-[2.4rem]">
 						<button
 							onClick={() => setOpenModalFlag('startTime')}
-							className="w-[50%] h-[4.8rem] bg-w rounded-[0.8rem] text-body2 text-g9"
+							className={`${
+								openModalFlag === 'startTime'
+									? 'text-g9 text-subhead2 border-solid border-[0.15rem] border-primary'
+									: 'text-g7 text-body2'
+							} w-[50%] h-[4.8rem] bg-w rounded-[0.8rem] ${workTime !== '' && 'text-g9 text-subhead2'}`}
 						>
 							{workTime !== ''
 								? workTime.split('~')[0]
@@ -117,24 +124,25 @@ function Modal({ WorkMutate }: Props) {
 						<span className="text-subhead3 mx-[1rem]">~</span>
 						<button
 							onClick={() => setOpenModalFlag('endTime')}
-							className="w-[50%] h-[4.8rem] bg-w rounded-[0.8rem] text-body2 text-g9"
+							className={`${
+								openModalFlag === 'endTime'
+									? 'text-g9 text-subhead2 border-solid border-[0.15rem] border-primary'
+									: 'text-g7 text-body2'
+							} w-[50%] h-[4.8rem] bg-w rounded-[0.8rem] ${workTime !== '' && 'text-g9 text-subhead2'}`}
 						>
 							{workTime !== '' ? workTime.split('~')[1] : `${endTime.hour}시 ${endTime.minute}분 ${endTime.meridiem}`}
 						</button>
 					</div>
 					{openModalFlag !== null && (
-						// 클릭한 날이 일하는 날이면 시간 받아온거 뿌리기
-						// 클릭한 날이 일하는 날이 아니면 00시 00분
 						<div>
 							<SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} />
 						</div>
 					)}
-					<div>
-						<Bar
-							ClickFn={() => commute()}
-							title="출근하기"
-							disabled={workTime === '' && getWorkTimeString() === '01:00~01:00'}
-						/>
+
+					<div className="mt-[2.4rem]">
+						<Bar ClickFn={() => commute()} disabled={workTime === '' && getWorkTimeString() === '00:00~00:00'}>
+							출근하기
+						</Bar>
 					</div>
 				</div>
 			);
