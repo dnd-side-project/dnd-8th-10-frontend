@@ -13,7 +13,11 @@ interface Props {
 
 export const Admin: React.FC<Props> = ({ children, data, type = '' }) => {
 	if (data !== 'MANAGER') {
-		return <WorkerScreen />;
+		return (
+			<div className="h-[100vh]">
+				<WorkerScreen />
+			</div>
+		);
 	}
 	return children;
 };

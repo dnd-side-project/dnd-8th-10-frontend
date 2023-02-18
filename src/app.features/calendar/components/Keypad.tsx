@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import NomalButton from 'src/app.components/Button/NomalButton';
 import KeypadDelIcon from 'src/app.modules/assets/calendar/keypadDel.svg';
 import useModalStore from 'src/app.modules/store/modal';
 import useStore from '../store';
@@ -11,8 +12,8 @@ interface Props {
 }
 function Keypad({ year, month }: Props) {
 	const [openKeypad, setOpenKeypad] = useState<keypad>(null);
-	const [keypadYear, setKeypadYear] = useState<string>('');
-	const [keypadMonth, setKeypadMonth] = useState<string>('');
+	const [keypadYear, setKeypadYear] = useState<string>(String(year));
+	const [keypadMonth, setKeypadMonth] = useState<string>(String(month + 1));
 	const { setCalendar } = useStore();
 	const { keypadChange } = useKeypadStore();
 	const { modalIsClose } = useModalStore();
@@ -37,7 +38,7 @@ function Keypad({ year, month }: Props) {
 							: 'text-body2 text-g7 '
 					}`}
 				>
-					{keypadYear || year}
+					{keypadYear}
 					{openKeypad === 'year' && (
 						<span
 							role="presentation"
@@ -58,7 +59,7 @@ function Keypad({ year, month }: Props) {
 							: 'text-body2 text-g7 '
 					}`}
 				>
-					{keypadMonth || month + 1}
+					{keypadMonth}
 					{openKeypad === 'month' && (
 						<span
 							role="presentation"
@@ -94,17 +95,15 @@ function Keypad({ year, month }: Props) {
 				))}
 			</div>
 			<div className="mt-[-0.7rem]">
-				<button
-					type="button"
-					onClick={() => {
+				<NomalButton
+					title="이동"
+					ClickFn={() => {
 						setCalendar(Number(keypadYear), Number(keypadMonth) - 1);
 						keypadChange();
 						modalIsClose();
 					}}
-					className={`${(keypadYear || keypadMonth) && 'bg-primary'} bg-g2 w-full h-[6rem] rounded-[0.8rem]`}
-				>
-					<span className={`text-g7 text-subhead4 ${(keypadYear || keypadMonth) && 'text-w'} `}>이동</span>
-				</button>
+					disabled={keypadYear === '' || keypadMonth === ''}
+				/>
 			</div>
 		</div>
 	);

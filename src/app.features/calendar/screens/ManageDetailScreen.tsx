@@ -10,7 +10,7 @@ import { ISalaryDetail } from '../types';
 
 function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 	// 급여 상세페이지
-	const { year, month } = useStore();
+	const { year, month, toDay } = useStore();
 	const [salaryData, setSalaryData] = useState<ISalaryDetail>();
 	const { data, isLoading } = useQuery(
 		['salaryList'],
@@ -28,6 +28,7 @@ function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 			refetchOnWindowFocus: false,
 		}
 	);
+	// {month + 1 === Number(toDay.split('.')[1]) &&
 	return (
 		<div>
 			{!isLoading && salaryData && (

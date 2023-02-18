@@ -6,6 +6,7 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useModalStore from 'src/app.modules/store/modal';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import ProfileImage from 'src/app.components/ProfileImage';
+import NomalButton from 'src/app.components/Button/NomalButton';
 import { getToDay, getWorkList, MutateBody } from '../api';
 import useStore from '../store';
 import useTimeSetStore from '../store/time';
@@ -87,7 +88,6 @@ function Modal({ WorkMutate }: Props) {
 		modalIsClose();
 		router.push(`${SERVICE_URL.calendarModify}`);
 	};
-
 	const renderContent = () => {
 		if (clickDay === 'keypad') {
 			return <Keypad year={year} month={month} />;
@@ -130,13 +130,11 @@ function Modal({ WorkMutate }: Props) {
 						</div>
 					)}
 					<div>
-						<button
-							type="button"
-							className="bg-primary w-full h-[6rem] text-w rounded-[0.8rem] text-subhead4"
-							onClick={() => commute()}
-						>
-							출근하기
-						</button>
+						<NomalButton
+							ClickFn={() => commute()}
+							title="출근하기"
+							disabled={workTime === '' && getWorkTimeString() === '01:00~01:00'}
+						/>
 					</div>
 				</div>
 			);
