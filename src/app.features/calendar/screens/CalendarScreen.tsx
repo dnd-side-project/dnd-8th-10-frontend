@@ -80,11 +80,11 @@ function CalendarScreen() {
 		}
 	);
 
-	const swiperRef = useRef<any>();
+	const swiperRef = useRef<SwiperCore>();
 	useEffect(() => {
 		getGrayRefetch();
 		if (isJump) {
-			swiperRef.current.slideToLoop(month, 0, false);
+			swiperRef.current?.slideToLoop(month, 0, false);
 			keypadChange();
 		}
 	}, [month, getGrayRefetch, WorkData, isJump]);

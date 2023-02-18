@@ -96,14 +96,15 @@ function Keypad({ year, month }: Props) {
 			</div>
 			<div className="mt-[-0.7rem]">
 				<Bar
-					title="이동"
 					ClickFn={() => {
 						setCalendar(Number(keypadYear), Number(keypadMonth) - 1);
 						keypadChange();
 						modalIsClose();
 					}}
 					disabled={keypadYear === '' || keypadMonth === ''}
-				/>
+				>
+					<span>이동</span>
+				</Bar>
 			</div>
 		</div>
 	);

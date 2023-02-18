@@ -140,11 +140,9 @@ function Modal({ WorkMutate }: Props) {
 					)}
 
 					<div className="mt-[2.4rem]">
-						<Bar
-							ClickFn={() => commute()}
-							title="출근하기"
-							disabled={workTime === '' && getWorkTimeString() === '00:00~00:00'}
-						/>
+						<Bar ClickFn={() => commute()} disabled={workTime === '' && getWorkTimeString() === '00:00~00:00'}>
+							<span>출근하기</span>
+						</Bar>
 					</div>
 				</div>
 			);

@@ -148,13 +148,14 @@ function WorkModifyScreen() {
 
 				<div className="mb-[2rem]">
 					<Bar
-						title="수정"
 						bgColor="bg-g2"
 						titleColor="text-g7"
 						ClickFn={() => {
 							modifyBtn();
 						}}
-					/>
+					>
+						<span>수정</span>
+					</Bar>
 				</div>
 			</div>
 			{isModalOpen && (
