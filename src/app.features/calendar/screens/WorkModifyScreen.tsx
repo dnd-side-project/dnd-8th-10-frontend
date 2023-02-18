@@ -136,10 +136,12 @@ function WorkModifyScreen() {
 						</button>
 					</div>
 					{openModalFlag !== null && (
-						// 클릭한 날이 일하는 날이면 시간 받아온거 뿌리기
-						// 클릭한 날이 일하는 날이 아니면 00시 00분
 						<div>
-							<SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} />
+							<SetTimeButtons
+								mode="dark"
+								timeHandler={timeHandler}
+								time={openModalFlag === 'startTime' ? startTime : endTime}
+							/>
 						</div>
 					)}
 				</div>

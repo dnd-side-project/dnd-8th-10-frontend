@@ -26,12 +26,14 @@ function Modal({ WorkMutate }: Props) {
 	const {
 		user: { startTime, endTime },
 		setTime,
+		initUser,
 	} = useTimeSetStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const [clickYear, clickMonth, day] = clickDay.split('.');
 	const [userName, setUserName] = useState([]);
 	useEffect(() => {
 		setOpenModalFlag(null);
+		initUser();
 		return () => setUserName([]);
 	}, [clickDay]);
 
@@ -88,6 +90,7 @@ function Modal({ WorkMutate }: Props) {
 		modalIsClose();
 		router.push(`${SERVICE_URL.calendarModify}`);
 	};
+
 	const renderContent = () => {
 		if (clickDay === 'keypad') {
 			return <Keypad year={year} month={month} />;
@@ -140,7 +143,7 @@ function Modal({ WorkMutate }: Props) {
 						<Bar
 							ClickFn={() => commute()}
 							title="출근하기"
-							disabled={workTime === '' && getWorkTimeString() === '01:00~01:00'}
+							disabled={workTime === '' && getWorkTimeString() === '00:00~00:00'}
 						/>
 					</div>
 				</div>
