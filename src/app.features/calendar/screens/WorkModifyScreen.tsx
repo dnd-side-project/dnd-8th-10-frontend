@@ -7,10 +7,10 @@ import Overlay from 'src/app.components/Modal/Overlay';
 import useModalStore from 'src/app.modules/store/modal';
 import Header from 'src/app.components/Header';
 import DelIcon from 'src/app.modules/assets/calendar/delete.svg';
-import NomalButton from 'src/app.components/Button/NomalButton';
 import useTimeSetStore from '../store/time';
 import { delWorkModify, postWork, putWorkModify } from '../api';
 import useStore from '../store';
+import Bar from 'src/app.components/app.base/Button/Bar';
 
 type Flag = 'startTime' | 'endTime' | null;
 function WorkModifyScreen() {
@@ -137,7 +137,7 @@ function WorkModifyScreen() {
 				</div>
 
 				<div className="mb-[2rem]">
-					<NomalButton
+					<Bar
 						title="수정"
 						bgColor="bg-g2"
 						titleColor="text-g7"

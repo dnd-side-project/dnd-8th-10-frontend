@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import NomalButton from 'src/app.components/Button/NomalButton';
+import Bar from 'src/app.components/app.base/Button/Bar';
 import KeypadDelIcon from 'src/app.modules/assets/calendar/keypadDel.svg';
 import useModalStore from 'src/app.modules/store/modal';
 import useStore from '../store';
@@ -95,7 +95,7 @@ function Keypad({ year, month }: Props) {
 				))}
 			</div>
 			<div className="mt-[-0.7rem]">
-				<NomalButton
+				<Bar
 					title="이동"
 					ClickFn={() => {
 						setCalendar(Number(keypadYear), Number(keypadMonth) - 1);

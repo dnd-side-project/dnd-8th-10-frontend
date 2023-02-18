@@ -1,9 +1,9 @@
 import React from 'react';
 import { transIdx } from 'src/app.modules/util/calendar';
-import CalendarButton from 'src/app.components/Button/CalendarButton';
 import useModalStore from 'src/app.modules/store/modal';
 import { IMakeCal } from '../types';
 import useStore from '../store';
+import Calendar from 'src/app.components/app.base/Button/Calendar';
 
 function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCal) {
 	const { toDay, clickDay, modalCalData } = useStore();
@@ -43,7 +43,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 							className="cursor-pointer"
 							key={idx}
 						>
-							<CalendarButton idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />
+							<Calendar idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />
 						</button>
 					);
 				}
@@ -67,7 +67,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 							className="cursor-pointer"
 							key={idx}
 						>
-							<CalendarButton idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />
+							<Calendar idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />
 						</button>
 					);
 				} else {
