@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface Props {
-	children: React.ReactElement;
+	children: React.ReactNode;
 	bgColor?: string;
 	titleColor?: string;
 	ClickFn?: () => void;

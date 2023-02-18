@@ -154,7 +154,7 @@ function WorkModifyScreen() {
 							modifyBtn();
 						}}
 					>
-						<span>수정</span>
+						수정
 					</Bar>
 				</div>
 			</div>

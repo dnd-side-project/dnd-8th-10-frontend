@@ -6,8 +6,8 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useModalStore from 'src/app.modules/store/modal';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import ProfileImage from 'src/app.components/ProfileImage';
-import useTimeSetStore from '../store/time';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
+import useTimeSetStore from '../store/time';
 import { getToDay, getWorkList, MutateBody } from '../api';
 import useStore from '../store';
 import Keypad from './Keypad';
@@ -141,7 +141,7 @@ function Modal({ WorkMutate }: Props) {
 
 					<div className="mt-[2.4rem]">
 						<Bar ClickFn={() => commute()} disabled={workTime === '' && getWorkTimeString() === '00:00~00:00'}>
-							<span>출근하기</span>
+							출근하기
 						</Bar>
 					</div>
 				</div>

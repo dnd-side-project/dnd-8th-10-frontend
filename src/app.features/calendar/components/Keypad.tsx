@@ -103,7 +103,7 @@ function Keypad({ year, month }: Props) {
 					}}
 					disabled={keypadYear === '' || keypadMonth === ''}
 				>
-					<span>이동</span>
+					이동
 				</Bar>
 			</div>
 		</div>
