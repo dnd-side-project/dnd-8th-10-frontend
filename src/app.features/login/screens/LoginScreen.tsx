@@ -2,6 +2,7 @@ import React from 'react';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import { KAKAO_OAUTH2_URL } from 'src/app.features/login/constants';
 import LoginGraphic from 'src/app.modules/assets/login/login.svg';
+import KaKaoIcon from 'src/app.modules/assets/login/kakao.svg';
 
 function LoginScreen() {
 	return (
@@ -16,9 +17,15 @@ function LoginScreen() {
 				</h1>
 
 				<LoginGraphic className="mx-auto " />
-				<button>
-					<a href={KAKAO_OAUTH2_URL}>테스트용 카카오로그인 버튼</a>
-				</button>
+				<Bar bgColor="bg-[#FAE64D]" titleColor="">
+					<a
+						href={KAKAO_OAUTH2_URL}
+						className="text-g10 font-bold text-[1.2rem] flex justify-center items-center gap-[1.2rem]"
+					>
+						<KaKaoIcon />
+						<span>카카오 로그인/회원가입</span>
+					</a>
+				</Bar>
 			</div>
 		</div>
 	);
