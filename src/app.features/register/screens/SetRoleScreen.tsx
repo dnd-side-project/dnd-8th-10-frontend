@@ -7,7 +7,11 @@ import { RoleType } from 'src/app.modules/api/user';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
 
-function SetRoleScreen() {
+interface Props {
+	userName: string;
+}
+
+function SetRoleScreen({ userName }: Props) {
 	const {
 		user: { role },
 		setRole,
@@ -21,19 +25,20 @@ function SetRoleScreen() {
 		<RegisterLayout curPage={1} canGoNext={role !== null}>
 			<div className="space-y-[11.4rem] ">
 				<h1 className="text-g10 text-title2">
-					안녕하세요,누구님
+					안녕하세요,{userName}
 					<br />
 					어떤일을 하고 계신가요?
 				</h1>
-				<div className="flex  w-full justify-between">
+				<div className="flex  w-full mx-auto justify-between max-w-[34rem]">
 					<button
 						type="button"
 						onClick={() => roleHandler('WORKER')}
 						aria-pressed={role === 'WORKER'}
 						value="WORKER"
-						className="shadow-gray"
+						className="aria-pressed:text-g9 text-g8 text-subhead2 flex flex-col items-center space-y-[0.8rem]"
 					>
-						{role === 'WORKER' ? <ActiveWorkerSvg /> : <InActiveWorkerSvg />}
+						<div className="shadow-gray">{role === 'WORKER' ? <ActiveWorkerSvg /> : <InActiveWorkerSvg />}</div>
+						<span>알바생</span>
 					</button>
 
 					<button
@@ -41,9 +46,10 @@ function SetRoleScreen() {
 						onClick={() => roleHandler('MANAGER')}
 						aria-pressed={role === 'MANAGER'}
 						value="MANAGER"
-						className=" shadow-gray "
+						className="aria-pressed:text-g9 text-g8 text-subhead2 flex flex-col items-center space-y-[0.8rem]"
 					>
-						{role === 'MANAGER' ? <ActiveManagerSvg /> : <InActiveManagerSvg />}
+						<div className=" shadow-gray ">{role === 'MANAGER' ? <ActiveManagerSvg /> : <InActiveManagerSvg />}</div>
+						<span>점장</span>
 					</button>
 				</div>
 			</div>
