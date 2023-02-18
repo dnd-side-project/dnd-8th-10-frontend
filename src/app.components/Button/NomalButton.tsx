@@ -9,7 +9,6 @@ interface Props {
 }
 
 function NomalButton({ title, titleColor, bgColor, ClickFn, disabled = false }: Props) {
-	console.log(titleColor !== undefined && bgColor !== undefined);
 	const className = () => {
 		if (titleColor !== undefined && bgColor !== undefined) {
 			return `${titleColor} ${bgColor}`;
