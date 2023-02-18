@@ -28,7 +28,9 @@ function TextInput({ value, onChange, resetHandler, submitHandler, placeholder, 
 				onChange={onChange}
 				placeholder={placeholder}
 				type="text"
-				className={`w-full rounded-[0.8rem] bg-[#F8F8FA] ${getPadding()} text-body2   placeholder:text-g7 text-g9    outline-none`}
+				className={`w-full ${
+					mode !== 'wide' ? 'rounded-[0.8rem]' : ''
+				} bg-[#F8F8FA] ${getPadding()} text-body2   placeholder:text-g7 text-g9    outline-none`}
 			/>
 			{Boolean(value) && mode === 'default' && (
 				<button onClick={resetHandler} type="reset" className="absolute right-[1.6rem] top-1/2 -translate-y-1/2">
