@@ -26,7 +26,7 @@ const Register: NextPage = () => {
 			//
 		},
 	});
-
+	console.log(data);
 	// eslint-disable-next-line react/jsx-no-useless-fragment
 	return (
 		<>
@@ -34,7 +34,13 @@ const Register: NextPage = () => {
 			{page === '2' && <SetStoreScreen />}
 			{page === '3' && <SetTimeScreen />}
 			{page === '4' && <SetPhoneNumScreen postUser={mutate} isLoading={isLoading} />}
-			{page === '5' && <CompleteSettingScreen />}
+			{page === '5' && (
+				<CompleteSettingScreen
+					userName={data?.userName ?? ''}
+					workPlace={data?.workPlace ?? ''}
+					role={data?.role ?? null}
+				/>
+			)}
 		</>
 	);
 };
