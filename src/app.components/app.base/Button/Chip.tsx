@@ -8,9 +8,10 @@ interface Props {
 	name?: string;
 	mode: 'h40' | 'h58' | 'h32';
 	className?: string;
+	bgColor?: 'bg-w' | 'bg-g1';
 }
 
-function Chip({ value, item, onClick, isPressed, name, mode, className }: Props) {
+function Chip({ value, item, onClick, isPressed, name, mode, className, bgColor = 'bg-w' }: Props) {
 	const getSize = () => {
 		if (mode === 'h40') {
 			return 'h-[4rem]  min-h-[4rem] ';
@@ -27,7 +28,7 @@ function Chip({ value, item, onClick, isPressed, name, mode, className }: Props)
 			value={value}
 			onClick={onClick}
 			aria-pressed={isPressed}
-			className={`${getSize()}  text-center leading-[100%] rounded-[0.8rem] bg-g1 text-g7  aria-pressed:bg-g4  aria-pressed:text-g10 ${className}  `}
+			className={`${getSize()}  text-center leading-[100%] rounded-[0.8rem]  text-g7  aria-pressed:bg-g4  aria-pressed:text-g10 ${bgColor} ${className}  `}
 		>
 			{item}
 		</button>

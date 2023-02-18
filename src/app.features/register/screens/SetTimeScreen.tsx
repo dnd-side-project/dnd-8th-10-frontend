@@ -118,6 +118,7 @@ function SetTimeScreen() {
 								workTime[selectedDay]?.endTime?.hour
 							}시 ${workTime[selectedDay]?.endTime?.minute}분`}
 							resetTimeHandler={resetTimeHandler}
+							mode="dark"
 						/>
 					</div>
 				</div>
