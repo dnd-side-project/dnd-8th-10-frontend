@@ -23,12 +23,12 @@ interface UserState {
 const initUser: IUser = {
 	startTime: {
 		meridiem: 'am',
-		hour: '1',
+		hour: '0',
 		minute: '0',
 	},
 	endTime: {
 		meridiem: 'am',
-		hour: '1',
+		hour: '0',
 		minute: '0',
 	},
 };

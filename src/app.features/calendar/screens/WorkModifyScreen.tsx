@@ -113,7 +113,11 @@ function WorkModifyScreen() {
 					<div className="flex items-center mb-[2.4rem]">
 						<button
 							onClick={() => setOpenModalFlag('startTime')}
-							className="w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem] text-body2 text-g7"
+							className={`${
+								openModalFlag === 'startTime'
+									? 'text-g9 text-subhead2 border-solid border-[0.15rem] border-primary'
+									: 'text-g7 text-body2'
+							} w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
 							{workTime !== ''
 								? workTime.split('~')[0]
@@ -122,7 +126,11 @@ function WorkModifyScreen() {
 						<span className="text-subhead3 mx-[1rem]">~</span>
 						<button
 							onClick={() => setOpenModalFlag('endTime')}
-							className="w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem] text-body2 text-g7"
+							className={`${
+								openModalFlag === 'endTime'
+									? 'text-g9 text-subhead2 border-solid border-[0.15rem] border-primary'
+									: 'text-g7 text-body2'
+							} w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
 							{workTime !== '' ? workTime.split('~')[1] : `${endTime.hour}시 ${endTime.minute}분 ${endTime.meridiem}`}
 						</button>
