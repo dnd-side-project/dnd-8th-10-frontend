@@ -35,6 +35,7 @@ function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 						item="오전"
 						mode="h40"
 						className="w-[11.25rem] "
+						bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
 					/>
 					<Chip
 						onClick={timeHandler}
@@ -44,6 +45,7 @@ function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 						item="오후"
 						mode="h40"
 						className="w-[11.25rem]"
+						bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
 					/>
 				</div>
 			</div>
@@ -59,6 +61,7 @@ function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 								value={`${hour}`}
 								isPressed={time?.hour === `${hour}`}
 								onClick={timeHandler}
+								bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
 							/>
 						</li>
 					))}

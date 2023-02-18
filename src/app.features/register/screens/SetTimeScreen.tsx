@@ -128,7 +128,7 @@ function SetTimeScreen() {
 					<Overlay />
 					<TopModal>
 						<div>
-							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} />
+							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} mode="dark" />
 							<button onClick={workTimeHandler}>완료</button>
 						</div>
 					</TopModal>
