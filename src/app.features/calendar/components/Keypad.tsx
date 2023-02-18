@@ -97,14 +97,12 @@ function Keypad({ year, month }: Props) {
 			<div className="mt-[-0.7rem]">
 				<NomalButton
 					title="이동"
-					bgColor={`${keypadYear === '' && keypadMonth === '' ? 'bg-g2' : 'bg-primary'} `}
-					titleColor={`${keypadYear === '' && keypadMonth === '' ? 'text-g7' : 'text-w'} `}
 					ClickFn={() => {
 						setCalendar(Number(keypadYear), Number(keypadMonth) - 1);
 						keypadChange();
 						modalIsClose();
 					}}
-					disabled={keypadYear === '' && keypadMonth === ''}
+					disabled={keypadYear === '' || keypadMonth === ''}
 				/>
 			</div>
 		</div>
