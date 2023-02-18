@@ -131,11 +131,9 @@ function Modal({ WorkMutate }: Props) {
 					)}
 					<div>
 						<NomalButton
-							bgColor={`${workTime !== '' || getWorkTimeString() !== '01:00~01:00' ? 'bg-primary' : 'bg-g3'}`}
-							titleColor={`${workTime !== '' || getWorkTimeString() !== '01:00~01:00' ? 'text-w' : 'text-g7'}`}
 							ClickFn={() => commute()}
 							title="출근하기"
-							disabled={workTime === '' || getWorkTimeString() === '01:00~01:00'}
+							disabled={workTime === '' && getWorkTimeString() === '01:00~01:00'}
 						/>
 					</div>
 				</div>
