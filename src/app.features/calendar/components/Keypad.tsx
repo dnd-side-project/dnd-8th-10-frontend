@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import NomalButton from 'src/app.components/Button/NomalButton';
 import KeypadDelIcon from 'src/app.modules/assets/calendar/keypadDel.svg';
 import useModalStore from 'src/app.modules/store/modal';
 import useStore from '../store';
@@ -94,17 +95,17 @@ function Keypad({ year, month }: Props) {
 				))}
 			</div>
 			<div className="mt-[-0.7rem]">
-				<button
-					type="button"
-					onClick={() => {
+				<NomalButton
+					title="이동"
+					bgColor={`${keypadYear === '' && keypadMonth === '' ? 'bg-g2' : 'bg-primary'} `}
+					titleColor={`${keypadYear === '' && keypadMonth === '' ? 'text-g7' : 'text-w'} `}
+					ClickFn={() => {
 						setCalendar(Number(keypadYear), Number(keypadMonth) - 1);
 						keypadChange();
 						modalIsClose();
 					}}
-					className={`${(keypadYear || keypadMonth) && 'bg-primary'} bg-g2 w-full h-[6rem] rounded-[0.8rem]`}
-				>
-					<span className={`text-g7 text-subhead4 ${(keypadYear || keypadMonth) && 'text-w'} `}>이동</span>
-				</button>
+					disabled={keypadYear === '' && keypadMonth === ''}
+				/>
 			</div>
 		</div>
 	);

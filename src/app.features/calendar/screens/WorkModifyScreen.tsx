@@ -7,6 +7,7 @@ import Overlay from 'src/app.components/Modal/Overlay';
 import useModalStore from 'src/app.modules/store/modal';
 import Header from 'src/app.components/Header';
 import DelIcon from 'src/app.modules/assets/calendar/delete.svg';
+import NomalButton from 'src/app.components/Button/NomalButton';
 import useTimeSetStore from '../store/time';
 import { delWorkModify, postWork, putWorkModify } from '../api';
 import useStore from '../store';
@@ -136,13 +137,14 @@ function WorkModifyScreen() {
 				</div>
 
 				<div className="mb-[2rem]">
-					<button
-						type="button"
-						className="bg-g2 w-full h-[6rem] text-w rounded-[0.8rem] text-subhead4"
-						onClick={() => modifyBtn()}
-					>
-						<span className="text-g7">수정</span>
-					</button>
+					<NomalButton
+						title="수정"
+						bgColor="bg-g2"
+						titleColor="text-g7"
+						ClickFn={() => {
+							modifyBtn();
+						}}
+					/>
 				</div>
 			</div>
 			{isModalOpen && (
