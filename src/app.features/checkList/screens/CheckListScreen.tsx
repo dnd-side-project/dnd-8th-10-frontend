@@ -274,8 +274,8 @@ function CheckListScreen({
 							<ul className=" text-g9 space-y-[1.6rem] mt-[4.2rem]">
 								{checklist &&
 									checklist.map((todo) => (
-										<li key={todo.checkIdx} className="flex justify-between  ">
-											<div className="space-x-[1rem] flex">
+										<li key={todo.checkIdx} className="flex justify-between w-full ">
+											<div className="space-x-[1rem] flex items-center w-full">
 												<div>
 													<input
 														id={`checkbox-${todo.checkIdx}`}
@@ -288,24 +288,31 @@ function CheckListScreen({
 													/>
 													<label htmlFor={`checkbox-${todo.checkIdx}`} />
 												</div>
-												<span aria-hidden={editTodoInputOpenIdx === todo.checkIdx} className="aria-hidden:hidden">
-													{todo.content}
-												</span>
+												<div
+													aria-hidden={editTodoInputOpenIdx === todo.checkIdx}
+													className="aria-hidden:hidden flex items-center justify-between w-full"
+												>
+													<span className="mb-[0.4rem]">{todo.content}</span>
+													<button onClick={() => setEditTodoInputOpenIdx(todo.checkIdx)}>
+														<SettingIcon />
+													</button>
+												</div>
 												<form
 													onSubmit={editTodoHandler}
 													aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
 													data-status={todo.status}
-													className="aria-hidden:hidden"
+													className="aria-hidden:hidden flex items-center w-full space-x-[1rem]"
 												>
-													<input type="text" name="editTodo" />
-													<button type="button" name="deleteTodo" onClick={deleteTodoHandler}>
-														휴지통
+													<input
+														type="text"
+														name="editTodo"
+														className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
+													/>
+													<button type="button" onClick={deleteTodoHandler}>
+														<TrashIcon />
 													</button>
 												</form>
 											</div>
-											<button onClick={() => setEditTodoInputOpenIdx(todo.checkIdx)}>
-												<SettingIcon />
-											</button>
 										</li>
 									))}
 							</ul>
