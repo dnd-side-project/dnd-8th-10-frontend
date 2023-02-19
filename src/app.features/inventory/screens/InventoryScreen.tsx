@@ -40,7 +40,7 @@ function InventoryScreen({ inventoryHistory }: Props) {
 								<span className="text-primary ">전체보기</span>
 							</Link>
 						</div>
-						{inventoryHistory.length ? (
+						{inventoryHistory?.length ? (
 							<ul className="space-y-[0.8rem] ">
 								{inventoryHistory?.slice(0, 2).map((item) => (
 									<li className="flex items-center justify-between ">
