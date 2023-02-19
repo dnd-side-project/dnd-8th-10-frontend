@@ -3,6 +3,7 @@ import Header from 'src/app.components/Header';
 import { PostCheckListBody, PutCheckListBody } from 'src/app.modules/api/checklist';
 import { MutateTpye } from 'src/app.modules/api/client';
 import SettingIcon from 'src/app.modules/assets/checklist/ellipsis.svg';
+import EmptyGraphic from 'src/app.modules/assets/checklist/emptyGraphic.svg';
 import { formatDate } from 'src/app.modules/util/formatDate';
 
 const getKoreaToday = () => {
@@ -76,6 +77,7 @@ function CheckListScreen({
 	const [addTodoInputOpen, setAddTodoInputOpen] = useState<boolean>(false);
 	const [editTodoInputOpenIdx, setEditTodoInputOpenIdx] = useState<number | null>(null);
 	const [newTodo, setNewTodo] = useState<string>('');
+	const [selectedDateIdx, setSelectedDateIdx] = useState<number>(date === 6 ? 0 : date);
 	const calcWeek = () => {
 		const { curMonthLastDate } = getCurMonthLastDayInfo(year, month);
 		const { prevMonthLastDate, prevMonthLastDay } = getPrevMonthLastDayInfo(year, month);
@@ -184,6 +186,7 @@ function CheckListScreen({
 				value: selectedDate,
 			},
 		} = e;
+		setSelectedDateIdx(weekidx);
 		getSearchDateString(weekidx, selectedDate);
 		searchDateHandler(getSearchDateString(weekidx, selectedDate));
 	};
@@ -191,7 +194,8 @@ function CheckListScreen({
 		if (todayString === getSearchDateString(weekIdx, selectedDate)) {
 			return 'border-[0.1rem] border-primary text-primary';
 		}
-		if (weekState[weekIdx]) return 'bg-g3';
+
+		if (weekState && weekState[weekIdx]) return 'bg-g3';
 		return '';
 	};
 
@@ -231,8 +235,8 @@ function CheckListScreen({
 					</div>
 				</div>
 				<div className="bg-g1 w-[calc(100%+4rem)] -translate-x-[2rem] h-[1.2rem]" />
-				<div>
-					{weekState[0] ? (
+				<div className=" ">
+					{weekState && weekState[selectedDateIdx] ? (
 						<div>
 							<button
 								onClick={() => setAddTodoInputOpen(true)}
@@ -302,7 +306,7 @@ function CheckListScreen({
 							</ul>
 						</div>
 					) : (
-						<div />
+						<EmptyGraphic className="mt-[7.2rem] mx-auto" />
 					)}
 				</div>
 			</main>
