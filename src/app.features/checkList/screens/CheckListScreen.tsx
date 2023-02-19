@@ -77,7 +77,7 @@ function CheckListScreen({
 	const [addTodoInputOpen, setAddTodoInputOpen] = useState<boolean>(false);
 	const [editTodoInputOpenIdx, setEditTodoInputOpenIdx] = useState<number | null>(null);
 	const [newTodo, setNewTodo] = useState<string>('');
-	const [selectedDateIdx, setSelectedDateIdx] = useState<number>(date === 6 ? 0 : date);
+	const [selectedDateIdx, setSelectedDateIdx] = useState<number>(day === 6 ? 0 : day);
 	const calcWeek = () => {
 		const { curMonthLastDate } = getCurMonthLastDayInfo(year, month);
 		const { prevMonthLastDate, prevMonthLastDay } = getPrevMonthLastDayInfo(year, month);
@@ -235,9 +235,10 @@ function CheckListScreen({
 					</div>
 				</div>
 				<div className="bg-g1 w-[calc(100%+4rem)] -translate-x-[2rem] h-[1.2rem]" />
-				<div className=" ">
-					{weekState && weekState[selectedDateIdx] ? (
-						<div>
+
+				{weekState &&
+					(weekState?.[selectedDateIdx] ? (
+						<div className="pt-[2rem]">
 							<button
 								onClick={() => setAddTodoInputOpen(true)}
 								aria-hidden={addTodoInputOpen}
@@ -266,10 +267,10 @@ function CheckListScreen({
 									휴지통
 								</button>
 							</form>
-							<ul>
+							<ul className="text-subhead2 text-g9 space-y-[1.6rem] ">
 								{checklist &&
 									checklist.map((todo) => (
-										<li key={todo.checkIdx} className="flex justify-between">
+										<li key={todo.checkIdx} className="flex justify-between  ">
 											<div className="space-x-[1rem] flex">
 												<div>
 													<input
@@ -307,8 +308,7 @@ function CheckListScreen({
 						</div>
 					) : (
 						<EmptyGraphic className="mt-[7.2rem] mx-auto" />
-					)}
-				</div>
+					))}
 			</main>
 		</>
 	);
