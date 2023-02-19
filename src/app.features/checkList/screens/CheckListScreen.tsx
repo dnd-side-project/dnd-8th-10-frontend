@@ -5,6 +5,8 @@ import { MutateTpye } from 'src/app.modules/api/client';
 import SettingIcon from 'src/app.modules/assets/checklist/ellipsis.svg';
 import EmptyGraphic from 'src/app.modules/assets/checklist/emptyGraphic.svg';
 import AddTodoIcon from 'src/app.modules/assets/checklist/addTodo.svg';
+import TrashIcon from 'src/app.modules/assets/checklist/trash.svg';
+import AddTodoDecoIcon from 'src/app.modules/assets/checklist/addInputDeco.svg';
 import { formatDate } from 'src/app.modules/util/formatDate';
 
 const getKoreaToday = () => {
@@ -239,37 +241,37 @@ function CheckListScreen({
 
 				{weekState &&
 					(weekState?.[selectedDateIdx] ? (
-						<div className="pt-[2rem] text-subhead2 space-y-[1.6rem]">
-							<button
-								onClick={() => setAddTodoInputOpen(true)}
-								aria-hidden={addTodoInputOpen}
-								className="aria-hidden:hidden flex items-center text-g7 gap-[1rem]"
-							>
-								<AddTodoIcon />
-								<span>항목 추가하기</span>
-							</button>
-							<form aria-hidden={!addTodoInputOpen} onSubmit={addTodoHandler} className="aria-hidden:hidden flex">
-								<div>
-									<input
-										id="newtodo-checkbox"
-										type="checkbox"
-										className="checklist-checkbox"
-										checked={false}
-										readOnly
-									/>
-									<label htmlFor="newtodo-checkbox" />
-								</div>
-								<input
-									type="text"
-									name="newTodo"
-									value={newTodo}
-									onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
-								/>
-								<button type="button" onClick={cancelAddTodoHandler}>
-									휴지통
+						<div className="pt-[2rem] text-subhead2  relative">
+							<div className="absolute w-full ">
+								<button
+									onClick={() => setAddTodoInputOpen(true)}
+									aria-hidden={addTodoInputOpen}
+									className="aria-hidden:hidden  flex items-center text-g7 space-x-[1rem]"
+								>
+									<AddTodoIcon />
+									<span>항목 추가하기</span>
 								</button>
-							</form>
-							<ul className=" text-g9 space-y-[1.6rem] ">
+								<form
+									aria-hidden={!addTodoInputOpen}
+									onSubmit={addTodoHandler}
+									className="aria-hidden:hidden  flex items-center w-[101.5%] space-x-[1rem]"
+								>
+									<div>
+										<AddTodoDecoIcon />
+									</div>
+									<input
+										type="text"
+										name="newTodo"
+										value={newTodo}
+										onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
+										className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
+									/>
+									<button type="button" onClick={cancelAddTodoHandler}>
+										<TrashIcon />
+									</button>
+								</form>
+							</div>
+							<ul className=" text-g9 space-y-[1.6rem] mt-[4.2rem]">
 								{checklist &&
 									checklist.map((todo) => (
 										<li key={todo.checkIdx} className="flex justify-between  ">
