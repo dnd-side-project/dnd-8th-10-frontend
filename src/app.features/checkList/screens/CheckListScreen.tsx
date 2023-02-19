@@ -4,6 +4,7 @@ import { PostCheckListBody, PutCheckListBody } from 'src/app.modules/api/checkli
 import { MutateTpye } from 'src/app.modules/api/client';
 import SettingIcon from 'src/app.modules/assets/checklist/ellipsis.svg';
 import EmptyGraphic from 'src/app.modules/assets/checklist/emptyGraphic.svg';
+import AddTodoIcon from 'src/app.modules/assets/checklist/addTodo.svg';
 import { formatDate } from 'src/app.modules/util/formatDate';
 
 const getKoreaToday = () => {
@@ -238,13 +239,14 @@ function CheckListScreen({
 
 				{weekState &&
 					(weekState?.[selectedDateIdx] ? (
-						<div className="pt-[2rem]">
+						<div className="pt-[2rem] text-subhead2 space-y-[1.6rem]">
 							<button
 								onClick={() => setAddTodoInputOpen(true)}
 								aria-hidden={addTodoInputOpen}
-								className="aria-hidden:hidden"
+								className="aria-hidden:hidden flex items-center text-g7 gap-[1rem]"
 							>
-								항목 추가하기
+								<AddTodoIcon />
+								<span>항목 추가하기</span>
 							</button>
 							<form aria-hidden={!addTodoInputOpen} onSubmit={addTodoHandler} className="aria-hidden:hidden flex">
 								<div>
@@ -267,7 +269,7 @@ function CheckListScreen({
 									휴지통
 								</button>
 							</form>
-							<ul className="text-subhead2 text-g9 space-y-[1.6rem] ">
+							<ul className=" text-g9 space-y-[1.6rem] ">
 								{checklist &&
 									checklist.map((todo) => (
 										<li key={todo.checkIdx} className="flex justify-between  ">
