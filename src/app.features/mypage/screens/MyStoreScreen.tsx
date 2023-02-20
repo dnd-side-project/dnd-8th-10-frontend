@@ -33,31 +33,65 @@ function MyStoreScreen({ store }: Props) {
 					</div>
 				</InfoBox>
 				<Divider />
-				<div className="py-[2.4rem]">
-					<ul className="space-y-[1.6rem] ">
-						{store?.userList?.map((item, index) => (
-							<li key={index} className="flex items-start justify-between">
-								<div className="flex space-x-[0.8rem]">
-									<ProfileImage userProfileCode={item.userProfileCode} size="lg" />
-									<div className="flex flex-col space-y-[0.4rem]">
-										<span className="text-subhead2">{item.userName}</span>
-										<ul className="gap-[0.8rem] flex flex-wrap">
-											{item.workTime.split(',').map((time, idx) => (
-												<li key={`time-${idx}`}>
-													<Badge size="small" color="warmGray">
-														{time}
-													</Badge>
-												</li>
-											))}
-										</ul>
-									</div>
-								</div>
-								<button disabled className="p-[0.8rem] bg-g4 rounded-[0.8rem]">
-									<CallingIcon />
-								</button>
-							</li>
-						))}
-					</ul>
+				<div className="py-[2.4rem] space-y-[2.4rem]">
+					<div className="space-y-[0.8rem]">
+						<span className=" text-g6 text-subhead1">점장</span>
+						<ul className="space-y-[1.6rem] ">
+							{store?.userList
+								?.filter((item) => item.role === 'MANAGER')
+								.map((item, index) => (
+									<li key={index} className="flex items-start justify-between">
+										<div className="flex space-x-[0.8rem]">
+											<ProfileImage userProfileCode={item.userProfileCode} size="lg" />
+											<div className="flex flex-col space-y-[0.4rem]">
+												<span className="text-subhead2">{item.userName}</span>
+												<ul className="gap-[0.8rem] flex flex-wrap">
+													{item.workTime.split(',').map((time, idx) => (
+														<li key={`time-${idx}`}>
+															<Badge size="small" color="warmGray">
+																{time}
+															</Badge>
+														</li>
+													))}
+												</ul>
+											</div>
+										</div>
+										<button disabled={!item.phoneNumber} className="p-[0.8rem] bg-g4 disabled:bg-g1 rounded-[0.8rem]">
+											<CallingIcon />
+										</button>
+									</li>
+								))}
+						</ul>
+					</div>
+					<div className="space-y-[0.8rem]">
+						<span className=" text-g6 text-subhead1">알바생</span>
+						<ul className="space-y-[1.6rem] ">
+							{store?.userList
+								?.filter((item) => item.role === 'WORKER')
+								.map((item, index) => (
+									<li key={index} className="flex items-start justify-between">
+										<div className="flex space-x-[0.8rem]">
+											<ProfileImage userProfileCode={item.userProfileCode} size="lg" />
+											<div className="flex flex-col space-y-[0.4rem]">
+												<span className="text-subhead2">{item.userName}</span>
+												<ul className="gap-[0.8rem] flex flex-wrap">
+													{item.workTime.split(',').map((time, idx) => (
+														<li key={`time-${idx}`}>
+															<Badge size="small" color="warmGray">
+																{time}
+															</Badge>
+														</li>
+													))}
+												</ul>
+											</div>
+										</div>
+										<button disabled={!item.phoneNumber} className="p-[0.8rem] bg-g4 disabled:bg-g1 rounded-[0.8rem]">
+											<CallingIcon />
+										</button>
+									</li>
+								))}
+						</ul>
+					</div>
 				</div>
 			</main>
 		</>
