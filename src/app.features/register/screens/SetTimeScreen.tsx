@@ -6,6 +6,7 @@ import { TimeType } from 'src/app.modules/types/time';
 import TopModal from 'src/app.components/Modal/TopModal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import useModalStore from 'src/app.modules/store/modal';
+import Bar from 'src/app.components/app.base/Button/Bar';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore, { dayMap, DayType, INIT_WORKTIME } from '../store';
 
@@ -127,9 +128,10 @@ function SetTimeScreen() {
 				<>
 					<Overlay />
 					<TopModal>
-						<div>
+						<div className="space-y-[2.4rem]">
 							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} mode="dark" />
-							<button onClick={workTimeHandler}>완료</button>
+
+							<Bar ClickFn={workTimeHandler}>완료</Bar>
 						</div>
 					</TopModal>
 				</>
