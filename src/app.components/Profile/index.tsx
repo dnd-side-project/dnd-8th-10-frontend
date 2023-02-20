@@ -5,7 +5,6 @@ interface Props {
 	userName: string;
 	role: string;
 	workTime: string;
-	totalSalary: number;
 }
 function Profile({ userData }: { userData: Props }) {
 	return (

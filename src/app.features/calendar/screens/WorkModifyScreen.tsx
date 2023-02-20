@@ -160,8 +160,9 @@ function WorkModifyScreen() {
 			</div>
 			{isModalOpen && (
 				<>
-					<Overlay />
-					<Modal content="출근기록이 삭제됩니다!" deleteFn={() => delBtn()} />
+					<Overlay>
+						<Modal content="출근기록이 삭제됩니다!" deleteFn={() => delBtn()} />
+					</Overlay>
 				</>
 			)}
 		</>

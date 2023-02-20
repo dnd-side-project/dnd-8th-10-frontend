@@ -10,8 +10,9 @@ interface Props {
 function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false }: Props) {
 	const { modalIsClose, isModalOpen } = useModalStore();
 	const [isAnimating, setIsAnimating] = useState(false);
+
 	useEffect(() => {
-		if (isModalOpen) {
+		if (isModalOpen && !children.props.content) {
 			setIsAnimating(true);
 		}
 	}, [isModalOpen]);
@@ -21,14 +22,20 @@ function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false }: Pro
 				type="button"
 				aria-label="button"
 				onClick={() => {
-					setIsAnimating(false);
-					setTimeout(() => {
+					if (!children.props.content) {
+						setIsAnimating(false);
+						setTimeout(() => {
+							modalIsClose();
+						}, 500);
+					} else {
 						modalIsClose();
-					}, 500);
+					}
 				}}
 				className={`translate-x-0 z-50  fixed max-w-[42rem] mx-auto top-0 left-0 bottom-0 right-0 ${bgColor} ${
 					blur && 'backdrop-filter backdrop-blur-[0.4rem]'
-				} transition-all duration-500 ease-in-out ${isAnimating ? 'opacity-100' : 'opacity-0'}`}
+				} transition-all duration-500 ease-in-out ${isAnimating ? 'opacity-100' : 'opacity-0'} ${
+					children.props.content && 'opacity-100'
+				}`}
 			/>
 			{React.cloneElement(children, { isAnimating, setIsAnimating })}
 		</div>
