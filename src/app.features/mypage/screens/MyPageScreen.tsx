@@ -1,24 +1,22 @@
 import React from 'react';
 import Divider from 'src/app.components/Divider';
 import InfoBox from 'src/app.components/InfoBox';
-import ProfileImage from 'src/app.components/ProfileImage';
 import SettingIcon from 'src/app.modules/assets/mypage/setting.svg';
 import StoreIcon from 'src/app.modules/assets/mypage/store.svg';
 import LeftArrowIcon from 'src/app.modules/assets/mypage/arrowLeft.svg';
 import { getSplittedWorkPlaceString } from 'src/app.modules/util/getSplittedWorkPlaceString';
-
-interface IUser {
-	userName: string;
-	userProfileCode: number;
-	workPlace: string; // 'GS25 영통럭키점'
-	workTime: string; // '월(01:00~03:00),일(01:00~03:00)'
-}
+import Profile from 'src/app.components/Profile';
+import { useRouter } from 'next/router';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import { RoleType } from 'src/app.modules/api/user';
+import { IUser } from '../types';
 
 interface Props {
 	user: IUser;
 }
 
 function MyPageScreen({ user }: Props) {
+	const router = useRouter();
 	return (
 		<>
 			<header className="flex items-center justify-between bg-white  h-[5.6rem] px-[2rem] fixed w-full max-w-[42rem] -translate-x-[2rem] mx-auto ">
@@ -28,13 +26,19 @@ function MyPageScreen({ user }: Props) {
 				</button>
 			</header>
 			<main className="h-[100vh] pt-[7.2rem]">
-				<div className="pb-[1.6rem]">
-					<InfoBox className="flex items-center justify-between">
-						<div className="flex items-center space-x-[0.8rem]">
-							<StoreIcon />
-							<span className="text-subhead1 text-g9">{getSplittedWorkPlaceString(user?.workPlace ?? '')}</span>
-						</div>
-						<LeftArrowIcon />
+				<div className="pb-[1.6rem] space-y-[1.6rem]">
+					{user && <Profile {...user} mypage />}
+					<InfoBox>
+						<button
+							onClick={() => router.push(SERVICE_URL.myStore)}
+							className="w-full h-full flex items-center justify-between"
+						>
+							<div className="flex items-center space-x-[0.8rem]">
+								<StoreIcon />
+								<span className="text-subhead1 text-g9">{getSplittedWorkPlaceString(user?.workPlace ?? '')}</span>
+							</div>
+							<LeftArrowIcon />
+						</button>
 					</InfoBox>
 				</div>
 				<Divider />

@@ -5,6 +5,11 @@ export const getUser = async () => {
 	return res;
 };
 
+export const getStoreInfo = async () => {
+	const res = await client.get(`/api/store`);
+	return res;
+};
+
 // TODO: api 나오면 맞게 수정
 export type RoleType = 'WORKER' | 'MANAGER';
 export interface MutateUserBody {

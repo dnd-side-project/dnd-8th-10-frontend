@@ -125,8 +125,7 @@ function SetTimeScreen() {
 				</div>
 			</div>
 			{isModalOpen && (
-				<>
-					<Overlay />
+				<Overlay>
 					<TopModal>
 						<div className="space-y-[2.4rem]">
 							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} mode="dark" />
@@ -134,7 +133,7 @@ function SetTimeScreen() {
 							<Bar ClickFn={workTimeHandler}>완료</Bar>
 						</div>
 					</TopModal>
-				</>
+				</Overlay>
 			)}
 		</RegisterLayout>
 	);
