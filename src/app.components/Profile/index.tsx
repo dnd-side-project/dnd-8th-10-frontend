@@ -16,7 +16,7 @@ function Profile({ mypage = true, userProfileCode, userName, role, workTime }: P
 					{userName}
 					{mypage && '님'}
 				</span>
-				{role && <span className="text-g3 text-subhead3 ml-[0.8rem]">{role === 'MANAGER' ? '점장' : '알바생'}</span>}
+				{!mypage && <span className="text-g3 text-subhead3 ml-[0.8rem]">{role === 'MANAGER' ? '점장' : '알바생'}</span>}
 				<div className="flex">
 					{workTime.includes(',') ? (
 						workTime.split(',').map((work, index) => (
