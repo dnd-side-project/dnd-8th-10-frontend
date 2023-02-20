@@ -7,6 +7,7 @@ import SalaryDetail from '../components/SalaryDetail';
 import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';
 import { ISalaryDetail } from '../types';
+import Profile from 'src/app.components/Profile';
 
 function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 	// 급여 상세페이지
@@ -39,31 +40,8 @@ function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 						</div>
 
 						<div className="mt-[1.6rem] mb-[2rem]">
-							<div className="flex items-center ml-[0.8rem]">
-								<ProfileImage round userProfileCode={salaryData.userProfileCode} />
-								<div className="ml-[1.6rem]">
-									<span className="text-w text-subhead4">{salaryData.userName}</span>
-									<span className="text-g3 text-subhead3 ml-[0.8rem]">
-										{salaryData.role === 'MANAGER' ? '점장' : '알바생'}
-									</span>
-
-									<div className="flex">
-										{salaryData.workTime.includes(',') ? (
-											salaryData.workTime.split(',').map((work, index) => (
-												<div
-													key={index}
-													className="bg-g9 w-fit rounded-[0.4rem] py-[0.2rem] px-[0.8rem] mt-[0.8rem] mr-[0.8rem]"
-												>
-													<span className="text-w text-body1">{work}</span>
-												</div>
-											))
-										) : (
-											<div className="bg-g9 w-fit rounded-[0.4rem] py-[0.2rem] px-[0.8rem] mt-[0.8rem]">
-												<span className="text-w text-body1">{salaryData.workTime.split(',')[0]}</span>
-											</div>
-										)}
-									</div>
-								</div>
+							<div className="ml-[0.8rem]">
+								<Profile userData={salaryData} />
 							</div>
 						</div>
 						<TotalSalary data={salaryData.totalSalary} />
