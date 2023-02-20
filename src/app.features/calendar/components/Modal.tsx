@@ -155,7 +155,7 @@ function Modal({ WorkMutate }: Props) {
 					<div className="flex justify-between">
 						<div>
 							<span className="text-subhead3 text-g9">
-								{month}월 {day}일
+								{month + 1}월 {day}일
 							</span>
 						</div>
 						<div>
@@ -181,7 +181,7 @@ function Modal({ WorkMutate }: Props) {
 				<div className="flex justify-between">
 					<div>
 						<span className="text-subhead3 text-g9">
-							{month}월 {day}일
+							{month + 1}월 {day}일
 						</span>
 					</div>
 					<button
