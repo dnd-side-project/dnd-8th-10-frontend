@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import SearchInput from 'src/app.components/app.base/Input/SearchInput';
 import RoadBadgeSvg from 'src/app.modules/assets/register/roadBadge.svg';
@@ -15,25 +14,28 @@ type Store = {
 	place_name: string;
 	road_address_name: string;
 };
-function SetStoreScreen() {
+function SetWorkPlaceScreen() {
 	const [searchTerm, setSearchTerm] = useState<string>();
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 	const [searchResults, setSearchResults] = useState<Store[]>();
 	const {
 		user: { workPlace },
 		setWorkPlace,
+		setWorkLocation,
 	} = useRegisterUserStore();
 	const searchTermHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value);
 	};
-	const workPlaceHandler = (value: string) => {
+	const workPlaceHandler = (place: string, location: string) => {
 		setSearchResults([]);
-		setSearchTerm(value);
-		setWorkPlace(value);
+		setSearchTerm(place);
+		setWorkPlace(place);
+		setWorkLocation(location);
 	};
 	const resetSearchTerm = () => {
 		if (workPlace !== null) {
 			setWorkPlace(null);
+			setWorkLocation(null);
 		}
 		setSearchTerm('');
 		setSearchResults([]);
@@ -91,7 +93,7 @@ function SetStoreScreen() {
 						{searchResults?.map((store, idx) => (
 							<li key={idx}>
 								<button
-									onClick={() => workPlaceHandler(store.place_name)}
+									onClick={() => workPlaceHandler(store.place_name, store.road_address_name)}
 									value={store.place_name}
 									className="space-y-[0.4rem] flex flex-col items-start"
 								>
@@ -110,4 +112,4 @@ function SetStoreScreen() {
 	);
 }
 
-export default SetStoreScreen;
+export default SetWorkPlaceScreen;

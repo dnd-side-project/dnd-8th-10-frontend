@@ -4,7 +4,7 @@ import Router, { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import CompleteSettingScreen from 'src/app.features/register/screens/CompleteSettingScreen';
 import SetPhoneNumScreen from 'src/app.features/register/screens/SetPhoneNumScreen';
-import SetStoreScreen from 'src/app.features/register/screens/SetStoreScreen';
+import SetStoreScreen from 'src/app.features/register/screens/SetWorkPlaceScreen';
 import SetTimeScreen from 'src/app.features/register/screens/SetTimeScreen';
 import SetRoleScreen from 'src/app.features/register/screens/SetRoleScreen';
 import { postUser } from 'src/app.modules/api/user';

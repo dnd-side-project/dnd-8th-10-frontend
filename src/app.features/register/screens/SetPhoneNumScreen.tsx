@@ -13,7 +13,7 @@ interface Props {
 // TODO: 전화번호 유효성 검사
 function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 	const {
-		user: { phoneNumber, role, workPlace, workTime },
+		user: { phoneNumber, role, workPlace, workTime, workLocation },
 		setPhoneNumber,
 	} = useRegisterUserStore();
 	const getWorkTimeString = () => {
@@ -45,7 +45,7 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 		console.log('제출');
 		if (isLoading) return;
 		const workTimeString = getWorkTimeString();
-		if (!role || !phoneNumber || !workPlace || !workTimeString.trim()) {
+		if (!role || !phoneNumber || !workPlace || !workTimeString.trim() || !workLocation) {
 			alert('필수 정보를 모두 입력해주세요.');
 			return;
 		}
@@ -54,6 +54,7 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 			role,
 			workPlace,
 			workTime: workTimeString,
+			workLocation,
 			phoneNumber,
 		};
 		console.log(body);
