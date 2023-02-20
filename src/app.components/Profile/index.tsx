@@ -1,4 +1,5 @@
 import ProfileImage from '../ProfileImage';
+
 interface Props {
 	userProfileCode: number;
 	userName: string;

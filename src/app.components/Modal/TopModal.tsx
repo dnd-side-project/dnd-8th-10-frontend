@@ -17,8 +17,8 @@ function TopModal({ children, bgColor = 'bg-w', isAnimating, setIsAnimating }: P
 	const modalRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (isModalOpen) {
-			setIsAnimating && setIsAnimating(true);
+		if (isModalOpen && setIsAnimating) {
+			setIsAnimating(true);
 		}
 		const _ = setTimeout(() => {
 			if (modalRef.current) {
@@ -38,7 +38,9 @@ function TopModal({ children, bgColor = 'bg-w', isAnimating, setIsAnimating }: P
 			const handleMouseUp = () => {
 				setIsDragging(false);
 				if (dragOffsetY > 50) {
-					setIsAnimating && setIsAnimating(false);
+					if (setIsAnimating) {
+						setIsAnimating(false);
+					}
 					setTimeout(() => {
 						modalIsClose();
 					}, 500);
@@ -55,6 +57,7 @@ function TopModal({ children, bgColor = 'bg-w', isAnimating, setIsAnimating }: P
 				document.removeEventListener('mouseup', handleMouseUp);
 			};
 		}
+		return undefined;
 	}, [isDragging, dragStartY, dragOffsetY, modalIsClose, height]);
 
 	const handleMouseDown = (event: React.MouseEvent) => {
@@ -70,11 +73,15 @@ function TopModal({ children, bgColor = 'bg-w', isAnimating, setIsAnimating }: P
 			}`}
 			style={{ height: `calc(${height}px - ${dragOffsetY}px)` }}
 		>
-			<div className="flex justify-center mt-[0.8rem] mb-[2.4rem]" onMouseDown={handleMouseDown}>
+			<div className="flex justify-center mt-[0.8rem] mb-[2.4rem]">
+				{/* eslint-disable-next-line */}
 				<button
+					onMouseDown={handleMouseDown}
 					type="button"
 					onClick={() => {
-						setIsAnimating && setIsAnimating(false);
+						if (setIsAnimating) {
+							setIsAnimating(false);
+						}
 						setTimeout(() => {
 							modalIsClose();
 						}, 500);

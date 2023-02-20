@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import ProfileImage from 'src/app.components/ProfileImage';
 import Header from 'src/app.components/Header';
+import Profile from 'src/app.components/Profile';
 import { getUserSalary } from '../api';
 import SalaryDetail from '../components/SalaryDetail';
 import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';
 import { ISalaryDetail } from '../types';
-import Profile from 'src/app.components/Profile';
 
 function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 	// 급여 상세페이지

@@ -1,5 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { ReactNode } from 'react';
+import React, { ReactElement, useEffect, useState, ReactNode } from 'react';
 import useModalStore from 'src/app.modules/store/modal';
 
 interface Props {
