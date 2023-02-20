@@ -8,7 +8,6 @@ import { getSplittedWorkPlaceString } from 'src/app.modules/util/getSplittedWork
 import Profile from 'src/app.components/Profile';
 import { useRouter } from 'next/router';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
-import { RoleType } from 'src/app.modules/api/user';
 import { IUser } from '../types';
 
 interface Props {
@@ -21,7 +20,7 @@ function MyPageScreen({ user }: Props) {
 		<>
 			<header className="flex items-center justify-between bg-white  h-[5.6rem] px-[2rem] fixed w-full max-w-[42rem] -translate-x-[2rem] mx-auto ">
 				<h1 className="text-subhead4 text-g10 ">마이페이지</h1>
-				<button>
+				<button onClick={() => router.push(SERVICE_URL.profileSetting)}>
 					<SettingIcon />
 				</button>
 			</header>
