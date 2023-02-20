@@ -34,13 +34,7 @@ const Register: NextPage = () => {
 			{page === '2' && <SetStoreScreen />}
 			{page === '3' && <SetTimeScreen />}
 			{page === '4' && <SetPhoneNumScreen postUser={mutate} isLoading={isLoading} />}
-			{page === '5' && (
-				<CompleteSettingScreen
-					userName={data?.userName ?? ''}
-					workPlace={data?.workPlace ?? ''}
-					role={data?.role ?? null}
-				/>
-			)}
+			{page === '5' && <CompleteSettingScreen userName={data?.userName ?? ''} />}
 		</>
 	);
 };

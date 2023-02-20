@@ -72,7 +72,7 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 					value={phoneNumber ?? ''}
 					onChange={phoneNumberHandler}
 					resetHandler={resetPhoneNumberHandler}
-					mode="wide"
+					mode="default"
 					placeholder="010-0000-0000"
 				/>
 			</div>
