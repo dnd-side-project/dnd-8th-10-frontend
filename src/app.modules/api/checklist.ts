@@ -1,10 +1,14 @@
-import { getCookie } from '../cookie';
 import client from './client';
 
 // 2023-02-07
 // 입력 날짜에 해당하는 체크리스트 조회
 export const getCheckList = async (date: string) => {
 	const res = await client.get(`/api/checkList?date=${date}`);
+	return res;
+};
+
+export const getWeekState = async () => {
+	const res = await client.get(`/api/checkList/week`);
 	return res;
 };
 

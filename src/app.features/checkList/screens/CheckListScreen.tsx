@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import Header from 'src/app.components/Header';
 import { PostCheckListBody, PutCheckListBody } from 'src/app.modules/api/checklist';
 import { MutateTpye } from 'src/app.modules/api/client';
 import SettingIcon from 'src/app.modules/assets/checklist/ellipsis.svg';
+import EmptyGraphic from 'src/app.modules/assets/checklist/emptyGraphic.svg';
+import AddTodoIcon from 'src/app.modules/assets/checklist/addTodo.svg';
+import TrashIcon from 'src/app.modules/assets/checklist/trash.svg';
+import AddTodoDecoIcon from 'src/app.modules/assets/checklist/addInputDeco.svg';
+import { formatDate } from 'src/app.modules/util/formatDate';
 
 const getKoreaToday = () => {
 	const DATE = new Date(); // 현재 날짜(로컬 기준) 가져오기
@@ -44,8 +50,9 @@ interface ICheckList {
 	status: 'Y' | 'N';
 }
 interface Props {
+	todayString: string;
 	searchDate: string;
-	searchDateHandler: (searchYear: number, searchMonth: number, searchDay: number) => void;
+	searchDateHandler: (searchDateString: string) => void;
 	checklist: ICheckList[];
 	postChecklist: MutateTpye<PostCheckListBody>;
 	postChecklistLoading: boolean;
@@ -53,8 +60,10 @@ interface Props {
 	putChecklistLoading: boolean;
 	deleteChecklist: MutateTpye<number>;
 	deleteChecklistLoading: boolean;
+	weekState: boolean[];
 }
 function CheckListScreen({
+	todayString,
 	searchDate,
 	searchDateHandler,
 	checklist,
@@ -64,12 +73,14 @@ function CheckListScreen({
 	putChecklistLoading,
 	deleteChecklist,
 	deleteChecklistLoading,
+	weekState,
 }: Props) {
 	console.log(checklist);
 	const { year, month, date, day } = getKoreaToday();
 	const [addTodoInputOpen, setAddTodoInputOpen] = useState<boolean>(false);
 	const [editTodoInputOpenIdx, setEditTodoInputOpenIdx] = useState<number | null>(null);
 	const [newTodo, setNewTodo] = useState<string>('');
+	const [selectedDateIdx, setSelectedDateIdx] = useState<number>(day === 6 ? 0 : day);
 	const calcWeek = () => {
 		const { curMonthLastDate } = getCurMonthLastDayInfo(year, month);
 		const { prevMonthLastDate, prevMonthLastDay } = getPrevMonthLastDayInfo(year, month);
@@ -147,117 +158,170 @@ function CheckListScreen({
 		if (deleteChecklistLoading) return;
 		deleteChecklist(editTodoInputOpenIdx as number);
 	};
-	const untitledHandler = (e: React.BaseSyntheticEvent) => {
+	const getSearchDateString = (weekIdx: number, selectedDate: number) => {
+		const todayWeekIdx = day === 6 ? 0 : day;
+		let selectedMonth = month;
+		let selectedYear = year;
+		if (selectedDate < date && todayWeekIdx < weekIdx) {
+			// 다음달로 넘어가는 경우
+			if (month === 12) {
+				selectedMonth = 1;
+				selectedYear += 1;
+			} else {
+				selectedMonth += 1;
+			}
+		}
+		if (selectedDate > date && todayWeekIdx > weekIdx) {
+			// 이전달로 넘어가는 경우
+			if (month === 1) {
+				selectedMonth = 12;
+				selectedYear -= 1;
+			} else {
+				selectedMonth -= 1;
+			}
+		}
+		return formatDate(selectedYear, selectedMonth, selectedDate);
+	};
+	const setSearchDateHandler = (e: React.BaseSyntheticEvent) => {
 		const {
 			target: {
 				dataset: { weekidx },
-				value: selecedDate,
+				value: selectedDate,
 			},
 		} = e;
-		const todayWeekIdx = day === 6 ? 0 : day;
-		let searchMonth = month;
-		let searchYear = year;
-		if (selecedDate < date && todayWeekIdx < weekidx) {
-			// 다음달로 넘어가는 경우
-			if (month === 12) {
-				searchMonth = 1;
-				searchYear += 1;
-			} else {
-				searchMonth += 1;
-			}
-		}
-		if (selecedDate > date && todayWeekIdx > weekidx) {
-			// 이전달로 넘어가는 경우
-			if (month === 1) {
-				searchMonth = 12;
-				searchYear -= 1;
-			} else {
-				searchMonth -= 1;
-			}
-		}
-		console.log(searchYear, searchMonth, selecedDate);
-		searchDateHandler(searchYear, searchMonth, selecedDate);
+		setSelectedDateIdx(weekidx);
+		getSearchDateString(weekidx, selectedDate);
+		searchDateHandler(getSearchDateString(weekidx, selectedDate));
 	};
+	const getButtonStyle = (weekIdx: number, selectedDate: number) => {
+		if (todayString === getSearchDateString(weekIdx, selectedDate)) {
+			return 'border-[0.1rem] border-primary text-primary';
+		}
+
+		if (weekState && weekState[weekIdx]) return 'bg-g3';
+		return '';
+	};
+
 	return (
-		<div className="w-full">
-			<div>
-				<span>
-					{year}년 {month}월
-				</span>
-				<ul className="grid grid-cols-7 text-center">
-					{['일', '월', '화', '수', '목', '금', '토'].map((w) => (
-						<li key={w}>{w}</li>
-					))}
-				</ul>
-				<ul className="grid grid-cols-7 text-center">
-					{week.map((w, index) => (
-						<li key={index}>
-							<button name="searchDate" value={w} data-weekidx={index} onClick={untitledHandler}>
-								{w}
-							</button>
-						</li>
-					))}
-				</ul>
-			</div>
-			<div>
-				<button onClick={() => setAddTodoInputOpen(true)} aria-hidden={addTodoInputOpen} className="aria-hidden:hidden">
-					항목 추가하기
-				</button>
-				<form aria-hidden={!addTodoInputOpen} onSubmit={addTodoHandler} className="aria-hidden:hidden flex">
-					<div>
-						<input id="newtodo-checkbox" type="checkbox" className="checklist-checkbox" checked={false} readOnly />
-						<label htmlFor="newtodo-checkbox" />
-					</div>
-					<input
-						type="text"
-						name="newTodo"
-						value={newTodo}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
-					/>
-					<button type="button" onClick={cancelAddTodoHandler}>
-						휴지통
-					</button>
-				</form>
-				<ul>
-					{checklist &&
-						checklist.map((todo) => (
-							<li key={todo.checkIdx} className="flex justify-between">
-								<div className="space-x-[1rem] flex">
-									<div>
-										<input
-											id={`checkbox-${todo.checkIdx}`}
-											type="checkbox"
-											data-checkidx={todo.checkIdx}
-											data-content={todo.content}
-											defaultChecked={todo.status === 'Y'}
-											className="checklist-checkbox"
-											onChange={todoCheckStateHandler}
-										/>
-										<label htmlFor={`checkbox-${todo.checkIdx}`} />
-									</div>
-									<span aria-hidden={editTodoInputOpenIdx === todo.checkIdx} className="aria-hidden:hidden">
-										{todo.content}
-									</span>
-									<form
-										onSubmit={editTodoHandler}
-										aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
-										data-status={todo.status}
-										className="aria-hidden:hidden"
+		<>
+			<Header title="체크리스트" />
+			<main className="w-full h-[100vh] pt-[7.2rem]">
+				<div className="space-y-[2rem] pb-[1.2rem]">
+					<span className="text-g10 text-subhead4">
+						{year}년 {month}월
+					</span>
+					<div className="text-g8 space-y-[1.6rem]">
+						<ul className="grid grid-cols-7 text-center text-body1">
+							{['일', '월', '화', '수', '목', '금', '토'].map((w) => (
+								<li key={w}>{w}</li>
+							))}
+						</ul>
+						<ul className="grid grid-cols-7 text-center text-subhead2">
+							{week.map((w, index) => (
+								<li key={index}>
+									<button
+										name="searchDate"
+										value={w}
+										data-weekidx={index}
+										onClick={setSearchDateHandler}
+										aria-pressed={searchDate.split('-')[2] === `${w}`}
+										className={`aria-pressed:bg-primary aria-pressed:text-w ${getButtonStyle(
+											index,
+											w
+										)}  w-[3.4rem] h-[3.4rem] rounded-[0.8rem]`}
 									>
-										<input type="text" name="editTodo" />
-										<button type="button" name="deleteTodo" onClick={deleteTodoHandler}>
-											휴지통
-										</button>
-									</form>
-								</div>
-								<button onClick={() => setEditTodoInputOpenIdx(todo.checkIdx)}>
-									<SettingIcon />
+										{w}
+									</button>
+								</li>
+							))}
+						</ul>
+					</div>
+				</div>
+				<div className="bg-g1 w-[calc(100%+4rem)] -translate-x-[2rem] h-[1.2rem]" />
+
+				{weekState &&
+					(weekState?.[selectedDateIdx] ? (
+						<div className="pt-[2rem] text-subhead2  relative">
+							<div className="absolute w-full ">
+								<button
+									onClick={() => setAddTodoInputOpen(true)}
+									aria-hidden={addTodoInputOpen}
+									className="aria-hidden:hidden  flex items-center text-g7 space-x-[1rem]"
+								>
+									<AddTodoIcon />
+									<span>항목 추가하기</span>
 								</button>
-							</li>
-						))}
-				</ul>
-			</div>
-		</div>
+								<form
+									aria-hidden={!addTodoInputOpen}
+									onSubmit={addTodoHandler}
+									className="aria-hidden:hidden  flex items-center w-[101.5%] space-x-[1rem]"
+								>
+									<div>
+										<AddTodoDecoIcon />
+									</div>
+									<input
+										type="text"
+										name="newTodo"
+										value={newTodo}
+										onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
+										className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
+									/>
+									<button type="button" onClick={cancelAddTodoHandler}>
+										<TrashIcon />
+									</button>
+								</form>
+							</div>
+							<ul className=" text-g9 space-y-[1.6rem] mt-[4.2rem]">
+								{checklist &&
+									checklist.map((todo) => (
+										<li key={todo.checkIdx} className="flex justify-between w-full ">
+											<div className="space-x-[1rem] flex items-center w-full">
+												<div>
+													<input
+														id={`checkbox-${todo.checkIdx}`}
+														type="checkbox"
+														data-checkidx={todo.checkIdx}
+														data-content={todo.content}
+														defaultChecked={todo.status === 'Y'}
+														className="checklist-checkbox"
+														onChange={todoCheckStateHandler}
+													/>
+													<label htmlFor={`checkbox-${todo.checkIdx}`} />
+												</div>
+												<div
+													aria-hidden={editTodoInputOpenIdx === todo.checkIdx}
+													className="aria-hidden:hidden flex items-center justify-between w-full"
+												>
+													<span className="mb-[0.4rem]">{todo.content}</span>
+													<button onClick={() => setEditTodoInputOpenIdx(todo.checkIdx)}>
+														<SettingIcon />
+													</button>
+												</div>
+												<form
+													onSubmit={editTodoHandler}
+													aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
+													data-status={todo.status}
+													className="aria-hidden:hidden flex items-center w-full space-x-[1rem]"
+												>
+													<input
+														type="text"
+														name="editTodo"
+														className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
+													/>
+													<button type="button" onClick={deleteTodoHandler}>
+														<TrashIcon />
+													</button>
+												</form>
+											</div>
+										</li>
+									))}
+							</ul>
+						</div>
+					) : (
+						<EmptyGraphic className="mt-[7.2rem] mx-auto" />
+					))}
+			</main>
+		</>
 	);
 }
 
