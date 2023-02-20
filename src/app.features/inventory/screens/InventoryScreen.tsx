@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import React from 'react';
+import Divider from 'src/app.components/Divider';
 import Header from 'src/app.components/Header';
+import InfoBox from 'src/app.components/InfoBox';
 import ProfileImage from 'src/app.components/ProfileImage';
 import { IInventoryHistory } from 'src/app.modules/api/inventory';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
@@ -33,7 +35,7 @@ function InventoryScreen({ inventoryHistory }: Props) {
 
 			<main className="pt-[5.6rem] h-[100vh]">
 				<section className="py-[1.6rem]">
-					<div className="p-[1.6rem] space-y-[1.6rem] bg-g1 rounded-[0.8rem]">
+					<InfoBox className="space-y-[1.6rem]">
 						<div className="flex items-center justify-between text-subhead1">
 							<h1>시재 기록</h1>
 							<Link href={SERVICE_URL.inventoryHistory}>
@@ -54,9 +56,9 @@ function InventoryScreen({ inventoryHistory }: Props) {
 								))}
 							</ul>
 						) : null}
-					</div>
+					</InfoBox>
 				</section>
-				<div className="bg-g1 w-[calc(100%+4rem)] -translate-x-[2rem] h-[1.2rem]" />
+				<Divider />
 				<section className="text-g9 pt-[2.4rem] space-y-[1.2rem]">
 					<h1 className="text-subhead1">점검하고자하는 시재를 선택하세요.</h1>
 					<ul className="text-subhead2 space-y-[0.8rem]">
