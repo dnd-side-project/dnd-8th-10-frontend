@@ -29,7 +29,11 @@ function OpenSetTimeModalButtons({
 					mode === 'dark' ? 'bg-g1' : 'bg-w'
 				} w-[14.5rem] h-[4.8rem] rounded-[0.8rem]  text-body2 text-start px-[1.2rem] relative flex items-center`}
 			>
-				<button onClick={() => openSetTimeModalHandler('startTime')} name="setStartTime">
+				<button
+					onClick={() => openSetTimeModalHandler('startTime')}
+					name="setStartTime"
+					className="w-full h-full text-start"
+				>
 					{!isStartTimeSet ? <span className="text-g7">시작시간</span> : <span>{startTimeText}</span>}
 				</button>
 				{isStartTimeSet && (
@@ -48,7 +52,11 @@ function OpenSetTimeModalButtons({
 					mode === 'dark' ? 'bg-g1' : 'bg-w'
 				} w-[14.5rem] h-[4.8rem] rounded-[0.8rem] bg-g1  text-body2 text-start px-[1.2rem] relative flex items-center`}
 			>
-				<button onClick={() => openSetTimeModalHandler('endTime')} name="setEndTime">
+				<button
+					onClick={() => openSetTimeModalHandler('endTime')}
+					name="setEndTime"
+					className="w-full h-full text-start"
+				>
 					{!isEndTimeSet ? <span className="text-g7">종료시간</span> : <span>{endTimeText}</span>}
 				</button>
 				{isEndTimeSet && (
