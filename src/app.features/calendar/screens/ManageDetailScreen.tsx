@@ -41,7 +41,13 @@ function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 
 						<div className="mt-[1.6rem] mb-[2rem]">
 							<div className="ml-[0.8rem]">
-								<Profile userData={salaryData} />
+								<Profile
+									mypage={false}
+									userProfileCode={salaryData.userProfileCode}
+									userName={salaryData.userName}
+									role={salaryData.role}
+									workTime={salaryData.workTime}
+								/>
 							</div>
 						</div>
 						<TotalSalary data={salaryData.totalSalary} />
