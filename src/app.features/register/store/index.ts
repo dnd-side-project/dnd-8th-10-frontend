@@ -28,7 +28,8 @@ export type WorkTimeType = {
 // TODO: 백엔드 용어랑 통일시키기
 interface IUser {
 	role: RoleType | null;
-	storeName: string | null;
+	workPlace: string | null;
+	workLocation: string | null;
 	workTime: WorkTimeType;
 	phoneNumber: string | null;
 }
@@ -37,14 +38,15 @@ interface UserState {
 	user: IUser;
 	initUser: () => void;
 	setRole: (role: RoleType) => void;
-	setStoreName: (storeName: string | null) => void;
+	setWorkPlace: (workPlace: string | null) => void;
 	setTime: (workTime: WorkTimeType) => void;
 	setPhoneNumber: (phoneNumber: string | null) => void;
 }
 
 const initUser: IUser = {
 	role: null,
-	storeName: null,
+	workPlace: null,
+	workLocation: null,
 	workTime: {} as WorkTimeType,
 	phoneNumber: null,
 };
@@ -55,7 +57,7 @@ const useRegisterUserStore = create<UserState>((set) => ({
 	user: initUser,
 	initUser: () => set(() => ({ user: initUser })),
 	setRole: (role: RoleType) => set((prev) => ({ user: { ...prev.user, role } })),
-	setStoreName: (storeName: string | null) => set((prev) => ({ user: { ...prev.user, storeName } })),
+	setWorkPlace: (workPlace: string | null) => set((prev) => ({ user: { ...prev.user, workPlace } })),
 	setTime: (workTime: WorkTimeType) => set((prev) => ({ user: { ...prev.user, workTime } })),
 	setPhoneNumber: (phoneNumber: string | null) => set((prev) => ({ user: { ...prev.user, phoneNumber } })),
 }));

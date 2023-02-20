@@ -35,7 +35,7 @@ const initUser: IUser = {
 const useTimeSetStore = create<UserState>((set) => ({
 	user: initUser,
 	initUser: () => set(() => ({ user: initUser })),
-	setStoreName: (storeName: string) => set((prev) => ({ user: { ...prev.user, storeName } })),
+	setWorkPlace: (workPlace: string) => set((prev) => ({ user: { ...prev.user, workPlace } })),
 	setTime: (value: string, name: 'meridiem' | 'hour' | 'minute', flag: 'startTime' | 'endTime') =>
 		set((prev) => ({ user: { ...prev.user, [flag]: { ...prev.user[flag], [name]: value } } })),
 }));

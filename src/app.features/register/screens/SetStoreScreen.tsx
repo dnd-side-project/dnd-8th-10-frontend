@@ -20,25 +20,25 @@ function SetStoreScreen() {
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 	const [searchResults, setSearchResults] = useState<Store[]>();
 	const {
-		user: { storeName },
-		setStoreName,
+		user: { workPlace },
+		setWorkPlace,
 	} = useRegisterUserStore();
 	const searchTermHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value);
 	};
-	const storeNameHandler = (value: string) => {
+	const workPlaceHandler = (value: string) => {
 		setSearchResults([]);
 		setSearchTerm(value);
-		setStoreName(value);
+		setWorkPlace(value);
 	};
 	const resetSearchTerm = () => {
-		if (storeName !== null) {
-			setStoreName(null);
+		if (workPlace !== null) {
+			setWorkPlace(null);
 		}
 		setSearchTerm('');
 		setSearchResults([]);
 	};
-	console.log('storename', storeName, searchTerm);
+
 	useEffect(() => {
 		const script = document.createElement('script');
 		script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET_SDK}&libraries=services&autoload=false`;
@@ -74,24 +74,24 @@ function SetStoreScreen() {
 		onLoadKakaoMap();
 	}, [isLoaded, searchTerm]);
 	return (
-		<RegisterLayout curPage={2} canGoNext={storeName !== null}>
+		<RegisterLayout curPage={2} canGoNext={workPlace !== null}>
 			<div className="space-y-[2.4rem] ">
 				<div className="space-y-[1.6rem]">
 					<h1 className="text-g10 text-title2">어떤지점에서 일하고 계신가요?</h1>
 					<SearchInput
-						searchTerm={searchTerm ?? storeName ?? ''}
+						searchTerm={searchTerm ?? workPlace ?? ''}
 						onSearchTermChange={searchTermHandler}
 						resetSearchTerm={resetSearchTerm}
-						isSearched={Boolean(storeName?.trim())}
+						isSearched={Boolean(workPlace?.trim())}
 					/>
 				</div>
 
-				{storeName === null && (
+				{workPlace === null && (
 					<ul className="space-y-[1.6rem] h-[100vh] pb-[32rem] overflow-x-scroll scrollbar-hidden">
 						{searchResults?.map((store, idx) => (
 							<li key={idx}>
 								<button
-									onClick={() => storeNameHandler(store.place_name)}
+									onClick={() => workPlaceHandler(store.place_name)}
 									value={store.place_name}
 									className="space-y-[0.4rem] flex flex-col items-start"
 								>
