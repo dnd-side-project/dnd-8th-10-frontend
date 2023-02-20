@@ -152,10 +152,11 @@ function CalendarScreen() {
 			</div>
 			{isModalOpen && (
 				<>
-					<Overlay />
-					<TopModal bgColor="bg-g1">
-						<Modal WorkMutate={WorkMutate} />
-					</TopModal>
+					<Overlay>
+						<TopModal bgColor="bg-g1">
+							<Modal WorkMutate={WorkMutate} />
+						</TopModal>
+					</Overlay>
 				</>
 			)}
 		</div>

@@ -76,10 +76,11 @@ function WorkerScreen() {
 			)}
 			{isModalOpen && (
 				<>
-					<Overlay />
-					<TopModal bgColor="bg-g1">
-						<Keypad year={year} month={month} />
-					</TopModal>
+					<Overlay>
+						<TopModal bgColor="bg-g1">
+							<Keypad year={year} month={month} />
+						</TopModal>
+					</Overlay>
 				</>
 			)}
 		</div>
