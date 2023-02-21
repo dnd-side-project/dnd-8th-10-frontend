@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import React from 'react';
-import HomeScreen from 'src/app.features/home/screen/HomeScreen';
+import HomeScreen from 'src/app.features/home/screens/HomeScreen';
 import Navigation from 'src/app.components/Navigation';
 
 const Home: NextPage = () => {
