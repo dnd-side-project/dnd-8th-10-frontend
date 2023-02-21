@@ -9,7 +9,7 @@ export const SERVICE_URL = {
 	mypage: '/mypage',
 	profileSetting: '/mypage/setting',
 	editWorkTime: '/mypage/setting/work-time',
-	editPhoneNumber: '/mypage/setting/work-time',
+	editPhoneNumber: '/mypage/setting/phone',
 	myStore: '/mypage/store',
 	calendar: '/calendar',
 	calendarModify: '/calendar/work-modify',

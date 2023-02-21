@@ -43,7 +43,7 @@ function ProfileSettingScreen({ user }: Props) {
 					</li>
 					<li className="flex items-center  justify-between border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
 						<span className="text-subhead2">개인연락처</span>
-						<button className="text-body2">
+						<button className="text-body2" onClick={() => router.push(SERVICE_URL.editPhoneNumber)}>
 							<Badge size="small" color="warmGray">
 								<div className="flex items-center space-x-[0.4rem]">
 									<span>{user?.phoneNumber}</span> <XIcon className="mt-[0.12rem]" />
