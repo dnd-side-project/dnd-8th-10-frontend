@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { MutateUserBody } from 'src/app.modules/api/user';
+import { getWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import RegisterLayout from '../components/RegisterLayout';
-import useRegisterUserStore, { dayMap } from '../store';
+import useRegisterUserStore from '../store';
 
 interface Props {
 	postUser: MutateTpye<MutateUserBody>;
@@ -13,47 +14,27 @@ interface Props {
 // TODO: 전화번호 유효성 검사
 function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 	const {
-		user: { phoneNumber, role, storeName, workTime },
+		user: { phoneNumber, role, workPlace, workTime, workLocation },
 		setPhoneNumber,
 	} = useRegisterUserStore();
-	const getWorkTimeString = () => {
-		try {
-			return Object.entries(workTime)
-				.sort(([a], [b]) => (a < b ? -1 : 1))
-				.map(([day, time]) => {
-					const { startTime, endTime } = time;
-					console.log(endTime.meridiem);
-					// TODO: 코드 이뿌게고치기
-					return `${dayMap.get(day)}(${startTime.hour.length === 1 && startTime.meridiem === 'am' ? '0' : ''}${
-						+startTime.hour + (startTime.meridiem === 'am' ? 0 : 12)
-					}:${startTime.minute.length === 1 ? '0' : ''}${startTime.minute}~${
-						endTime.hour.length === 1 && endTime.meridiem === 'am' ? '0' : ''
-					}${+endTime.hour + (endTime.meridiem === 'am' ? 0 : 12)}:${endTime.minute.length === 1 ? '0' : ''}${
-						endTime.minute
-					})`;
-				})
-				.toString();
-		} catch (e) {
-			console.log(e);
-			return '';
-		}
-	};
+
 	const phoneNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPhoneNumber(e.target.value);
 	};
 	const submitHandler = () => {
 		console.log('제출');
 		if (isLoading) return;
-		const workTimeString = getWorkTimeString();
-		if (!role || !phoneNumber || !storeName || !workTimeString.trim()) {
+		const workTimeString = getWorkTimeString(workTime);
+		if (!role || !phoneNumber || !workPlace || !workTimeString.trim() || !workLocation) {
 			alert('필수 정보를 모두 입력해주세요.');
 			return;
 		}
 		// TODO: 요일 입력 받기
 		const body = {
 			role,
-			workPlace: storeName,
+			workPlace,
 			workTime: workTimeString,
+			workLocation,
 			phoneNumber,
 		};
 		console.log(body);
@@ -71,7 +52,7 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 					value={phoneNumber ?? ''}
 					onChange={phoneNumberHandler}
 					resetHandler={resetPhoneNumberHandler}
-					mode="wide"
+					mode="default"
 					placeholder="010-0000-0000"
 				/>
 			</div>

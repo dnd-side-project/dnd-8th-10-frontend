@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import SearchInput from 'src/app.components/app.base/Input/SearchInput';
 import RoadBadgeSvg from 'src/app.modules/assets/register/roadBadge.svg';
@@ -15,30 +14,33 @@ type Store = {
 	place_name: string;
 	road_address_name: string;
 };
-function SetStoreScreen() {
+function SetWorkPlaceScreen() {
 	const [searchTerm, setSearchTerm] = useState<string>();
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 	const [searchResults, setSearchResults] = useState<Store[]>();
 	const {
-		user: { storeName },
-		setStoreName,
+		user: { workPlace },
+		setWorkPlace,
+		setWorkLocation,
 	} = useRegisterUserStore();
 	const searchTermHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value);
 	};
-	const storeNameHandler = (value: string) => {
+	const workPlaceHandler = (place: string, location: string) => {
 		setSearchResults([]);
-		setSearchTerm(value);
-		setStoreName(value);
+		setSearchTerm(place);
+		setWorkPlace(place);
+		setWorkLocation(location);
 	};
 	const resetSearchTerm = () => {
-		if (storeName !== null) {
-			setStoreName(null);
+		if (workPlace !== null) {
+			setWorkPlace(null);
+			setWorkLocation(null);
 		}
 		setSearchTerm('');
 		setSearchResults([]);
 	};
-	console.log('storename', storeName, searchTerm);
+
 	useEffect(() => {
 		const script = document.createElement('script');
 		script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET_SDK}&libraries=services&autoload=false`;
@@ -74,24 +76,24 @@ function SetStoreScreen() {
 		onLoadKakaoMap();
 	}, [isLoaded, searchTerm]);
 	return (
-		<RegisterLayout curPage={2} canGoNext={storeName !== null}>
+		<RegisterLayout curPage={2} canGoNext={workPlace !== null}>
 			<div className="space-y-[2.4rem] ">
 				<div className="space-y-[1.6rem]">
 					<h1 className="text-g10 text-title2">어떤지점에서 일하고 계신가요?</h1>
 					<SearchInput
-						searchTerm={searchTerm ?? storeName ?? ''}
+						searchTerm={searchTerm ?? workPlace ?? ''}
 						onSearchTermChange={searchTermHandler}
 						resetSearchTerm={resetSearchTerm}
-						isSearched={Boolean(storeName?.trim())}
+						isSearched={Boolean(workPlace?.trim())}
 					/>
 				</div>
 
-				{storeName === null && (
+				{workPlace === null && (
 					<ul className="space-y-[1.6rem] h-[100vh] pb-[32rem] overflow-x-scroll scrollbar-hidden">
 						{searchResults?.map((store, idx) => (
 							<li key={idx}>
 								<button
-									onClick={() => storeNameHandler(store.place_name)}
+									onClick={() => workPlaceHandler(store.place_name, store.road_address_name)}
 									value={store.place_name}
 									className="space-y-[0.4rem] flex flex-col items-start"
 								>
@@ -110,4 +112,4 @@ function SetStoreScreen() {
 	);
 }
 
-export default SetStoreScreen;
+export default SetWorkPlaceScreen;

@@ -4,7 +4,7 @@ import Router, { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import CompleteSettingScreen from 'src/app.features/register/screens/CompleteSettingScreen';
 import SetPhoneNumScreen from 'src/app.features/register/screens/SetPhoneNumScreen';
-import SetStoreScreen from 'src/app.features/register/screens/SetStoreScreen';
+import SetStoreScreen from 'src/app.features/register/screens/SetWorkPlaceScreen';
 import SetTimeScreen from 'src/app.features/register/screens/SetTimeScreen';
 import SetRoleScreen from 'src/app.features/register/screens/SetRoleScreen';
 import { postUser } from 'src/app.modules/api/user';
@@ -34,13 +34,7 @@ const Register: NextPage = () => {
 			{page === '2' && <SetStoreScreen />}
 			{page === '3' && <SetTimeScreen />}
 			{page === '4' && <SetPhoneNumScreen postUser={mutate} isLoading={isLoading} />}
-			{page === '5' && (
-				<CompleteSettingScreen
-					userName={data?.userName ?? ''}
-					workPlace={data?.workPlace ?? ''}
-					role={data?.role ?? null}
-				/>
-			)}
+			{page === '5' && <CompleteSettingScreen userName={data?.userName ?? ''} />}
 		</>
 	);
 };

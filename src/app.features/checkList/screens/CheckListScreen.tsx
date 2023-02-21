@@ -8,6 +8,7 @@ import AddTodoIcon from 'src/app.modules/assets/checklist/addTodo.svg';
 import TrashIcon from 'src/app.modules/assets/checklist/trash.svg';
 import AddTodoDecoIcon from 'src/app.modules/assets/checklist/addInputDeco.svg';
 import { formatDate } from 'src/app.modules/util/formatDate';
+import Divider from 'src/app.components/Divider';
 
 const getKoreaToday = () => {
 	const DATE = new Date(); // 현재 날짜(로컬 기준) 가져오기
@@ -237,7 +238,7 @@ function CheckListScreen({
 						</ul>
 					</div>
 				</div>
-				<div className="bg-g1 w-[calc(100%+4rem)] -translate-x-[2rem] h-[1.2rem]" />
+				<Divider />
 
 				{weekState &&
 					(weekState?.[selectedDateIdx] ? (

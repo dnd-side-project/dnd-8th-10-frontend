@@ -22,6 +22,7 @@ interface Props {
 }
 // TODO: 중복 코드 줄이기
 function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
+	console.log(time, 'time');
 	return (
 		<div className="w-full space-y-[2.4rem]   whitespace-nowrap">
 			<div className="w-full flex justify-between items-start">
@@ -59,7 +60,7 @@ function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 								mode="h32"
 								item={`${hour}`}
 								value={`${hour}`}
-								isPressed={time?.hour === `${hour}`}
+								isPressed={`${time?.hour}` === `${hour}`}
 								onClick={timeHandler}
 								bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
 							/>
@@ -77,7 +78,7 @@ function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 								mode="h32"
 								item={`${minute}`}
 								value={`${minute}`}
-								isPressed={time?.minute === `${minute}`}
+								isPressed={`${time?.minute}` === `${minute}`}
 								onClick={timeHandler}
 								bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
 							/>

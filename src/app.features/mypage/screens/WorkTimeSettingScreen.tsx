@@ -1,47 +1,73 @@
-import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
-import DayButton from 'src/app.features/register/components/DayButton';
+import React, { useEffect, useState } from 'react';
+import Bar from 'src/app.components/app.base/Button/Bar';
 import OpenSetTimeModalButtons from 'src/app.components/Button/OpenSetTimeModalButtons';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
-import { dayMap, DayType, TimeType } from 'src/app.modules/types/workTime';
-import TopModal from 'src/app.components/Modal/TopModal';
+import Header from 'src/app.components/Header';
 import Overlay from 'src/app.components/Modal/Overlay';
+import TopModal from 'src/app.components/Modal/TopModal';
+import DayButton from 'src/app.features/register/components/DayButton';
+import { MutateTpye } from 'src/app.modules/api/client';
+import { MutateUserBody } from 'src/app.modules/api/user';
 import useModalStore from 'src/app.modules/store/modal';
-import Bar from 'src/app.components/app.base/Button/Bar';
-import RegisterLayout from '../components/RegisterLayout';
-import useRegisterUserStore, { INIT_WORKTIME } from '../store';
-
-// TODO: 시간 유효성체크 (끝나는 시간이 시작하는 시간보다 빠른지)
-// TODO: 오전 0시 24시로 표기
-type Flag = TimeType | null;
+import { dayMap, dayMapReverse, DayType, TimeType, WorkTimeType } from 'src/app.modules/types/workTime';
+import { getWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
+import { IUser } from '../types';
+// TODO: register랑 겹치는 부분 컴포넌트화
+// TODO: 설정한 시간이 유효한 값인지 확인
+interface Props {
+	user: IUser;
+	putUser: MutateTpye<MutateUserBody>;
+	isLoading: boolean;
+}
 type WorkTimeOnModalType = {
 	meridiem: 'am' | 'pm';
 	hour: string;
 	minute: string;
 };
-function SetTimeScreen() {
+type Flag = TimeType | null;
+function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 	const [selectedDay, setSelectedDay] = useState<DayType>('6');
-	const {
-		user: { workTime },
-		setTime,
-	} = useRegisterUserStore();
-
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	const [workTime, setWorkTime] = useState<WorkTimeType>({} as WorkTimeType);
 	const INIT_WORK_TIME = {
 		meridiem: 'am',
 		hour: '1',
 		minute: '0',
 	} as WorkTimeOnModalType;
 	const [workTimeOnModal, setWorkTimeOnModal] = useState<WorkTimeOnModalType>(INIT_WORK_TIME);
-	const timeOnModalHandler = (e: React.BaseSyntheticEvent) => {
-		const {
-			target: { name, value },
-		} = e;
+	const selectedDayHandler = (e: React.BaseSyntheticEvent) => {
+		setSelectedDay(e.target.value);
+	};
 
-		setWorkTimeOnModal({
-			...workTimeOnModal,
-			[name]: value,
-		});
+	const openSetTimeModalHandler = (flag: TimeType) => {
+		setOpenModalFlag(flag);
+		modalIsOpen();
+
+		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as TimeType];
+		console.log(newWorkTimeOnModal);
+		if (!newWorkTimeOnModal) return;
+		setWorkTimeOnModal(newWorkTimeOnModal);
+	};
+	const resetTimeHandler = (flag: TimeType) => {
+		const temp = { ...workTime[selectedDay] };
+		delete temp[flag];
+		const updatedWorkTime = {
+			...workTime,
+			[selectedDay]: {
+				...temp,
+			},
+		};
+		setWorkTime(updatedWorkTime);
+	};
+	const submitHandler = () => {
+		if (isLoading) return;
+		const body = {
+			...user,
+			workTime: getWorkTimeString(workTime),
+		};
+
+		putUser(body);
 	};
 	const workTimeHandler = () => {
 		const { meridiem, hour, minute } = workTimeOnModal;
@@ -56,38 +82,50 @@ function SetTimeScreen() {
 			},
 		};
 
-		setTime(updatedWorkTime);
+		setWorkTime(updatedWorkTime);
 		setOpenModalFlag(null);
 		setWorkTimeOnModal(INIT_WORK_TIME);
 		modalIsClose();
-	};
-	const selectedDayHandler = (e: BaseSyntheticEvent) => {
-		setSelectedDay(e.target.value);
-	};
-	const resetTimeHandler = (flag: TimeType) => {
-		const temp = { ...workTime[selectedDay] };
-		delete temp[flag];
-		const updatedWorkTime = {
-			...workTime,
-			[selectedDay]: {
-				...temp,
-			},
-		};
-		setTime(updatedWorkTime);
-	};
-	const openSetTimeModalHandler = (flag: TimeType) => {
-		setOpenModalFlag(flag);
-		modalIsOpen();
-		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as TimeType];
-		if (!newWorkTimeOnModal) return;
-		setWorkTimeOnModal(newWorkTimeOnModal);
+		submitHandler();
 	};
 
+	const timeOnModalHandler = (e: React.BaseSyntheticEvent) => {
+		const {
+			target: { name, value },
+		} = e;
+
+		setWorkTimeOnModal({
+			...workTimeOnModal,
+			[name]: value,
+		});
+	};
+	useEffect(() => {
+		if (!user) return;
+		const tmp = user.workTime.split(',').map((item) => [
+			dayMapReverse.get(item[0]),
+			{
+				startTime: {
+					meridiem:
+						+item.split('~')[0].slice(2).split(':')[0] < 12 || +item.split('~')[0].slice(2).split(':')[0] === 24
+							? 'am'
+							: 'pm',
+					hour: `${+item.split('~')[0].slice(2).split(':')[0] % 12}`,
+					minute: `${+item.split('~')[0].slice(2).split(':')[1]}`,
+				},
+				endTime: {
+					meridiem: +item.split('~')[1].split(':')[0] < 12 || +item.split('~')[1].split(':')[0] === 24 ? 'am' : 'pm',
+					hour: `${+item.split('~')[1].split(':')[0] % 12}`,
+					minute: `${+item.split('~')[1].split(':')[1].slice(0, 2)}`,
+				},
+			},
+		]);
+		console.log(Object.fromEntries(tmp));
+		setWorkTime(Object.fromEntries(tmp));
+	}, [user]);
 	return (
-		<RegisterLayout curPage={3} canGoNext={Boolean(workTime !== INIT_WORKTIME)}>
-			{/* TODO: 다음으로 넘어가는 조건 다시 지정 (더 자세하게) */}
-			<div className="space-y-[3.2rem] ">
-				<h1 className="text-g10 text-title2">근무하는 시간대를 설정해주세요</h1>
+		<>
+			<Header title="근무시간 수정" />
+			<main className="h-[100vh] pt-[7.2rem]">
 				<div className="flex flex-col space-y-[3.2rem]">
 					<div className="space-y-[0.8rem] w-full">
 						<h2 className="text-g6 text-subhead1">요일 선택</h2>
@@ -123,7 +161,7 @@ function SetTimeScreen() {
 						/>
 					</div>
 				</div>
-			</div>
+			</main>
 			{isModalOpen && (
 				<Overlay>
 					<TopModal>
@@ -135,17 +173,8 @@ function SetTimeScreen() {
 					</TopModal>
 				</Overlay>
 			)}
-		</RegisterLayout>
+		</>
 	);
 }
 
-export default SetTimeScreen;
-
-/*
-
-<div>
-						
-					</div>
-
-
-*/
+export default WorkTimeSettingScreen;
