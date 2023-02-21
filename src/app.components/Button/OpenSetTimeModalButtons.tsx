@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimeType } from 'src/app.modules/types/time';
+import { TimeType } from 'src/app.modules/types/workTime';
 import InputCancelIcon from 'src/app.modules/assets/inputCancel.svg';
 
 interface Props {

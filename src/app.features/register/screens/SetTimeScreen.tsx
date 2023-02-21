@@ -2,13 +2,13 @@ import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
 import DayButton from 'src/app.features/register/components/DayButton';
 import OpenSetTimeModalButtons from 'src/app.components/Button/OpenSetTimeModalButtons';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
-import { TimeType } from 'src/app.modules/types/time';
+import { dayMap, DayType, TimeType } from 'src/app.modules/types/workTime';
 import TopModal from 'src/app.components/Modal/TopModal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import useModalStore from 'src/app.modules/store/modal';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import RegisterLayout from '../components/RegisterLayout';
-import useRegisterUserStore, { dayMap, DayType, INIT_WORKTIME } from '../store';
+import useRegisterUserStore, { INIT_WORKTIME } from '../store';
 
 // TODO: 시간 유효성체크 (끝나는 시간이 시작하는 시간보다 빠른지)
 // TODO: 오전 0시 24시로 표기

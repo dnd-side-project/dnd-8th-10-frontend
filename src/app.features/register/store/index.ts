@@ -1,30 +1,7 @@
 import { RoleType } from 'src/app.modules/api/user';
+import { WorkTimeType } from 'src/app.modules/types/workTime';
 import create from 'zustand';
 
-export const dayMap = new Map([
-	['0', '월'],
-	['1', '화'],
-	['2', '수'],
-	['3', '목'],
-	['4', '금'],
-	['5', '토'],
-	['6', '일'],
-]);
-export type DayType = '0' | '1' | '2' | '3' | '4' | '5' | '6';
-export type WorkTimeType = {
-	[day in DayType]: {
-		startTime: {
-			meridiem: 'am';
-			hour: '1';
-			minute: '0';
-		};
-		endTime: {
-			meridiem: 'am';
-			hour: '1';
-			minute: '0';
-		};
-	};
-};
 // TODO: 백엔드 용어랑 통일시키기
 interface IUser {
 	role: RoleType | null;

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { MutateUserBody } from 'src/app.modules/api/user';
+import { getWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import RegisterLayout from '../components/RegisterLayout';
-import useRegisterUserStore, { dayMap } from '../store';
+import useRegisterUserStore from '../store';
 
 interface Props {
 	postUser: MutateTpye<MutateUserBody>;
@@ -16,35 +17,14 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 		user: { phoneNumber, role, workPlace, workTime, workLocation },
 		setPhoneNumber,
 	} = useRegisterUserStore();
-	const getWorkTimeString = () => {
-		try {
-			return Object.entries(workTime)
-				.sort(([a], [b]) => (a < b ? -1 : 1))
-				.map(([day, time]) => {
-					const { startTime, endTime } = time;
-					console.log(endTime.meridiem);
-					// TODO: 코드 이뿌게고치기
-					return `${dayMap.get(day)}(${startTime.hour.length === 1 && startTime.meridiem === 'am' ? '0' : ''}${
-						+startTime.hour + (startTime.meridiem === 'am' ? 0 : 12)
-					}:${startTime.minute.length === 1 ? '0' : ''}${startTime.minute}~${
-						endTime.hour.length === 1 && endTime.meridiem === 'am' ? '0' : ''
-					}${+endTime.hour + (endTime.meridiem === 'am' ? 0 : 12)}:${endTime.minute.length === 1 ? '0' : ''}${
-						endTime.minute
-					})`;
-				})
-				.toString();
-		} catch (e) {
-			console.log(e);
-			return '';
-		}
-	};
+
 	const phoneNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPhoneNumber(e.target.value);
 	};
 	const submitHandler = () => {
 		console.log('제출');
 		if (isLoading) return;
-		const workTimeString = getWorkTimeString();
+		const workTimeString = getWorkTimeString(workTime);
 		if (!role || !phoneNumber || !workPlace || !workTimeString.trim() || !workLocation) {
 			alert('필수 정보를 모두 입력해주세요.');
 			return;
