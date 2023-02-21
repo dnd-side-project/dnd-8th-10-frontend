@@ -25,7 +25,7 @@ export const Admin: React.FC<Props> = ({ children, data, type = '' }) => {
 const SalaryPage: NextPage = () => {
 	const { data, isLoading } = useQuery(['user', 'me'], getUser, {
 		onSuccess: (res) => {
-			console.log(res);
+			// console.log(res);
 		},
 		onError: (error) => {
 			console.log(error);

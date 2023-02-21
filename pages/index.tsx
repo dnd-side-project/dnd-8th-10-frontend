@@ -1,27 +1,66 @@
 import type { NextPage } from 'next';
-import { KAKAO_OAUTH2_URL } from 'src/app.features/login/constants';
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
-import { refreshToken } from 'src/app.modules/api/auth';
-import { getUser } from 'src/app.modules/api/user';
-import React, { useState } from 'react';
-import ProfileImage from 'src/app.components/ProfileImage';
-import useUser from 'src/app.modules/hooks/user/useUser';
+import React from 'react';
+import HomeScreen from 'src/app.features/home/screens/HomeScreen';
+import Navigation from 'src/app.components/Navigation';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import useStore from 'src/app.features/calendar/store';
+import { getGray, getToDay, postWork } from 'src/app.features/calendar/api';
+import { getDayOfWeek } from 'src/app.modules/util/calendar';
 
 const Home: NextPage = () => {
-	const { data } = useUser();
-	const [width, setWidth] = useState<string>('600');
-	const onSubmit = (e: React.BaseSyntheticEvent) => {
-		e.preventDefault();
-		const newWidth = e.target.width.value;
-		if (!Number(newWidth)) return;
-		setWidth(newWidth);
-	};
+	const { toDay } = useStore();
+	const [year, month, _] = toDay.split('.');
+
+	// 출근했던 기록
+	const { data: grayData, refetch: grayRefetch } = useQuery(
+		['gray'],
+		() =>
+			getGray({
+				year,
+				month,
+			}),
+		{
+			select: (res) => res.data.data.map(Number),
+			onSuccess: (res) => {
+				// console.log(res);
+			},
+			onError: (error) => {
+				console.log(error);
+			},
+			retry: false,
+			refetchOnMount: false,
+			refetchOnReconnect: false,
+			refetchOnWindowFocus: false,
+		}
+	);
+	// 출근하기
+	const { mutate: WorkMutate } = useMutation(postWork, {
+		onSuccess: (res) => {
+			// console.log(res);
+			grayRefetch();
+		},
+		onError: (error) => alert('오류 발생.'),
+	});
+
+	// 오늘이 일하는 요일이면 시간 가져오기
+	const { data: todayWork } = useQuery(['todayWork'], () => getToDay(getDayOfWeek(toDay)), {
+		select: (res) => res.data,
+		onSuccess: (res) => {
+			// console.log(res);
+		},
+		onError: (error) => {
+			console.log(error);
+		},
+		retry: false,
+		refetchOnMount: false,
+		refetchOnReconnect: false,
+		refetchOnWindowFocus: false,
+	});
 
 	return (
-		<div className="bg-blue-400 w-full h-[100vh]  mx-auto">
-			<ProfileImage size="md" userProfileCode={data?.userProfileCode} />
+		<div className="h-[100vh]">
+			<HomeScreen grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} />
+			<Navigation />
 		</div>
 	);
 };
