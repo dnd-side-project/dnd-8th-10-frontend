@@ -58,7 +58,7 @@ const Home: NextPage = () => {
 	});
 
 	return (
-		<div className="h-[100vh]">
+		<div className="h-[100vh] bg-[#FCFCFF]  w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem]">
 			<HomeScreen grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} />
 			<Navigation />
 		</div>

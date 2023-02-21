@@ -8,7 +8,7 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 function Navigation() {
 	const router = useRouter();
 	return (
-		<div className="flex items-center h-[5.6rem] fixed bottom-0 max-w-[42rem] -translate-x-[2rem] mx-auto w-full border-solid border-t-[0.05rem] border-g3">
+		<div className="bg-w flex items-center h-[5.6rem] fixed bottom-0 max-w-[42rem] -translate-x-[2rem] mx-auto w-full border-solid border-t-[0.05rem] border-g3">
 			<div className="flex justify-between items-baseline mx-[3rem] w-full">
 				<div role="presentation" className="flex flex-col items-center" onClick={() => router.push('/')}>
 					<HomeIcon stroke={`${router.pathname === `${SERVICE_URL.home}` ? '#66666E' : '#E8E8EB'}`} />

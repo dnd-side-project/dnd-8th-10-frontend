@@ -42,7 +42,7 @@ function Working({ grayData, WorkMutate, todayWork }: Props) {
 			onClick={() => commute()}
 			className={`${
 				status ? 'bg-primary' : 'bg-w'
-			} cursor-pointer h-[11.3rem] my-[1.6rem] px-[2rem] py[1.6rem] shadow-blue flex justify-between items-center rounded-[0.8rem]`}
+			} cursor-pointer h-[11.3rem] my-[1.6rem] px-[2rem] py[1.6rem] flex justify-between items-center rounded-[0.8rem] shadow-gray`}
 		>
 			<div className="h-[7.4rem] flex flex-col justify-between">
 				<div>
