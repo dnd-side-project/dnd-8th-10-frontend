@@ -6,6 +6,7 @@ import { MutateTpye } from 'src/app.modules/api/client';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import WorkIcon from '../../../../public/images/home/work.svg';
 import WorkingIcon from '../../../../public/images/home/working.svg';
+
 interface Props {
 	grayData: number[];
 	WorkMutate: MutateTpye<MutateBody>;

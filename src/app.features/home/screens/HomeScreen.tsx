@@ -1,11 +1,11 @@
 import React from 'react';
+import { MutateTpye } from 'src/app.modules/api/client';
+import { MutateBody } from 'src/app.features/calendar/api';
 import Working from '../components/working';
 import BoardBar from '../components/boardBar';
 import MainPoster from '../components/MainPoster';
 import Header from '../components/Header';
 import Buttons from '../components/Buttons';
-import { MutateTpye } from 'src/app.modules/api/client';
-import { MutateBody } from 'src/app.features/calendar/api';
 
 interface Props {
 	grayData: number[];

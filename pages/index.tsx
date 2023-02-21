@@ -10,6 +10,8 @@ import { getDayOfWeek } from 'src/app.modules/util/calendar';
 const Home: NextPage = () => {
 	const { toDay } = useStore();
 	const [year, month, _] = toDay.split('.');
+
+	// 출근했던 기록
 	const { data: grayData, refetch: grayRefetch } = useQuery(
 		['gray'],
 		() =>
