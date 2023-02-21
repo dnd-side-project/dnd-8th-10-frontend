@@ -1,17 +1,53 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import useStore from 'src/app.features/calendar/store';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import WorkIcon from '../../../../public/images/home/work.svg';
-function Working() {
+import WorkingIcon from '../../../../public/images/home/working.svg';
+
+function Working({ grayData, WorkMutate, todayWork }: any) {
+	const router = useRouter();
+	const { toDay, modalCalData } = useStore();
+	const [year, month, day] = toDay.split('.');
+	const [status, setStatus] = useState<boolean>(false);
+	// 출근하기 버튼
+	const commute = () => {
+		if (todayWork && !status) {
+			const [start, end] = todayWork.split('~');
+			const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
+			const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
+			const timeDiff = Math.abs((startSplit - endSplit) / 60);
+			WorkMutate({ year, month, day, workTime: todayWork, workHour: timeDiff });
+		} else {
+			// 금일이 근무날 아님
+			// modalCalData(toDay, status);
+			// router.push(`${SERVICE_URL.calendarModify}`);
+		}
+	};
+	useEffect(() => {
+		if (grayData) {
+			setStatus(grayData.includes(Number(day)));
+		}
+	}, [grayData]);
 	return (
-		<div className="h-[11.3rem] my-[1.6rem] px-[2rem] py[1.6rem] shadow-blue flex justify-between items-center rounded-[0.8rem]">
+		<div
+			role="presentation"
+			onClick={() => commute()}
+			className={`${
+				status ? 'bg-primary' : 'bg-w'
+			} cursor-pointer h-[11.3rem] my-[1.6rem] px-[2rem] py[1.6rem] shadow-blue flex justify-between items-center rounded-[0.8rem]`}
+		>
 			<div className="h-[7.4rem] flex flex-col justify-between">
 				<div>
-					<span className="text-title2 text-g9">출근하기</span>
+					<span className={`text-title2 ${status ? 'text-w' : 'text-g9'}`}>{status ? '근무중...' : '출근하기'}</span>
 				</div>
 				<div>
-					<span className="text-subhead1 text-g6">1월 18일 근무 시작하기</span>
+					<span className={`text-subhead1 ${status ? 'text-g2' : 'text-g6'}`}>
+						{month}월 {day}일 {status ? '근무중' : '근무 시작하기'}
+					</span>
 				</div>
 			</div>
-			<WorkIcon />
+			{status ? <WorkingIcon /> : <WorkIcon />}
 		</div>
 	);
 }

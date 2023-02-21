@@ -1,5 +1,6 @@
 import React from 'react';
 import MainIcon from '../../../../public/images/home/main.svg';
+
 function MainPoster() {
 	return (
 		<div className="h-[23.8rem] relative mb-[2.4rem]">

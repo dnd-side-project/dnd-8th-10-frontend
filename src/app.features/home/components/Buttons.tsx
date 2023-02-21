@@ -1,7 +1,10 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import InvenIcon from '../../../../public/images/home/inven.svg';
 import CheckIcon from '../../../../public/images/home/check.svg';
+
 function Buttons() {
+	const router = useRouter();
 	return (
 		<div className="flex">
 			<div className="flex flex-col justify-center items-center shadow-blue w-full mr-[1.6rem] py-[2.5rem] rounded-[0.8rem]">

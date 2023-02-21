@@ -4,13 +4,14 @@ import BoardBar from '../components/boardBar';
 import MainPoster from '../components/MainPoster';
 import Header from '../components/Header';
 import Buttons from '../components/Buttons';
-function HomeScreen() {
+
+function HomeScreen({ grayData, WorkMutate, todayWork }: any) {
 	return (
 		<div>
 			<Header />
 			<MainPoster />
 			<BoardBar />
-			<Working />
+			<Working grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} />
 			<Buttons />
 		</div>
 	);
