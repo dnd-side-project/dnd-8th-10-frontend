@@ -1,11 +1,17 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { MutateBody } from 'src/app.features/calendar/api';
 import useStore from 'src/app.features/calendar/store';
+import { MutateTpye } from 'src/app.modules/api/client';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import WorkIcon from '../../../../public/images/home/work.svg';
 import WorkingIcon from '../../../../public/images/home/working.svg';
-
-function Working({ grayData, WorkMutate, todayWork }: any) {
+interface Props {
+	grayData: number[];
+	WorkMutate: MutateTpye<MutateBody>;
+	todayWork: string;
+}
+function Working({ grayData, WorkMutate, todayWork }: Props) {
 	const router = useRouter();
 	const { toDay, modalCalData } = useStore();
 	const [year, month, day] = toDay.split('.');
