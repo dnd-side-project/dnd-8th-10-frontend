@@ -14,8 +14,7 @@ interface Props {
 }
 function HomeScreen({ grayData, WorkMutate, todayWork }: Props) {
 	return (
-		<div>
-			<Header />
+		<div className="bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem] py-[5.6rem]">
 			<MainPoster />
 			<BoardBar />
 			<Working grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} />
