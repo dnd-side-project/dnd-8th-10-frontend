@@ -59,13 +59,13 @@ const Home: NextPage = () => {
 	});
 
 	return (
-		<div>
+		<>
 			<Header />
-			<div className="h-[100vh] bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem]">
+			<main className="h-[100vh] bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem]">
 				<HomeScreen grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} />
-			</div>
+			</main>
 			<Navigation />
-		</div>
+		</>
 	);
 };
 
