@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import KeypadDelIcon from 'src/app.modules/assets/calendar/keypadDel.svg';
 import useModalStore from 'src/app.modules/store/modal';
-import useStore from '../store';
-import useKeypadStore from '../store/keypad';
+import useStore from '../../store';
+import useKeypadStore from '../../store/keypad';
 
 type keypad = 'year' | 'month' | null;
 interface Props {

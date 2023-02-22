@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import SwiperCore from 'swiper';
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
@@ -14,10 +14,10 @@ import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
 import useStore from '../store';
 import { getGray, postWork } from '../api';
-import Modal from '../components/Modal';
+import ModalWrap from '../components/ModalWrap';
 import useKeypadStore from '../store/keypad';
 
-function CalendarScreen() {
+function CalendarScreen({ grayData }: any) {
 	const [schedule, setSchedule] = useState({
 		month: 0,
 		day: [],
@@ -30,6 +30,8 @@ function CalendarScreen() {
 	// 해당 달의 첫날과 마지막날
 	const firstDay = Number(new Date(year, month, 1).getDay());
 	const lastDate = Number(new Date(year, month + 1, 0).getDate());
+
+	const swiperRef = useRef<SwiperCore>();
 
 	const onChangeMonth = (swiper: SwiperCore) => {
 		setCalendar(year, swiper.realIndex);
@@ -51,7 +53,7 @@ function CalendarScreen() {
 	// 출근하기
 	const { data: WorkData, mutate: WorkMutate } = useMutation(postWork, {
 		onSuccess: (res) => {
-			console.log(res);
+			// console.log(res);
 		},
 		onError: (error) => alert('오류 발생.'),
 	});
@@ -65,12 +67,7 @@ function CalendarScreen() {
 			}),
 		{
 			onSuccess: (res) => {
-				if (res.data.data.length === 1) {
-					setSchedule({
-						month,
-						day: res.data.data.map(Number),
-					});
-				} else {
+				if (res.data.data) {
 					setSchedule({
 						month,
 						day: res.data.data.map(Number),
@@ -80,7 +77,6 @@ function CalendarScreen() {
 		}
 	);
 
-	const swiperRef = useRef<SwiperCore>();
 	useEffect(() => {
 		getGrayRefetch();
 		if (isJump) {
@@ -151,13 +147,11 @@ function CalendarScreen() {
 				</Swiper>
 			</div>
 			{isModalOpen && (
-				<>
-					<Overlay>
-						<TopModal bgColor="bg-g1">
-							<Modal WorkMutate={WorkMutate} />
-						</TopModal>
-					</Overlay>
-				</>
+				<Overlay>
+					<TopModal bgColor="bg-g1">
+						<ModalWrap WorkMutate={WorkMutate} />
+					</TopModal>
+				</Overlay>
 			)}
 		</div>
 	);
