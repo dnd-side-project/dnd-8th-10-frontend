@@ -7,7 +7,7 @@ import CheckIcon from '../../../../public/images/home/check.svg';
 function Buttons() {
 	const router = useRouter();
 	return (
-		<div className="flex">
+		<div className="flex mb-[3.2rem]">
 			<div
 				role="presentation"
 				onClick={() => router.push(`${SERVICE_URL.inventory}`)}

@@ -94,7 +94,7 @@ function CalendarScreen() {
 	};
 
 	return (
-		<div>
+		<div className="bg-w pb-[5.6rem]">
 			<header className="w-full h-[5.6rem] flex items-center justify-between relative">
 				<div className="cursor-pointer flex items-center h-[2.2rem] justify-between">
 					<button

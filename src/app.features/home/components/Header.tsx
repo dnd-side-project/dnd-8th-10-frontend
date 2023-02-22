@@ -4,7 +4,7 @@ import GpsIcon from '../../../../public/images/home/gps.svg';
 
 function Header() {
 	return (
-		<header className="h-[5.6rem] flex justify-between items-center">
+		<header className="bg-[#FCFCFF] h-[5.6rem] fixed px-[2rem] max-w-[42rem] -translate-x-[2rem] text-subhead4  mx-auto w-full flex justify-between items-center z-50">
 			<div className="w-[2.4rem]" />
 			<div className="flex items-center">
 				<GpsIcon />
