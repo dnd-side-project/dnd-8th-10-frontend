@@ -26,6 +26,7 @@ function Working({ grayData, WorkMutate, todayWork }: Props) {
 			const timeDiff = Math.abs((startSplit - endSplit) / 60);
 			WorkMutate({ year, month, day, workTime: todayWork, workHour: timeDiff });
 		} else {
+			alert('근무날이 아닙니다.');
 			// 금일이 근무날 아님
 			// modalCalData(toDay, status);
 			// router.push(`${SERVICE_URL.calendarModify}`);
