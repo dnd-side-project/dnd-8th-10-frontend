@@ -1,9 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 import React from 'react';
 import ManagerScreen from 'src/app.features/calendar/screens/ManagerScreen';
 import WorkerScreen from 'src/app.features/calendar/screens/WorkerScreen';
-import { getUser } from 'src/app.modules/api/user';
+import useUser from 'src/app.modules/hooks/user/useUser';
 
 interface Props {
 	children: React.ReactElement;
@@ -23,18 +22,8 @@ export const Admin: React.FC<Props> = ({ children, data, type = '' }) => {
 };
 
 const SalaryPage: NextPage = () => {
-	const { data, isLoading } = useQuery(['user', 'me'], getUser, {
-		onSuccess: (res) => {
-			// console.log(res);
-		},
-		onError: (error) => {
-			console.log(error);
-		},
-		retry: false,
-		refetchOnMount: false,
-		refetchOnReconnect: false,
-		refetchOnWindowFocus: false,
-	});
+	const { data, isLoading } = useUser();
+
 	return (
 		<div className="h-[100vh] mx-auto relative w-full">
 			{!isLoading && (
