@@ -22,7 +22,7 @@ const Detail: NextPage = () => {
 	const { id } = router.query;
 	const { data, isLoading } = useQuery(['user', 'me'], getUser, {
 		onSuccess: (res) => {
-			console.log(res);
+			// console.log(res);
 		},
 		onError: (error) => {
 			console.log(error);

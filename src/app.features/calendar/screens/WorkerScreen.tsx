@@ -71,7 +71,9 @@ function WorkerScreen() {
 							<TotalSalary data={workHour} />
 						</div>
 					</div>
-					<SalaryDetail data={salaryData} />
+					<div className="w-[calc(100%+4rem)] px-[2rem] pb-[2rem] -translate-x-[2rem] bg-w">
+						<SalaryDetail data={salaryData} />
+					</div>
 				</div>
 			)}
 			{isModalOpen && (
