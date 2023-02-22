@@ -27,7 +27,7 @@ const SalaryPage: NextPage = () => {
 	return (
 		<div className="h-[100vh] mx-auto relative w-full">
 			{!isLoading && (
-				<Admin data={data?.data.data.role} type="detail">
+				<Admin data={data.role} type="detail">
 					<ManagerScreen />
 				</Admin>
 			)}

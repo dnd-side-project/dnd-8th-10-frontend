@@ -70,6 +70,12 @@ function Modal({ WorkMutate }: Props) {
 	};
 
 	useEffect(() => {
+		// 크로스 브라우징 이슈 해결
+		const [currentYear, currentMonth, currentDay] = clickDay.split('.').map(Number);
+		const [toDayYear, toDayMonth, toDayDay] = toDay.split('.').map(Number);
+		const clickDayData = new Date(currentYear, currentMonth, currentDay, 0, 0, 0);
+		const toDayData = new Date(toDayYear, toDayMonth, toDayDay, 0, 0, 0);
+
 		// 오늘 누른 경우
 		if (!workDay && clickDay === toDay) {
 			const data = getToDay(getDayOfWeek(clickDay));
@@ -80,7 +86,8 @@ function Modal({ WorkMutate }: Props) {
 			});
 		}
 		// 과거 누른 경우 & 출근한 날 누른 경우
-		if (workDay && new Date(clickDay) <= new Date(toDay) && userName.length === 0) {
+		if (workDay && clickDayData <= toDayData && userName.length === 0) {
+			console.log('과거');
 			const data = getWorkList({ year: clickYear, month: clickMonth, day });
 			data.then((res) => {
 				setUserName(res.data.data);
