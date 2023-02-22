@@ -56,6 +56,7 @@ function Modal({ WorkMutate }: Props) {
 			return '';
 		}
 	};
+
 	// 출근하기 버튼
 	const commute = () => {
 		const workTimeData = workTime || getWorkTimeString();
@@ -68,23 +69,24 @@ function Modal({ WorkMutate }: Props) {
 		modalIsClose();
 	};
 
-	// 오늘 누른 경우
-	if (!workDay && clickDay === toDay) {
-		const data = getToDay(getDayOfWeek(clickDay));
-		data.then((res) => {
-			if (res.data !== '') {
-				setWorkTime(res.data);
-			}
-		});
-	}
-
-	// 과거 누른 경우 & 출근한 날 누른 경우
-	if (workDay && new Date(clickDay) <= new Date(toDay) && userName.length === 0) {
-		const data = getWorkList({ year: clickYear, month: clickMonth, day });
-		data.then((res) => {
-			setUserName(res.data.data);
-		});
-	}
+	useEffect(() => {
+		// 오늘 누른 경우
+		if (!workDay && clickDay === toDay) {
+			const data = getToDay(getDayOfWeek(clickDay));
+			data.then((res) => {
+				if (res.data !== '') {
+					setWorkTime(res.data);
+				}
+			});
+		}
+		// 과거 누른 경우 & 출근한 날 누른 경우
+		if (workDay && new Date(clickDay) <= new Date(toDay) && userName.length === 0) {
+			const data = getWorkList({ year: clickYear, month: clickMonth, day });
+			data.then((res) => {
+				setUserName(res.data.data);
+			});
+		}
+	}, [clickDay]);
 
 	const workModify = () => {
 		modalIsClose();
