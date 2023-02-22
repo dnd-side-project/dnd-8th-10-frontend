@@ -1,6 +1,6 @@
 import React from 'react';
 import PhoneSettingScreen from 'src/app.features/mypage/screens/PhoneSettingScreen';
-import usePutUser from 'src/app.modules/hooks/user/\busePutUser';
+import usePutUser from 'src/app.modules/hooks/user/usePutUser';
 import useUser from 'src/app.modules/hooks/user/useUser';
 
 function Phone() {

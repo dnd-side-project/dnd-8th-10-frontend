@@ -29,10 +29,6 @@ function checkList() {
 		onError: (error) => {
 			console.log(error);
 		},
-		retry: false,
-		refetchOnMount: false,
-		refetchOnReconnect: false,
-		refetchOnWindowFocus: false,
 	});
 	const { data: weekState, refetch: weekStateRefetch } = useQuery(['checklist', 'weekState'], getWeekState, {
 		select: (res) => res.data.data,
@@ -40,11 +36,8 @@ function checkList() {
 		onError: (error) => {
 			console.log(error);
 		},
-		retry: false,
-		refetchOnMount: false,
-		refetchOnReconnect: false,
-		refetchOnWindowFocus: false,
 	});
+
 	// TODO: get 제외하고 합쳐도 될듯
 	const { mutate: postChecklist, isLoading: postChecklistLoading } = useMutation(postCheckList, {
 		onSuccess: (res) => {
