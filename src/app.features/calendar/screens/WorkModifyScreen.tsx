@@ -55,7 +55,12 @@ function WorkModifyScreen({ WorkMutate, ModifyMutate, UserData }: Props) {
 
 	// 수정 버튼
 	const modifyBtn = () => {
-		const workTimeData = getWorkTimeString();
+		let workTimeData;
+		if (getWorkTimeString() !== '00:00~00:00') {
+			workTimeData = getWorkTimeString();
+		} else {
+			workTimeData = workTime;
+		}
 		const [start, end] = workTimeData.split('~');
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);

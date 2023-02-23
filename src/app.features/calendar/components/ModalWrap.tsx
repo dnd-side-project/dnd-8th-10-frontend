@@ -52,14 +52,23 @@ function ModalWrap({ WorkMutate }: Props) {
 
 	// 출근하기 버튼
 	const commute = () => {
-		const workTimeData = workTime || getWorkTimeString();
+		let workTimeData;
+		if (getWorkTimeString() !== '00:00~00:00') {
+			workTimeData = getWorkTimeString();
+		} else {
+			workTimeData = workTime;
+		}
+
+		// {workTime !== '' && `${startTime.hour}${startTime.minute}${startTime.meridiem}` === '00am'
 		const [start, end] = workTimeData.split('~');
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
 		const timeDiff = Math.abs((startSplit - endSplit) / 60);
-		WorkMutate({ year: clickYear, month: clickMonth, day, workTime: workTimeData, workHour: timeDiff });
-		isDayReset();
-		modalIsClose();
+		console.log(timeDiff);
+
+		// WorkMutate({ year: clickYear, month: clickMonth, day, workTime: workTimeData, workHour: timeDiff });
+		// isDayReset();
+		// modalIsClose();
 	};
 
 	useEffect(() => {
