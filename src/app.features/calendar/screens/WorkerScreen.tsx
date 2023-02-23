@@ -6,7 +6,7 @@ import TopModal from 'src/app.components/Modal/TopModal';
 import CtlIcon from 'src/app.modules/assets/calendar/controlW.svg';
 import useModalStore from 'src/app.modules/store/modal';
 import { getSalary } from '../api';
-import Keypad from '../components/Keypad';
+import Keypad from '../components/Modal/Keypad';
 import SalaryDetail from '../components/SalaryDetail';
 import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';

@@ -54,7 +54,7 @@ export const getWorkList = async (body: DayBody) => {
 
 // 오늘 날짜를 누른 경우
 export const getToDay = async (week: string) => {
-	const res = await client.get('api/calendar/week', { params: { week } });
+	const res = await client.get(`api/calendar/week?week=${week}`);
 	return res;
 };
 
