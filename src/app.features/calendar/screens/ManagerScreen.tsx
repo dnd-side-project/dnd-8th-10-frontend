@@ -13,7 +13,7 @@ import ProfileImage from 'src/app.components/ProfileImage';
 import useModalStore from 'src/app.modules/store/modal';
 import useStore from '../store';
 import { ISalaryList } from '../types';
-import Keypad from '../components/Keypad';
+import Keypad from '../components/Modal/Keypad';
 import { getSalaryList } from '../api';
 
 function ManagerScreen() {

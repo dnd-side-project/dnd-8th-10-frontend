@@ -3,6 +3,18 @@ import EmptyWork from 'src/app.modules/assets/calendar/emptyWork.svg';
 import { ISalaryProps } from '../types';
 
 function SalaryDetail({ data }: ISalaryProps) {
+	function convertWorkHour(workTime: number) {
+		const hour = Math.floor(workTime);
+		const minute = Math.round((workTime - hour) * 60);
+		if (minute === 0) {
+			return `${hour}시간`;
+		}
+		if (hour === 0) {
+			return `${minute}분`;
+		}
+		return `${hour}시간 ${minute}분`;
+	}
+
 	return (
 		<div>
 			{data?.length ? (
@@ -26,7 +38,7 @@ function SalaryDetail({ data }: ISalaryProps) {
 									<span className="text-subhead2 text-g9">
 										{info.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
 									</span>
-									<span className="text-subhead1 text-g6 text-right">{info.workHour}시간</span>
+									<span className="text-subhead1 text-g6 text-right">{convertWorkHour(info.workHour)}</span>
 								</div>
 							</div>
 						))}

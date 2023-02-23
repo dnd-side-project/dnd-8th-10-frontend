@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
-import { useMutation } from '@tanstack/react-query';
 import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import useModalStore from 'src/app.modules/store/modal';
 import Header from 'src/app.components/Header';
 import DelIcon from 'src/app.modules/assets/calendar/delete.svg';
 import Bar from 'src/app.components/app.base/Button/Bar';
+import { crossDate } from 'src/app.modules/util/calendar';
+import { MutateTpye } from 'src/app.modules/api/client';
 import useStore from '../store';
 import useTimeSetStore from '../store/time';
-import { delWorkModify, postWork, putWorkModify } from '../api';
+import { delWorkModify, getWorkList, MutateBody } from '../api';
 
 type Flag = 'startTime' | 'endTime' | null;
-function WorkModifyScreen() {
+interface Props {
+	WorkMutate: MutateTpye<MutateBody>;
+	ModifyMutate: MutateTpye<MutateBody>;
+	UserData: { userName: string };
+}
+function WorkModifyScreen({ WorkMutate, ModifyMutate, UserData }: Props) {
 	const { isModalOpen, modalIsOpen } = useModalStore();
 	const [workTime, setWorkTime] = useState<string>('');
 	const { clickDay, toDay, workDay, isDayReset } = useStore();
@@ -23,12 +29,12 @@ function WorkModifyScreen() {
 		user: { startTime, endTime },
 		setTime,
 	} = useTimeSetStore();
+	const { clickDayData, toDayData } = crossDate(clickDay, toDay);
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const timeHandler = (e: React.BaseSyntheticEvent) => {
 		const {
 			target: { name, value },
 		} = e;
-
 		setTime(value, name, openModalFlag as 'startTime' | 'endTime');
 	};
 
@@ -47,38 +53,25 @@ function WorkModifyScreen() {
 		}
 	};
 
-	// 출근하기
-	const { mutate: WorkMutate } = useMutation(postWork, {
-		onSuccess: (res) => {
-			console.log(res);
-			router.back();
-		},
-		onError: (error) => alert('오류 발생.'),
-	});
-
-	// 수정하기
-	const { mutate } = useMutation(putWorkModify, {
-		onSuccess: (res) => {
-			// console.log(res);
-			router.back();
-		},
-		onError: (error) => console.log(error),
-	});
-
 	// 수정 버튼
 	const modifyBtn = () => {
-		const workTimeData = getWorkTimeString();
+		let workTimeData;
+		if (getWorkTimeString() !== '00:00~00:00') {
+			workTimeData = getWorkTimeString();
+		} else {
+			workTimeData = workTime;
+		}
 		const [start, end] = workTimeData.split('~');
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
 		const timeDiff = Math.abs((startSplit - endSplit) / 60);
-		if (!workDay && new Date(clickDay) < new Date(toDay)) {
+		if (!workDay && clickDayData < toDayData) {
 			// 출근하기
 			WorkMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
 		} else {
-			mutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
+			// 수정하기
+			ModifyMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
 		}
-
 		isDayReset();
 	};
 
@@ -90,6 +83,16 @@ function WorkModifyScreen() {
 			router.back();
 		});
 	};
+
+	useEffect(() => {
+		if (UserData) {
+			const data = getWorkList({ year, month, day });
+			data.then((res) => {
+				const filter = res.data.data.filter((val: { name: string }) => val.name === UserData.userName);
+				setWorkTime(filter[0].workTime);
+			});
+		}
+	}, [UserData]);
 
 	return (
 		<>
@@ -119,7 +122,7 @@ function WorkModifyScreen() {
 									: 'text-g7 text-body2'
 							} w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
-							{workTime !== ''
+							{workTime !== '' && `${startTime.hour}${startTime.minute}${startTime.meridiem}` === '00am'
 								? workTime.split('~')[0]
 								: `${startTime.hour}시 ${startTime.minute}분 ${startTime.meridiem}`}
 						</button>
@@ -132,7 +135,9 @@ function WorkModifyScreen() {
 									: 'text-g7 text-body2'
 							} w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
-							{workTime !== '' ? workTime.split('~')[1] : `${endTime.hour}시 ${endTime.minute}분 ${endTime.meridiem}`}
+							{workTime !== '' && `${endTime.hour}${endTime.minute}${endTime.meridiem}` === '00am'
+								? workTime.split('~')[1]
+								: `${endTime.hour}시 ${endTime.minute}분 ${endTime.meridiem}`}
 						</button>
 					</div>
 					{openModalFlag !== null && (
@@ -159,11 +164,9 @@ function WorkModifyScreen() {
 				</div>
 			</div>
 			{isModalOpen && (
-				<>
-					<Overlay>
-						<Modal content="출근기록이 삭제됩니다!" deleteFn={() => delBtn()} />
-					</Overlay>
-				</>
+				<Overlay>
+					<Modal content="출근기록이 삭제됩니다!" deleteFn={() => delBtn()} />
+				</Overlay>
 			)}
 		</>
 	);
