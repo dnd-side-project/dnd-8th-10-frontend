@@ -6,7 +6,7 @@ function useUser() {
 	const { data, refetch, isLoading } = useQuery(['user', 'me'], getUser, {
 		select: (res) => res.data.data,
 		onSuccess: (res) => {
-			console.log('유저 정보', res);
+			localStorage.setItem('USER', JSON.stringify(res));
 		},
 		onError: (error) => {
 			console.log(error);

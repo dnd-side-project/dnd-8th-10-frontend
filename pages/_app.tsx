@@ -3,7 +3,7 @@ import '../styles/text.css';
 import '../styles/checklist.css';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Layout from 'src/app.components/Layout';
 
