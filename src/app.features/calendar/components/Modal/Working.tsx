@@ -52,7 +52,9 @@ function Working({ workTime, commute }: Props) {
 							: 'text-g7 text-body2'
 					} w-[50%] h-[4.8rem] bg-w rounded-[0.8rem] ${workTime !== '' && 'text-g9 text-subhead2'}`}
 				>
-					{workTime !== '' ? workTime.split('~')[0] : `${startTime.hour}시 ${startTime.minute}분 ${startTime.meridiem}`}
+					{workTime !== '' && `${startTime.hour}${startTime.minute}${startTime.meridiem}` === '00am'
+						? workTime.split('~')[0]
+						: `${startTime.hour}시 ${startTime.minute}분 ${startTime.meridiem}`}
 				</button>
 				<span className="text-subhead3 mx-[1rem]">~</span>
 				<button
@@ -63,7 +65,9 @@ function Working({ workTime, commute }: Props) {
 							: 'text-g7 text-body2'
 					} w-[50%] h-[4.8rem] bg-w rounded-[0.8rem] ${workTime !== '' && 'text-g9 text-subhead2'}`}
 				>
-					{workTime !== '' ? workTime.split('~')[1] : `${endTime.hour}시 ${endTime.minute}분 ${endTime.meridiem}`}
+					{workTime !== '' && `${endTime.hour}${endTime.minute}${endTime.meridiem}` === '00am'
+						? workTime.split('~')[1]
+						: `${endTime.hour}시 ${endTime.minute}분 ${endTime.meridiem}`}
 				</button>
 			</div>
 			{openModalFlag !== null && (

@@ -12,8 +12,6 @@ import Working from './Modal/Working';
 import NoneWork from './Modal/NoneWork';
 import GrayWork from './Modal/GrayWork';
 
-type Flag = 'startTime' | 'endTime' | null;
-
 interface Props {
 	WorkMutate: MutateTpye<MutateBody>;
 }

@@ -17,7 +17,7 @@ import { getGray, postWork } from '../api';
 import ModalWrap from '../components/ModalWrap';
 import useKeypadStore from '../store/keypad';
 
-function CalendarScreen({ grayData }: any) {
+function CalendarScreen() {
 	const [schedule, setSchedule] = useState({
 		month: 0,
 		day: [],
@@ -132,15 +132,13 @@ function CalendarScreen({ grayData }: any) {
 					{[...new Array(12)].map((_, monthView) => (
 						<SwiperSlide key={monthView}>
 							<div className="mx-[0.2rem]">
-								<div>
-									{MakeCalendar({
-										year,
-										monthView,
-										firstDay,
-										lastDate,
-										schedule,
-									})}
-								</div>
+								{MakeCalendar({
+									year,
+									monthView,
+									firstDay,
+									lastDate,
+									schedule,
+								})}
 							</div>
 						</SwiperSlide>
 					))}

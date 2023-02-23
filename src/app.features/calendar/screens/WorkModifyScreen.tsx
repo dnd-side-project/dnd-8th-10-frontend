@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
 import Modal from 'src/app.components/Modal/Modal';
@@ -11,14 +11,15 @@ import { crossDate } from 'src/app.modules/util/calendar';
 import { MutateTpye } from 'src/app.modules/api/client';
 import useStore from '../store';
 import useTimeSetStore from '../store/time';
-import { delWorkModify, MutateBody } from '../api';
+import { delWorkModify, getWorkList, MutateBody } from '../api';
 
 type Flag = 'startTime' | 'endTime' | null;
 interface Props {
 	WorkMutate: MutateTpye<MutateBody>;
 	ModifyMutate: MutateTpye<MutateBody>;
+	UserData: { userName: string };
 }
-function WorkModifyScreen({ WorkMutate, ModifyMutate }: Props) {
+function WorkModifyScreen({ WorkMutate, ModifyMutate, UserData }: Props) {
 	const { isModalOpen, modalIsOpen } = useModalStore();
 	const [workTime, setWorkTime] = useState<string>('');
 	const { clickDay, toDay, workDay, isDayReset } = useStore();
@@ -78,6 +79,16 @@ function WorkModifyScreen({ WorkMutate, ModifyMutate }: Props) {
 		});
 	};
 
+	useEffect(() => {
+		if (UserData) {
+			const data = getWorkList({ year, month, day });
+			data.then((res) => {
+				const filter = res.data.data.filter((val: { name: string }) => val.name === UserData.userName);
+				setWorkTime(filter[0].workTime);
+			});
+		}
+	}, [UserData]);
+
 	return (
 		<>
 			<div className="h-[100vh] flex flex-col justify-between">
@@ -106,7 +117,7 @@ function WorkModifyScreen({ WorkMutate, ModifyMutate }: Props) {
 									: 'text-g7 text-body2'
 							} w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
-							{workTime !== ''
+							{workTime !== '' && `${startTime.hour}${startTime.minute}${startTime.meridiem}` === '00am'
 								? workTime.split('~')[0]
 								: `${startTime.hour}시 ${startTime.minute}분 ${startTime.meridiem}`}
 						</button>
@@ -119,7 +130,9 @@ function WorkModifyScreen({ WorkMutate, ModifyMutate }: Props) {
 									: 'text-g7 text-body2'
 							} w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
-							{workTime !== '' ? workTime.split('~')[1] : `${endTime.hour}시 ${endTime.minute}분 ${endTime.meridiem}`}
+							{workTime !== '' && `${endTime.hour}${endTime.minute}${endTime.meridiem}` === '00am'
+								? workTime.split('~')[1]
+								: `${endTime.hour}시 ${endTime.minute}분 ${endTime.meridiem}`}
 						</button>
 					</div>
 					{openModalFlag !== null && (
