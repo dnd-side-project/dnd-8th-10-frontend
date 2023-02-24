@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import CheckListScreen from 'src/app.features/checkList/screens/CheckListScreen';
 import {
@@ -23,16 +23,13 @@ function checkList() {
 	const searchDateHandler = (searchDateString: string) => {
 		setDate(searchDateString);
 	};
+	// TODO: useQueries로 데이터 병렬로 요청하기
 	const { data: checklist, refetch } = useQuery(['checklist'], () => getCheckList(date), {
 		select: (res) => res.data.data.list,
 		onSuccess: (res) => console.log(res),
 		onError: (error) => {
 			console.log(error);
 		},
-		retry: false,
-		refetchOnMount: false,
-		refetchOnReconnect: false,
-		refetchOnWindowFocus: false,
 	});
 	const { data: weekState, refetch: weekStateRefetch } = useQuery(['checklist', 'weekState'], getWeekState, {
 		select: (res) => res.data.data,
@@ -40,11 +37,8 @@ function checkList() {
 		onError: (error) => {
 			console.log(error);
 		},
-		retry: false,
-		refetchOnMount: false,
-		refetchOnReconnect: false,
-		refetchOnWindowFocus: false,
 	});
+
 	// TODO: get 제외하고 합쳐도 될듯
 	const { mutate: postChecklist, isLoading: postChecklistLoading } = useMutation(postCheckList, {
 		onSuccess: (res) => {

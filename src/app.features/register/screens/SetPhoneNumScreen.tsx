@@ -7,12 +7,12 @@ import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
 
 interface Props {
-	postUser: MutateTpye<MutateUserBody>;
+	postUserMutate: MutateTpye<MutateUserBody>;
 	isLoading: boolean;
 }
 
 // TODO: 전화번호 유효성 검사
-function SetPhoneNumScreen({ postUser, isLoading }: Props) {
+function SetPhoneNumScreen({ postUserMutate, isLoading }: Props) {
 	const {
 		user: { phoneNumber, role, workPlace, workTime, workLocation },
 		setPhoneNumber,
@@ -38,7 +38,7 @@ function SetPhoneNumScreen({ postUser, isLoading }: Props) {
 			phoneNumber,
 		};
 		console.log(body);
-		postUser(body);
+		postUserMutate(body);
 	};
 	const resetPhoneNumberHandler = () => {
 		setPhoneNumber('');

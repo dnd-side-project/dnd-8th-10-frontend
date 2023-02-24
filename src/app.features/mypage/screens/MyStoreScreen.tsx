@@ -20,7 +20,6 @@ interface Props {
 }
 
 function MyStoreScreen({ store }: Props) {
-	console.log(store);
 	return (
 		<>
 			<Header title={store?.storeName?.split(' ')[1] ?? ''} />

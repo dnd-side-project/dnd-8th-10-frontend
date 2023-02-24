@@ -30,22 +30,21 @@ const Login: NextPage = () => {
 					client.defaults.headers.Authorization = `Bearer ${accessToken}`;
 				}
 				// 필수정보를 입력하지 않은 경우면 register. 아니면 home으로 이동
-				const isNewbie = res.data.data.role === null;
-				if (isNewbie) router.push(`${SERVICE_URL.register}?page=1`);
+				const {
+					data: {
+						data: { role, userName },
+					},
+				} = res;
+				const isNewbie = !role;
+				if (isNewbie) router.push(`${SERVICE_URL.register}?page=1&userName=${userName}`);
 				else router.push(SERVICE_URL.home);
 			},
 			onError: (error) => {
 				console.log(error);
 			},
-			retry: false,
-			refetchOnMount: false,
-			refetchOnReconnect: false,
-			refetchOnWindowFocus: false,
 		}
 	);
-	useEffect(() => {
-		console.log(new URL(document.location.toString()).searchParams.get('code') as string);
-	}, []);
+
 	return <div />;
 };
 export default Login;

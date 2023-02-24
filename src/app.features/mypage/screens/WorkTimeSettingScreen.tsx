@@ -60,11 +60,11 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 		};
 		setWorkTime(updatedWorkTime);
 	};
-	const submitHandler = () => {
+	const submitHandler = (newWorkTime: WorkTimeType) => {
 		if (isLoading) return;
 		const body = {
 			...user,
-			workTime: getWorkTimeString(workTime),
+			workTime: getWorkTimeString(newWorkTime),
 		};
 
 		putUser(body);
@@ -86,7 +86,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 		setOpenModalFlag(null);
 		setWorkTimeOnModal(INIT_WORK_TIME);
 		modalIsClose();
-		submitHandler();
+		submitHandler(updatedWorkTime);
 	};
 
 	const timeOnModalHandler = (e: React.BaseSyntheticEvent) => {
@@ -122,6 +122,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 		console.log(Object.fromEntries(tmp));
 		setWorkTime(Object.fromEntries(tmp));
 	}, [user]);
+
 	return (
 		<>
 			<Header title="근무시간 수정" />

@@ -8,12 +8,14 @@ import useRegisterUserStore from '../store';
 
 interface Props {
 	userName: string;
+	role: RoleType;
+	workPlace: string;
 }
 
-function CompleteSettingScreent({ userName }: Props) {
+function CompleteSettingScreent({ userName, role, workPlace }: Props) {
 	const router = useRouter();
 	const {
-		user: { role, workPlace },
+		user: { role: clientRole, workPlace: clientWorkPlace },
 		initUser,
 	} = useRegisterUserStore();
 	const startHandler = () => {
@@ -21,10 +23,11 @@ function CompleteSettingScreent({ userName }: Props) {
 		initUser();
 	};
 	return (
-		<div className="flex flex-col items-center relative h-[100vh]">
+		<div className="flex flex-col items-center relative h-[100vh] ">
 			<h1 className="absolute top-[13rem] text-g10 text-title2">프로필이 완성되었어요!</h1>
-			<IdCard role={role} userName={userName} workPlace={workPlace as string} />
+			<IdCard role={role ?? clientRole} userName={userName} workPlace={workPlace ?? (clientWorkPlace as string)} />
 			<div className="flex flex-col gap-[0.8rem] absolute bottom-[2rem] w-full items-center">
+				<></>
 				<span className="text-g8 text-subhead1">개인정보 수정은 마이페이지에서 가능해요!</span>
 				<Bar ClickFn={startHandler} bgColor="bg-g10" titleColor="text-w">
 					시작하기
