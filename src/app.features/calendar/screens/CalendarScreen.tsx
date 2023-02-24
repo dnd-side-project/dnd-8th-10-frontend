@@ -110,13 +110,13 @@ function CalendarScreen() {
 				</button>
 			</header>
 			<div className="mt-[2.4rem] mx-[0.2rem]">
-				<div className="flex mb-[2.1rem] justify-between">
+				<ul className="flex mb-[2.1rem] justify-between">
 					{WEEK.map((day, index) => (
-						<span className="text-body2 w-[2.8rem] h-[2rem] text-center mr-[2rem] last:mr-0" key={index}>
+						<li className="text-body2 w-[2.8rem] h-[2rem] text-center mr-[2rem] last:mr-0" key={index}>
 							{day}
-						</span>
+						</li>
 					))}
-				</div>
+				</ul>
 			</div>
 			<div className="w-[calc(100%+1.8rem)] -translate-x-[0.8rem]">
 				<Swiper
@@ -131,7 +131,7 @@ function CalendarScreen() {
 				>
 					{[...new Array(12)].map((_, monthView) => (
 						<SwiperSlide key={monthView}>
-							<div className="mx-[0.2rem]">
+							<ul className="mx-[0.2rem]">
 								{MakeCalendar({
 									year,
 									monthView,
@@ -139,7 +139,7 @@ function CalendarScreen() {
 									lastDate,
 									schedule,
 								})}
-							</div>
+							</ul>
 						</SwiperSlide>
 					))}
 				</Swiper>

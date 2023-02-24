@@ -18,15 +18,13 @@ function Bar({
 	disabled = false,
 }: Props) {
 	const className = () => {
-		if (type === 'default') {
-			return 'rounded-[0.8rem] w-full';
-		}
 		if (type === 'wide') {
 			return 'fixed max-w-[42rem] mx-auto inset-x-0 bottom-0';
 		}
 		if (type === 'wide2') {
 			return 'h-[8rem] fixed max-w-[42rem] mx-auto inset-x-0 bottom-0 pt-[1.9rem] pb-[3.9rem]';
 		}
+		return 'rounded-[0.8rem] w-full';
 	};
 	return (
 		<button

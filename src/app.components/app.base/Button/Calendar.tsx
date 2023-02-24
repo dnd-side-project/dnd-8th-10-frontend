@@ -11,22 +11,25 @@ interface Props {
 
 function Calendar({ idx, workDay, day, toDay, clickDay }: Props) {
 	const getClassName = () => {
+		const basic =
+			'aria-pressed:bg-primary aria-pressed:text-white flex justify-center items-center text-body2 w-[3rem] h-[3rem] rounded-[0.8rem]';
+		const borderAdded = `${basic} text-primary  border-solid border-[0.2rem] border-primary`;
 		if (idx === toDay && workDay) {
-			return 'aria-pressed:bg-primary aria-pressed:text-white text-primary flex justify-center items-center text-body2 w-[3rem] h-[3rem] bg-g3 border-solid border-[0.2rem] border-primary rounded-[0.8rem]';
+			return `${borderAdded} bg-g3`;
 		}
 		if (idx === toDay) {
-			return 'aria-pressed:bg-primary aria-pressed:text-white text-primary flex justify-center items-center text-body2 w-[3rem] h-[3rem] border-solid border-[0.2rem] border-primary rounded-[0.8rem]';
+			return borderAdded;
 		}
 		if (workDay) {
-			return 'aria-pressed:bg-primary aria-pressed:text-white text-g9 flex justify-center items-center text-body2 w-[3rem] h-[3rem] bg-g3 rounded-[0.8rem]';
+			return `${basic} text-g9 bg-g3`;
 		}
-		return 'aria-pressed:bg-primary aria-pressed:text-white text-g9 flex justify-center items-center text-body2 w-[3rem] h-[3rem] rounded-[0.8rem]';
+		return `${basic} text-g9`;
 	};
 
 	return (
-		<div key={idx} aria-pressed={idx === clickDay} className={getClassName()}>
-			<span className="text-body2">{day}</span>
-		</div>
+		<span key={idx} aria-pressed={idx === clickDay} className={getClassName()}>
+			{day}
+		</span>
 	);
 }
 

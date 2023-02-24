@@ -38,17 +38,16 @@ function Keypad({ year, month }: Props) {
 					type="number"
 					name="year"
 					maxLength={4}
-					className={`h-[3.6rem] flex items-center justify-end w-[50%] py-[0.8rem] px-[1.2rem] text-body2 text-g7 bg-w rounded-[0.8rem] focus:outline-none focus:border-solid focus:border-[0.15rem] focus:border-primary focus:text-g9 focus:text-subhead2`}
+					className="h-[3.6rem] flex items-center justify-end w-[50%] py-[0.8rem] px-[1.2rem] text-body2 text-g7 bg-w rounded-[0.8rem] focus:outline-none focus:border-solid focus:border-[0.15rem] focus:border-primary focus:text-g9 focus:text-subhead2"
 				/>
 				<span className="text-subhead3 mx-[1rem]">년</span>
 				<input
-					typeof="number"
 					value={keypadMonth}
 					onChange={keypadHandler}
 					type="number"
 					name="month"
 					maxLength={2}
-					className={`h-[3.6rem] flex items-center justify-end w-[50%] py-[0.8rem] px-[1.2rem] text-body2 text-g7 bg-w rounded-[0.8rem] focus:outline-none focus:border-solid focus:border-[0.15rem] focus:border-primary focus:text-g9 focus:text-subhead2`}
+					className="h-[3.6rem] flex items-center justify-end w-[50%] py-[0.8rem] px-[1.2rem] text-body2 text-g7 bg-w rounded-[0.8rem] focus:outline-none focus:border-solid focus:border-[0.15rem] focus:border-primary focus:text-g9 focus:text-subhead2"
 				/>
 				<span className="text-subhead3 ml-[1rem]">월</span>
 			</div>

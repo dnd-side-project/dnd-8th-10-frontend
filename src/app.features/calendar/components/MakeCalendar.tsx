@@ -21,11 +21,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 				if (i <= firstDay) {
 					const now = prevLastDate - firstDay + i;
 					// 이전 달 예시 날짜
-					result.push(
-						<div key={now}>
-							<div className="w-[3rem] h-[3rem]" />
-						</div>
-					);
+					result.push(<div key={now} className="w-[3rem] h-[3rem]" />);
 				}
 				// 현재 달 날짜
 				else {
@@ -72,11 +68,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 					);
 				} else {
 					const now = i - lastDate - firstDay + 1;
-					result.push(
-						<div key={now}>
-							<div className="w-[3rem] h-[3rem]" />
-						</div>
-					);
+					result.push(<div key={now} className="w-[3rem] h-[3rem]" />);
 				}
 			}
 		}
@@ -87,9 +79,9 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 	const week = Math.ceil((firstDay + lastDate) / 7);
 	for (let i = 1; i <= week; i += 1) {
 		days.push(
-			<div className="flex justify-between mb-[3.2rem] last:mb-0 mx-[0.9rem]" key={week + i}>
+			<li className="flex justify-between mb-[3.2rem] last:mb-0 mx-[0.9rem]" key={week + i}>
 				{makeDay(i)}
-			</div>
+			</li>
 		);
 	}
 	return days;
