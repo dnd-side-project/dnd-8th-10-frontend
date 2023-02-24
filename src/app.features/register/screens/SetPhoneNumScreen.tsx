@@ -36,6 +36,7 @@ function SetPhoneNumScreen({ postUserMutate, isLoading }: Props) {
 			workTime: workTimeString,
 			workLocation,
 			phoneNumber,
+			wage: 10000, // TODO:급여필드 만들기
 		};
 		console.log(body);
 		postUserMutate(body);
