@@ -16,8 +16,10 @@ import useStore from '../store';
 import { getGray, postWork } from '../api';
 import ModalWrap from '../components/ModalWrap';
 import useKeypadStore from '../store/keypad';
-
-function CalendarScreen() {
+interface Props {
+	currentUser: string;
+}
+function CalendarScreen({ currentUser }: Props) {
 	const [schedule, setSchedule] = useState({
 		month: 0,
 		day: [],
@@ -156,7 +158,7 @@ function CalendarScreen() {
 			{isModalOpen && (
 				<Overlay>
 					<TopModal bgColor="bg-g1">
-						<ModalWrap WorkMutate={WorkMutate} />
+						<ModalWrap currentUser={currentUser} />
 					</TopModal>
 				</Overlay>
 			)}

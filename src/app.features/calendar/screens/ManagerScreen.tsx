@@ -38,10 +38,11 @@ function ManagerScreen() {
 			refetchOnWindowFocus: false,
 		}
 	);
+
 	useEffect(() => {
 		refetch();
 	}, [year, month]);
-	console.log(salaryData.filter((salary) => salary.totalSalary !== 0));
+
 	return (
 		<div>
 			{!isLoading && (
@@ -107,13 +108,11 @@ function ManagerScreen() {
 				</>
 			)}
 			{isModalOpen && (
-				<>
-					<Overlay>
-						<TopModal bgColor="bg-g1">
-							<Keypad year={year} month={month} />
-						</TopModal>
-					</Overlay>
-				</>
+				<Overlay>
+					<TopModal bgColor="bg-g1">
+						<Keypad year={year} month={month} />
+					</TopModal>
+				</Overlay>
 			)}
 		</div>
 	);
