@@ -8,6 +8,7 @@ import { getSplittedWorkPlaceString } from 'src/app.modules/util/getSplittedWork
 import Profile from 'src/app.components/Profile';
 import { useRouter } from 'next/router';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import Navigation from 'src/app.components/Navigation';
 import { IUser } from '../types';
 
 interface Props {
@@ -54,6 +55,7 @@ function MyPageScreen({ user }: Props) {
 					</ul>
 				</div>
 			</main>
+			<Navigation />
 		</>
 	);
 }
