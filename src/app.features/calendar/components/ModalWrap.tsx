@@ -66,9 +66,9 @@ function ModalWrap({ WorkMutate }: Props) {
 		const timeDiff = Math.abs((startSplit - endSplit) / 60);
 		console.log(timeDiff);
 
-		// WorkMutate({ year: clickYear, month: clickMonth, day, workTime: workTimeData, workHour: timeDiff });
-		// isDayReset();
-		// modalIsClose();
+		WorkMutate({ year: clickYear, month: clickMonth, day, workTime: workTimeData, workHour: timeDiff });
+		isDayReset();
+		modalIsClose();
 	};
 
 	useEffect(() => {
