@@ -1,12 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from 'src/app.modules/api/user';
-import { getCookie, setCookie } from 'src/app.modules/cookie';
+import { getCookie } from 'src/app.modules/cookie';
 
 function useUser() {
 	const { data, refetch, isLoading } = useQuery(['user', 'me'], getUser, {
 		select: (res) => res.data.data,
 		onSuccess: (res) => {
-			setCookie('USER', JSON.stringify(res));
+			if (JSON.stringify(getCookie('USER')) !== JSON.stringify(res)) {
+				const expires = new Date();
+				expires.setDate(expires.getDate() + 7); // 일주일 동안 저장
+				document.cookie = `USER=${encodeURIComponent(JSON.stringify(res))};expires=${expires}`;
+			}
 		},
 		onError: (error) => {
 			console.log(error);

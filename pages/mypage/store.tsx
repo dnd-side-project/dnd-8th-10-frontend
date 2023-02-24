@@ -9,8 +9,11 @@ function Store() {
 	const { data } = useQuery(['user', 'store'], getStoreInfo, {
 		select: (res) => res.data.data,
 		onSuccess: (res) => {
-			setCookie('STORE', JSON.stringify(res));
-			console.log(res);
+			const expires = new Date();
+			expires.setDate(expires.getDate() + 7); // 일주일 동안 저장
+			if (JSON.stringify(getCookie('STORE')) === JSON.stringify(res)) return;
+			setCookie('STORE', JSON.stringify(res), { expires });
+			console.log(res, 'asdfa');
 		},
 		onError: (error) => {
 			console.log(error);
