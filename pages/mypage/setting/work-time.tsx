@@ -3,7 +3,6 @@ import React from 'react';
 import WorkTimeSettingScreen from 'src/app.features/mypage/screens/WorkTimeSettingScreen';
 import useLocalUserStore from 'src/app.features/mypage/store/user';
 import { putUser } from 'src/app.modules/api/user';
-import useCookieUser from 'src/app.modules/hooks/user/useCookieUser';
 import usePutUser from 'src/app.modules/hooks/user/usePutUser';
 import useUser from 'src/app.modules/hooks/user/useUser';
 
