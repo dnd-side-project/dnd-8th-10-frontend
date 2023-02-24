@@ -1,4 +1,6 @@
+import { type } from 'os';
 import React, { useState } from 'react';
+import Bar from 'src/app.components/app.base/Button/Bar';
 import useModalStore from 'src/app.modules/store/modal';
 import useStore from '../../store';
 import useKeypadStore from '../../store/keypad';
@@ -51,17 +53,17 @@ function Keypad({ year, month }: Props) {
 				<span className="text-subhead3 ml-[1rem]">월</span>
 			</div>
 			<div className="pt-[6rem]">
-				<button
+				<Bar
+					type="wide"
 					disabled={keypadYear === '' || keypadMonth === ''}
-					onClick={() => {
+					ClickFn={() => {
 						setCalendar(Number(keypadYear), Number(keypadMonth) - 1);
 						keypadChange();
 						modalIsClose();
 					}}
-					className="disabled:bg-g1 pt-[1.9rem] pb-[4.3rem]  text-g4 text-subhead4 h-[6rem] text-center bg-primary fixed max-w-[42rem] mx-auto inset-x-0 bottom-0"
 				>
 					이동
-				</button>
+				</Bar>
 			</div>
 		</div>
 	);

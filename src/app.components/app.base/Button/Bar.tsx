@@ -1,6 +1,7 @@
 import React from 'react';
 
 interface Props {
+	type?: string;
 	children: React.ReactNode;
 	bgColor?: string;
 	titleColor?: string;
@@ -8,7 +9,25 @@ interface Props {
 	disabled?: boolean;
 }
 
-function Bar({ children, titleColor = 'text-w', bgColor = 'bg-primary', ClickFn, disabled = false }: Props) {
+function Bar({
+	type = 'default',
+	children,
+	titleColor = 'text-w',
+	bgColor = 'bg-primary',
+	ClickFn,
+	disabled = false,
+}: Props) {
+	const className = () => {
+		if (type === 'default') {
+			return 'rounded-[0.8rem] w-full';
+		}
+		if (type === 'wide') {
+			return 'fixed max-w-[42rem] mx-auto inset-x-0 bottom-0';
+		}
+		if (type === 'wide2') {
+			return 'h-[8rem] fixed max-w-[42rem] mx-auto inset-x-0 bottom-0 pt-[1.9rem] pb-[3.9rem]';
+		}
+	};
 	return (
 		<button
 			onClick={() => {
@@ -18,7 +37,7 @@ function Bar({ children, titleColor = 'text-w', bgColor = 'bg-primary', ClickFn,
 			}}
 			disabled={disabled}
 			type="button"
-			className={`${titleColor} ${bgColor} disabled:bg-g2 disabled:text-g7 w-full h-[6rem] rounded-[0.8rem] text-subhead4`}
+			className={`${className()} ${titleColor} ${bgColor} disabled:bg-g1 disabled:text-g7  h-[6rem] text-subhead4`}
 		>
 			{children}
 		</button>
