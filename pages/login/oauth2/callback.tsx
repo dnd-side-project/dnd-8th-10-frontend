@@ -33,10 +33,11 @@ const Login: NextPage = () => {
 				// 필수정보를 입력하지 않은 경우면 register. 아니면 home으로 이동
 				const {
 					data: {
-						data: { role, userName },
+						data: { kakaoEmail, userName },
 					},
 				} = res;
-				const isNewbie = !role;
+				console.log(res);
+				const isNewbie = !kakaoEmail;
 				if (isNewbie) router.push(`${SERVICE_URL.register}?page=1&userName=${userName}`);
 				else router.push(SERVICE_URL.home);
 			},
