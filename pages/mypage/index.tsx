@@ -6,7 +6,7 @@ import useUser from 'src/app.modules/hooks/user/useUser';
 function Mypage() {
 	const { data } = useUser();
 	const { localUser } = useLocalUserStore();
-
+	console.log(localUser, 'local');
 	return <MyPageScreen user={data ?? localUser} />;
 }
 
