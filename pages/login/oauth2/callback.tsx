@@ -15,7 +15,7 @@ const test = {
 };
 const Login: NextPage = () => {
 	const router = useRouter();
-	const { data } = useQuery(
+	/* const { data } = useQuery(
 		['oauth2', 'google'],
 		() => oauth2(new URL(document.location.toString()).searchParams.get('code') as string),
 		{
@@ -43,7 +43,11 @@ const Login: NextPage = () => {
 				console.log(error);
 			},
 		}
-	);
+	); */
+	useEffect(() => {
+		const code = new URL(document.location.toString()).searchParams.get('code') as string;
+		console.log('인가코드 : ', code);
+	}, []);
 
 	return <div />;
 };
