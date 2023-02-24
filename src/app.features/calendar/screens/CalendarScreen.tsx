@@ -90,9 +90,9 @@ function CalendarScreen() {
 	};
 
 	return (
-		<div className="bg-w pb-[5.6rem]">
+		<div className="bg-w pb-[5.6rem] h-screen">
 			<header className="w-full h-[5.6rem] flex items-center justify-between relative">
-				<div className="cursor-pointer flex items-center h-[2.2rem] justify-between">
+				<div className="cursor-pointer">
 					<button
 						className="flex items-center"
 						type="button"
@@ -105,9 +105,6 @@ function CalendarScreen() {
 						<CtlIcon />
 					</button>
 				</div>
-				<button className="cursor-pointer" type="button" onClick={() => salary()}>
-					<SalaryIcon />
-				</button>
 			</header>
 			<div className="mt-[2.4rem] mx-[0.2rem]">
 				<ul className="flex mb-[2.1rem] justify-between">
@@ -143,6 +140,18 @@ function CalendarScreen() {
 						</SwiperSlide>
 					))}
 				</Swiper>
+			</div>
+			<div className="fixed bottom-0 left-0 right-0 mb-[8rem] flex flex-col justify-center items-center">
+				<div className="mb-[1.2rem]">
+					<span className="text-subhead1 text-g8">지금까지 일한 급여를 계산해 보세요.</span>
+				</div>
+				<div
+					role="presentation"
+					onClick={() => salary()}
+					className="cursor-pointer w-[15.8rem] h-[4.8rem] flex items-center justify-center rounded-[2.4rem] bg-primary text-w text-subhead3"
+				>
+					<SalaryIcon fill="#FFFFFF" /> <span className="ml-[1.1rem]">급여 계산기</span>
+				</div>
 			</div>
 			{isModalOpen && (
 				<Overlay>
