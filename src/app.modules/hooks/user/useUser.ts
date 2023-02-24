@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from 'src/app.modules/api/user';
-import { getCookie } from 'src/app.modules/cookie';
+import { getCookie, setCookie } from 'src/app.modules/cookie';
 
 function useUser() {
 	const { data, refetch, isLoading } = useQuery(['user', 'me'], getUser, {
 		select: (res) => res.data.data,
 		onSuccess: (res) => {
-			localStorage.setItem('USER', JSON.stringify(res));
+			setCookie('USER', JSON.stringify(res));
 		},
 		onError: (error) => {
 			console.log(error);

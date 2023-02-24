@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ProfileSettingScreen from 'src/app.features/mypage/screens/ProfileSettingScreen';
-import { IUser } from 'src/app.features/mypage/types';
+import useLocalUserStore from 'src/app.features/mypage/store/user';
 import useUser from 'src/app.modules/hooks/user/useUser';
 
 function Setting() {
 	const { data } = useUser();
-	const [user, setUser] = useState<IUser>();
-	useEffect(() => {
-		const tmp = localStorage.getItem('USER');
-		if (!tmp) return;
-		setUser(JSON.parse(tmp));
-	}, []);
-	return <ProfileSettingScreen user={data ?? user} />;
+	const { localUser } = useLocalUserStore();
+
+	return <ProfileSettingScreen user={data ?? localUser} />;
 }
 
 export default Setting;

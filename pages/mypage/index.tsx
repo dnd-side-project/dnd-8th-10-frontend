@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import MyPageScreen from 'src/app.features/mypage/screens/MyPageScreen';
-import { IUser } from 'src/app.features/mypage/types';
+import useLocalUserStore from 'src/app.features/mypage/store/user';
 import useUser from 'src/app.modules/hooks/user/useUser';
 
 function Mypage() {
 	const { data } = useUser();
-	const [user, setUser] = useState<IUser>();
-	useEffect(() => {
-		const tmp = localStorage.getItem('USER');
-		if (!tmp) return;
-		setUser(JSON.parse(tmp));
-	}, []);
-	return <MyPageScreen user={data ?? user} />;
+	const { localUser } = useLocalUserStore();
+
+	return <MyPageScreen user={data ?? localUser} />;
 }
 
 export default Mypage;
