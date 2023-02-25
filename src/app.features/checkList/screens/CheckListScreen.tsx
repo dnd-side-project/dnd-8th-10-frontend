@@ -54,7 +54,7 @@ interface Props {
 	todayString: string;
 	searchDate: string;
 	searchDateHandler: (searchDateString: string) => void;
-	checklist: ICheckList[];
+	checklist: ICheckList[] | undefined;
 	postChecklist: MutateTpye<PostCheckListBody>;
 	postChecklistLoading: boolean;
 	putChecklist: MutateTpye<PutCheckListBody>;
@@ -239,9 +239,9 @@ function CheckListScreen({
 					</div>
 				</div>
 				<Divider />
-
+				{/* weekState?.[selectedDateIdx] */}
 				{weekState &&
-					(weekState?.[selectedDateIdx] ? (
+					(true ? (
 						<div className="pt-[2rem] text-subhead2  relative">
 							<div className="absolute w-full ">
 								<button
@@ -273,9 +273,9 @@ function CheckListScreen({
 								</form>
 							</div>
 							<ul className=" text-g9 space-y-[1.6rem] mt-[4.2rem]">
-								{checklist &&
-									checklist.map((todo) => (
-										<li key={todo.checkIdx} className="flex justify-between w-full ">
+								{checklist !== undefined &&
+									Object.values(checklist)?.map((todo, index) => (
+										<li key={todo.checkIdx ?? index} className="flex justify-between w-full ">
 											<div className="space-x-[1rem] flex items-center w-full">
 												<div>
 													<input

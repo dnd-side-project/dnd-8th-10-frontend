@@ -1,4 +1,4 @@
-import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
+import { useMutation, useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import CheckListScreen from 'src/app.features/checkList/screens/CheckListScreen';
 import {
@@ -23,10 +23,15 @@ function checkList() {
 	const searchDateHandler = (searchDateString: string) => {
 		setDate(searchDateString);
 	};
+	const queryClient = useQueryClient();
 	// TODO: useQueries로 데이터 병렬로 요청하기
-	const { data: checklist, refetch } = useQuery(['checklist'], () => getCheckList(date), {
+	const { refetch } = useQuery(['checklist'], () => getCheckList(date), {
 		select: (res) => res.data.data.list,
-		onSuccess: (res) => console.log(res),
+		onSuccess: (res) => {
+			queryClient.setQueryData(['checklist'], () => {
+				return [...res];
+			});
+		},
 		onError: (error) => {
 			console.log(error);
 		},
@@ -41,7 +46,16 @@ function checkList() {
 
 	// TODO: get 제외하고 합쳐도 될듯
 	const { mutate: postChecklist, isLoading: postChecklistLoading } = useMutation(postCheckList, {
-		onSuccess: (res) => {
+		onMutate: async (newTodo) => {
+			const previousChecklist = queryClient.getQueryData(['checklist']);
+			if (previousChecklist) {
+				await queryClient.cancelQueries(['checklist']);
+				await queryClient.setQueryData(['checklist'], (old: any) => {
+					return [newTodo, ...old];
+				});
+			}
+		},
+		onSuccess: () => {
 			refetch();
 		},
 		onError: (error) => alert('오류 발생.'),
@@ -73,12 +87,13 @@ function checkList() {
 		console.log(date);
 		refetch();
 	}, [date, refetch]);
+	// console.log();
 	return (
 		<CheckListScreen
 			todayString={todayDate()}
 			searchDate={date}
 			searchDateHandler={searchDateHandler}
-			checklist={checklist}
+			checklist={queryClient.getQueryData(['checklist'])}
 			weekState={weekState}
 			postChecklist={postChecklist}
 			postChecklistLoading={postChecklistLoading}
