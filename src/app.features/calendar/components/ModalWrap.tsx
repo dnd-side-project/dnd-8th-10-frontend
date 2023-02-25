@@ -27,7 +27,7 @@ function ModalWrap({ currentUser }: Props) {
 
 	useEffect(() => {
 		// 미래 제외 누른 경우, 유저 리스트 받아오기
-		if (workDay && clickDayData <= toDayData && userName.length === 0) {
+		if (clickDayData <= toDayData && userName.length === 0) {
 			const data = getWorkList({ year: clickYear, month: clickMonth, day });
 			data.then((res) => {
 				setUserName(res.data.data);

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Bar from 'src/app.components/app.base/Button/Bar';
+import useModalStore from 'src/app.modules/store/modal';
 import useStore from '../../store';
 import useKeypadStore from '../../store/keypad';
 
@@ -13,7 +14,7 @@ function Keypad({ year, month }: Props) {
 	const [keypadMonth, setKeypadMonth] = useState<string>(''); // String(month + 1)
 	const { setCalendar } = useStore();
 	const { keypadChange } = useKeypadStore();
-
+	const { modalIsClose } = useModalStore();
 	const keypadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.value.length > e.target.maxLength) {
 			e.target.value = e.target.value.slice(0, e.target.maxLength);
@@ -55,6 +56,7 @@ function Keypad({ year, month }: Props) {
 					ClickFn={() => {
 						setCalendar(Number(keypadYear), Number(keypadMonth) - 1);
 						keypadChange();
+						modalIsClose();
 					}}
 				>
 					이동
