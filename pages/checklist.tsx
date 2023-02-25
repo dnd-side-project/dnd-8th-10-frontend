@@ -74,11 +74,23 @@ function checkList() {
 		},
 	});
 	const { mutate: deleteChecklist, isLoading: deleteChecklistLoading } = useMutation(deleteCheckList, {
+		onMutate: (checkIdx) => {
+			if (localChecklist) {
+				const deleted = localChecklist.filter((item) => item.checkIdx !== checkIdx);
+				setLocalChecklist(deleted);
+			}
+			return { localChecklist };
+		},
 		onSuccess: (res) => {
 			refetch();
 			weekStateRefetch();
 		},
-		onError: (error) => alert('오류 발생.'),
+		onError: (error, values, context) => {
+			if (context?.localChecklist) {
+				setLocalChecklist(context.localChecklist);
+			}
+			alert('오류 발생.');
+		},
 		onSettled: () => {
 			//
 		},
