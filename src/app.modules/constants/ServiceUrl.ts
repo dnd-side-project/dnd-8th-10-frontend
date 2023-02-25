@@ -6,6 +6,7 @@ export const SERVICE_URL = {
 	inventoryCigarette: '/inventory/cigarette',
 	inventoryCard: '/inventory/gift-card',
 	inventoryBag: '/inventory/garbage-bag',
+	checklist: '/checklist',
 	mypage: '/mypage',
 	profileSetting: '/mypage/setting',
 	editWorkTime: '/mypage/setting/work-time',
