@@ -2,12 +2,14 @@ import { useMutation } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { postWork, putWorkModify } from 'src/app.features/calendar/api';
-import WorkModifyScreen from 'src/app.features/calendar/screens/WorkModifyScreen';
+import WorkRecordScreen from 'src/app.features/calendar/screens/WorkRecordScreen';
 import useUser from 'src/app.modules/hooks/user/useUser';
 
-const WorkModify: NextPage = () => {
+const WorkRecord: NextPage = () => {
 	const router = useRouter();
-	const { data: UserData, isLoading } = useUser();
+	const { title, id } = router.query;
+
+	const { data: UserData } = useUser();
 	// 출근하기
 	const { mutate: WorkMutate } = useMutation(postWork, {
 		onSuccess: (res) => {
@@ -25,7 +27,9 @@ const WorkModify: NextPage = () => {
 		},
 		onError: (error) => console.log(error),
 	});
-	return <WorkModifyScreen WorkMutate={WorkMutate} ModifyMutate={ModifyMutate} UserData={UserData} />;
+	return (
+		<WorkRecordScreen WorkMutate={WorkMutate} ModifyMutate={ModifyMutate} UserData={UserData} title={title} id={id} />
+	);
 };
 
-export default WorkModify;
+export default WorkRecord;

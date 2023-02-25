@@ -18,9 +18,8 @@ function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false }: Pro
 	}, [isModalOpen]);
 	return (
 		<div>
-			<button
-				type="button"
-				aria-label="button"
+			<div
+				role="presentation"
 				onClick={() => {
 					if (!children.props.content) {
 						setIsAnimating(false);

@@ -7,29 +7,30 @@ import useModalStore from 'src/app.modules/store/modal';
 import Header from 'src/app.components/Header';
 import DelIcon from 'src/app.modules/assets/calendar/delete.svg';
 import Bar from 'src/app.components/app.base/Button/Bar';
-import { crossDate } from 'src/app.modules/util/calendar';
+import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import { MutateTpye } from 'src/app.modules/api/client';
 import useStore from '../store';
 import useTimeSetStore from '../store/time';
-import { delWorkModify, getWorkList, MutateBody } from '../api';
+import { delWorkModify, getToDay, getWorkList, MutateBody } from '../api';
 
 type Flag = 'startTime' | 'endTime' | null;
 interface Props {
 	WorkMutate: MutateTpye<MutateBody>;
 	ModifyMutate: MutateTpye<MutateBody>;
 	UserData: { userName: string };
+	title: string | string[] | undefined;
+	id: string | string[] | undefined;
 }
-function WorkModifyScreen({ WorkMutate, ModifyMutate, UserData }: Props) {
+function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Props) {
 	const { isModalOpen, modalIsOpen } = useModalStore();
 	const [workTime, setWorkTime] = useState<string>('');
-	const { clickDay, toDay, workDay, isDayReset } = useStore();
+	const { clickDay, isDayReset } = useStore();
 	const [year, month, day] = clickDay.split('.');
 	const router = useRouter();
 	const {
 		user: { startTime, endTime },
 		setTime,
 	} = useTimeSetStore();
-	const { clickDayData, toDayData } = crossDate(clickDay, toDay);
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const timeHandler = (e: React.BaseSyntheticEvent) => {
 		const {
@@ -65,7 +66,7 @@ function WorkModifyScreen({ WorkMutate, ModifyMutate, UserData }: Props) {
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
 		const timeDiff = Math.abs((startSplit - endSplit) / 60);
-		if (!workDay && clickDayData < toDayData) {
+		if (id === 'add') {
 			// 출근하기
 			WorkMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
 		} else {
@@ -85,12 +86,25 @@ function WorkModifyScreen({ WorkMutate, ModifyMutate, UserData }: Props) {
 	};
 
 	useEffect(() => {
+		// 오늘 추가일시
 		if (UserData) {
-			const data = getWorkList({ year, month, day });
-			data.then((res) => {
-				const filter = res.data.data.filter((val: { name: string }) => val.name === UserData.userName);
-				setWorkTime(filter[0].workTime);
-			});
+			if (title === 'add') {
+				const data = getToDay(getDayOfWeek(clickDay));
+				data.then((res) => {
+					if (res.data !== '') {
+						setWorkTime(res.data);
+					}
+				});
+			} else {
+				// 수정일시
+				const data = getWorkList({ year, month, day });
+				data.then((res) => {
+					const filter = res.data.data.filter((val: { name: string }) => val.name === UserData.userName);
+					if (filter.length > 0) {
+						setWorkTime(filter[0].workTime);
+					}
+				});
+			}
 		}
 	}, [UserData]);
 
@@ -99,11 +113,15 @@ function WorkModifyScreen({ WorkMutate, ModifyMutate, UserData }: Props) {
 			<div className="h-[100vh] flex flex-col justify-between">
 				<div>
 					<div className="pb-[5.6rem]">
-						<Header title="출근수정">
-							<button type="button" onClick={() => modalIsOpen()}>
-								<DelIcon />
-							</button>
-						</Header>
+						{title === 'add' ? (
+							<Header title="근무기록 추가" />
+						) : (
+							<Header title="출근수정">
+								<button type="button" onClick={() => modalIsOpen()}>
+									<DelIcon />
+								</button>
+							</Header>
+						)}
 					</div>
 					<div className="flex text-g9 mb-[0.8rem] mt-[1.6rem]">
 						<div className="w-[50%]">
@@ -153,13 +171,11 @@ function WorkModifyScreen({ WorkMutate, ModifyMutate, UserData }: Props) {
 
 				<div className="mb-[2rem]">
 					<Bar
-						bgColor="bg-g2"
-						titleColor="text-g7"
 						ClickFn={() => {
 							modifyBtn();
 						}}
 					>
-						수정
+						{title === 'add' ? '추가' : '수정'}
 					</Bar>
 				</div>
 			</div>
@@ -172,4 +188,4 @@ function WorkModifyScreen({ WorkMutate, ModifyMutate, UserData }: Props) {
 	);
 }
 
-export default WorkModifyScreen;
+export default WorkRecordScreen;
