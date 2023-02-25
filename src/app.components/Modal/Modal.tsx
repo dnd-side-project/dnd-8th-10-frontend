@@ -1,5 +1,6 @@
 import useModalStore from 'src/app.modules/store/modal';
 import WarningIcon from 'src/app.modules/assets/modal/warning.svg';
+
 interface Props {
 	title: string;
 	subTitle?: string;
@@ -16,7 +17,7 @@ function Modal({ title, subTitle, yesFn, noBtn = false, yesTitle, noTitle }: Pro
 		<div className="text-g9 z-50 w-[25rem] text-center rounded-[0.8rem] bg-w absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
 			<div>
 				<div className="flex items-center justify-center border-solid border-b-[0.15rem] border-b-g3">
-					<div className={`px-[2.3rem] py-[2.4rem]`}>
+					<div className="px-[2.3rem] py-[2.4rem]">
 						{noBtn && (
 							<div className="flex justify-center mb-[0.8rem] mt-[0.85rem]">
 								<WarningIcon />
