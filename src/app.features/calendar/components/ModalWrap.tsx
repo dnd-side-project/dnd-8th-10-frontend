@@ -30,6 +30,7 @@ function ModalWrap({ currentUser }: Props) {
 		if (clickDayData <= toDayData && userName.length === 0) {
 			const data = getWorkList({ year: clickYear, month: clickMonth, day });
 			data.then((res) => {
+				console.log(res);
 				setUserName(res.data.data);
 			});
 		}
