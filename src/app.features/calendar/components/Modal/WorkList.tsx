@@ -52,7 +52,7 @@ function WorkList({ month, day, userName, currentUser }: Props) {
 						</div>
 					))
 				) : (
-					<div className="text-center m-[2.4rem]">
+					<div className="text-center mb-[1.2rem] mt-[2.4rem]">
 						<span className="text-body3 text-g7">아직 기록이 없어요.</span>
 					</div>
 				)}

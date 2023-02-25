@@ -12,8 +12,8 @@ interface Props {
 function Calendar({ idx, workDay, day, toDay, clickDay }: Props) {
 	const getClassName = () => {
 		const basic =
-			'aria-pressed:bg-primary aria-pressed:text-white flex justify-center items-center text-body2 w-[3rem] h-[3rem] rounded-[0.8rem]';
-		const borderAdded = `${basic} text-primary  border-solid border-[0.2rem] border-primary`;
+			'aria-pressed:bg-primary aria-pressed:text-w flex justify-center items-center text-body2 w-[3rem] h-[3rem] rounded-[0.8rem]';
+		const borderAdded = `${basic} text-primary  border-solid border-[0.15rem] border-primary`;
 		if (idx === toDay && workDay) {
 			return `${borderAdded} bg-g3`;
 		}
@@ -21,9 +21,9 @@ function Calendar({ idx, workDay, day, toDay, clickDay }: Props) {
 			return borderAdded;
 		}
 		if (workDay) {
-			return `${basic} text-g9 bg-g3`;
+			return `${basic} bg-[#E5EFFF]`;
 		}
-		return `${basic} text-g9`;
+		return `${basic}`;
 	};
 
 	return (

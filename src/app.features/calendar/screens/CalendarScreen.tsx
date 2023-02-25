@@ -112,7 +112,10 @@ function CalendarScreen({ currentUser }: Props) {
 			<div className="mt-[2.4rem] mx-[0.2rem]">
 				<ul className="flex mb-[2.1rem] justify-between">
 					{WEEK.map((day, index) => (
-						<li className="text-body2 w-[2.8rem] h-[2rem] text-center mr-[2rem] last:mr-0" key={index}>
+						<li
+							className="first:text-secondary last:text-primary text-body2 w-[2.8rem] h-[2rem] text-center mr-[2rem] last:mr-0"
+							key={index}
+						>
 							{day}
 						</li>
 					))}
