@@ -1,5 +1,16 @@
+import { useRouter } from 'next/router';
 import React from 'react';
+import WriteIcon from 'src/app.modules/assets/board/write.svg';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 function BoardScreen() {
-	return <div>게시판</div>;
+	const router = useRouter();
+	return (
+		<div>
+			<span className="text-subhead4">게시판 페이지</span>
+			<div onClick={() => router.push(`${SERVICE_URL.boardWrite}`)}>
+				<WriteIcon />
+			</div>
+		</div>
+	);
 }
 export default BoardScreen;

@@ -16,4 +16,5 @@ export const SERVICE_URL = {
 	calendarSalary: '/calendar/salary',
 	calendarSalaryDetail: '/calendar/salary-detail',
 	board: '/board',
+	boardWrite: '/board/write',
 };
