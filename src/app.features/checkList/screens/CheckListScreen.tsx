@@ -9,6 +9,7 @@ import TrashIcon from 'src/app.modules/assets/checklist/trash.svg';
 import AddTodoDecoIcon from 'src/app.modules/assets/checklist/addInputDeco.svg';
 import { formatDate } from 'src/app.modules/util/formatDate';
 import Divider from 'src/app.components/Divider';
+import { ICheckList } from '../\btypes';
 
 const getKoreaToday = () => {
 	const DATE = new Date(); // 현재 날짜(로컬 기준) 가져오기
@@ -44,17 +45,12 @@ const getCurMonthLastDayInfo = (curYear: number, curMonth: number) => {
 		curMonthLastDate,
 	};
 };
-interface ICheckList {
-	date: string; // '2023-02-09'
-	checkIdx: number;
-	content: string;
-	status: 'Y' | 'N';
-}
+
 interface Props {
 	todayString: string;
 	searchDate: string;
 	searchDateHandler: (searchDateString: string) => void;
-	checklist: ICheckList[] | undefined;
+	checklist: ICheckList[];
 	postChecklist: MutateTpye<PostCheckListBody>;
 	postChecklistLoading: boolean;
 	putChecklist: MutateTpye<PutCheckListBody>;
@@ -76,7 +72,6 @@ function CheckListScreen({
 	deleteChecklistLoading,
 	weekState,
 }: Props) {
-	console.log(checklist);
 	const { year, month, date, day } = getKoreaToday();
 	const [addTodoInputOpen, setAddTodoInputOpen] = useState<boolean>(false);
 	const [editTodoInputOpenIdx, setEditTodoInputOpenIdx] = useState<number | null>(null);
