@@ -137,7 +137,7 @@ function SetTimeScreen() {
 							<span className="text-g10 text-subhead3">
 								언제 {openModalFlag === 'startTime' ? '출근' : '퇴근'}하시나요?
 							</span>
-							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} mode="dark" />
+							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} />
 
 							<Bar ClickFn={workTimeHandler}>완료</Bar>
 						</div>
@@ -149,12 +149,3 @@ function SetTimeScreen() {
 }
 
 export default SetTimeScreen;
-
-/*
-
-<div>
-						
-					</div>
-
-
-*/

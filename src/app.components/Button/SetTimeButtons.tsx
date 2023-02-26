@@ -18,10 +18,9 @@ interface Props {
 		hour: string;
 		minute: string;
 	};
-	mode?: 'dark' | 'white';
 }
 // TODO: 중복 코드 줄이기
-function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
+function SetTimeButtons({ timeHandler, time }: Props) {
 	console.log(time, 'time');
 	return (
 		<div className="w-full space-y-[2.4rem]   whitespace-nowrap">
@@ -36,7 +35,7 @@ function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 						item="오전"
 						mode="h40"
 						className="w-[11.25rem] "
-						bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
+						bgColor="bg-g1"
 					/>
 					<Chip
 						onClick={timeHandler}
@@ -46,7 +45,7 @@ function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 						item="오후"
 						mode="h40"
 						className="w-[11.25rem]"
-						bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
+						bgColor="bg-g1"
 					/>
 				</div>
 			</div>
@@ -62,7 +61,7 @@ function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 								value={`${hour}`}
 								isPressed={`${time?.hour}` === `${hour}`}
 								onClick={timeHandler}
-								bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
+								bgColor="bg-g1"
 							/>
 						</li>
 					))}
@@ -80,7 +79,7 @@ function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 								value={`${minute}`}
 								isPressed={`${time?.minute}` === `${minute}`}
 								onClick={timeHandler}
-								bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
+								bgColor="bg-g1"
 							/>
 						</li>
 					))}

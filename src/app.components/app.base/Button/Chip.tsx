@@ -28,7 +28,7 @@ function Chip({ value, item, onClick, isPressed, name, mode, className, bgColor 
 			value={value}
 			onClick={onClick}
 			aria-pressed={isPressed}
-			className={`${getSize()}  text-center leading-[100%] rounded-[0.8rem]  text-g7  aria-pressed:bg-g4  aria-pressed:text-g10 ${bgColor} ${className}  `}
+			className={`${getSize()}  text-center leading-[100%] rounded-[0.8rem]  text-g7 text-body2  aria-pressed:bg-primarySub  aria-pressed:text-primary ${bgColor} ${className}  `}
 		>
 			{item}
 		</button>
