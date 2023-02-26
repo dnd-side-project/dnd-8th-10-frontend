@@ -201,15 +201,16 @@ function CheckListScreen({
 		if (weekState && weekState[weekIdx]) return 'bg-g3';
 		return '';
 	};
-
+	const getDateTitle = () => {
+		const [resYear, resMonth] = searchDate.split('-');
+		return `${+resYear}년 ${+resMonth}월`;
+	};
 	return (
 		<>
 			<Header title="내 할일 점검" />
 			<main className="w-full h-[100vh] pt-[7.2rem]">
 				<div className="space-y-[2rem] pb-[1.2rem]">
-					<span className="text-g10 text-subhead4">
-						{year}년 {month}월
-					</span>
+					<span className="text-g10 text-subhead4">{getDateTitle()}</span>
 					<div className="text-g8 space-y-[1.6rem]">
 						<ul className="grid grid-cols-7 text-center text-body1 ">
 							{['일', '월', '화', '수', '목', '금', '토'].map((w) => (
