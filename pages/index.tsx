@@ -28,10 +28,6 @@ const Home: NextPage = () => {
 			onError: (error) => {
 				console.log(error);
 			},
-			retry: false,
-			refetchOnMount: false,
-			refetchOnReconnect: false,
-			refetchOnWindowFocus: false,
 		}
 	);
 	// 출근하기
@@ -52,10 +48,6 @@ const Home: NextPage = () => {
 		onError: (error) => {
 			console.log(error);
 		},
-		retry: false,
-		refetchOnMount: false,
-		refetchOnReconnect: false,
-		refetchOnWindowFocus: false,
 	});
 
 	return (
