@@ -1,23 +1,27 @@
 import React from 'react';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { MutateBody } from 'src/app.features/calendar/api';
-import Working from '../components/Working';
-import BoardBar from '../components/BoardBar';
+import WorkStatus from '../components/WorkStatus';
+import BoardPreview from '../components/BoardPreview';
 import MainPoster from '../components/MainPoster';
-import Buttons from '../components/Buttons';
+import Shortcut from '../components/Shortcut';
 
 interface Props {
 	grayData: number[];
 	WorkMutate: MutateTpye<MutateBody>;
 	todayWork: string;
+	userData: {
+		userName: string;
+		workTime: string;
+	};
 }
-function HomeScreen({ grayData, WorkMutate, todayWork }: Props) {
+function HomeScreen({ grayData, WorkMutate, todayWork, userData }: Props) {
 	return (
 		<div className="bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem] py-[5.6rem]">
 			<MainPoster />
-			<BoardBar />
-			<Working grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} />
-			<Buttons />
+			<BoardPreview />
+			<WorkStatus grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} userName={userData.userName} />
+			<Shortcut />
 		</div>
 	);
 }

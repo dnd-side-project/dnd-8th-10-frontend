@@ -6,11 +6,13 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 interface Props {
 	month: number;
 	day: string;
-	userName: [{ name: string; workTime: string; userProfileCode: number }] | never[];
+	userName: [{ name: string; workTime: string; userProfileCode: number; timeCardId: number }] | never[];
 	currentUser: string;
 }
+
 function WorkList({ month, day, userName, currentUser }: Props) {
 	const router = useRouter();
+
 	return (
 		<div>
 			<div className="flex justify-between">
@@ -21,7 +23,7 @@ function WorkList({ month, day, userName, currentUser }: Props) {
 				</div>
 				<button
 					onClick={() => {
-						router.push(`${SERVICE_URL.calendarRecord}/${1}?title=${'add'}`);
+						router.push(`${SERVICE_URL.calendarRecord}/${'commute'}?title=${'add'}`);
 					}}
 					className="text-primary text-subhead3"
 				>
@@ -30,19 +32,19 @@ function WorkList({ month, day, userName, currentUser }: Props) {
 			</div>
 			<div>
 				{userName.length > 0 ? (
-					userName.map((item: { name: string; workTime: string; userProfileCode: number }, index) => (
+					userName.map((item, index) => (
 						<div className="my-[2.4rem] flex items-center justify-between" key={index}>
 							<div className="flex items-center">
-								<ProfileImage size="lg" userProfileCode={item?.userProfileCode} />
+								<ProfileImage size="lg" userProfileCode={item.userProfileCode} />
 								<span className="text-subhead2 text-g10 mx-[0.8rem]">{item.name}</span>
-								<span className="text-body2 text-g8">{item?.workTime}</span>
+								<span className="text-body2 text-g8">{item.workTime}</span>
 							</div>
 							<div>
 								{item.name === currentUser && (
 									<button
 										className="bg-w px-[0.9rem] py-[0.4rem] border-solid border-[0.15rem] border-g4  rounded-[0.8rem]"
 										onClick={() => {
-											router.push(`${SERVICE_URL.calendarRecord}/${2}?title=${'modify'}`);
+											router.push(`${SERVICE_URL.calendarRecord}/${item.timeCardId}?title=${'modify'}`);
 										}}
 									>
 										<span className="text-[1.4rem] text-g9">출근수정</span>
