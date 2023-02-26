@@ -225,7 +225,7 @@ function CheckListScreen({
 										value={w}
 										data-weekidx={index}
 										onClick={setSearchDateHandler}
-										aria-pressed={searchDate.split('-')[2] === `${w}`}
+										aria-pressed={+searchDate.split('-')[2] === +w}
 										className={`aria-pressed:bg-primary aria-pressed:text-w ${getButtonStyle(
 											index,
 											w
