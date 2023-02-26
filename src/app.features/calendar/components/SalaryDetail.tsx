@@ -1,6 +1,7 @@
 import PlusIcon from 'src/app.modules/assets/calendar/plus.svg';
 import EmptyWork from 'src/app.modules/assets/calendar/emptyWork.svg';
 import { ISalaryProps } from '../types';
+import { formatTimeView } from 'src/app.modules/util/calendar';
 
 function SalaryDetail({ data }: ISalaryProps) {
 	function convertWorkHour(workTime: number) {
@@ -31,14 +32,16 @@ function SalaryDetail({ data }: ISalaryProps) {
 										<span className="text-subhead2 text-g9">
 											{info.month}월 {info.day}일
 										</span>
-										<span className="text-subhead1 text-g6">{info.workTime}</span>
+										<span className="text-subhead1 text-g6">
+											{formatTimeView(info.workTime)[0] + ' - ' + formatTimeView(info.workTime)[1]}
+										</span>
 									</div>
 								</div>
 								<div className="flex flex-col">
-									<span className="text-subhead2 text-g9">
+									<span className="text-subhead2 text-primary">
 										{info.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
 									</span>
-									<span className="text-subhead1 text-g6 text-right">{convertWorkHour(info.workHour)}</span>
+									<span className="text-subhead1 text-g9 text-right">{convertWorkHour(info.workHour)}</span>
 								</div>
 							</div>
 						))}

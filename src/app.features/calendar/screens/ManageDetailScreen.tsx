@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import ProfileImage from 'src/app.components/ProfileImage';
 import Header from 'src/app.components/Header';
-import Profile from 'src/app.components/Profile';
 import { getUserSalary } from '../api';
 import SalaryDetail from '../components/SalaryDetail';
 import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';
 import { ISalaryDetail } from '../types';
+import SettingIcon from 'src/app.modules/assets/calendar/salary/setting.svg';
+import MoneyIcon from 'src/app.modules/assets/calendar/salary/money.svg';
+import InfoIcon from 'src/app.modules/assets/calendar/salary/info.svg';
 
 function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 	// 급여 상세페이지
@@ -23,13 +24,9 @@ function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 			onError: (error) => {
 				console.log(error);
 			},
-			retry: false,
-			refetchOnMount: false,
-			refetchOnReconnect: false,
-			refetchOnWindowFocus: false,
 		}
 	);
-	// {month + 1 === Number(toDay.split('.')[1]) &&
+	console.log(salaryData?.totalSalary);
 	return (
 		<div>
 			{!isLoading && salaryData && (
@@ -37,20 +34,26 @@ function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 					<div className="w-[calc(100%+4rem)] px-[2rem] pb-[2rem] -translate-x-[2rem] text-w bg-primary">
 						<div className="pb-[5.6rem]">
 							<Header title="" mode="white" />
-						</div>
-
-						<div className="mt-[1.6rem] mb-[2rem]">
-							<div className="ml-[0.8rem]">
-								<Profile
-									mypage={false}
-									userProfileCode={salaryData.userProfileCode}
-									userName={salaryData.userName}
-									role={salaryData.role}
-									workTime={salaryData.workTime}
-								/>
+							<div className="pointer-events-none h-[5.6rem] max-w-[42rem] -translate-x-[2rem] fixed z-50 flex mx-auto w-full items-center justify-center">
+								<div className="flex items-center pointer-events-auto">
+									<span className="text-w text-subhead4">
+										{salaryData.userName} {`${salaryData.role === 'MANAGER' ? '매니저' : '알바생'}`}
+									</span>
+									<SettingIcon className="fixed right-0 mr-[1.9rem]" />
+								</div>
 							</div>
 						</div>
-						<TotalSalary data={salaryData.totalSalary} />
+						<div className="flex justify-between mx-[0.2rem] mb-[0.8rem] mt-[1.6rem]">
+							<div className="flex items-center">
+								<MoneyIcon />
+								<span className="text-subhead3 text-w ml-[0.4rem]">이번달 급여</span>
+							</div>
+							<div className="flex items-center">
+								<InfoIcon />
+								<span className="text-[1rem] text-w ml-[0.4rem]">세금 공제 전 금액입니다</span>
+							</div>
+						</div>
+						<TotalSalary data={salaryData.totalSalary} manager />
 					</div>
 					<div className="w-[calc(100%+4rem)] px-[2rem] pb-[2rem] -translate-x-[2rem] bg-w">
 						<SalaryDetail data={salaryData.daySalary} />

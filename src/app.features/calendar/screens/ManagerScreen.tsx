@@ -83,7 +83,7 @@ function ManagerScreen() {
 										<span className="text-subhead3 text-primary ">
 											{manageData[0]?.totalSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
 										</span>
-										<span className="text-subhead1 text-g6">시간당9,800원</span>
+										<span className="text-subhead1 text-g6">시간당9,620원</span>
 									</div>
 									<button
 										type="button"
@@ -115,7 +115,7 @@ function ManagerScreen() {
 												<span className="text-subhead3 text-primary ">
 													{info.totalSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
 												</span>
-												<span className="text-subhead1 text-g6">시간당9,800원</span>
+												<span className="text-subhead1 text-g6">시간당9,620원</span>
 											</div>
 
 											<button

@@ -11,6 +11,9 @@ import SalaryDetail from '../components/SalaryDetail';
 import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';
 import { ISalaryData } from '../types';
+import SettingIcon from 'src/app.modules/assets/calendar/salary/setting.svg';
+import MoneyIcon from 'src/app.modules/assets/calendar/salary/money.svg';
+import InfoIcon from 'src/app.modules/assets/calendar/salary/info.svg';
 
 function WorkerScreen() {
 	// 직원 급여 페이지
@@ -64,11 +67,28 @@ function WorkerScreen() {
 										{year}년 {month + 1}월
 									</span>
 									<CtlIcon className="ml-[0.4rem]" />
+									<SettingIcon className="fixed right-0 mr-[1.9rem]" />
 								</button>
 							</div>
 						</div>
-						<div className="pb-[2rem]">
+						<div className="flex items-center mx-[0.2rem] mb-[0.8rem] mt-[1.6rem]">
+							<MoneyIcon />
+							<span className="text-subhead3 text-w ml-[0.4rem]">이번달 급여</span>
+						</div>
+						<div className="pb-[1rem]">
 							<TotalSalary data={workHour} />
+						</div>
+						<div className="mx-[0.2rem] pb-[2rem]">
+							<div className="flex items-center">
+								<InfoIcon />
+								<span className="text-[1rem] text-w ml-[0.4rem]">세금 공제 전 금액입니다</span>
+							</div>
+							<div className="flex items-center">
+								<InfoIcon />
+								<span className="text-[1rem] text-w ml-[0.4rem]">
+									개인 확인용으로, 실제 급여에는 반영되지 않을 수도 있습니다.
+								</span>
+							</div>
 						</div>
 					</div>
 					<div className="w-[calc(100%+4rem)] px-[2rem] pb-[2rem] -translate-x-[2rem] bg-w">
