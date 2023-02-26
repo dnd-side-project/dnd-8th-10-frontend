@@ -9,6 +9,7 @@ import TrashIcon from 'src/app.modules/assets/checklist/trash.svg';
 import AddTodoDecoIcon from 'src/app.modules/assets/checklist/addInputDeco.svg';
 import { formatDate } from 'src/app.modules/util/formatDate';
 import Divider from 'src/app.components/Divider';
+import { ICheckList } from '../\btypes';
 
 const getKoreaToday = () => {
 	const DATE = new Date(); // 현재 날짜(로컬 기준) 가져오기
@@ -44,13 +45,9 @@ const getCurMonthLastDayInfo = (curYear: number, curMonth: number) => {
 		curMonthLastDate,
 	};
 };
-interface ICheckList {
-	date: string; // '2023-02-09'
-	checkIdx: number;
-	content: string;
-	status: 'Y' | 'N';
-}
+
 interface Props {
+	isChecklistFetched: boolean;
 	todayString: string;
 	searchDate: string;
 	searchDateHandler: (searchDateString: string) => void;
@@ -62,6 +59,7 @@ interface Props {
 	deleteChecklist: MutateTpye<number>;
 	deleteChecklistLoading: boolean;
 	weekState: boolean[];
+	isWorkDay: boolean;
 }
 function CheckListScreen({
 	todayString,
@@ -75,8 +73,9 @@ function CheckListScreen({
 	deleteChecklist,
 	deleteChecklistLoading,
 	weekState,
+	isWorkDay,
+	isChecklistFetched,
 }: Props) {
-	console.log(checklist);
 	const { year, month, date, day } = getKoreaToday();
 	const [addTodoInputOpen, setAddTodoInputOpen] = useState<boolean>(false);
 	const [editTodoInputOpenIdx, setEditTodoInputOpenIdx] = useState<number | null>(null);
@@ -202,30 +201,31 @@ function CheckListScreen({
 		if (weekState && weekState[weekIdx]) return 'bg-g3';
 		return '';
 	};
-
+	const getDateTitle = () => {
+		const [resYear, resMonth] = searchDate.split('-');
+		return `${+resYear}년 ${+resMonth}월`;
+	};
 	return (
 		<>
-			<Header title="체크리스트" />
-			<main className="w-full h-[100vh] pt-[7.2rem]">
+			<Header title="내 할일 점검" />
+			<main className="w-full h-[100vh] pt-[7.2rem] overflow-hidden">
 				<div className="space-y-[2rem] pb-[1.2rem]">
-					<span className="text-g10 text-subhead4">
-						{year}년 {month}월
-					</span>
+					<span className="text-g10 text-subhead4">{getDateTitle()}</span>
 					<div className="text-g8 space-y-[1.6rem]">
-						<ul className="grid grid-cols-7 text-center text-body1">
+						<ul className="grid grid-cols-7 text-center text-body1 ">
 							{['일', '월', '화', '수', '목', '금', '토'].map((w) => (
 								<li key={w}>{w}</li>
 							))}
 						</ul>
 						<ul className="grid grid-cols-7 text-center text-subhead2">
 							{week.map((w, index) => (
-								<li key={index}>
+								<li key={index} className="first:text-secondary last:text-primary">
 									<button
 										name="searchDate"
 										value={w}
 										data-weekidx={index}
 										onClick={setSearchDateHandler}
-										aria-pressed={searchDate.split('-')[2] === `${w}`}
+										aria-pressed={+searchDate.split('-')[2] === +w}
 										className={`aria-pressed:bg-primary aria-pressed:text-w ${getButtonStyle(
 											index,
 											w
@@ -240,87 +240,86 @@ function CheckListScreen({
 				</div>
 				<Divider />
 
-				{weekState &&
-					(weekState?.[selectedDateIdx] ? (
-						<div className="pt-[2rem] text-subhead2  relative">
-							<div className="absolute w-full ">
-								<button
-									onClick={() => setAddTodoInputOpen(true)}
-									aria-hidden={addTodoInputOpen}
-									className="aria-hidden:hidden  flex items-center text-g7 space-x-[1rem]"
-								>
-									<AddTodoIcon />
-									<span>항목 추가하기</span>
+				{isChecklistFetched && isWorkDay ? (
+					<div className=" text-subhead2  relative ">
+						<div className="absolute w-full bg-white pt-[2rem] pb-[1rem] z-[50] ">
+							<button
+								onClick={() => setAddTodoInputOpen(true)}
+								aria-hidden={addTodoInputOpen}
+								className="aria-hidden:hidden  flex items-center text-g7 space-x-[1rem]"
+							>
+								<AddTodoIcon />
+								<span>항목 추가하기</span>
+							</button>
+							<form
+								aria-hidden={!addTodoInputOpen}
+								onSubmit={addTodoHandler}
+								className="aria-hidden:hidden  flex items-center  space-x-[1rem]"
+							>
+								<div>
+									<AddTodoDecoIcon />
+								</div>
+								<input
+									type="text"
+									name="newTodo"
+									value={newTodo}
+									onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
+									className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
+								/>
+								<button type="button" onClick={cancelAddTodoHandler}>
+									<TrashIcon />
 								</button>
-								<form
-									aria-hidden={!addTodoInputOpen}
-									onSubmit={addTodoHandler}
-									className="aria-hidden:hidden  flex items-center w-[101.5%] space-x-[1rem]"
-								>
-									<div>
-										<AddTodoDecoIcon />
-									</div>
-									<input
-										type="text"
-										name="newTodo"
-										value={newTodo}
-										onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
-										className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
-									/>
-									<button type="button" onClick={cancelAddTodoHandler}>
-										<TrashIcon />
-									</button>
-								</form>
-							</div>
-							<ul className=" text-g9 space-y-[1.6rem] mt-[4.2rem]">
-								{checklist &&
-									checklist.map((todo) => (
-										<li key={todo.checkIdx} className="flex justify-between w-full ">
-											<div className="space-x-[1rem] flex items-center w-full">
-												<div>
-													<input
-														id={`checkbox-${todo.checkIdx}`}
-														type="checkbox"
-														data-checkidx={todo.checkIdx}
-														data-content={todo.content}
-														defaultChecked={todo.status === 'Y'}
-														className="checklist-checkbox"
-														onChange={todoCheckStateHandler}
-													/>
-													<label htmlFor={`checkbox-${todo.checkIdx}`} />
-												</div>
-												<div
-													aria-hidden={editTodoInputOpenIdx === todo.checkIdx}
-													className="aria-hidden:hidden flex items-center justify-between w-full"
-												>
-													<span className="mb-[0.4rem]">{todo.content}</span>
-													<button onClick={() => setEditTodoInputOpenIdx(todo.checkIdx)}>
-														<SettingIcon />
-													</button>
-												</div>
-												<form
-													onSubmit={editTodoHandler}
-													aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
-													data-status={todo.status}
-													className="aria-hidden:hidden flex items-center w-full space-x-[1rem]"
-												>
-													<input
-														type="text"
-														name="editTodo"
-														className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
-													/>
-													<button type="button" onClick={deleteTodoHandler}>
-														<TrashIcon />
-													</button>
-												</form>
-											</div>
-										</li>
-									))}
-							</ul>
+							</form>
 						</div>
-					) : (
-						<EmptyGraphic className="mt-[7.2rem] mx-auto" />
-					))}
+						<ul className=" text-g9 space-y-[1.6rem] pt-[5.9rem] pb-[4.2rem] h-[calc(100vh-20.6rem)] overflow-y-scroll scrollbar-hidden ">
+							{checklist?.map((todo, index) => (
+								<li key={todo.checkIdx ?? index} className="flex justify-between w-full ">
+									<div className="space-x-[1rem] flex items-center w-full">
+										<div>
+											<input
+												id={`checkbox-${todo.checkIdx}`}
+												type="checkbox"
+												data-checkidx={todo.checkIdx}
+												data-content={todo.content}
+												defaultChecked={todo.status === 'Y'}
+												className="checklist-checkbox"
+												onChange={todoCheckStateHandler}
+											/>
+											<label htmlFor={`checkbox-${todo.checkIdx}`} />
+										</div>
+										<div
+											aria-hidden={editTodoInputOpenIdx === todo.checkIdx}
+											className="aria-hidden:hidden flex items-center justify-between w-full"
+										>
+											<span className="mb-[0.4rem]">{todo.content}</span>
+											<button onClick={() => setEditTodoInputOpenIdx(todo.checkIdx)}>
+												<SettingIcon />
+											</button>
+										</div>
+										<form
+											onSubmit={editTodoHandler}
+											aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
+											data-status={todo.status}
+											className="aria-hidden:hidden flex items-center w-full space-x-[1rem]"
+										>
+											<input
+												type="text"
+												name="editTodo"
+												defaultValue={todo.content}
+												className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
+											/>
+											<button type="button" onClick={deleteTodoHandler}>
+												<TrashIcon />
+											</button>
+										</form>
+									</div>
+								</li>
+							))}
+						</ul>
+					</div>
+				) : (
+					<EmptyGraphic className="mt-[7.2rem] mx-auto" />
+				)}
 			</main>
 		</>
 	);
