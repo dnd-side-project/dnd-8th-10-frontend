@@ -11,11 +11,6 @@ export const getDayOfWeek = (data: string) => {
 	return dayOfWeek;
 };
 
-export function getDaysInMonth(year: number, month: number) {
-	const day = new Date(year, month + 1, 0).getDate();
-	return `${month + 1}.1 - ${month + 1}.${day}`;
-}
-
 export function crossDate(clickDay: string, toDay: string) {
 	const [currentYear, currentMonth, currentDay] = clickDay.split('.').map(Number);
 	const [toDayYear, toDayMonth, toDayDay] = toDay.split('.').map(Number);

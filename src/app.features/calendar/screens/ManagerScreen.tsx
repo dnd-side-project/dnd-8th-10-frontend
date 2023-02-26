@@ -5,7 +5,6 @@ import Header from 'src/app.components/Header';
 import TopModal from 'src/app.components/Modal/TopModal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
-import { getDaysInMonth } from 'src/app.modules/util/calendar';
 import CtlIcon from 'src/app.modules/assets/calendar/control.svg';
 import EmptySalary from 'src/app.modules/assets/calendar/emptySalary.svg';
 import ArrowRight from 'src/app.modules/assets/arrowRight.svg';
@@ -21,21 +20,22 @@ function ManagerScreen() {
 	const { year, month, modalCalData, toDay } = useStore();
 	const { isModalOpen, modalIsOpen } = useModalStore();
 	const router = useRouter();
-	const [salaryData, setSalaryData] = useState<ISalaryList[]>([]);
+	const [UserData, setUserData] = useState<ISalaryList[]>([]);
+	const [manageData, setManageData] = useState<ISalaryList[]>([]);
 	const { data, isLoading, refetch } = useQuery(
 		['salaryList'],
 		() => getSalaryList({ year: String(year), month: String(month + 1) }),
 		{
 			onSuccess: (res) => {
-				setSalaryData(res.data.data);
+				const newSalaryData = res.data.data.filter((val: { role: string }) => val.role === 'MANAGER');
+				if (newSalaryData.length > 0) {
+					setManageData(newSalaryData);
+				}
+				setUserData(res.data.data.filter((val: { role: string }) => val.role !== 'MANAGER'));
 			},
 			onError: (error) => {
 				console.log(error);
 			},
-			retry: false,
-			refetchOnMount: false,
-			refetchOnReconnect: false,
-			refetchOnWindowFocus: false,
 		}
 	);
 
@@ -67,12 +67,39 @@ function ManagerScreen() {
 					</div>
 
 					<div>
-						{salaryData.filter((salary) => salary.totalSalary !== 0).length > 0 ? (
+						<div className="pb-[0.6rem]">
+							<div className="mt-[1.6rem] mb-[1.2rem]">
+								<span className="text-subhead4 text-g9">점장</span>
+							</div>
+							<div className="flex justify-between items-center py-[2.4rem] bg-g1 rounded-[0.8rem] px-[1.6rem]">
+								<div className="flex items-center">
+									<ProfileImage size="lg" userProfileCode={manageData[0]?.userProfileCode} />
+									<div className="flex flex-col justify-center ml-[1.2rem]">
+										<span className="text-subhead3 text-g10">{manageData[0]?.userName}</span>
+									</div>
+								</div>
+								<div className="flex">
+									<div className="flex flex-col justify-center items-end">
+										<span className="text-subhead3 text-primary ">
+											{manageData[0]?.totalSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
+										</span>
+										<span className="text-subhead1 text-g6">시간당9,800원</span>
+									</div>
+									<button
+										type="button"
+										onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${manageData[0]?.userCode}`)}
+									>
+										<ArrowRight />
+									</button>
+								</div>
+							</div>
+						</div>
+						{UserData.filter((salary) => salary.totalSalary !== 0).length > 0 ? (
 							<div>
 								<div className="mt-[1.6rem] mb-[1.2rem]">
-									<span className="text-subhead4">알바생</span>
+									<span className="text-subhead4 text-g9">알바생</span>
 								</div>
-								{salaryData.map((info, index) => (
+								{UserData.map((info, index) => (
 									<div
 										key={index}
 										className="flex justify-between items-center py-[2.4rem] bg-g1 rounded-[0.8rem] px-[1.6rem] mb-[0.8rem]"
@@ -81,13 +108,16 @@ function ManagerScreen() {
 											<ProfileImage size="lg" userProfileCode={info.userProfileCode} />
 											<div className="flex flex-col justify-center ml-[1.2rem]">
 												<span className="text-subhead3 text-g10">{info.userName}</span>
-												<span className="text-subhead1 text-g6">{getDaysInMonth(year, month)}</span>
 											</div>
 										</div>
 										<div className="flex">
-											<span className="text-subhead3 text-g10 mr-[0.8rem]">
-												{info.totalSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
-											</span>
+											<div className="flex flex-col justify-center items-end">
+												<span className="text-subhead3 text-primary ">
+													{info.totalSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
+												</span>
+												<span className="text-subhead1 text-g6">시간당9,800원</span>
+											</div>
+
 											<button
 												type="button"
 												onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${info.userCode}`)}
