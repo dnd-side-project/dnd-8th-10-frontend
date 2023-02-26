@@ -6,7 +6,7 @@ import KaKaoIcon from 'src/app.modules/assets/login/kakao.svg';
 
 function LoginScreen() {
 	return (
-		<div className="space-y-[9.5rem] pt-[13rem] pb-[6rem] h-[100vh] relative">
+		<div className=" pt-[18vh]  h-[100vh] relative">
 			<div className="space-y-[3.7rem] ">
 				<h1 className="text-title2 text-g9">
 					슬기로운 편의점 생활!
@@ -17,17 +17,17 @@ function LoginScreen() {
 				</h1>
 
 				<LoginGraphic className="mx-auto " />
-				<div className="absolute bottom-[2rem] w-full">
-					<Bar bgColor="bg-[#FAE64D]" titleColor="">
-						<a
-							href={KAKAO_OAUTH2_URL}
-							className="text-g10 font-bold text-[1.2rem] flex justify-center items-center gap-[1.2rem]"
-						>
-							<KaKaoIcon />
-							<span>카카오 로그인/회원가입</span>
-						</a>
-					</Bar>
-				</div>
+			</div>
+			<div className="absolute bottom-[2rem] w-full">
+				<Bar bgColor="bg-[#FAE64D]">
+					<a
+						href={KAKAO_OAUTH2_URL}
+						className="text-g10 font-bold text-[1.2rem] flex justify-center items-center gap-[1.2rem]"
+					>
+						<KaKaoIcon />
+						<span>카카오 로그인/회원가입</span>
+					</a>
+				</Bar>
 			</div>
 		</div>
 	);
