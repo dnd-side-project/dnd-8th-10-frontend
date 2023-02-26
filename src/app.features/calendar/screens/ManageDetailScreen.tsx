@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import Header from 'src/app.components/Header';
+import SettingIcon from 'src/app.modules/assets/calendar/salary/setting.svg';
+import MoneyIcon from 'src/app.modules/assets/calendar/salary/money.svg';
+import InfoIcon from 'src/app.modules/assets/calendar/salary/info.svg';
 import { getUserSalary } from '../api';
 import SalaryDetail from '../components/SalaryDetail';
 import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';
 import { ISalaryDetail } from '../types';
-import SettingIcon from 'src/app.modules/assets/calendar/salary/setting.svg';
-import MoneyIcon from 'src/app.modules/assets/calendar/salary/money.svg';
-import InfoIcon from 'src/app.modules/assets/calendar/salary/info.svg';
 
 function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 	// 급여 상세페이지

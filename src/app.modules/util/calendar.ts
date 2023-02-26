@@ -53,12 +53,11 @@ export const formatTimeView = (time: string, type = 'view') => {
 			`${startMeridiem} ${formattedStartHour}:${formattedStartMinute}`,
 			`${endMeridiem} ${formattedEndHour}:${formattedEndMinute}`,
 		];
-	} else {
-		return [
-			`${startMeridiem} ${formattedStartHour} ${formattedStartMinute}`,
-			`${endMeridiem} ${formattedEndHour} ${formattedEndMinute}`,
-		];
 	}
+	return [
+		`${startMeridiem} ${formattedStartHour} ${formattedStartMinute}`,
+		`${endMeridiem} ${formattedEndHour} ${formattedEndMinute}`,
+	];
 };
 export const parseSetWorkTime = (workTime: string): IUser => {
 	const [meridiemLeft, hourLeft, minuteLeft] = formatTimeView(workTime, '')[0].split(' ');

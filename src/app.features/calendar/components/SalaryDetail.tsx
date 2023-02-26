@@ -1,7 +1,7 @@
 import PlusIcon from 'src/app.modules/assets/calendar/plus.svg';
 import EmptyWork from 'src/app.modules/assets/calendar/emptyWork.svg';
-import { ISalaryProps } from '../types';
 import { formatTimeView } from 'src/app.modules/util/calendar';
+import { ISalaryProps } from '../types';
 
 function SalaryDetail({ data }: ISalaryProps) {
 	function convertWorkHour(workTime: number) {
@@ -33,7 +33,7 @@ function SalaryDetail({ data }: ISalaryProps) {
 											{info.month}월 {info.day}일
 										</span>
 										<span className="text-subhead1 text-g6">
-											{formatTimeView(info.workTime)[0] + ' - ' + formatTimeView(info.workTime)[1]}
+											{`${formatTimeView(info.workTime)[0]} - ${formatTimeView(info.workTime)[1]}`}
 										</span>
 									</div>
 								</div>

@@ -39,7 +39,7 @@ function WorkList({ month, day, userName, currentUser }: Props) {
 								<ProfileImage size="lg" userProfileCode={item.userProfileCode} />
 								<span className="text-subhead2 text-g10 mx-[0.8rem]">{item.name}</span>
 								<span className="text-body2 text-g8">
-									{formatTimeView(item.workTime)[0] + ' - ' + formatTimeView(item.workTime)[1]}
+									{`${formatTimeView(item.workTime)[0]} - ${formatTimeView(item.workTime)[1]}`}
 								</span>
 							</div>
 							<div>

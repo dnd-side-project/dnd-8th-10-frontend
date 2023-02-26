@@ -5,15 +5,15 @@ import Overlay from 'src/app.components/Modal/Overlay';
 import TopModal from 'src/app.components/Modal/TopModal';
 import CtlIcon from 'src/app.modules/assets/calendar/controlW.svg';
 import useModalStore from 'src/app.modules/store/modal';
+import SettingIcon from 'src/app.modules/assets/calendar/salary/setting.svg';
+import MoneyIcon from 'src/app.modules/assets/calendar/salary/money.svg';
+import InfoIcon from 'src/app.modules/assets/calendar/salary/info.svg';
 import { getSalary } from '../api';
 import Keypad from '../components/Modal/Keypad';
 import SalaryDetail from '../components/SalaryDetail';
 import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';
 import { ISalaryData } from '../types';
-import SettingIcon from 'src/app.modules/assets/calendar/salary/setting.svg';
-import MoneyIcon from 'src/app.modules/assets/calendar/salary/money.svg';
-import InfoIcon from 'src/app.modules/assets/calendar/salary/info.svg';
 
 function WorkerScreen() {
 	// 직원 급여 페이지
