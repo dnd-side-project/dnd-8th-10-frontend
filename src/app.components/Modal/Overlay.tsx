@@ -18,9 +18,8 @@ function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false }: Pro
 	}, [isModalOpen]);
 	return (
 		<div>
-			<button
-				type="button"
-				aria-label="button"
+			<div
+				role="presentation"
 				onClick={() => {
 					if (!children.props.content) {
 						setIsAnimating(false);
@@ -34,7 +33,7 @@ function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false }: Pro
 				className={`translate-x-0 z-50  fixed max-w-[42rem] mx-auto top-0 left-0 bottom-0 right-0 ${bgColor} ${
 					blur && 'backdrop-filter backdrop-blur-[0.4rem]'
 				}  ${
-					!children.props.content &&
+					!children.props.title &&
 					`transition-all duration-500 ease-in-out ${isAnimating ? 'opacity-100' : 'opacity-0'}`
 				}`}
 			/>

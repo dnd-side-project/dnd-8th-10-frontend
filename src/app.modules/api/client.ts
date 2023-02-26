@@ -23,7 +23,7 @@ client.interceptors.response.use(
 			response: { status },
 		} = error;
 
-		if (status === 401 && config.url !== '/oauth/token/refresh') {
+		if (status === 401 && !config.url.includes('oauth')) {
 			try {
 				const originalRequest = config;
 				// token refresh 요청

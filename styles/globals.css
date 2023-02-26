@@ -25,6 +25,12 @@ input::-webkit-search-results-button,
 input::-webkit-search-results-decoration{
 	display:none;
 }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-out-spin-button {
+	-webkit-appearance:none;
+	-moz-appearance:none;
+	appearance:none;
+}
 
 .time-set-button-border{
   border:0.1rem solid #4382FF;

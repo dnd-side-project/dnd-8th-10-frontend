@@ -1,7 +1,7 @@
 import React from 'react';
 import Badge from 'src/app.components/app.base/Button/Badge';
 
-function BoardBar() {
+function BoardPreview() {
 	return (
 		<div className="flex items-center justify-between rounded-[1.2rem] px-[1.6rem] py-[1rem] shadow-blue">
 			<div className="flex items-center">
@@ -19,4 +19,4 @@ function BoardBar() {
 	);
 }
 
-export default BoardBar;
+export default BoardPreview;

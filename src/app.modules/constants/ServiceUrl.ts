@@ -1,6 +1,7 @@
 export const SERVICE_URL = {
 	home: '/',
 	register: '/register',
+	checklist: '/checklist',
 	inventory: '/inventory',
 	inventoryHistory: '/inventory/history',
 	inventoryCigarette: '/inventory/cigarette',
@@ -12,7 +13,7 @@ export const SERVICE_URL = {
 	editPhoneNumber: '/mypage/setting/phone',
 	myStore: '/mypage/store',
 	calendar: '/calendar',
-	calendarModify: '/calendar/work-modify',
+	calendarRecord: '/calendar/work-record',
 	calendarSalary: '/calendar/salary',
 	calendarSalaryDetail: '/calendar/salary-detail',
 };

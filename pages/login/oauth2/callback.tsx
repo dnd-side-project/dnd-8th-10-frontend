@@ -25,6 +25,7 @@ const Login: NextPage = () => {
 				if (accessToken && refreshToken) {
 					const expires = new Date();
 					expires.setFullYear(expires.getFullYear() + 10);
+
 					setCookie('REFRESH_TOKEN', refreshToken, { path: '/', secure: true, sameSite: 'none', expires });
 					setCookie('ACCESS_TOKEN', accessToken, { path: '/', secure: true, sameSite: 'none', expires });
 					client.defaults.headers.Authorization = `Bearer ${accessToken}`;
@@ -44,6 +45,10 @@ const Login: NextPage = () => {
 			},
 		}
 	);
+	/* useEffect(() => {
+		const code = new URL(document.location.toString()).searchParams.get('code') as string;
+		console.log('인가코드 : ', code);
+	}, []); */
 
 	return <div />;
 };

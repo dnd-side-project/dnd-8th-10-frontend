@@ -7,11 +7,12 @@ import useStore from 'src/app.features/calendar/store';
 import { getGray, getToDay, postWork } from 'src/app.features/calendar/api';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import Header from 'src/app.features/home/components/Header';
+import useUser from 'src/app.modules/hooks/user/useUser';
 
 const Home: NextPage = () => {
 	const { toDay } = useStore();
 	const [year, month, _] = toDay.split('.');
-
+	const { data, refetch, isLoading } = useUser();
 	// 출근했던 기록
 	const { data: grayData, refetch: grayRefetch } = useQuery(
 		['gray'],
@@ -28,10 +29,6 @@ const Home: NextPage = () => {
 			onError: (error) => {
 				console.log(error);
 			},
-			retry: false,
-			refetchOnMount: false,
-			refetchOnReconnect: false,
-			refetchOnWindowFocus: false,
 		}
 	);
 	// 출근하기
@@ -52,19 +49,19 @@ const Home: NextPage = () => {
 		onError: (error) => {
 			console.log(error);
 		},
-		retry: false,
-		refetchOnMount: false,
-		refetchOnReconnect: false,
-		refetchOnWindowFocus: false,
 	});
 
 	return (
 		<>
-			<Header />
-			<main className="h-[100vh] bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem]">
-				<HomeScreen grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} />
-			</main>
-			<Navigation />
+			{!isLoading && (
+				<>
+					<Header />
+					<main className="h-[100vh] bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem]">
+						<HomeScreen grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} userData={data} />
+					</main>
+					<Navigation />
+				</>
+			)}
 		</>
 	);
 };

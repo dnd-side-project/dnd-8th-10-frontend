@@ -4,6 +4,7 @@ export interface DayBody {
 	year: string;
 	month: string;
 	day?: string;
+	timeCardId?: number;
 }
 export interface GrayBody {
 	year: string;
@@ -15,6 +16,7 @@ export interface MutateBody {
 	day: string;
 	workTime: string;
 	workHour: number;
+	timeCardId?: number;
 }
 export interface SalaryBody {
 	year: string;
@@ -41,8 +43,8 @@ export const putWorkModify = async (body: MutateBody) => {
 };
 
 // 출근 기록 삭제하기
-export const delWorkModify = async (body: DayBody) => {
-	const res = await client.delete('api/calendar', { params: { ...body } });
+export const delWorkModify = async (timeCardId: number) => {
+	const res = await client.delete('api/calendar', { params: { timeCardId } });
 	return res;
 };
 
