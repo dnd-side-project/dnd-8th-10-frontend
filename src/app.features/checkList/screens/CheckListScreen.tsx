@@ -236,89 +236,88 @@ function CheckListScreen({
 					</div>
 				</div>
 				<Divider />
-				{/* weekState?.[selectedDateIdx] */}
-				{weekState &&
-					(isWorkDay ? (
-						<div className="pt-[2rem] text-subhead2  relative">
-							<div className="absolute w-full ">
-								<button
-									onClick={() => setAddTodoInputOpen(true)}
-									aria-hidden={addTodoInputOpen}
-									className="aria-hidden:hidden  flex items-center text-g7 space-x-[1rem]"
-								>
-									<AddTodoIcon />
-									<span>항목 추가하기</span>
+
+				{isWorkDay ? (
+					<div className="pt-[2rem] text-subhead2  relative">
+						<div className="absolute w-full ">
+							<button
+								onClick={() => setAddTodoInputOpen(true)}
+								aria-hidden={addTodoInputOpen}
+								className="aria-hidden:hidden  flex items-center text-g7 space-x-[1rem]"
+							>
+								<AddTodoIcon />
+								<span>항목 추가하기</span>
+							</button>
+							<form
+								aria-hidden={!addTodoInputOpen}
+								onSubmit={addTodoHandler}
+								className="aria-hidden:hidden  flex items-center w-[101.5%] space-x-[1rem]"
+							>
+								<div>
+									<AddTodoDecoIcon />
+								</div>
+								<input
+									type="text"
+									name="newTodo"
+									value={newTodo}
+									onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
+									className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
+								/>
+								<button type="button" onClick={cancelAddTodoHandler}>
+									<TrashIcon />
 								</button>
-								<form
-									aria-hidden={!addTodoInputOpen}
-									onSubmit={addTodoHandler}
-									className="aria-hidden:hidden  flex items-center w-[101.5%] space-x-[1rem]"
-								>
-									<div>
-										<AddTodoDecoIcon />
-									</div>
-									<input
-										type="text"
-										name="newTodo"
-										value={newTodo}
-										onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
-										className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
-									/>
-									<button type="button" onClick={cancelAddTodoHandler}>
-										<TrashIcon />
-									</button>
-								</form>
-							</div>
-							<ul className=" text-g9 space-y-[1.6rem] mt-[4.2rem]">
-								{checklist !== undefined &&
-									Object.values(checklist)?.map((todo, index) => (
-										<li key={todo.checkIdx ?? index} className="flex justify-between w-full ">
-											<div className="space-x-[1rem] flex items-center w-full">
-												<div>
-													<input
-														id={`checkbox-${todo.checkIdx}`}
-														type="checkbox"
-														data-checkidx={todo.checkIdx}
-														data-content={todo.content}
-														defaultChecked={todo.status === 'Y'}
-														className="checklist-checkbox"
-														onChange={todoCheckStateHandler}
-													/>
-													<label htmlFor={`checkbox-${todo.checkIdx}`} />
-												</div>
-												<div
-													aria-hidden={editTodoInputOpenIdx === todo.checkIdx}
-													className="aria-hidden:hidden flex items-center justify-between w-full"
-												>
-													<span className="mb-[0.4rem]">{todo.content}</span>
-													<button onClick={() => setEditTodoInputOpenIdx(todo.checkIdx)}>
-														<SettingIcon />
-													</button>
-												</div>
-												<form
-													onSubmit={editTodoHandler}
-													aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
-													data-status={todo.status}
-													className="aria-hidden:hidden flex items-center w-full space-x-[1rem]"
-												>
-													<input
-														type="text"
-														name="editTodo"
-														defaultValue={todo.content}
-														className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
-													/>
-													<button type="button" onClick={deleteTodoHandler}>
-														<TrashIcon />
-													</button>
-												</form>
-											</div>
-										</li>
-									))}
-							</ul>
+							</form>
 						</div>
-					) : (
-						<EmptyGraphic className="mt-[7.2rem] mx-auto" />
-					))}
+						<ul className=" text-g9 space-y-[1.6rem] mt-[4.2rem]">
+							{checklist !== undefined &&
+								Object.values(checklist)?.map((todo, index) => (
+									<li key={todo.checkIdx ?? index} className="flex justify-between w-full ">
+										<div className="space-x-[1rem] flex items-center w-full">
+											<div>
+												<input
+													id={`checkbox-${todo.checkIdx}`}
+													type="checkbox"
+													data-checkidx={todo.checkIdx}
+													data-content={todo.content}
+													defaultChecked={todo.status === 'Y'}
+													className="checklist-checkbox"
+													onChange={todoCheckStateHandler}
+												/>
+												<label htmlFor={`checkbox-${todo.checkIdx}`} />
+											</div>
+											<div
+												aria-hidden={editTodoInputOpenIdx === todo.checkIdx}
+												className="aria-hidden:hidden flex items-center justify-between w-full"
+											>
+												<span className="mb-[0.4rem]">{todo.content}</span>
+												<button onClick={() => setEditTodoInputOpenIdx(todo.checkIdx)}>
+													<SettingIcon />
+												</button>
+											</div>
+											<form
+												onSubmit={editTodoHandler}
+												aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
+												data-status={todo.status}
+												className="aria-hidden:hidden flex items-center w-full space-x-[1rem]"
+											>
+												<input
+													type="text"
+													name="editTodo"
+													defaultValue={todo.content}
+													className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
+												/>
+												<button type="button" onClick={deleteTodoHandler}>
+													<TrashIcon />
+												</button>
+											</form>
+										</div>
+									</li>
+								))}
+						</ul>
+					</div>
+				) : (
+					<EmptyGraphic className="mt-[7.2rem] mx-auto" />
+				)}
 			</main>
 		</>
 	);
