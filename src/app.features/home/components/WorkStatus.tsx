@@ -12,7 +12,7 @@ interface Props {
 	WorkMutate: MutateTpye<MutateBody>;
 	todayWork: string;
 }
-function Working({ grayData, WorkMutate, todayWork }: Props) {
+function WorkStatus({ grayData, WorkMutate, todayWork }: Props) {
 	const router = useRouter();
 	const { toDay, modalCalData } = useStore();
 	const [year, month, day] = toDay.split('.');
@@ -60,4 +60,4 @@ function Working({ grayData, WorkMutate, todayWork }: Props) {
 	);
 }
 
-export default Working;
+export default WorkStatus;
