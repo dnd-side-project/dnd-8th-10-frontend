@@ -58,6 +58,7 @@ interface Props {
 	deleteChecklist: MutateTpye<number>;
 	deleteChecklistLoading: boolean;
 	weekState: boolean[];
+	isWorkDay: boolean;
 }
 function CheckListScreen({
 	todayString,
@@ -71,6 +72,7 @@ function CheckListScreen({
 	deleteChecklist,
 	deleteChecklistLoading,
 	weekState,
+	isWorkDay,
 }: Props) {
 	const { year, month, date, day } = getKoreaToday();
 	const [addTodoInputOpen, setAddTodoInputOpen] = useState<boolean>(false);
@@ -236,7 +238,7 @@ function CheckListScreen({
 				<Divider />
 				{/* weekState?.[selectedDateIdx] */}
 				{weekState &&
-					(true ? (
+					(isWorkDay ? (
 						<div className="pt-[2rem] text-subhead2  relative">
 							<div className="absolute w-full ">
 								<button
