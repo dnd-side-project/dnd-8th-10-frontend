@@ -36,7 +36,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 								modalIsOpen();
 								modalCalData(idx, workDay);
 							}}
-							className="cursor-pointer text-g10 first:text-secondary last:text-primary "
+							className="cursor-pointer text-g10 first:text-g7 last:text-g7"
 							key={idx}
 						>
 							<Calendar idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />
@@ -60,7 +60,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 								modalIsOpen();
 								modalCalData(idx, workDay);
 							}}
-							className="cursor-pointer text-g10 first:text-secondary last:text-primary"
+							className="cursor-pointer text-g10 first:text-g7 last:text-g7"
 							key={idx}
 						>
 							<Calendar idx={idx} workDay={workDay} day={now} toDay={toDay} clickDay={clickDay} />

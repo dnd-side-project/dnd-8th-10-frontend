@@ -7,7 +7,7 @@ import useModalStore from 'src/app.modules/store/modal';
 import Header from 'src/app.components/Header';
 import DelIcon from 'src/app.modules/assets/delete.svg';
 import Bar from 'src/app.components/app.base/Button/Bar';
-import { getDayOfWeek } from 'src/app.modules/util/calendar';
+import { parseSetWorkTime, getDayOfWeek, getWorkTimeString } from 'src/app.modules/util/calendar';
 import { MutateTpye } from 'src/app.modules/api/client';
 import useStore from '../store';
 import useTimeSetStore from '../store/time';
@@ -30,6 +30,8 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 	const {
 		user: { startTime, endTime },
 		setTime,
+		initUser,
+		setInitTime,
 	} = useTimeSetStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const timeHandler = (e: React.BaseSyntheticEvent) => {
@@ -39,26 +41,11 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 		setTime(value, name, openModalFlag as 'startTime' | 'endTime');
 	};
 
-	const getWorkTimeString = () => {
-		try {
-			return `${startTime.hour.length === 1 && startTime.meridiem === 'am' ? '0' : ''}${
-				+startTime.hour + (startTime.meridiem === 'am' ? 0 : 12)
-			}:${startTime.minute.length === 1 ? '0' : ''}${startTime.minute}~${
-				endTime.hour.length === 1 && endTime.meridiem === 'am' ? '0' : ''
-			}${+endTime.hour + (endTime.meridiem === 'am' ? 0 : 12)}:${endTime.minute.length === 1 ? '0' : ''}${
-				endTime.minute
-			}`;
-		} catch (e) {
-			console.log(e);
-			return '';
-		}
-	};
-
 	// 수정 버튼
 	const modifyBtn = async () => {
 		let workTimeData;
-		if (getWorkTimeString() !== '00:00~00:00') {
-			workTimeData = getWorkTimeString();
+		if (getWorkTimeString(startTime, endTime) !== '00:00~00:00') {
+			workTimeData = getWorkTimeString(startTime, endTime);
 		} else {
 			workTimeData = workTime;
 		}
@@ -92,20 +79,21 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 				const data = getToDay(getDayOfWeek(clickDay));
 				data.then((res) => {
 					if (res.data !== '') {
-						setWorkTime(res.data);
+						setInitTime(parseSetWorkTime(res.data));
 					}
 				});
 			} else {
 				// 수정일시
 				const data = getWorkList({ year, month, day });
 				data.then((res) => {
-					const getWorkTime = res.data.data.filter((val: { timeCardId: number }) => val.timeCardId === Number(id));
-					if (getWorkTime.length > 0) {
-						setWorkTime(getWorkTime[0].workTime);
+					const getWorkTimes = res.data.data.filter((val: { timeCardId: number }) => val.timeCardId === Number(id));
+					if (getWorkTimes.length > 0) {
+						setInitTime(parseSetWorkTime(getWorkTimes[0].workTime));
 					}
 				});
 			}
 		}
+		return () => initUser();
 	}, [UserData]);
 
 	return (
@@ -136,26 +124,26 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 							onClick={() => setOpenModalFlag('startTime')}
 							className={`${
 								openModalFlag === 'startTime'
-									? 'text-g9 text-subhead2 border-solid border-[0.15rem] border-primary'
+									? 'text-primary text-subhead2 border-solid border-[0.15rem] border-primary'
 									: 'text-g7 text-body2'
 							} w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
-							{workTime !== '' && `${startTime.hour}${startTime.minute}${startTime.meridiem}` === '00am'
-								? workTime.split('~')[0]
-								: `${startTime.hour}시 ${startTime.minute}분 ${startTime.meridiem}`}
+							{`${startTime.meridiem === 'am' ? '오전' : '오후'} ${startTime.hour}시 ${
+								startTime.minute.length > 1 ? startTime.minute : `0${startTime.minute}`
+							}분`}
 						</button>
 						<span className="text-subhead3 mx-[1rem]">~</span>
 						<button
 							onClick={() => setOpenModalFlag('endTime')}
 							className={`${
 								openModalFlag === 'endTime'
-									? 'text-g9 text-subhead2 border-solid border-[0.15rem] border-primary'
+									? 'text-primary text-subhead2 border-solid border-[0.15rem] border-primary'
 									: 'text-g7 text-body2'
 							} w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
-							{workTime !== '' && `${endTime.hour}${endTime.minute}${endTime.meridiem}` === '00am'
-								? workTime.split('~')[1]
-								: `${endTime.hour}시 ${endTime.minute}분 ${endTime.meridiem}`}
+							{`${endTime.meridiem === 'am' ? '오전' : '오후'} ${endTime.hour}시  ${
+								endTime.minute.length > 1 ? endTime.minute : `0${endTime.minute}`
+							}분`}
 						</button>
 					</div>
 					{openModalFlag !== null && (
@@ -174,6 +162,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 						ClickFn={() => {
 							modifyBtn();
 						}}
+						disabled={title !== 'add' && getWorkTimeString(startTime, endTime) === '00:00~00:00'}
 					>
 						{title === 'add' ? '추가' : '수정'}
 					</Bar>
