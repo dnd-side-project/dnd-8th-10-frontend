@@ -208,7 +208,7 @@ function CheckListScreen({
 	return (
 		<>
 			<Header title="내 할일 점검" />
-			<main className="w-full h-[100vh] pt-[7.2rem]">
+			<main className="w-full h-[100vh] pt-[7.2rem] overflow-hidden">
 				<div className="space-y-[2rem] pb-[1.2rem]">
 					<span className="text-g10 text-subhead4">{getDateTitle()}</span>
 					<div className="text-g8 space-y-[1.6rem]">
@@ -241,8 +241,8 @@ function CheckListScreen({
 				<Divider />
 
 				{isChecklistFetched && isWorkDay ? (
-					<div className="pt-[2rem] text-subhead2  relative">
-						<div className="absolute w-full ">
+					<div className=" text-subhead2  relative ">
+						<div className="absolute w-full bg-white pt-[2rem] pb-[1rem] z-[50] ">
 							<button
 								onClick={() => setAddTodoInputOpen(true)}
 								aria-hidden={addTodoInputOpen}
@@ -254,7 +254,7 @@ function CheckListScreen({
 							<form
 								aria-hidden={!addTodoInputOpen}
 								onSubmit={addTodoHandler}
-								className="aria-hidden:hidden  flex items-center w-[101.5%] space-x-[1rem]"
+								className="aria-hidden:hidden  flex items-center  space-x-[1rem]"
 							>
 								<div>
 									<AddTodoDecoIcon />
@@ -271,7 +271,7 @@ function CheckListScreen({
 								</button>
 							</form>
 						</div>
-						<ul className=" text-g9 space-y-[1.6rem] mt-[4.2rem]">
+						<ul className=" text-g9 space-y-[1.6rem] pt-[5.9rem] pb-[4.2rem] h-[calc(100vh-20.6rem)] overflow-y-scroll scrollbar-hidden ">
 							{checklist?.map((todo, index) => (
 								<li key={todo.checkIdx ?? index} className="flex justify-between w-full ">
 									<div className="space-x-[1rem] flex items-center w-full">
