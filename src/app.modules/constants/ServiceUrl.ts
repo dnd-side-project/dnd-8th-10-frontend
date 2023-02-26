@@ -1,6 +1,7 @@
 export const SERVICE_URL = {
 	home: '/',
 	register: '/register',
+	checklist: '/checklist',
 	inventory: '/inventory',
 	inventoryHistory: '/inventory/history',
 	inventoryCigarette: '/inventory/cigarette',

@@ -15,7 +15,7 @@ function Shortcut() {
 				<span>시재점검</span>
 			</Link>
 			<Link
-				href="/"
+				href={SERVICE_URL.checklist}
 				className="flex flex-col justify-center items-center shadow-blue w-full py-[2.5rem] rounded-[0.8rem]"
 			>
 				<CheckIcon />
