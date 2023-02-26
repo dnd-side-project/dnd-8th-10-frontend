@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimeType } from 'src/app.modules/types/workTime';
+import { DayType, mappedDay, TimeType } from 'src/app.modules/types/workTime';
 import InputCancelIcon from 'src/app.modules/assets/inputCancel.svg';
 
 interface Props {
@@ -11,6 +11,7 @@ interface Props {
 	endTimeText: string;
 	resetTimeHandler: (flag: TimeType) => void;
 	mode?: 'dark' | 'white';
+	day?: DayType;
 }
 function OpenSetTimeModalButtons({
 	openSetTimeModalHandler,
@@ -21,6 +22,7 @@ function OpenSetTimeModalButtons({
 	resetTimeHandler,
 	focusedType,
 	mode = 'white',
+	day,
 }: Props) {
 	return (
 		<div className="flex items-center justify-between">
@@ -34,7 +36,11 @@ function OpenSetTimeModalButtons({
 					name="setStartTime"
 					className="w-full h-full text-start"
 				>
-					{!isStartTimeSet ? <span className="text-g7">시작시간</span> : <span>{startTimeText}</span>}
+					{!isStartTimeSet ? (
+						<span className="text-g7">{day && `${mappedDay[day]}요일 `}출근시간</span>
+					) : (
+						<span>{startTimeText}</span>
+					)}
 				</button>
 				{isStartTimeSet && (
 					<button
@@ -57,7 +63,11 @@ function OpenSetTimeModalButtons({
 					name="setEndTime"
 					className="w-full h-full text-start"
 				>
-					{!isEndTimeSet ? <span className="text-g7">종료시간</span> : <span>{endTimeText}</span>}
+					{!isEndTimeSet ? (
+						<span className="text-g7">{day && `${mappedDay[day]}요일 `}퇴근시간</span>
+					) : (
+						<span>{endTimeText}</span>
+					)}
 				</button>
 				{isEndTimeSet && (
 					<button
