@@ -22,7 +22,7 @@ function LoginScreen() {
 				<Bar bgColor="bg-[#FAE64D]">
 					<a
 						href={KAKAO_OAUTH2_URL}
-						className="text-g10 font-bold text-[1.2rem] flex justify-center items-center gap-[1.2rem]"
+						className="text-g10 font-bold text-[1.6rem] flex justify-center items-center gap-[1.2rem]"
 					>
 						<KaKaoIcon />
 						<span>카카오 로그인/회원가입</span>
