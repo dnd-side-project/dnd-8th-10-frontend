@@ -25,7 +25,7 @@ function RegisterLayout({ curPage, children, canGoNext, registerUser }: Props) {
 		<>
 			<Header title="" />
 			<Progress curPage={curPage} />
-			<main className=" text-g9   relative pt-[9rem] h-[100vh] overflow-hidden">{children}</main>
+			<main className=" text-g9   relative pt-[9rem] h-[100vh] overflow-x-visible  overflow-y-hidden">{children}</main>
 
 			<button
 				disabled={!canGoNext}
