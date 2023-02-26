@@ -79,12 +79,13 @@ function SetWorkPlaceScreen() {
 		<RegisterLayout curPage={2} canGoNext={workPlace !== null}>
 			<div className="space-y-[2.4rem] ">
 				<div className="space-y-[1.6rem]">
-					<h1 className="text-g10 text-title2">어떤지점에서 일하고 계신가요?</h1>
+					<h1 className="text-g10 text-title2">어떤 지점에서 일하고 계신가요?</h1>
 					<SearchInput
 						searchTerm={searchTerm ?? workPlace ?? ''}
 						onSearchTermChange={searchTermHandler}
 						resetSearchTerm={resetSearchTerm}
 						isSearched={Boolean(workPlace?.trim())}
+						placeholder="편의점 위치명, 위치 검색"
 					/>
 				</div>
 

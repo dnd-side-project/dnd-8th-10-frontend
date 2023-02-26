@@ -29,7 +29,7 @@ function SetRoleScreen({ userName }: Props) {
 					<br />
 					어떤일을 하고 계신가요?
 				</h1>
-				<div className="fixed flex max-w-[38rem] mx-auto justify-between w-[calc(100vw-4rem)] top-[18vh] ">
+				<div className="fixed flex max-w-[38rem] mx-auto justify-between w-[calc(100vw-4rem)] top-[20vh] ">
 					<button
 						type="button"
 						onClick={() => roleHandler('WORKER')}
