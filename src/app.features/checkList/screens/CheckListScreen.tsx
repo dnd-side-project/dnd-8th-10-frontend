@@ -304,6 +304,7 @@ function CheckListScreen({
 													<input
 														type="text"
 														name="editTodo"
+														defaultValue={todo.content}
 														className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
 													/>
 													<button type="button" onClick={deleteTodoHandler}>
