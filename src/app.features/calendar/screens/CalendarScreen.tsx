@@ -25,7 +25,7 @@ function CalendarScreen({ currentUser }: Props) {
 		month: 0,
 		day: [],
 	});
-	const { year, month, setCalendar, modalCalData } = useStore();
+	const { year, month, setCalendar, modalCalData, isDayReset } = useStore();
 	const { isModalOpen, modalIsOpen } = useModalStore();
 	const { isJump, keypadChange } = useKeypadStore();
 	const router = useRouter();
@@ -87,6 +87,12 @@ function CalendarScreen({ currentUser }: Props) {
 			keypadChange();
 		}
 	}, [month, getGrayRefetch, WorkData, isJump]);
+
+	useEffect(() => {
+		if (!isModalOpen) {
+			isDayReset();
+		}
+	}, [isModalOpen]);
 
 	const salary = () => {
 		router.push(`${SERVICE_URL.calendarSalary}`);

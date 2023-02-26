@@ -10,6 +10,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 	const { modalIsOpen } = useModalStore();
 	const { month, day } = schedule;
 	const days = [];
+
 	const makeDay = (week: number) => {
 		const result = [];
 		// 첫 주
