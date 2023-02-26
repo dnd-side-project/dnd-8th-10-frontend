@@ -211,14 +211,14 @@ function CheckListScreen({
 						{year}년 {month}월
 					</span>
 					<div className="text-g8 space-y-[1.6rem]">
-						<ul className="grid grid-cols-7 text-center text-body1">
+						<ul className="grid grid-cols-7 text-center text-body1 ">
 							{['일', '월', '화', '수', '목', '금', '토'].map((w) => (
 								<li key={w}>{w}</li>
 							))}
 						</ul>
 						<ul className="grid grid-cols-7 text-center text-subhead2">
 							{week.map((w, index) => (
-								<li key={index}>
+								<li key={index} className="first:text-secondary last:text-primary">
 									<button
 										name="searchDate"
 										value={w}
