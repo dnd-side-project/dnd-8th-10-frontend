@@ -170,7 +170,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 			</div>
 			{isModalOpen && (
 				<Overlay>
-					<Modal title="출근기록이 삭제됩니다!" yesFn={() => delBtn()} yesTitle="삭제" />
+					<Modal title="출근기록이 삭제됩니다!" yesFn={() => delBtn()} yesTitle="삭제" noBtn noTitle="취소" />
 				</Overlay>
 			)}
 		</>

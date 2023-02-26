@@ -15,13 +15,13 @@ function Calendar({ idx, workDay, day, toDay, clickDay }: Props) {
 			'aria-pressed:bg-primary aria-pressed:text-w flex justify-center items-center w-[3rem] h-[3rem] rounded-[0.8rem]';
 		const borderAdded = `${basic} text-primary  border-solid border-[0.15rem] border-primary`;
 		if (idx === toDay && workDay) {
-			return `${borderAdded} bg-[#E5EFFF] text-subhead-long2`;
+			return `${borderAdded} bg-primarySub text-subhead-long2`;
 		}
 		if (idx === toDay) {
 			return `${borderAdded} text-body2`;
 		}
 		if (workDay) {
-			return `${basic} bg-[#E5EFFF] text-subhead-long2 text-primary`;
+			return `${basic} bg-primarySub text-subhead-long2 text-primary`;
 		}
 		return `${basic} text-body2`;
 	};
