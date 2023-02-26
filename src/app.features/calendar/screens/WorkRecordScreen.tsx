@@ -5,7 +5,7 @@ import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import useModalStore from 'src/app.modules/store/modal';
 import Header from 'src/app.components/Header';
-import DelIcon from 'src/app.modules/assets/calendar/delete.svg';
+import DelIcon from 'src/app.modules/assets/delete.svg';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import { MutateTpye } from 'src/app.modules/api/client';
