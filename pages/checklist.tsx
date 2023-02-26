@@ -26,7 +26,11 @@ function checkList() {
 		setDate(searchDateString);
 	};
 	// TODO: useQueries로 데이터 병렬로 요청하기
-	const { data: checklist, refetch } = useQuery(['checklist'], () => getCheckList(date), {
+	const {
+		data: checklist,
+		refetch,
+		isFetched: isChecklistFetched,
+	} = useQuery(['checklist'], () => getCheckList(date), {
 		select: (res) => res.data.data,
 		onSuccess: async (res) => {
 			console.log('res', res.workDay);
@@ -102,6 +106,7 @@ function checkList() {
 
 	return (
 		<CheckListScreen
+			isChecklistFetched={isChecklistFetched}
 			isWorkDay={checklist?.workDay}
 			todayString={todayDate()}
 			searchDate={date}
