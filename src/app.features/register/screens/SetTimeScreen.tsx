@@ -87,10 +87,10 @@ function SetTimeScreen() {
 		<RegisterLayout curPage={3} canGoNext={Boolean(workTime !== INIT_WORKTIME)}>
 			{/* TODO: 다음으로 넘어가는 조건 다시 지정 (더 자세하게) */}
 			<div className="space-y-[3.2rem] ">
-				<h1 className="text-g10 text-title2">근무하는 시간대를 설정해주세요</h1>
+				<h1 className="text-g10 text-title2">일하는 요일별 근무시간을 알려주세요</h1>
 				<div className="flex flex-col space-y-[3.2rem]">
 					<div className="space-y-[0.8rem] w-full">
-						<h2 className="text-g6 text-subhead1">요일 선택</h2>
+						<h2 className="text-g6 text-body2">근무요일(복수선택 가능)</h2>
 						<ul className="grid  grid-cols-7  ">
 							{/* TODO: 간격 화면 크기별로 대응 */}
 							{['6', '0', '1', '2', '3', '4', '5'].map((day, index) => (
@@ -107,7 +107,7 @@ function SetTimeScreen() {
 						</ul>
 					</div>
 					<div className="space-y-[0.8rem]">
-						<h2 className="text-g6 text-subhead1">시간 선택</h2>
+						<h2 className="text-g6 text-body2">근무 시간</h2>
 						<OpenSetTimeModalButtons
 							openSetTimeModalHandler={openSetTimeModalHandler}
 							isStartTimeSet={Boolean(workTime[selectedDay]?.startTime)}
