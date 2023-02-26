@@ -204,7 +204,7 @@ function CheckListScreen({
 
 	return (
 		<>
-			<Header title="체크리스트" />
+			<Header title="내 할일 점검" />
 			<main className="w-full h-[100vh] pt-[7.2rem]">
 				<div className="space-y-[2rem] pb-[1.2rem]">
 					<span className="text-g10 text-subhead4">
