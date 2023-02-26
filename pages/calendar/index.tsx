@@ -5,6 +5,7 @@ import useUser from 'src/app.modules/hooks/user/useUser';
 
 const CalendarPage: NextPage = () => {
 	const { data } = useUser();
+
 	return (
 		<div className="h-[100vh]">
 			<CalendarScreen currentUser={data?.userName} />

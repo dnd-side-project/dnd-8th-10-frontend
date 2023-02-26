@@ -1,8 +1,8 @@
 import React from 'react';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import Link from 'next/link';
 import InvenIcon from '../../../../public/images/home/inven.svg';
 import CheckIcon from '../../../../public/images/home/check.svg';
-import Link from 'next/link';
 
 function Shortcut() {
 	return (
@@ -15,11 +15,11 @@ function Shortcut() {
 				<span>시재점검</span>
 			</Link>
 			<Link
-				href={''}
+				href="/"
 				className="flex flex-col justify-center items-center shadow-blue w-full py-[2.5rem] rounded-[0.8rem]"
 			>
 				<CheckIcon />
-				<span>체크리스트</span>
+				<span>내 할일 점검</span>
 			</Link>
 		</div>
 	);

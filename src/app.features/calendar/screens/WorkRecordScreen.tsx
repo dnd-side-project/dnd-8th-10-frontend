@@ -55,7 +55,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 	};
 
 	// 수정 버튼
-	const modifyBtn = () => {
+	const modifyBtn = async () => {
 		let workTimeData;
 		if (getWorkTimeString() !== '00:00~00:00') {
 			workTimeData = getWorkTimeString();
@@ -66,19 +66,19 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
 		const timeDiff = Math.abs((startSplit - endSplit) / 60);
-		if (id === 'add') {
+		if (title === 'add') {
 			// 출근하기
 			WorkMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
 		} else {
 			// 수정하기
-			ModifyMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
+			ModifyMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff, timeCardId: Number(id) });
 		}
 		isDayReset();
 	};
 
 	// 삭제 버튼
-	const delBtn = () => {
-		const data = delWorkModify({ year, month, day });
+	const delBtn = async () => {
+		const data = delWorkModify(Number(id));
 		data.then((res) => {
 			isDayReset();
 			router.back();
@@ -99,9 +99,9 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 				// 수정일시
 				const data = getWorkList({ year, month, day });
 				data.then((res) => {
-					const filter = res.data.data.filter((val: { name: string }) => val.name === UserData.userName);
-					if (filter.length > 0) {
-						setWorkTime(filter[0].workTime);
+					const getWorkTime = res.data.data.filter((val: { timeCardId: number }) => val.timeCardId === Number(id));
+					if (getWorkTime.length > 0) {
+						setWorkTime(getWorkTime[0].workTime);
 					}
 				});
 			}

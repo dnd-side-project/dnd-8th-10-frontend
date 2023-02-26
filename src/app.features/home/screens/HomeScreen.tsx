@@ -10,13 +10,17 @@ interface Props {
 	grayData: number[];
 	WorkMutate: MutateTpye<MutateBody>;
 	todayWork: string;
+	userData: {
+		userName: string;
+		workTime: string;
+	};
 }
-function HomeScreen({ grayData, WorkMutate, todayWork }: Props) {
+function HomeScreen({ grayData, WorkMutate, todayWork, userData }: Props) {
 	return (
 		<div className="bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem] py-[5.6rem]">
 			<MainPoster />
 			<BoardPrivew />
-			<WorkStatus grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} />
+			<WorkStatus grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} userName={userData.userName} />
 			<Shortcut />
 		</div>
 	);
