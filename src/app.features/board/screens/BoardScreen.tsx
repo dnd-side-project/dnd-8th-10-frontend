@@ -3,9 +3,10 @@ import React from 'react';
 import WriteIcon from 'src/app.modules/assets/board/write.svg';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import SearchIcon from 'src/app.modules/assets/search.svg';
-import BoardPreviewSlider from '../components/BoardPreviewSlider';
 import Divider from 'src/app.components/Divider';
+import BoardPreviewSlider from '../components/BoardPreviewSlider';
 import BoardCategorySlider from '../components/BoardCategorySlider';
+import BoardPreview from '../components/BoardPreview';
 
 function BoardScreen() {
 	const router = useRouter();
@@ -18,6 +19,7 @@ function BoardScreen() {
 			<BoardPreviewSlider />
 			<Divider />
 			<BoardCategorySlider />
+			<BoardPreview />
 			<div
 				className="absolute bottom-0 right-0 mb-[8.1rem] cursor-pointer"
 				role="presentation"
@@ -29,5 +31,3 @@ function BoardScreen() {
 	);
 }
 export default BoardScreen;
-
-/* <div onClick={() => router.push(`${SERVICE_URL.boardView}/${1}`)}>화장실 문고리 부서졌어요....</div> */
