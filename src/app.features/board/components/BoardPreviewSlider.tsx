@@ -7,10 +7,10 @@ import 'swiper/css';
 function BoardPreviewSlider() {
 	return (
 		<div className="my-[1.6rem] w-[calc(100%+4rem)] -translate-x-[2rem]">
-			<Swiper slidesPerView="auto" spaceBetween={8}>
+			<Swiper slidesPerView="auto" spaceBetween={8} slidesOffsetBefore={16} slidesOffsetAfter={16}>
 				{[...new Array(11)].map((_, index) => (
 					<SwiperSlide key={index} style={{ width: '225px' }}>
-						<div className="w-fit first:ml-[2rem]">
+						<div className="w-fit">
 							<SlideImgIcon />
 							<div className="flex items-center mt-[0.8rem]">
 								<Badge color="secondary" size="small">

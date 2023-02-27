@@ -23,7 +23,7 @@ function BoardCategorySlider() {
 
 	return (
 		<div className="my-[2.4rem] w-[calc(100%+4rem)] -translate-x-[2rem] mb-[2.4rem]">
-			<Swiper slidesPerView="auto" spaceBetween={8}>
+			<Swiper slidesPerView="auto" spaceBetween={8} slidesOffsetBefore={16} slidesOffsetAfter={16}>
 				{[
 					{ icon: TotalIcon, colorIcon: TotalColorIcon, category: '전체' },
 					{ icon: NoticeIcon, colorIcon: NoticeColorIcon, category: '공지사항' },
@@ -33,7 +33,7 @@ function BoardCategorySlider() {
 					{ icon: QuestionIcon, colorIcon: QuestionColorIcon, category: '문의' },
 				].map(({ icon: Icon, colorIcon: ColorIcon, category }, index) => (
 					<SwiperSlide key={index} style={{ width: '64px' }}>
-						<div role="presentation" className="w-fit first:ml-[2rem]" onClick={() => handleCategoryClick(category)}>
+						<div role="presentation" className="w-fit" onClick={() => handleCategoryClick(category)}>
 							<div
 								className={`w-[6.4rem] h-[6.4rem] flex justify-center items-center rounded-[0.8rem] ${
 									selectedCategory === category ? 'bg-primarySub' : 'bg-g2'
