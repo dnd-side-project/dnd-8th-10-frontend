@@ -4,8 +4,8 @@ import WriteIcon from 'src/app.modules/assets/board/write.svg';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import SearchIcon from 'src/app.modules/assets/search.svg';
 import Divider from 'src/app.components/Divider';
-import BoardPreviewSlider from '../components/BoardPreviewSlider';
-import BoardCategorySlider from '../components/BoardCategorySlider';
+import BoardPreviewSlider from '../components/slider/BoardPreviewSlider';
+import BoardCategorySlider from '../components/slider/BoardCategorySlider';
 import BoardPreview from '../components/BoardPreview';
 
 function BoardScreen() {
@@ -18,7 +18,9 @@ function BoardScreen() {
 			</header>
 			<BoardPreviewSlider />
 			<Divider />
-			<BoardCategorySlider />
+			<div className="my-[2.4rem]">
+				<BoardCategorySlider />
+			</div>
 			<BoardPreview />
 			<div
 				className="absolute bottom-0 right-0 mb-[8.1rem] cursor-pointer"

@@ -1,10 +1,11 @@
 import React from 'react';
 import CheckSmallIcon from '../../../app.modules/assets/board/category/checkSmall.svg';
+
 function BoardPreview() {
 	return (
 		<div>
 			{[...new Array(3)].map((_, index) => (
-				<div className="first:pt-[0rem] py-[1.2rem] border-solid border-b-[0.05rem] border-b-g3">
+				<div key={index} className="first:pt-[0rem] py-[1.2rem] border-solid border-b-[0.05rem] border-b-g3">
 					<div>
 						<span className="text-subhead2 text-g9">3월 화이트데이 전달사항 있습니다~!</span>
 					</div>

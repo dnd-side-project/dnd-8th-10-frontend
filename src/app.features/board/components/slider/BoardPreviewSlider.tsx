@@ -1,7 +1,7 @@
 import React from 'react';
 import Badge from 'src/app.components/app.base/Button/Badge';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SlideImgIcon from '../assets/slideImg.svg';
+import SlideImgIcon from '../../assets/slideImg.svg';
 import 'swiper/css';
 
 function BoardPreviewSlider() {
