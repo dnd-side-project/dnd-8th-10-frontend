@@ -15,6 +15,7 @@ function BoardScreen() {
 				<SearchIcon />
 			</header>
 			<BoardPreviewSlider />
+
 			<Divider />
 			<div
 				className="fixed bottom-0 right-0 mb-[8.1rem] mr-[2rem]"
