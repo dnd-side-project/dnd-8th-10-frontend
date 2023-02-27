@@ -6,6 +6,7 @@ module.exports = {
 			colors: {
 				w: '#FFFFFF',
 				primary: '#4382FF',
+				primarySub: '#E5EFFF',
 				secondary: '#EC715B',
 				transparent: { '80%': 'rgba(63, 63, 67, 0.8)', '30%': 'rgba(63, 63, 67, 0.3)' },
 				g10: '#3F3F43',

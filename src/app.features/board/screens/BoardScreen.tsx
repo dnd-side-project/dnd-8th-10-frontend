@@ -5,6 +5,7 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import SearchIcon from 'src/app.modules/assets/search.svg';
 import BoardPreviewSlider from '../components/BoardPreviewSlider';
 import Divider from 'src/app.components/Divider';
+import BoardCategorySlider from '../components/BoardCategorySlider';
 
 function BoardScreen() {
 	const router = useRouter();
@@ -15,10 +16,10 @@ function BoardScreen() {
 				<SearchIcon />
 			</header>
 			<BoardPreviewSlider />
-
 			<Divider />
+			<BoardCategorySlider />
 			<div
-				className="fixed bottom-0 right-0 mb-[8.1rem] mr-[2rem]"
+				className="absolute bottom-0 right-0 mb-[8.1rem] cursor-pointer"
 				role="presentation"
 				onClick={() => router.push(`${SERVICE_URL.boardWrite}`)}
 			>
