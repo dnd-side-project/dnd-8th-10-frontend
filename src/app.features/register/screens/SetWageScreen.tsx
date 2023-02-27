@@ -1,18 +1,11 @@
 import React from 'react';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
-import { MutateTpye } from 'src/app.modules/api/client';
-import { MutateUserBody } from 'src/app.modules/api/user';
-import { getUserWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
 
-interface Props {
-	postUserMutate: MutateTpye<MutateUserBody>;
-	isLoading: boolean;
-}
-function SetWageScreen({ postUserMutate, isLoading }: Props) {
+function SetWageScreen() {
 	const {
-		user: { phoneNumber, role, workPlace, workTime, workLocation, wage },
+		user: { wage },
 		setWage,
 	} = useRegisterUserStore();
 	const wageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,28 +17,9 @@ function SetWageScreen({ postUserMutate, isLoading }: Props) {
 	const resetWageHandler = () => {
 		setWage(null);
 	};
-	const submitHandler = () => {
-		console.log('제출');
-		if (isLoading) return;
-		const workTimeString = getUserWorkTimeString(workTime);
-		if (!role || !phoneNumber || !workPlace || !workTimeString.trim() || !workLocation || !wage) {
-			alert('필수 정보를 모두 입력해주세요.');
-			return;
-		}
-		// TODO: 요일 입력 받기
-		const body = {
-			role,
-			workPlace,
-			workTime: workTimeString,
-			workLocation,
-			phoneNumber,
-			wage, // TODO:급여필드 만들기
-		};
-		console.log(body);
-		// postUserMutate(body);
-	};
+
 	return (
-		<RegisterLayout curPage={5} canGoNext={Boolean(wage)} registerUser={submitHandler}>
+		<RegisterLayout curPage={5} canGoNext={Boolean(wage)}>
 			<div className="space-y-[3.8rem]">
 				<div className="space-y-[0.8rem] flex flex-col items-start">
 					<h1 className="text-g10 text-title2">

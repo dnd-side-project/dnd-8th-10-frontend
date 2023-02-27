@@ -1,8 +1,6 @@
-import Link from 'next/link';
 import { Router, useRouter } from 'next/router';
 import React from 'react';
 import Header from 'src/app.components/Header';
-import TopModal from 'src/app.components/Modal/TopModal';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import Progress from './Progress';
 
@@ -10,16 +8,11 @@ interface Props {
 	curPage: number;
 	children: React.ReactNode;
 	canGoNext: boolean;
-	registerUser?: () => void;
 }
-function RegisterLayout({ curPage, children, canGoNext, registerUser }: Props) {
+function RegisterLayout({ curPage, children, canGoNext }: Props) {
 	const router = useRouter();
 	const nextHandler = () => {
-		if (curPage === 4 && registerUser) {
-			registerUser();
-		} else {
-			router.push(`${SERVICE_URL.register}?page=${curPage + 1}`);
-		}
+		router.push(`${SERVICE_URL.register}?page=${curPage + 1}`);
 	};
 	return (
 		<>

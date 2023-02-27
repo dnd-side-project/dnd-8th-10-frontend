@@ -11,6 +11,7 @@ import { postUser } from 'src/app.modules/api/user';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useUser from 'src/app.modules/hooks/user/useUser';
 import SetWageScreen from 'src/app.features/register/screens/SetWageScreen';
+import LastCheckScreen from 'src/app.features/register/screens/LastCheckScreen';
 
 const Register: NextPage = () => {
 	const {
@@ -36,8 +37,9 @@ const Register: NextPage = () => {
 			{page === '2' && <SetStoreScreen />}
 			{page === '3' && <SetTimeScreen />}
 			{page === '4' && <SetPhoneNumScreen />}
-			{page === '5' && <SetWageScreen postUserMutate={mutate} isLoading={isLoading} />}
-			{page === '6' && <CompleteSettingScreen {...data} />}
+			{page === '5' && <SetWageScreen />}
+			{page === '6' && <LastCheckScreen postUserMutate={mutate} isLoading={isLoading} />}
+			{page === '7' && <CompleteSettingScreen {...data} />}
 		</>
 	);
 };
