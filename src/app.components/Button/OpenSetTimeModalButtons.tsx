@@ -10,7 +10,6 @@ interface Props {
 	startTimeText: string;
 	endTimeText: string;
 	resetTimeHandler: (flag: TimeType) => void;
-	mode?: 'dark' | 'white';
 	day?: DayType;
 }
 function OpenSetTimeModalButtons({
@@ -21,14 +20,12 @@ function OpenSetTimeModalButtons({
 	endTimeText,
 	resetTimeHandler,
 	focusedType,
-	mode = 'white',
 	day,
 }: Props) {
 	return (
 		<div className="flex items-center justify-between">
 			<div
-				className={`${focusedType === 'startTime' ? 'time-set-button-border' : ''} ${
-					mode === 'dark' ? 'bg-g1' : 'bg-w'
+				className={`${focusedType === 'startTime' ? 'time-set-button-border' : ''} bg-g1
 				} w-[14.5rem] h-[4.8rem] rounded-[0.8rem]  text-body2 text-start px-[1.2rem] relative flex items-center`}
 			>
 				<button
@@ -54,8 +51,7 @@ function OpenSetTimeModalButtons({
 			</div>
 			<span className="text-g8 text-subhead3">~</span>
 			<div
-				className={`${focusedType === 'endTime' ? 'time-set-button-border' : ''} ${
-					mode === 'dark' ? 'bg-g1' : 'bg-w'
+				className={`${focusedType === 'endTime' ? 'time-set-button-border' : ''} bg-g1
 				} w-[14.5rem] h-[4.8rem] rounded-[0.8rem] bg-g1  text-body2 text-start px-[1.2rem] relative flex items-center`}
 			>
 				<button
