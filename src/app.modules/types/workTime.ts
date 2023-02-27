@@ -38,6 +38,11 @@ export const mappedDayReverse = {
 	토: '5',
 	일: '6',
 };
+export type TimeInfoType = {
+	meridiem: 'am' | 'pm';
+	hour: string;
+	minute: string;
+};
 export type WorkTimeType = {
 	[day in DayType]: {
 		startTime: {

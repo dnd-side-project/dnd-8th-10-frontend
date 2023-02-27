@@ -13,7 +13,9 @@ import useRegisterUserStore, { INIT_WORKTIME } from '../store';
 // TODO: 시간 유효성체크 (끝나는 시간이 시작하는 시간보다 빠른지)
 // TODO: 오전 0시 24시로 표기
 type Flag = TimeType | null;
-type WorkTimeOnModalType = {
+
+// TODO: 이름 바꾸기
+export type WorkTimeOnModalType = {
 	meridiem: 'am' | 'pm' | null;
 	hour: string | null;
 	minute: string | null;
@@ -123,7 +125,6 @@ function SetTimeScreen() {
 								} : ${workTime[selectedDay]?.endTime?.minute}`}
 								resetTimeHandler={resetTimeHandler}
 								day={selectedDay}
-								mode="dark"
 							/>
 						</div>
 					)}

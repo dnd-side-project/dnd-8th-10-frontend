@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { MutateUserBody } from 'src/app.modules/api/user';
-import { getWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
+import { getUserWorkTimeString, getWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
 
@@ -24,7 +24,7 @@ function SetPhoneNumScreen({ postUserMutate, isLoading }: Props) {
 	const submitHandler = () => {
 		console.log('제출');
 		if (isLoading) return;
-		const workTimeString = getWorkTimeString(workTime);
+		const workTimeString = getUserWorkTimeString(workTime);
 		if (!role || !phoneNumber || !workPlace || !workTimeString.trim() || !workLocation) {
 			alert('필수 정보를 모두 입력해주세요.');
 			return;
@@ -39,7 +39,7 @@ function SetPhoneNumScreen({ postUserMutate, isLoading }: Props) {
 			wage: 9620, // TODO:급여필드 만들기
 		};
 		console.log(body);
-		postUserMutate(body);
+		// postUserMutate(body);
 	};
 	const resetPhoneNumberHandler = () => {
 		setPhoneNumber('');
