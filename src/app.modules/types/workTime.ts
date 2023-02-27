@@ -9,6 +9,15 @@ export const dayMap = new Map([
 	['5', '토'],
 	['6', '일'],
 ]);
+export const dayMapReverse = new Map([
+	['월', '0'],
+	['화', '1'],
+	['수', '2'],
+	['목', '3'],
+	['금', '4'],
+	['토', '5'],
+	['일', '6'],
+]);
 
 export type DayType = '0' | '1' | '2' | '3' | '4' | '5' | '6';
 export const mappedDay: { [key in DayType]: string } = {
