@@ -14,14 +14,13 @@ interface Props {
     ()=>void 형태로 선언해도 됨.
     */
 	time: {
-		meridiem: 'am' | 'pm';
-		hour: string;
-		minute: string;
+		meridiem: 'am' | 'pm' | null;
+		hour: string | null;
+		minute: string | null;
 	};
-	mode?: 'dark' | 'white';
 }
 // TODO: 중복 코드 줄이기
-function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
+function SetTimeButtons({ timeHandler, time }: Props) {
 	console.log(time, 'time');
 	return (
 		<div className="w-full space-y-[2.4rem]   whitespace-nowrap">
@@ -35,8 +34,7 @@ function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 						name="meridiem"
 						item="오전"
 						mode="h40"
-						className="w-[11.25rem] "
-						bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
+						className="w-[11.25rem]"
 					/>
 					<Chip
 						onClick={timeHandler}
@@ -46,7 +44,6 @@ function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 						item="오후"
 						mode="h40"
 						className="w-[11.25rem]"
-						bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
 					/>
 				</div>
 			</div>
@@ -62,7 +59,6 @@ function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 								value={`${hour}`}
 								isPressed={`${time?.hour}` === `${hour}`}
 								onClick={timeHandler}
-								bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
 							/>
 						</li>
 					))}
@@ -80,7 +76,6 @@ function SetTimeButtons({ timeHandler, time, mode = 'white' }: Props) {
 								value={`${minute}`}
 								isPressed={`${time?.minute}` === `${minute}`}
 								onClick={timeHandler}
-								bgColor={`${mode === 'dark' ? 'bg-g1' : 'bg-w'}`}
 							/>
 						</li>
 					))}

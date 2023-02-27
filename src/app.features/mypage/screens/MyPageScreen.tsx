@@ -14,7 +14,7 @@ import { IUser } from '../types';
 interface Props {
 	user: IUser;
 }
-
+// TODO: 프로필이미지 캐싱 필요
 function MyPageScreen({ user }: Props) {
 	const router = useRouter();
 	return (
