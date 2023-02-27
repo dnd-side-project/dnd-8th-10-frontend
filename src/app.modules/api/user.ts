@@ -17,7 +17,7 @@ export interface MutateUserBody {
 	workPlace: string;
 	workLocation: string;
 	workTime: string; // "월(17:00~21:00),화(17:00~21:00)"
-	phoneNumber: string; // "010-0000-0000"
+	phoneNumber: string | null; // "010-0000-0000"
 	wage: number;
 }
 

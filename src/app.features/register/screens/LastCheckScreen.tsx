@@ -23,8 +23,9 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 	const submitHandler = () => {
 		console.log('제출');
 		if (isLoading) return;
+
 		const workTimeString = getUserWorkTimeString(workTime);
-		if (!role || !phoneNumber || !workPlace || !workTimeString.trim() || !workLocation || !wage) {
+		if (!role || !workPlace || !workTimeString.trim() || !workLocation || !wage) {
 			alert('필수 정보를 모두 입력해주세요.');
 			return;
 		}
@@ -34,11 +35,11 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 			workPlace,
 			workTime: workTimeString,
 			workLocation,
-			phoneNumber,
+			phoneNumber: !phoneNumber?.trim() ? null : phoneNumber,
 			wage, // TODO:급여필드 만들기
 		};
 		console.log(body);
-		// postUserMutate(body);
+		postUserMutate(body);
 	};
 	return (
 		<>
@@ -103,7 +104,7 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 					</li>
 				</ul>
 				<div className="absolute bottom-[2rem] w-full">
-					<Bar>확인</Bar>
+					<Bar ClickFn={submitHandler}>확인</Bar>
 				</div>
 			</main>
 		</>

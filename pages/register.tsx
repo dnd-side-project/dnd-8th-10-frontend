@@ -22,7 +22,7 @@ const Register: NextPage = () => {
 		onSuccess: (res) => {
 			console.log(res, 'mutate결과');
 			refetch();
-			Router.push(`${SERVICE_URL.register}?page=5`);
+			Router.push(`${SERVICE_URL.register}?page=7`);
 		},
 		onError: (error) => alert('오류 발생.'),
 		onSettled: () => {
