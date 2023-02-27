@@ -6,6 +6,8 @@ import { MutateUserBody } from 'src/app.modules/api/user';
 import { getUserWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import EditIcon from 'src/app.modules/assets/edit.svg';
 import Bar from 'src/app.components/app.base/Button/Bar';
+import Link from 'next/link';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useRegisterUserStore from '../store';
 
 interface Props {
@@ -45,12 +47,14 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 				<h1 className="text-g10 text-title2">마지막으로 확인해주세요! 🧐</h1>
 				<ul className="space-y-[3rem]">
 					<li className="flex flex-col space-y-[0.4rem]">
-						<span className="text-g6 text-subhead2">지점명</span>
+						<span className="text-g6 text-subhead2">지점 수정</span>
 						<Badge size="small" color="warmGray">
-							<div className="flex items-center space-x-[0.4rem]">
-								<span>{workPlace}</span>
-								<EditIcon className="mt-[0.12rem]" />
-							</div>
+							<Link href={`${SERVICE_URL.register}?page=2&title=지점 수정`}>
+								<div className="flex items-center space-x-[0.4rem]">
+									<span>{workPlace}</span>
+									<EditIcon className="mt-[0.12rem]" />
+								</div>
+							</Link>
 						</Badge>
 					</li>
 					<li className="flex flex-col space-y-[0.4rem]">
@@ -61,9 +65,11 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 								<li key={`time-${idx}`}>
 									<button>
 										<Badge size="small" color="warmGray">
-											<div className="flex items-center space-x-[0.4rem]">
-												<span>{time}</span> <EditIcon className="mt-[0.12rem]" />
-											</div>
+											<Link href={`${SERVICE_URL.register}?page=3&title=근무 일시 수정`}>
+												<div className="flex items-center space-x-[0.4rem]">
+													<span>{time}</span> <EditIcon className="mt-[0.12rem]" />
+												</div>
+											</Link>
 										</Badge>
 									</button>
 								</li>
@@ -73,19 +79,26 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 						<span className="text-g6 text-subhead2">전화번호</span>
 
 						<Badge size="small" color="warmGray">
-							<div className="flex items-center space-x-[0.4rem]">
-								<span>{phoneNumber}</span>
-								<EditIcon className="mt-[0.12rem]" />
-							</div>
+							<Link href={`${SERVICE_URL.register}?page=4&title=전화번호 수정`}>
+								<div className="flex items-center space-x-[0.4rem]">
+									<span>{phoneNumber}</span>
+									<EditIcon className="mt-[0.12rem]" />
+								</div>
+							</Link>
 						</Badge>
 					</li>
 					<li className="flex flex-col space-y-[0.4rem]">
 						<span className="text-g6 text-subhead2">시급</span>
 						<Badge size="small" color="warmGray">
-							<div className="flex items-center space-x-[0.4rem]">
-								<span>{wage}원</span>
-								<EditIcon className="mt-[0.12rem]" />
-							</div>
+							<Link href={`${SERVICE_URL.register}?page=5&title=시급 수정`}>
+								<div className="flex items-center space-x-[0.4rem]">
+									<span>
+										{wage}
+										{wage && '원'}
+									</span>
+									<EditIcon className="mt-[0.12rem]" />
+								</div>
+							</Link>
 						</Badge>
 					</li>
 				</ul>

@@ -28,6 +28,8 @@ function RegisterLayout({ curPage, children, canGoNext }: Props) {
 			</main>
 			{router?.query?.title ? (
 				<button
+					disabled={!canGoNext}
+					onClick={() => router.push(`${SERVICE_URL.register}?page=6`)}
 					id="saveBtn"
 					className="bg-primary disabled:bg-g1 disabled:text-g4 text-w  h-[6rem] min-h-[6rem] text-subhead4  resizing-button"
 				>
