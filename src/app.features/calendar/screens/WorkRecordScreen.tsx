@@ -188,11 +188,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 					</div>
 					{openModalFlag !== null && (
 						<div>
-							<SetTimeButtons
-								mode="dark"
-								timeHandler={timeHandler}
-								time={openModalFlag === 'startTime' ? startTime : endTime}
-							/>
+							<SetTimeButtons timeHandler={timeHandler} time={openModalFlag === 'startTime' ? startTime : endTime} />
 						</div>
 					)}
 				</div>
