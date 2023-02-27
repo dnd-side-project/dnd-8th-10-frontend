@@ -59,6 +59,7 @@ export const formatTimeView = (time: string, type = 'view') => {
 		`${endMeridiem} ${formattedEndHour} ${formattedEndMinute}`,
 	];
 };
+
 export const parseSetWorkTime = (workTime: string): IUser => {
 	const [meridiemLeft, hourLeft, minuteLeft] = formatTimeView(workTime, '')[0].split(' ');
 	const [meridiemRight, hourRight, minuteRight] = formatTimeView(workTime, '')[1].split(' ');
@@ -72,6 +73,37 @@ export const parseSetWorkTime = (workTime: string): IUser => {
 			meridiem: meridiemRight === '오전' ? 'am' : 'pm',
 			hour: hourRight,
 			minute: minuteRight,
+		},
+	};
+};
+
+export const setWorkTimeReset = (workTime: string, start = false): IUser => {
+	if (start) {
+		const [meridiemRight, hourRight, minuteRight] = formatTimeView(workTime, '')[1].split(' ');
+		return {
+			startTime: {
+				meridiem: 'am',
+				hour: '0',
+				minute: '0',
+			},
+			endTime: {
+				meridiem: meridiemRight === '오전' ? 'am' : 'pm',
+				hour: hourRight,
+				minute: minuteRight,
+			},
+		};
+	}
+	const [meridiemLeft, hourLeft, minuteLeft] = formatTimeView(workTime, '')[0].split(' ');
+	return {
+		startTime: {
+			meridiem: meridiemLeft === '오전' ? 'am' : 'pm',
+			hour: hourLeft,
+			minute: minuteLeft,
+		},
+		endTime: {
+			meridiem: 'am',
+			hour: '0',
+			minute: '0',
 		},
 	};
 };

@@ -7,8 +7,9 @@ import useModalStore from 'src/app.modules/store/modal';
 import Header from 'src/app.components/Header';
 import DelIcon from 'src/app.modules/assets/delete.svg';
 import Bar from 'src/app.components/app.base/Button/Bar';
-import { parseSetWorkTime, getDayOfWeek, getWorkTimeString } from 'src/app.modules/util/calendar';
+import { parseSetWorkTime, getDayOfWeek, getWorkTimeString, setWorkTimeReset } from 'src/app.modules/util/calendar';
 import { MutateTpye } from 'src/app.modules/api/client';
+import KeypadDelIcon from 'src/app.modules/assets/calendar/keypadDel.svg';
 import useStore from '../store';
 import useTimeSetStore, { IUser } from '../store/time';
 import { delWorkModify, getToDay, getWorkList, MutateBody } from '../api';
@@ -38,6 +39,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 		const {
 			target: { name, value },
 		} = e;
+
 		setTime(value, name, openModalFlag as 'startTime' | 'endTime');
 	};
 
@@ -106,15 +108,23 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 						getWorkTimeString(startTime, endTime).split('~')[1]
 				);
 			}
-		}
-		if (title === 'add') {
+		} else if (title === 'add') {
 			return (
 				getWorkTimeString(startTime, endTime).split('~')[0] === '00:00' ||
 				getWorkTimeString(startTime, endTime).split('~')[1] === '00:00'
 			);
 		}
+		return false;
 	};
 
+	const timeReset = () => {
+		if (openModalFlag === 'startTime') {
+			setInitTime(setWorkTimeReset(getWorkTimeString(startTime, endTime), true));
+		} else {
+			setInitTime(setWorkTimeReset(getWorkTimeString(startTime, endTime)));
+		}
+		return null;
+	};
 	return (
 		<>
 			<div className="h-[100vh] flex flex-col justify-between">
@@ -145,11 +155,16 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 								openModalFlag === 'startTime'
 									? 'text-primary text-subhead2 border-solid border-[0.15rem] border-primary'
 									: 'text-g7 text-body2'
-							} w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
+							} w-[50%] flex justify-between items-center pl-[1.2rem] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
 							{`${startTime.meridiem === 'am' ? '오전' : '오후'} ${
 								startTime.hour.length > 1 ? startTime.hour : `0${startTime.hour}`
 							}시 ${startTime.minute.length > 1 ? startTime.minute : `0${startTime.minute}`}분`}
+							{openModalFlag === 'startTime' && (
+								<div role="presentation" className="mr-[1.6rem]" onClick={() => timeReset()}>
+									<KeypadDelIcon />
+								</div>
+							)}
 						</button>
 						<span className="text-subhead3 mx-[1rem]">~</span>
 						<button
@@ -158,11 +173,16 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 								openModalFlag === 'endTime'
 									? 'text-primary text-subhead2 border-solid border-[0.15rem] border-primary'
 									: 'text-g7 text-body2'
-							} w-[50%] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
+							} w-[50%] flex justify-between items-center pl-[1.2rem] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
 							{`${endTime.meridiem === 'am' ? '오전' : '오후'} ${
 								endTime.hour.length > 1 ? endTime.hour : `0${endTime.hour}`
 							}시  ${endTime.minute.length > 1 ? endTime.minute : `0${endTime.minute}`}분`}
+							{openModalFlag === 'endTime' && (
+								<div role="presentation" className="mr-[1.6rem]" onClick={() => timeReset()}>
+									<KeypadDelIcon />
+								</div>
+							)}
 						</button>
 					</div>
 					{openModalFlag !== null && (
