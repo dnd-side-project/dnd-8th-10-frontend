@@ -28,7 +28,7 @@ function WorkList({ month, day, userName, currentUser }: Props) {
 					}}
 					className="text-primary text-subhead3"
 				>
-					근무 일정 입력하기
+					근무기록 추가
 				</button>
 			</div>
 			<div>
