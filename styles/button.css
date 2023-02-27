@@ -1,0 +1,49 @@
+/* Define the initial state of the button */
+.button {
+   
+    position:fixed;
+    max-width: 38rem;
+    width:calc(100vw - 4rem);
+    cursor: pointer;
+    border-radius:0.8rem;
+    animation-play-state: paused;
+    animation-name: expand;
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
+   
+  }
+  
+  /* Define the animation */
+  @keyframes expand {
+    0% {
+      width: calc(100vw - 4rem);
+      max-width: 38rem;
+      border-radius:0.8rem;
+    }
+   
+    100% {
+      width: 100vw;
+      transform:translateX(-2rem);
+      max-width: 42rem;
+      border-radius:0rem;
+    
+    }
+  }
+  /* Define the animation */
+  @keyframes shrink {
+  
+   
+    0% {
+      width: 100vw;
+      transform:translateX(-2rem);
+      max-width: 42rem;
+      border-radius:0rem;
+    
+    }
+    100% {
+        width: calc(100vw - 4rem);
+        max-width: 38rem;
+        border-radius:0.8rem;
+      }
+  }
+ 
