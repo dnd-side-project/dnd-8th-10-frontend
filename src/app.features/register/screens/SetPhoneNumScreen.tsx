@@ -1,7 +1,9 @@
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { MutateUserBody } from 'src/app.modules/api/user';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { getUserWorkTimeString, getWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
@@ -12,12 +14,13 @@ interface Props {
 }
 
 // TODO: 전화번호 유효성 검사
+// TODO: 전화번호 없이 등록 로직
 function SetPhoneNumScreen({ postUserMutate, isLoading }: Props) {
 	const {
 		user: { phoneNumber, role, workPlace, workTime, workLocation },
 		setPhoneNumber,
 	} = useRegisterUserStore();
-
+	const router = useRouter();
 	const phoneNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPhoneNumber(e.target.value);
 	};
@@ -48,7 +51,12 @@ function SetPhoneNumScreen({ postUserMutate, isLoading }: Props) {
 	return (
 		<RegisterLayout curPage={4} canGoNext={Boolean(phoneNumber?.trim())} registerUser={submitHandler}>
 			<div className="space-y-[1.6rem]">
-				<h1 className="text-g10 text-title2">전화번호를 알려주세요</h1>
+				<div className="flex justify-between items-center">
+					<h1 className="text-g10 text-title2">전화번호를 알려주세요</h1>
+					<button type="button" onClick={submitHandler} className="text-primary text-subhead2 ">
+						건너뛰기
+					</button>
+				</div>
 				<TextInput
 					value={phoneNumber ?? ''}
 					onChange={phoneNumberHandler}
