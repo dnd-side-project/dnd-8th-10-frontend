@@ -44,3 +44,8 @@ export interface ISalaryDetail {
 	daySalary: IDaySalary[];
 	totalSalary: number;
 }
+export interface Time {
+	hour: string;
+	minute: string;
+	meridiem: 'am' | 'pm';
+}

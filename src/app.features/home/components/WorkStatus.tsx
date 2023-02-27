@@ -36,6 +36,19 @@ function WorkStatus({ grayData, WorkMutate, todayWork, userName }: Props) {
 		}
 	};
 
+	const redundantWork = () => {
+		const data = getWorkList({ year, month, day });
+		data.then((res) => {
+			const userWorkTime = res.data.data.filter((val: { name: string }) => val.name === userName);
+			if (userWorkTime.length > 0) {
+				const userWorkTimeRecent = userWorkTime.sort((a: { timeCardId: number }, b: { timeCardId: number }) => {
+					return Number(b.timeCardId) - Number(a.timeCardId);
+				});
+				setWorkTime(userWorkTimeRecent[0].workTime.split('~'));
+			}
+		});
+	};
+
 	useEffect(() => {
 		if (grayData) {
 			// 오늘 출근했는지 확인
@@ -44,18 +57,12 @@ function WorkStatus({ grayData, WorkMutate, todayWork, userName }: Props) {
 		if (todayWork) {
 			// 오늘 일하는 날인지 확인
 			setWorkTime(todayWork.split('~'));
+			// 중복 출근시
+			redundantWork();
 		} else {
-			// 일하는 날이 아니면 출근했는지 기록 확인
+			// 일하는 날이 아니면 출근했는지 기록만 확인
 			const data = getWorkList({ year, month, day });
-			data.then((res) => {
-				const userWorkTime = res.data.data.filter((val: { name: string }) => val.name === userName);
-				if (userWorkTime.length > 0) {
-					const userWorkTimeRecent = userWorkTime.sort((a: { timeCardId: number }, b: { timeCardId: number }) => {
-						return Number(b.timeCardId) - Number(a.timeCardId);
-					});
-					setWorkTime(userWorkTimeRecent[0].workTime.split('~'));
-				}
-			});
+			redundantWork();
 		}
 	}, [grayData, todayWork, userName]);
 
