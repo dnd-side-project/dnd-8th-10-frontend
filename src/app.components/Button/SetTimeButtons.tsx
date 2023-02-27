@@ -14,9 +14,9 @@ interface Props {
     ()=>void 형태로 선언해도 됨.
     */
 	time: {
-		meridiem: 'am' | 'pm';
-		hour: string;
-		minute: string;
+		meridiem: 'am' | 'pm' | null;
+		hour: string | null;
+		minute: string | null;
 	};
 }
 // TODO: 중복 코드 줄이기
@@ -34,8 +34,7 @@ function SetTimeButtons({ timeHandler, time }: Props) {
 						name="meridiem"
 						item="오전"
 						mode="h40"
-						className="w-[11.25rem] "
-						bgColor="bg-g1"
+						className="w-[11.25rem]"
 					/>
 					<Chip
 						onClick={timeHandler}
@@ -45,7 +44,6 @@ function SetTimeButtons({ timeHandler, time }: Props) {
 						item="오후"
 						mode="h40"
 						className="w-[11.25rem]"
-						bgColor="bg-g1"
 					/>
 				</div>
 			</div>
@@ -61,7 +59,6 @@ function SetTimeButtons({ timeHandler, time }: Props) {
 								value={`${hour}`}
 								isPressed={`${time?.hour}` === `${hour}`}
 								onClick={timeHandler}
-								bgColor="bg-g1"
 							/>
 						</li>
 					))}
@@ -79,7 +76,6 @@ function SetTimeButtons({ timeHandler, time }: Props) {
 								value={`${minute}`}
 								isPressed={`${time?.minute}` === `${minute}`}
 								onClick={timeHandler}
-								bgColor="bg-g1"
 							/>
 						</li>
 					))}
