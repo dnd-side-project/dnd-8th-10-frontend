@@ -38,6 +38,13 @@ export type TimeInfoType = {
 	minute: string;
 };
 */
+
+/**
+ * 근무시간  함수 포맷함수(for calendar)
+ * @param startTime 출근시간 TimeInfoType
+ * @param endTime 퇴근시간 TimeInfoType
+ * @return 02:15~12:05 형식
+ */
 export const getWorkTimeString = (startTime: TimeInfoType, endTime: TimeInfoType) => {
 	return `${timeFormatter(startTime)}~${timeFormatter(endTime)}`;
 };
