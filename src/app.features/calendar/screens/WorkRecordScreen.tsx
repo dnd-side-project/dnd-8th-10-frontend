@@ -51,7 +51,8 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 			const [start, end] = workTimeData.split('~');
 			const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 			const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
-			const timeDiff = Math.abs((startSplit - endSplit) / 60);
+			const timeDiff = Number(Math.abs((startSplit - endSplit) / 60));
+
 			if (title === 'add') {
 				// 출근하기
 				WorkMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });

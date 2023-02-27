@@ -27,7 +27,10 @@ function TotalSalary({ data, manager = false }: props) {
 
 			<div>
 				<span className="text-[2.6rem]">
-					{totalSalary?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+					{totalSalary
+						?.toFixed(0)
+						.toString()
+						.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 					<span className="text-subhead3">원</span>
 				</span>
 			</div>

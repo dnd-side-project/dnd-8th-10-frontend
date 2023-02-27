@@ -39,7 +39,11 @@ function SalaryDetail({ data }: ISalaryProps) {
 								</div>
 								<div className="flex flex-col">
 									<span className="text-subhead2 text-primary">
-										{info.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
+										{info.salary
+											.toFixed(0)
+											.toString()
+											.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+										원
 									</span>
 									<span className="text-subhead1 text-g9 text-right">{convertWorkHour(info.workHour)}</span>
 								</div>

@@ -81,7 +81,11 @@ function ManagerScreen() {
 								<div className="flex">
 									<div className="flex flex-col justify-center items-end">
 										<span className="text-subhead3 text-primary ">
-											{manageData[0]?.totalSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
+											{manageData[0]?.totalSalary
+												.toFixed(0)
+												.toString()
+												.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+											원
 										</span>
 										<span className="text-subhead1 text-g6">시간당9,620원</span>
 									</div>
@@ -113,9 +117,13 @@ function ManagerScreen() {
 										<div className="flex">
 											<div className="flex flex-col justify-center items-end">
 												<span className="text-subhead3 text-primary ">
-													{info.totalSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
+													{info.totalSalary
+														.toFixed(0)
+														.toString()
+														.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+													원
 												</span>
-												<span className="text-subhead1 text-g6">시간당9,620원</span>
+												<span className="text-subhead1 text-g6">시간당9,620</span>
 											</div>
 
 											<button
