@@ -3,6 +3,7 @@ import SearchInput from 'src/app.components/app.base/Input/SearchInput';
 import RoadBadgeSvg from 'src/app.modules/assets/register/roadBadge.svg';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
+import { pauseBtnAnim, runningBtnAnim } from '../utils/contolBtnAnim';
 
 declare global {
 	interface Window {
@@ -74,17 +75,7 @@ function SetWorkPlaceScreen() {
 		};
 		onLoadKakaoMap();
 	}, [isLoaded, searchTerm]);
-	const buttonRef = useRef<HTMLButtonElement>(null);
-	const runningBtnAnim = () => {
-		if (!buttonRef?.current) return;
-		buttonRef.current.style.animationName = 'expand';
-		buttonRef.current.style.animationPlayState = 'running';
-	};
-	const pauseBtnAnim = () => {
-		if (!buttonRef?.current) return;
-		buttonRef.current.style.animationName = 'shrink';
-		buttonRef.current.style.animationPlayState = 'running';
-	};
+
 	return (
 		<RegisterLayout curPage={2} canGoNext={workPlace !== null}>
 			<div className="space-y-[2.4rem] ">
@@ -100,12 +91,7 @@ function SetWorkPlaceScreen() {
 						onBlur={pauseBtnAnim}
 					/>
 				</div>
-				<button
-					ref={buttonRef}
-					className="bg-primary disabled:bg-g1 disabled:text-g4 text-w  h-[6rem] min-h-[6rem] text-subhead4 button"
-				>
-					alknesdggah
-				</button>
+
 				{workPlace === null && (
 					<ul className="space-y-[1.6rem] h-[100vh] pb-[32rem] overflow-x-scroll scrollbar-hidden">
 						{searchResults?.map((store, idx) => (

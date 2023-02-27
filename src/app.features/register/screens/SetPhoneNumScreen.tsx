@@ -4,6 +4,7 @@ import TextInput from 'src/app.components/app.base/Input/TextInput';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
+import { pauseBtnAnim, runningBtnAnim } from '../utils/contolBtnAnim';
 
 // TODO: 전화번호 유효성 검사
 // TODO: 전화번호 없이 등록 로직
@@ -43,6 +44,8 @@ function SetPhoneNumScreen() {
 					resetHandler={resetPhoneNumberHandler}
 					mode="default"
 					placeholder="010-0000-0000"
+					onFocus={runningBtnAnim}
+					onBlur={pauseBtnAnim}
 				/>
 			</div>
 		</RegisterLayout>

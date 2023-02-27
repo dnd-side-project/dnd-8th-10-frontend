@@ -2,6 +2,7 @@ import React from 'react';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
+import { pauseBtnAnim, runningBtnAnim } from '../utils/contolBtnAnim';
 
 function SetWageScreen() {
 	const {
@@ -36,6 +37,8 @@ function SetWageScreen() {
 					resetHandler={resetWageHandler}
 					mode="default"
 					placeholder="현재 최저임금은 9,620원입니다."
+					onFocus={runningBtnAnim}
+					onBlur={pauseBtnAnim}
 				/>
 			</div>
 		</RegisterLayout>

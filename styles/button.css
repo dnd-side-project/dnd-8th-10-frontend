@@ -1,9 +1,10 @@
 /* Define the initial state of the button */
-.button {
+.resizing-button {
    
     position:fixed;
     max-width: 38rem;
     width:calc(100vw - 4rem);
+    bottom:2rem;
     cursor: pointer;
     border-radius:0.8rem;
     animation-play-state: paused;
@@ -19,6 +20,7 @@
       width: calc(100vw - 4rem);
       max-width: 38rem;
       border-radius:0.8rem;
+      bottom:2rem;
     }
    
     100% {
@@ -26,6 +28,7 @@
       transform:translateX(-2rem);
       max-width: 42rem;
       border-radius:0rem;
+      bottom:0rem;
     
     }
   }
@@ -38,12 +41,14 @@
       transform:translateX(-2rem);
       max-width: 42rem;
       border-radius:0rem;
+      bottom:0rem;
     
     }
     100% {
         width: calc(100vw - 4rem);
         max-width: 38rem;
         border-radius:0.8rem;
+        bottom:2rem;
       }
   }
  

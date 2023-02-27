@@ -25,8 +25,6 @@ function SearchInput({
 		e.preventDefault();
 		if (!inputRef?.current) return;
 		inputRef.current.blur();
-		if (!onBlur) return;
-		onBlur();
 	};
 	return (
 		<form onSubmit={onSubmit} className="relative">

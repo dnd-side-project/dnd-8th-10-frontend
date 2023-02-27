@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import InputCancelIcon from 'src/app.modules/assets/inputCancel.svg';
 import SendCommentIcon from 'src/app.modules/assets/sendComment.svg';
 
@@ -9,10 +9,24 @@ interface Props {
 	submitHandler?: () => void;
 	placeholder: string;
 	mode: 'default' | 'small' | 'wide';
+	onFocus?: () => void;
+	onBlur?: () => void;
 }
-function TextInput({ value, onChange, resetHandler, submitHandler, placeholder, mode = 'default' }: Props) {
+function TextInput({
+	value,
+	onChange,
+	resetHandler,
+	submitHandler,
+	placeholder,
+	mode = 'default',
+	onFocus,
+	onBlur,
+}: Props) {
+	const inputRef = useRef<HTMLInputElement>(null);
 	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
+		if (!inputRef?.current) return;
+		inputRef.current.blur();
 		if (!submitHandler) return;
 		submitHandler();
 	};
@@ -24,6 +38,9 @@ function TextInput({ value, onChange, resetHandler, submitHandler, placeholder, 
 	return (
 		<form onSubmit={onSubmit} className="relative">
 			<input
+				ref={inputRef}
+				onFocus={onFocus}
+				onBlur={onBlur}
 				value={value}
 				onChange={onChange}
 				placeholder={placeholder}
