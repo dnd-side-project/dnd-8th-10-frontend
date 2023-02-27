@@ -19,6 +19,8 @@ function TopModal({ children, bgColor = 'bg-w', isAnimating, setIsAnimating }: P
 
 	return (
 		<div
+			role="dialog"
+			aria-modal="true"
 			className={`${bgColor} rounded-t-[1.6rem] z-50 fixed bottom-0 max-w-[42rem] -translate-x-[2rem] mx-auto w-full transition-transform duration-500 ease-in-out ${
 				isAnimating ? 'transform translate-y-0' : 'transform translate-y-full'
 			}`}

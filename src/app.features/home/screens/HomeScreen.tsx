@@ -20,7 +20,7 @@ function HomeScreen({ grayData, WorkMutate, todayWork, userData }: Props) {
 		<div className="bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem] py-[5.6rem]">
 			<MainPoster />
 			<BoardPreview />
-			<WorkStatus grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} userName={userData.userName} />
+			<WorkStatus grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} userName={userData?.userName} />
 			<Shortcut />
 		</div>
 	);

@@ -1,19 +1,39 @@
 import { useEffect, useState } from 'react';
 
-function TotalSalary({ data }: any) {
+interface props {
+	data: number | undefined;
+	manager?: boolean;
+}
+function TotalSalary({ data, manager = false }: props) {
 	const [totalSalary, setTotalSalary] = useState<number>();
 
 	useEffect(() => {
-		setTotalSalary(data * 9620);
+		if (data) {
+			setTotalSalary(data * 9620);
+		}
 	}, [data]);
 
 	return (
-		<div className="flex justify-between items-center px-[1.6rem] h-[6.4rem] bg-transparent-30% rounded-[0.8rem] text-subhead3">
-			<span className="text-w text-subhead3">이번달 급여</span>
-			<span className="text-[2rem]">
-				{totalSalary?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-				<span className="text-[1.4rem]">원</span>
-			</span>
+		<div
+			className={`text-w flex flex-col justify-center ${
+				manager ? 'h-[10.1rem]' : 'h-[7.4rem]'
+			} items-center bg-transparent-30% rounded-[0.8rem] ${manager ? 'pb-[2.4rem]' : ''}`}
+		>
+			{manager && (
+				<div className="mt-[2.4rem] mb-[0.6rem]">
+					<span className=" text-subhead1">시간당 9,620원</span>
+				</div>
+			)}
+
+			<div>
+				<span className="text-[2.6rem]">
+					{totalSalary
+						?.toFixed(0)
+						.toString()
+						.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+					<span className="text-subhead3">원</span>
+				</span>
+			</div>
 		</div>
 	);
 }

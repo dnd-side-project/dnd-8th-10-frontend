@@ -8,17 +8,22 @@ interface Props {
 	noBtn?: boolean;
 	yesTitle: string;
 	noTitle?: string;
+	iconView?: boolean;
 }
 
-function Modal({ title, subTitle, yesFn, noBtn = false, yesTitle, noTitle }: Props) {
+function Modal({ title, subTitle, yesFn, noBtn = false, yesTitle, noTitle, iconView = false }: Props) {
 	const { modalIsClose } = useModalStore();
 
 	return (
-		<div className="text-g9 z-50 w-[25rem] text-center rounded-[0.8rem] bg-w absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
+		<div
+			role="dialog"
+			aria-modal="true"
+			className="text-g9 z-50 w-[25rem] text-center rounded-[0.8rem] bg-w absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]"
+		>
 			<div>
 				<div className="flex items-center justify-center border-solid border-b-[0.15rem] border-b-g3">
 					<div className="px-[2.3rem] py-[2.4rem]">
-						{noBtn && (
+						{iconView && (
 							<div className="flex justify-center mb-[0.8rem] mt-[0.85rem]">
 								<WarningIcon />
 							</div>
@@ -33,6 +38,15 @@ function Modal({ title, subTitle, yesFn, noBtn = false, yesTitle, noTitle }: Pro
 				</div>
 
 				<div className="flex items-center justify-center">
+					{noBtn && (
+						<button
+							type="button"
+							onClick={() => modalIsClose()}
+							className="text-[1.4rem] h-[5.6rem] w-full border-solid border-r-[0.15rem] border-b-g3"
+						>
+							{noTitle}
+						</button>
+					)}
 					<button
 						type="button"
 						onClick={() => {
@@ -45,15 +59,6 @@ function Modal({ title, subTitle, yesFn, noBtn = false, yesTitle, noTitle }: Pro
 					>
 						{yesTitle}
 					</button>
-					{noBtn && (
-						<button
-							type="button"
-							onClick={() => modalIsClose()}
-							className="text-[1.4rem] h-[5.6rem] w-full border-solid border-l-[0.15rem] border-b-g3"
-						>
-							{noTitle}
-						</button>
-					)}
 				</div>
 			</div>
 		</div>
