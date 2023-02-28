@@ -1,5 +1,6 @@
-import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
+import { useMutation, useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
+import { ICheckList } from 'src/app.features/checkList/\btypes';
 import CheckListScreen from 'src/app.features/checkList/screens/CheckListScreen';
 import {
 	deleteCheckList,
@@ -20,16 +21,25 @@ function checkList() {
 	};
 
 	const [date, setDate] = useState<string>(todayDate());
+	const [localChecklist, setLocalChecklist] = useState<ICheckList[]>([]);
 	const searchDateHandler = (searchDateString: string) => {
 		setDate(searchDateString);
 	};
 	// TODO: useQueries로 데이터 병렬로 요청하기
-	const { data: checklist, refetch } = useQuery(['checklist'], () => getCheckList(date), {
-		select: (res) => res.data.data.list,
-		onSuccess: (res) => console.log(res),
+	const {
+		data: checklist,
+		refetch,
+		isFetched: isChecklistFetched,
+	} = useQuery(['checklist'], () => getCheckList(date), {
+		select: (res) => res.data.data,
+		onSuccess: async (res) => {
+			console.log('res', res.workDay);
+			setLocalChecklist(res.list);
+		},
 		onError: (error) => {
 			console.log(error);
 		},
+		enabled: true,
 	});
 	const { data: weekState, refetch: weekStateRefetch } = useQuery(['checklist', 'weekState'], getWeekState, {
 		select: (res) => res.data.data,
@@ -41,12 +51,20 @@ function checkList() {
 
 	// TODO: get 제외하고 합쳐도 될듯
 	const { mutate: postChecklist, isLoading: postChecklistLoading } = useMutation(postCheckList, {
-		onSuccess: (res) => {
+		onMutate: (newTodo) => {
+			if (localChecklist) {
+				setLocalChecklist([{ ...newTodo, checkIdx: -1 }, ...localChecklist]);
+			}
+			return { localChecklist };
+		},
+		onSuccess: () => {
 			refetch();
 		},
-		onError: (error) => alert('오류 발생.'),
-		onSettled: () => {
-			//
+		onError: (error, values, context) => {
+			if (context?.localChecklist) {
+				setLocalChecklist(context.localChecklist);
+			}
+			alert('오류 발생.');
 		},
 	});
 	const { mutate: putChecklist, isLoading: putChecklistLoading } = useMutation(putCheckList, {
@@ -60,11 +78,23 @@ function checkList() {
 		},
 	});
 	const { mutate: deleteChecklist, isLoading: deleteChecklistLoading } = useMutation(deleteCheckList, {
+		onMutate: (checkIdx) => {
+			if (localChecklist) {
+				const deleted = localChecklist.filter((item) => item.checkIdx !== checkIdx);
+				setLocalChecklist(deleted);
+			}
+			return { localChecklist };
+		},
 		onSuccess: (res) => {
 			refetch();
 			weekStateRefetch();
 		},
-		onError: (error) => alert('오류 발생.'),
+		onError: (error, values, context) => {
+			if (context?.localChecklist) {
+				setLocalChecklist(context.localChecklist);
+			}
+			alert('오류 발생.');
+		},
 		onSettled: () => {
 			//
 		},
@@ -73,12 +103,15 @@ function checkList() {
 		console.log(date);
 		refetch();
 	}, [date, refetch]);
+
 	return (
 		<CheckListScreen
+			isChecklistFetched={isChecklistFetched}
+			isWorkDay={checklist?.workDay}
 			todayString={todayDate()}
 			searchDate={date}
 			searchDateHandler={searchDateHandler}
-			checklist={checklist}
+			checklist={localChecklist}
 			weekState={weekState}
 			postChecklist={postChecklist}
 			postChecklistLoading={postChecklistLoading}

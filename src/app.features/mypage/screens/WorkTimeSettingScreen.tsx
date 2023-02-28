@@ -100,6 +100,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 		});
 	};
 	useEffect(() => {
+		console.log(user.workTime.split(','));
 		if (!user) return;
 		const tmp = user.workTime.split(',').map((item) => [
 			dayMapReverse.get(item[0]),

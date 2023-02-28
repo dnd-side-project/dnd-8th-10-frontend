@@ -16,12 +16,13 @@ function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false }: Pro
 			setIsAnimating(true);
 		}
 	}, [isModalOpen]);
+
 	return (
 		<div>
 			<div
 				role="presentation"
 				onClick={() => {
-					if (!children.props.content) {
+					if (!children.props.title) {
 						setIsAnimating(false);
 						setTimeout(() => {
 							modalIsClose();

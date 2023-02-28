@@ -2,7 +2,7 @@ import { RoleType } from 'src/app.modules/api/user';
 import create from 'zustand';
 
 // TODO: 백엔드 용어랑 통일시키기
-interface IUser {
+export interface IUser {
 	startTime: {
 		meridiem: 'am' | 'pm';
 		hour: string;
@@ -19,6 +19,7 @@ interface UserState {
 	user: IUser;
 	initUser: () => void;
 	setTime: (value: string, name: 'meridiem' | 'hour' | 'minute', flag: 'startTime' | 'endTime') => void;
+	setInitTime: (newUser: IUser) => void;
 }
 const initUser: IUser = {
 	startTime: {
@@ -35,9 +36,9 @@ const initUser: IUser = {
 const useTimeSetStore = create<UserState>((set) => ({
 	user: initUser,
 	initUser: () => set(() => ({ user: initUser })),
-	setWorkPlace: (workPlace: string) => set((prev) => ({ user: { ...prev.user, workPlace } })),
 	setTime: (value: string, name: 'meridiem' | 'hour' | 'minute', flag: 'startTime' | 'endTime') =>
 		set((prev) => ({ user: { ...prev.user, [flag]: { ...prev.user[flag], [name]: value } } })),
+	setInitTime: (newUser: IUser) => set(() => ({ user: newUser })),
 }));
 
 export default useTimeSetStore;

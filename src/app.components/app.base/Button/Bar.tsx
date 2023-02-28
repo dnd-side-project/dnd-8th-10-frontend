@@ -35,7 +35,7 @@ function Bar({
 			}}
 			disabled={disabled}
 			type="button"
-			className={`${className()} ${titleColor} ${bgColor} disabled:bg-g1 disabled:text-g7  h-[6rem] text-subhead4`}
+			className={`${className()} ${titleColor} ${bgColor} disabled:bg-g1 disabled:text-g7  h-[6rem] min-h-[6rem] text-subhead4`}
 		>
 			{children}
 		</button>

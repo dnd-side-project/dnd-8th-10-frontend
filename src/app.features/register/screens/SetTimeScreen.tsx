@@ -1,8 +1,8 @@
-import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
+import React, { BaseSyntheticEvent, useState } from 'react';
 import DayButton from 'src/app.features/register/components/DayButton';
 import OpenSetTimeModalButtons from 'src/app.components/Button/OpenSetTimeModalButtons';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
-import { dayMap, DayType, TimeType } from 'src/app.modules/types/workTime';
+import { mappedDay, DayType, TimeType } from 'src/app.modules/types/workTime';
 import TopModal from 'src/app.components/Modal/TopModal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import useModalStore from 'src/app.modules/store/modal';
@@ -13,13 +13,15 @@ import useRegisterUserStore, { INIT_WORKTIME } from '../store';
 // TODO: 시간 유효성체크 (끝나는 시간이 시작하는 시간보다 빠른지)
 // TODO: 오전 0시 24시로 표기
 type Flag = TimeType | null;
-type WorkTimeOnModalType = {
-	meridiem: 'am' | 'pm';
-	hour: string;
-	minute: string;
+
+// TODO: 이름 바꾸기
+export type WorkTimeOnModalType = {
+	meridiem: 'am' | 'pm' | null;
+	hour: string | null;
+	minute: string | null;
 };
 function SetTimeScreen() {
-	const [selectedDay, setSelectedDay] = useState<DayType>('6');
+	const [selectedDay, setSelectedDay] = useState<DayType>();
 	const {
 		user: { workTime },
 		setTime,
@@ -28,24 +30,25 @@ function SetTimeScreen() {
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
 	const INIT_WORK_TIME = {
-		meridiem: 'am',
-		hour: '1',
-		minute: '0',
+		meridiem: null,
+		hour: null,
+		minute: null,
 	} as WorkTimeOnModalType;
 	const [workTimeOnModal, setWorkTimeOnModal] = useState<WorkTimeOnModalType>(INIT_WORK_TIME);
 	const timeOnModalHandler = (e: React.BaseSyntheticEvent) => {
 		const {
 			target: { name, value },
 		} = e;
-
+		const newValue = workTimeOnModal[name as keyof WorkTimeOnModalType] !== value ? value : null;
 		setWorkTimeOnModal({
 			...workTimeOnModal,
-			[name]: value,
+			[name]: newValue,
 		});
 	};
 	const workTimeHandler = () => {
 		const { meridiem, hour, minute } = workTimeOnModal;
 		if (!meridiem || !hour || !minute) return;
+		if (!selectedDay) return;
 		const updatedWorkTime = {
 			...workTime,
 			[selectedDay]: {
@@ -65,6 +68,7 @@ function SetTimeScreen() {
 		setSelectedDay(e.target.value);
 	};
 	const resetTimeHandler = (flag: TimeType) => {
+		if (!selectedDay) return;
 		const temp = { ...workTime[selectedDay] };
 		delete temp[flag];
 		const updatedWorkTime = {
@@ -76,10 +80,10 @@ function SetTimeScreen() {
 		setTime(updatedWorkTime);
 	};
 	const openSetTimeModalHandler = (flag: TimeType) => {
+		if (!selectedDay) return;
 		setOpenModalFlag(flag);
 		modalIsOpen();
-		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as TimeType];
-		if (!newWorkTimeOnModal) return;
+		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as TimeType] ?? INIT_WORK_TIME;
 		setWorkTimeOnModal(newWorkTimeOnModal);
 	};
 
@@ -87,50 +91,60 @@ function SetTimeScreen() {
 		<RegisterLayout curPage={3} canGoNext={Boolean(workTime !== INIT_WORKTIME)}>
 			{/* TODO: 다음으로 넘어가는 조건 다시 지정 (더 자세하게) */}
 			<div className="space-y-[3.2rem] ">
-				<h1 className="text-g10 text-title2">근무하는 시간대를 설정해주세요</h1>
+				<h1 className="text-g10 text-title2">일하는 요일별 근무시간을 알려주세요</h1>
 				<div className="flex flex-col space-y-[3.2rem]">
 					<div className="space-y-[0.8rem] w-full">
-						<h2 className="text-g6 text-subhead1">요일 선택</h2>
+						<h2 className="text-g6 text-body2">근무요일(복수선택 가능)</h2>
 						<ul className="grid  grid-cols-7  ">
 							{/* TODO: 간격 화면 크기별로 대응 */}
-							{['6', '0', '1', '2', '3', '4', '5'].map((day, index) => (
+							{['6', '0', '1', '2', '3', '4', '5'].map((item, index) => (
 								<li key={index} className="mx-auto">
 									<DayButton
 										name="day"
-										value={day}
-										item={dayMap.get(day) as string}
+										value={item}
+										item={mappedDay[item as DayType]}
 										onClick={selectedDayHandler}
-										state={selectedDay === day ? 'focus' : `${workTime[day as DayType] ? 'selected' : 'default'}`}
+										state={selectedDay === item ? 'focus' : `${workTime[item as DayType] ? 'selected' : 'default'}`}
 									/>
 								</li>
 							))}
 						</ul>
 					</div>
-					<div className="space-y-[0.8rem]">
-						<h2 className="text-g6 text-subhead1">시간 선택</h2>
-						<OpenSetTimeModalButtons
-							openSetTimeModalHandler={openSetTimeModalHandler}
-							isStartTimeSet={Boolean(workTime[selectedDay]?.startTime)}
-							isEndTimeSet={Boolean(workTime[selectedDay]?.endTime)}
-							startTimeText={`${workTime[selectedDay]?.startTime?.meridiem === 'am' ? '오전' : '오후'} ${
-								workTime[selectedDay]?.startTime?.hour
-							}시 ${workTime[selectedDay]?.startTime?.minute}분`}
-							endTimeText={`${workTime[selectedDay]?.endTime?.meridiem === 'am' ? '오전' : '오후'} ${
-								workTime[selectedDay]?.endTime?.hour
-							}시 ${workTime[selectedDay]?.endTime?.minute}분`}
-							resetTimeHandler={resetTimeHandler}
-							mode="dark"
-						/>
-					</div>
+					{selectedDay && (
+						<div className="space-y-[0.8rem]">
+							<h2 className="text-g6 text-body2">근무 시간</h2>
+							<OpenSetTimeModalButtons
+								openSetTimeModalHandler={openSetTimeModalHandler}
+								isStartTimeSet={Boolean(workTime[selectedDay]?.startTime)}
+								isEndTimeSet={Boolean(workTime[selectedDay]?.endTime)}
+								startTimeText={`${workTime[selectedDay]?.startTime?.meridiem === 'am' ? '오전' : '오후'} ${
+									workTime[selectedDay]?.startTime?.hour
+								} : ${workTime[selectedDay]?.startTime?.minute}`}
+								endTimeText={`${workTime[selectedDay]?.endTime?.meridiem === 'am' ? '오전' : '오후'} ${
+									workTime[selectedDay]?.endTime?.hour
+								} : ${workTime[selectedDay]?.endTime?.minute}`}
+								resetTimeHandler={resetTimeHandler}
+								day={selectedDay}
+							/>
+						</div>
+					)}
 				</div>
 			</div>
 			{isModalOpen && (
 				<Overlay>
 					<TopModal>
-						<div className="space-y-[2.4rem]">
-							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} mode="dark" />
+						<div className="space-y-[2.4rem] flex flex-col items-center">
+							<span className="text-g10 text-subhead3">
+								언제 {openModalFlag === 'startTime' ? '출근' : '퇴근'}하시나요?
+							</span>
+							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} />
 
-							<Bar ClickFn={workTimeHandler}>완료</Bar>
+							<Bar
+								ClickFn={workTimeHandler}
+								disabled={!workTimeOnModal.hour || !workTimeOnModal.meridiem || !workTimeOnModal.minute}
+							>
+								완료
+							</Bar>
 						</div>
 					</TopModal>
 				</Overlay>
@@ -140,12 +154,3 @@ function SetTimeScreen() {
 }
 
 export default SetTimeScreen;
-
-/*
-
-<div>
-						
-					</div>
-
-
-*/
