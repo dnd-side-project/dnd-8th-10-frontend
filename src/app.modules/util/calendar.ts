@@ -100,18 +100,20 @@ export const timeSplit = (time: string[]) => {
 };
 
 export const homeTimeView = (timeStr: string) => {
-	let [hour, minute] = timeStr.split(':').map(Number);
+	const timeSplits = timeStr.split(':').map(Number);
+	let hour = timeSplits[0];
+	const minute = timeSplits[1];
 	let result = '';
 	if (hour < 12) {
-		result = '오전 ' + hour + '시';
+		result = `오전 ${hour}시`;
 	} else if (hour === 12) {
-		result = '오후 ' + hour + '시';
+		result = `오후 ${hour}시`;
 	} else {
 		hour -= 12;
-		result = '오후 ' + hour + '시';
+		result = `오후 ${hour}시`;
 	}
 	if (minute > 0) {
-		result += ' ' + minute + '분';
+		result += ` ${minute}분`;
 	}
 	return result;
 };

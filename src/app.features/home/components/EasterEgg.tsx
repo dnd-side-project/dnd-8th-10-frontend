@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import EggIcon from '../../../../public/images/home/easterEgg/easterEgg.svg';
 import BubbleIcon from '../../../../public/images/home/easterEgg/bubble.svg';
+
 function EasterEgg() {
 	const [showDiv, setShowDiv] = useState(false);
 	const [eggContentIndex, setEggContentIndex] = useState(0);
