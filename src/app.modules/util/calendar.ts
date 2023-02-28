@@ -102,9 +102,7 @@ export const timeSplit = (time: string[]) => {
 export const homeTimeView = (timeStr: string) => {
 	let [hour, minute] = timeStr.split(':').map(Number);
 	let result = '';
-	if (hour === 0) {
-		result = '오전 ' + hour + '시';
-	} else if (hour < 12) {
+	if (hour < 12) {
 		result = '오전 ' + hour + '시';
 	} else if (hour === 12) {
 		result = '오후 ' + hour + '시';

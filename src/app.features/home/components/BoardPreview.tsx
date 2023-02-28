@@ -5,10 +5,10 @@ function BoardPreview() {
 	return (
 		<div className="flex items-center justify-between rounded-[1.2rem] px-[1.6rem] py-[1rem] shadow-blue">
 			<div className="flex items-center">
-				<Badge color="secondary" size="large">
-					공지사항
+				<Badge color="secondary" size="small">
+					공지
 				</Badge>
-				<div className="ml-[1rem] ">
+				<div className="ml-[1rem]">
 					<span className="text-subhead2 text-g9">3월 화이트데이 이벤트 필독!</span>
 				</div>
 			</div>
