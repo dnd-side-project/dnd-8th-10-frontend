@@ -29,7 +29,7 @@ function Navigation() {
 						</Link>
 					</li>
 					<li>
-						<Link href="/" className="flex flex-col items-center">
+						<Link href={SERVICE_URL.board} className="flex flex-col items-center">
 							<BoardIcon stroke={`${router.pathname === '' ? '#66666E' : '#E8E8EB'}`} />
 							<div className={`${router.pathname === '' ? 'text-[#66666E]' : 'text-[#E8E8EB]'}`}>게시판</div>
 						</Link>
