@@ -1,8 +1,8 @@
 import React from 'react';
-import ViewImgIcon from '../assets/viewImg.svg';
-import CheckIcon from '../../../app.modules/assets/board/check.svg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import ViewImgIcon from '../assets/viewImg.svg';
+import CheckIcon from '../../../app.modules/assets/board/check.svg';
 
 interface Props {
 	id: string | string[] | undefined;
