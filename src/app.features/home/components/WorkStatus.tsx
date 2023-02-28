@@ -4,6 +4,7 @@ import { getWorkList, MutateBody } from 'src/app.features/calendar/api';
 import useStore from 'src/app.features/calendar/store';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import { homeTimeView, timeSplit } from 'src/app.modules/util/calendar';
 import WorkIcon from '../../../../public/images/home/work.svg';
 import WorkingIcon from '../../../../public/images/home/working.svg';
 
@@ -20,11 +21,11 @@ function WorkStatus({ grayData, WorkMutate, todayWork, userName }: Props) {
 	const [year, month, day] = toDay.split('.');
 	const [workStatus, setWorkStatus] = useState<boolean>(false);
 	const [workTime, setWorkTime] = useState<string[]>([]);
+
 	// 출근하기 버튼
 	const commute = async () => {
 		if (todayWork && !workStatus) {
-			const startSplit = Number(workTime[0].split(':')[0]) * 60 + Number(workTime[0].split(':')[1]);
-			const endSplit = Number(workTime[1].split(':')[0]) * 60 + Number(workTime[1].split(':')[1]);
+			const [startSplit, endSplit] = timeSplit(workTime);
 			const timeDiff = Math.abs((startSplit - endSplit) / 60);
 			WorkMutate({ year, month, day, workTime: todayWork, workHour: timeDiff });
 		} else if (todayWork && workStatus) {
@@ -91,7 +92,7 @@ function WorkStatus({ grayData, WorkMutate, todayWork, userName }: Props) {
 				</div>
 				<div>
 					<span className={`text-subhead1 ${workStatus ? 'text-g2' : 'text-g7'}`}>
-						{`${month}월 ${day}일  ${workTime.length > 0 ? `${workTime[0]} ~ ${workTime[1]}` : ''} `}
+						{`${month}월 ${day}일  ${workTime.length > 0 ? homeTimeView(workTime[0]) : ''} `}
 					</span>
 				</div>
 			</div>
