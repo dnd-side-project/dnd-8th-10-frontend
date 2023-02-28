@@ -9,24 +9,28 @@ import SalaryDetail from '../components/SalaryDetail';
 import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';
 import { ISalaryDetail } from '../types';
+import { useRouter } from 'next/router';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 
 function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 	// 급여 상세페이지
 	const { year, month, toDay } = useStore();
 	const [salaryData, setSalaryData] = useState<ISalaryDetail>();
+	const router = useRouter();
 	const { data, isLoading } = useQuery(
 		['salaryList'],
 		() => getUserSalary({ year: String(year), month: String(month + 1), userCode: Number(id) }),
 		{
 			onSuccess: (res) => {
 				setSalaryData(res.data.data);
+				console.log(res.data.data);
 			},
 			onError: (error) => {
 				console.log(error);
 			},
 		}
 	);
-	console.log(salaryData?.totalSalary);
+
 	return (
 		<div>
 			{!isLoading && salaryData && (
@@ -39,7 +43,14 @@ function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 									<span className="text-w text-subhead4">
 										{salaryData.userName} {`${salaryData.role === 'MANAGER' ? '매니저' : '알바생'}`}
 									</span>
-									<SettingIcon className="fixed right-0 mr-[1.9rem]" />
+									{salaryData.role === 'MANAGER' && (
+										<button
+											className="fixed right-0 mr-[1.9rem] pointer-events-auto"
+											onClick={() => router.push(SERVICE_URL.editWage)}
+										>
+											<SettingIcon />
+										</button>
+									)}
 								</div>
 							</div>
 						</div>
