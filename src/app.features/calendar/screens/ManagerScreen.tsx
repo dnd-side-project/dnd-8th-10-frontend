@@ -67,37 +67,40 @@ function ManagerScreen() {
 					</div>
 
 					<div>
-						<div className="pb-[0.6rem]">
-							<div className="mt-[1.6rem] mb-[1.2rem]">
-								<span className="text-subhead4 text-g9">점장</span>
-							</div>
-							<div className="flex justify-between items-center py-[2.4rem] bg-g1 rounded-[0.8rem] px-[1.6rem]">
-								<div className="flex items-center">
-									<ProfileImage size="lg" userProfileCode={manageData[0]?.userProfileCode} />
-									<div className="flex flex-col justify-center ml-[1.2rem]">
-										<span className="text-subhead3 text-g10">{manageData[0]?.userName}</span>
+						{manageData[0]?.totalSalary > 0 && (
+							<div className="pb-[0.6rem]">
+								<div className="mt-[1.6rem] mb-[1.2rem]">
+									<span className="text-subhead4 text-g9">점장</span>
+								</div>
+								<div className="flex justify-between items-center py-[2.4rem] bg-g1 rounded-[0.8rem] px-[1.6rem]">
+									<div className="flex items-center">
+										<ProfileImage size="lg" userProfileCode={manageData[0]?.userProfileCode} />
+										<div className="flex flex-col justify-center ml-[1.2rem]">
+											<span className="text-subhead3 text-g10">{manageData[0]?.userName}</span>
+										</div>
+									</div>
+									<div className="flex">
+										<div className="flex flex-col justify-center items-end">
+											<span className="text-subhead3 text-primary ">
+												{manageData[0]?.totalSalary
+													.toFixed(0)
+													.toString()
+													.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+												원
+											</span>
+											<span className="text-subhead1 text-g6">시간당9,620원</span>
+										</div>
+										<button
+											type="button"
+											onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${manageData[0]?.userCode}`)}
+										>
+											<ArrowRight />
+										</button>
 									</div>
 								</div>
-								<div className="flex">
-									<div className="flex flex-col justify-center items-end">
-										<span className="text-subhead3 text-primary ">
-											{manageData[0]?.totalSalary
-												.toFixed(0)
-												.toString()
-												.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-											원
-										</span>
-										<span className="text-subhead1 text-g6">시간당9,620원</span>
-									</div>
-									<button
-										type="button"
-										onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${manageData[0]?.userCode}`)}
-									>
-										<ArrowRight />
-									</button>
-								</div>
 							</div>
-						</div>
+						)}
+
 						{UserData.filter((salary) => salary.totalSalary !== 0).length > 0 ? (
 							<div>
 								<div className="mt-[1.6rem] mb-[1.2rem]">
@@ -137,7 +140,11 @@ function ManagerScreen() {
 								))}
 							</div>
 						) : (
-							<div className="h-[80vh] flex flex-col justify-center items-center">
+							<div
+								className={` ${
+									manageData[0]?.totalSalary === 0 ? 'h-[80vh]' : 'h-[50vh]'
+								} flex flex-col justify-center items-center`}
+							>
 								<EmptySalary />
 								<span className="text-subhead3 text-g7">아직 근무자가 없어요</span>
 							</div>
