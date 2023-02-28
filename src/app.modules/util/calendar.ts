@@ -19,20 +19,6 @@ export function crossDate(clickDay: string, toDay: string) {
 	return { clickDayData, toDayData };
 }
 
-export const getWorkTimeString = (startTime: Time, endTime: Time) => {
-	try {
-		return `${startTime.hour.length === 1 && startTime.meridiem === 'am' ? '0' : ''}${
-			+startTime.hour + (startTime.meridiem === 'am' ? 0 : 12)
-		}:${startTime.minute.length === 1 ? '0' : ''}${startTime.minute}~${
-			endTime.hour.length === 1 && endTime.meridiem === 'am' ? '0' : ''
-		}${+endTime.hour + (endTime.meridiem === 'am' ? 0 : 12)}:${endTime.minute.length === 1 ? '0' : ''}${
-			endTime.minute
-		}`;
-	} catch (e) {
-		console.log(e);
-		return '';
-	}
-};
 export const formatTimeView = (time: string, type = 'view') => {
 	const [start, end] = time.split('~');
 	const formatHour = (hour: number) => (hour % 12 === 0 ? 12 : hour % 12);
