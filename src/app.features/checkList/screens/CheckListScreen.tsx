@@ -238,11 +238,11 @@ function CheckListScreen({
 						</ul>
 					</div>
 				</div>
-				<Divider />
+				<Divider classNames="fixed  w-full max-w-[42rem] z-[50]" />
 
 				{isChecklistFetched && isWorkDay ? (
-					<div className=" text-subhead2  relative ">
-						<div className="absolute w-full bg-white pt-[2rem] pb-[1rem] z-[50] ">
+					<div className=" text-subhead2 space-y-[1.6rem] py-[2rem] relative h-[calc(100vh-20.6rem)] overflow-y-scroll scrollbar-hidden ">
+						<div className="w-full bg-white ">
 							<button
 								onClick={() => setAddTodoInputOpen(true)}
 								aria-hidden={addTodoInputOpen}
@@ -271,7 +271,7 @@ function CheckListScreen({
 								</button>
 							</form>
 						</div>
-						<ul className=" text-g9 space-y-[1.6rem] pt-[5.9rem] pb-[4.2rem] h-[calc(100vh-20.6rem)] overflow-y-scroll scrollbar-hidden ">
+						<ul className=" text-g9 space-y-[1.6rem]  ">
 							{checklist?.map((todo, index) => (
 								<li key={todo.checkIdx ?? index} className="flex justify-between w-full ">
 									<div className="space-x-[1rem] flex items-center w-full">

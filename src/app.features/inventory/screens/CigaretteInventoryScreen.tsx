@@ -3,6 +3,10 @@ import Header from 'src/app.components/Header';
 import SearchInput from 'src/app.components/app.base/Input/SearchInput';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { IInventoryList, PostCigaretteBody, PutInventoryBody } from 'src/app.modules/api/inventory';
+import Bar from 'src/app.components/app.base/Button/Bar';
+import Overlay from 'src/app.components/Modal/Overlay';
+import TopModal from 'src/app.components/Modal/TopModal';
+import useModalStore from 'src/app.modules/store/modal';
 import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryList';
 import useCountHistory from '../hooks/useCountHistory';
@@ -54,11 +58,12 @@ function CountCigaretteScreen({
 	editInventory,
 	editInventoryLoading,
 }: Props) {
-	const { countHistory, changeDiffHandler } = useCountHistory();
+	console.log(inventoryList);
+	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
 	const CHO_BUTTONS = ['전체', 'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [searchCho, setSearchCho] = useState<ChoType>('전체');
-
+	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
 	// TODO: 모달이름 바꾸기
 	const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);
 	const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
@@ -91,7 +96,12 @@ function CountCigaretteScreen({
 		addCigarette(body);
 		setIsAddModalOpen(false);
 	};
+	const openSaveModalHandler = () => {
+		setIsSaveModalOpen(true);
+		modalIsOpen();
+	};
 
+	console.log(isSaveModalOpen, isAddModalOpen);
 	return (
 		<>
 			<Header title="담배">
@@ -123,44 +133,51 @@ function CountCigaretteScreen({
 					/>
 				)}
 				<div
-					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient   z-50 aria-hidden:hidden"
-					aria-hidden={isSaveModalOpen || isAddModalOpen}
+					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient  "
+					aria-hidden={isModalOpen}
 				>
-					<button onClick={() => setIsSaveModalOpen(true)} className=" w-full py-[2rem] bg-blue-500">
-						점검사항 확인
-					</button>
+					<Bar ClickFn={openSaveModalHandler}>점검사항 확인</Bar>
 				</div>
-				{isSaveModalOpen && (
-					<div
-						className=" pb-[2rem] pt-[8.8rem]  bg-white aria-hidden:hidden  w-full  left-0 bottom-0   z-50 fixed"
-						aria-hidden={!isSaveModalOpen}
-					>
-						<ul className="flex flex-col gap-[8px]">
-							{Object.entries(countHistory).map((history, index) => (
-								<li key={index} className="flex justify-between">
-									<span className="">{history[0]}</span>
-									<span>{history[1]}</span>
-								</li>
-							))}
-						</ul>
-						<button onClick={() => submitInventoryRecord('cigarette')} className=" w-full py-[2rem] bg-blue-500">
-							점검사항 저장
-						</button>
-					</div>
+				{isSaveModalOpen && isModalOpen && (
+					<Overlay>
+						<TopModal>
+							<div className="space-y-[2.4rem] flex flex-col items-start ">
+								<span className="text-g10 text-subhead3">점검사항 확인</span>
+								<ul className="flex flex-col gap-[8px] w-full text-subhead-long2 ">
+									{Object.entries(countHistory).map(([inventoryName, inventoryDiff], index) => (
+										<li key={index} className="flex justify-between items-center ">
+											<span className="">{inventoryName}</span>
+											<span
+												className={`${
+													// eslint-disable-next-line no-nested-ternary
+													inventoryDiff !== 0 ? (inventoryDiff > 0 ? 'text-primary' : 'text-secondary') : ''
+												}`}
+											>
+												{inventoryDiff !== 0 && <>{inventoryDiff >= 0 && '+ '}</>}
+												{inventoryDiff}
+											</span>
+										</li>
+									))}
+								</ul>
+								<Bar ClickFn={() => submitInventoryRecord('cigarette')}>저장하기</Bar>
+							</div>
+						</TopModal>
+					</Overlay>
 				)}
-				{isAddModalOpen && (
-					<div
-						className=" pb-[2rem] pt-[8.8rem]  bg-white aria-hidden:hidden  w-full  left-0 bottom-0   z-50 fixed"
-						aria-hidden={!isAddModalOpen}
-					>
-						<form onSubmit={submitNewCigarette} className="flex flex-col">
-							<label htmlFor="newCigarette">항목추가</label>
-							<input id="newCigarette" name="newCigarette" type="text" />
-							<button type="submit" className=" w-full py-[2rem] bg-blue-500">
-								항목추가
-							</button>
-						</form>
-					</div>
+				{isAddModalOpen && isModalOpen && (
+					<Overlay>
+						<TopModal>
+							<div className="">
+								<form onSubmit={submitNewCigarette} className="flex flex-col">
+									<label htmlFor="newCigarette">항목추가</label>
+									<input id="newCigarette" name="newCigarette" type="text" />
+									<button type="submit" className=" w-full py-[2rem] bg-blue-500">
+										항목추가
+									</button>
+								</form>
+							</div>
+						</TopModal>
+					</Overlay>
 				)}
 			</main>
 		</>
