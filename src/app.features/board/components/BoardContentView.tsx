@@ -1,6 +1,8 @@
 import React from 'react';
 import ViewImgIcon from '../assets/viewImg.svg';
 import CheckIcon from '../../../app.modules/assets/board/check.svg';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 interface Props {
 	id: string | string[] | undefined;
@@ -18,8 +20,14 @@ function BoardContentView({ id }: Props) {
 					<span className="text-body1 text-g7">김냠냠 점장 1분전</span>
 				</div>
 			</div>
-			<div className="flex justify-center mb-[0.8rem]">
-				<ViewImgIcon />
+			<div className="w-[calc(100%+4rem)] -translate-x-[2rem] pl-[2rem] mb-[0.8rem]">
+				<Swiper slidesPerView="auto" spaceBetween={8}>
+					{[...new Array(3)].map((_, index) => (
+						<SwiperSlide key={index} style={{ width: '320px' }}>
+							<ViewImgIcon />
+						</SwiperSlide>
+					))}
+				</Swiper>
 			</div>
 			<div className="mb-[2.4rem]">
 				<span className="text-body2 text-g9">
