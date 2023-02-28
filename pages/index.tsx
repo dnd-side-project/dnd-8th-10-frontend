@@ -8,6 +8,7 @@ import { getGray, getToDay, postWork } from 'src/app.features/calendar/api';
 import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import Header from 'src/app.features/home/components/Header';
 import useUser from 'src/app.modules/hooks/user/useUser';
+import EasterEgg from 'src/app.features/home/components/EasterEgg';
 
 const Home: NextPage = () => {
 	const { toDay } = useStore();
@@ -59,6 +60,7 @@ const Home: NextPage = () => {
 					<main className="h-[100vh] bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem]">
 						<HomeScreen grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} userData={data} />
 					</main>
+					<EasterEgg />
 					<Navigation />
 				</>
 			)}

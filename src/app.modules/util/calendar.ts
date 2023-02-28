@@ -1,6 +1,5 @@
 import { WEEK_ENG } from 'src/app.features/calendar/constants';
 import { IUser } from 'src/app.features/calendar/store/time';
-import { Time } from 'src/app.features/calendar/types';
 
 export const transIdx = (year: number, month: number, day: number) => {
 	return `${year}.${month + 1}.${day}`;
@@ -92,4 +91,29 @@ export const setWorkTimeReset = (workTime: string, start = false): IUser => {
 			minute: '0',
 		},
 	};
+};
+
+export const timeSplit = (time: string[]) => {
+	const startSplit = Number(time[0].split(':')[0]) * 60 + Number(time[0].split(':')[1]);
+	const endSplit = Number(time[1].split(':')[0]) * 60 + Number(time[1].split(':')[1]);
+	return [startSplit, endSplit];
+};
+
+export const homeTimeView = (timeStr: string) => {
+	const timeSplits = timeStr.split(':').map(Number);
+	let hour = timeSplits[0];
+	const minute = timeSplits[1];
+	let result = '';
+	if (hour < 12) {
+		result = `오전 ${hour}시`;
+	} else if (hour === 12) {
+		result = `오후 ${hour}시`;
+	} else {
+		hour -= 12;
+		result = `오후 ${hour}시`;
+	}
+	if (minute > 0) {
+		result += ` ${minute}분`;
+	}
+	return result;
 };
