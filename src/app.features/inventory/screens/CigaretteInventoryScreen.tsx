@@ -142,7 +142,12 @@ function CountCigaretteScreen({
 					<Overlay>
 						<TopModal>
 							<div className="space-y-[2.4rem] flex flex-col items-start ">
-								<span className="text-g10 text-subhead3">점검사항 확인</span>
+								<div
+									className={`before:content-[url('/images/checklist/cigarette_small.svg')] before:mr-[0.8rem] flex items-center`}
+								>
+									<span className="text-g10 text-subhead3">점검사항 확인</span>
+								</div>
+
 								<ul className="flex flex-col gap-[8px] w-full text-subhead-long2 ">
 									{Object.entries(countHistory).map(([inventoryName, inventoryDiff], index) => (
 										<li key={index} className="flex justify-between items-center ">
