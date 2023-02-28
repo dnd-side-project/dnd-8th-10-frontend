@@ -20,8 +20,8 @@ function BoardContentView({ id }: Props) {
 					<span className="text-body1 text-g7">김냠냠 점장 1분전</span>
 				</div>
 			</div>
-			<div className="w-[calc(100%+4rem)] -translate-x-[2rem] pl-[2rem] mb-[0.8rem]">
-				<Swiper slidesPerView="auto" spaceBetween={8}>
+			<div className="w-[calc(100%+4rem)] -translate-x-[2rem] mb-[0.8rem]">
+				<Swiper slidesPerView="auto" spaceBetween={8} slidesOffsetBefore={20} slidesOffsetAfter={15}>
 					{[...new Array(3)].map((_, index) => (
 						<SwiperSlide key={index} style={{ width: '320px' }}>
 							<ViewImgIcon />

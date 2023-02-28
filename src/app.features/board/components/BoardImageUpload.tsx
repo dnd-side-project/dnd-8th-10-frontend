@@ -12,7 +12,7 @@ function BoardImageUpload({ onImageChange, previewUrls }: any) {
 				</div>
 			</label>
 			<div className="overflow-hidden">
-				<Swiper slidesPerView="auto" spaceBetween={8}>
+				<Swiper slidesPerView="auto" spaceBetween={8} slidesOffsetAfter={20}>
 					{previewUrls.map((url: string) => (
 						<SwiperSlide key={url} style={{ width: '67px' }}>
 							<div className="w-[6.7rem] h-[6.7rem]">
