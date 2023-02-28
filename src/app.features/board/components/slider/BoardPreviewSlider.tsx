@@ -28,7 +28,7 @@ function BoardPreviewSlider() {
 									공지
 								</Badge>
 								<span className="text-subhead2 text-g9 ml-[0.8rem]">
-									{`${index + 1}월 발렌타인데이 이벤트 필독!`.slice(0, 17)}
+									{`${index}월 발렌타인데이 이벤트 필독!`.slice(0, 17)}
 								</span>
 							</div>
 							<div className="mt-[0.2rem]">
