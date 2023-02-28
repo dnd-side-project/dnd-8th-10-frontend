@@ -4,6 +4,7 @@ import Badge from 'src/app.components/app.base/Button/Badge';
 import Header from 'src/app.components/Header';
 import XIcon from 'src/app.modules/assets/mypage/x.svg';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import EditIcon from 'src/app.modules/assets/edit.svg';
 import { IUser } from '../types';
 
 interface Props {
@@ -33,7 +34,7 @@ function ProfileSettingScreen({ user }: Props) {
 									<button onClick={() => router.push(SERVICE_URL.editWorkTime)}>
 										<Badge size="small" color="warmGray">
 											<div className="flex items-center space-x-[0.4rem]">
-												<span>{time}</span> <XIcon className="mt-[0.12rem]" />
+												<span className="text-body2">{time}</span> <EditIcon />
 											</div>
 										</Badge>
 									</button>
@@ -45,8 +46,18 @@ function ProfileSettingScreen({ user }: Props) {
 						<span className="text-subhead2">개인연락처</span>
 						<button className="text-body2" onClick={() => router.push(SERVICE_URL.editPhoneNumber)}>
 							<Badge size="small" color="warmGray">
-								<div className="flex items-center space-x-[0.4rem]">
-									<span>{user?.phoneNumber}</span> <XIcon className="mt-[0.12rem]" />
+								<div className="flex items-center space-x-[0.4rem] text-body2">
+									<span>{user?.phoneNumber}</span> <EditIcon />
+								</div>
+							</Badge>
+						</button>
+					</li>
+					<li className="flex items-center  justify-between last:border-none  border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
+						<span className="text-subhead2">시급</span>
+						<button className="text-body2" onClick={() => router.push(SERVICE_URL.editWage)}>
+							<Badge size="small" color="warmGray">
+								<div className="flex items-center space-x-[0.4rem] text-body2">
+									<span>{user?.wage}</span> <EditIcon />
 								</div>
 							</Badge>
 						</button>

@@ -1,6 +1,6 @@
 import { dayMap, DayType, TimeInfoType, WorkTimeType } from '../types/workTime';
 
-const timeFormatter = (timeObj: TimeInfoType, day?: DayType) => {
+const timeFormatter = (timeObj: TimeInfoType) => {
 	const { meridiem, hour, minute } = timeObj;
 	// eslint-disable-next-line no-nested-ternary
 	let resHour: string = meridiem === 'am' ? (+hour < 10 ? `0${+hour}` : hour) : `${+hour + 12}`;
@@ -9,9 +9,6 @@ const timeFormatter = (timeObj: TimeInfoType, day?: DayType) => {
 		else resHour = '12';
 	}
 	const resMinute: string = +minute < 10 ? `0${+minute}` : minute;
-	if (day) {
-		return `${dayMap.get(day)}(${resHour}:${resMinute})`;
-	}
 	return `${resHour}:${resMinute}`;
 };
 
@@ -21,7 +18,7 @@ export const getUserWorkTimeString = (workTime: WorkTimeType) => {
 			.sort(([a], [b]) => (a < b ? -1 : 1))
 			.map(([day, time]) => {
 				const { startTime, endTime } = time;
-				return `${timeFormatter(startTime, day as DayType)}~${timeFormatter(endTime, day as DayType)}`;
+				return `${dayMap.get(day)}(${timeFormatter(startTime)}~${timeFormatter(endTime)})`;
 			})
 			.toString();
 	} catch (e) {

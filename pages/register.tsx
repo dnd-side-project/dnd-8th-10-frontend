@@ -10,6 +10,8 @@ import SetRoleScreen from 'src/app.features/register/screens/SetRoleScreen';
 import { postUser } from 'src/app.modules/api/user';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useUser from 'src/app.modules/hooks/user/useUser';
+import SetWageScreen from 'src/app.features/register/screens/SetWageScreen';
+import LastCheckScreen from 'src/app.features/register/screens/LastCheckScreen';
 
 const Register: NextPage = () => {
 	const {
@@ -20,7 +22,7 @@ const Register: NextPage = () => {
 		onSuccess: (res) => {
 			console.log(res, 'mutate결과');
 			refetch();
-			Router.push(`${SERVICE_URL.register}?page=5`);
+			Router.push(`${SERVICE_URL.register}?page=7`);
 		},
 		onError: (error) => alert('오류 발생.'),
 		onSettled: () => {
@@ -34,8 +36,10 @@ const Register: NextPage = () => {
 			{page === '1' && <SetRoleScreen userName={data?.userName ?? userNameOnUrl ?? ''} />}
 			{page === '2' && <SetStoreScreen />}
 			{page === '3' && <SetTimeScreen />}
-			{page === '4' && <SetPhoneNumScreen postUserMutate={mutate} isLoading={isLoading} />}
-			{page === '5' && <CompleteSettingScreen {...data} />}
+			{page === '4' && <SetPhoneNumScreen />}
+			{page === '5' && <SetWageScreen />}
+			{page === '6' && <LastCheckScreen postUserMutate={mutate} isLoading={isLoading} />}
+			{page === '7' && <CompleteSettingScreen {...data} />}
 		</>
 	);
 };

@@ -11,6 +11,7 @@ export const SERVICE_URL = {
 	profileSetting: '/mypage/setting',
 	editWorkTime: '/mypage/setting/work-time',
 	editPhoneNumber: '/mypage/setting/phone',
+	editWage: '/mypage/setting/wage',
 	myStore: '/mypage/store',
 	calendar: '/calendar',
 	calendarRecord: '/calendar/work-record',

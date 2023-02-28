@@ -1,6 +1,7 @@
 import '../styles/reset.css';
 import '../styles/text.css';
 import '../styles/checklist.css';
+import '../styles/button.css';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

@@ -3,6 +3,7 @@ import SearchInput from 'src/app.components/app.base/Input/SearchInput';
 import RoadBadgeSvg from 'src/app.modules/assets/register/roadBadge.svg';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
+import { pauseBtnAnim, runningBtnAnim } from '../utils/contolBtnAnim';
 
 declare global {
 	interface Window {
@@ -40,7 +41,6 @@ function SetWorkPlaceScreen() {
 		setSearchTerm('');
 		setSearchResults([]);
 	};
-
 	useEffect(() => {
 		const script = document.createElement('script');
 		script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET_SDK}&libraries=services&autoload=false`;
@@ -75,6 +75,7 @@ function SetWorkPlaceScreen() {
 		};
 		onLoadKakaoMap();
 	}, [isLoaded, searchTerm]);
+
 	return (
 		<RegisterLayout curPage={2} canGoNext={workPlace !== null}>
 			<div className="space-y-[2.4rem] ">
@@ -86,6 +87,8 @@ function SetWorkPlaceScreen() {
 						resetSearchTerm={resetSearchTerm}
 						isSearched={Boolean(workPlace?.trim())}
 						placeholder="편의점 위치명, 위치 검색"
+						onFocus={runningBtnAnim}
+						onBlur={pauseBtnAnim}
 					/>
 				</div>
 
