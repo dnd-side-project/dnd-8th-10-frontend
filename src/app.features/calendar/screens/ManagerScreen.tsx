@@ -140,7 +140,11 @@ function ManagerScreen() {
 								))}
 							</div>
 						) : (
-							<div className="h-[80vh] flex flex-col justify-center items-center">
+							<div
+								className={` ${
+									manageData[0]?.totalSalary === 0 ? 'h-[80vh]' : 'h-[50vh]'
+								} flex flex-col justify-center items-center`}
+							>
 								<EmptySalary />
 								<span className="text-subhead3 text-g7">아직 근무자가 없어요</span>
 							</div>
