@@ -16,4 +16,7 @@ export const SERVICE_URL = {
 	calendarRecord: '/calendar/work-record',
 	calendarSalary: '/calendar/salary',
 	calendarSalaryDetail: '/calendar/salary-detail',
+	board: '/board',
+	boardWrite: '/board/write',
+	boardView: '/board/view',
 };
