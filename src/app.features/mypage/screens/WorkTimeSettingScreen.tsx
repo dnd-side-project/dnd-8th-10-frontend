@@ -20,21 +20,21 @@ interface Props {
 	putUser: MutateTpye<MutateUserBody>;
 	isLoading: boolean;
 }
-type WorkTimeOnModalType = {
-	meridiem: 'am' | 'pm';
-	hour: string;
-	minute: string;
+export type WorkTimeOnModalType = {
+	meridiem: 'am' | 'pm' | null;
+	hour: string | null;
+	minute: string | null;
 };
 type Flag = TimeType | null;
 function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
-	const [selectedDay, setSelectedDay] = useState<DayType>('6');
+	const [selectedDay, setSelectedDay] = useState<DayType>();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
 	const [workTime, setWorkTime] = useState<WorkTimeType | null>(null);
 	const INIT_WORK_TIME = {
-		meridiem: 'am',
-		hour: '1',
-		minute: '0',
+		meridiem: null,
+		hour: null,
+		minute: null,
 	} as WorkTimeOnModalType;
 	const [workTimeOnModal, setWorkTimeOnModal] = useState<WorkTimeOnModalType>(INIT_WORK_TIME);
 	const selectedDayHandler = (e: React.BaseSyntheticEvent) => {
@@ -44,13 +44,14 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 	const openSetTimeModalHandler = (flag: TimeType) => {
 		setOpenModalFlag(flag);
 		modalIsOpen();
-
-		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as TimeType];
+		if (!selectedDay) return;
+		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as TimeType] ?? INIT_WORK_TIME;
 		if (!newWorkTimeOnModal) return;
 		setWorkTimeOnModal(newWorkTimeOnModal);
 	};
 	const resetTimeHandler = (flag: TimeType) => {
 		if (workTime === null) return;
+		if (!selectedDay) return;
 		const temp = { ...workTime[selectedDay] };
 		delete temp[flag];
 		const updatedWorkTime = {
@@ -74,7 +75,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 	const workTimeHandler = () => {
 		const { meridiem, hour, minute } = workTimeOnModal;
 		if (!meridiem || !hour || !minute) return;
-
+		if (!selectedDay) return;
 		const updatedWorkTime = {
 			...(workTime ?? ({} as WorkTimeType)),
 			[selectedDay]: {
@@ -150,21 +151,23 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 							))}
 						</ul>
 					</div>
-					<div className="space-y-[0.8rem]">
-						<h2 className="text-g6 text-subhead1">시간 선택</h2>
-						<OpenSetTimeModalButtons
-							openSetTimeModalHandler={openSetTimeModalHandler}
-							isStartTimeSet={Boolean(workTime?.[selectedDay]?.startTime)}
-							isEndTimeSet={Boolean(workTime?.[selectedDay]?.endTime)}
-							startTimeText={`${workTime?.[selectedDay]?.startTime?.meridiem === 'am' ? '오전' : '오후'} ${
-								workTime?.[selectedDay]?.startTime?.hour
-							} : ${workTime?.[selectedDay]?.startTime?.minute}`}
-							endTimeText={`${workTime?.[selectedDay]?.endTime?.meridiem === 'am' ? '오전' : '오후'} ${
-								workTime?.[selectedDay]?.endTime?.hour
-							} : ${workTime?.[selectedDay]?.endTime?.minute}`}
-							resetTimeHandler={resetTimeHandler}
-						/>
-					</div>
+					{selectedDay && (
+						<div className="space-y-[0.8rem]">
+							<h2 className="text-g6 text-subhead1">시간 선택</h2>
+							<OpenSetTimeModalButtons
+								openSetTimeModalHandler={openSetTimeModalHandler}
+								isStartTimeSet={Boolean(workTime?.[selectedDay]?.startTime)}
+								isEndTimeSet={Boolean(workTime?.[selectedDay]?.endTime)}
+								startTimeText={`${workTime?.[selectedDay]?.startTime?.meridiem === 'am' ? '오전' : '오후'} ${
+									workTime?.[selectedDay]?.startTime?.hour
+								} : ${workTime?.[selectedDay]?.startTime?.minute}`}
+								endTimeText={`${workTime?.[selectedDay]?.endTime?.meridiem === 'am' ? '오전' : '오후'} ${
+									workTime?.[selectedDay]?.endTime?.hour
+								} : ${workTime?.[selectedDay]?.endTime?.minute}`}
+								resetTimeHandler={resetTimeHandler}
+							/>
+						</div>
+					)}
 				</div>
 				<div className="absolute bottom-[2rem] w-full">
 					<Bar disabled={workTime === null} ClickFn={submitHandler}>
