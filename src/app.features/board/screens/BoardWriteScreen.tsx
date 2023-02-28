@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import Bar from 'src/app.components/app.base/Button/Bar';
 import CorssIcon from '../../../app.modules/assets/board/cross.svg';
 import BoardImageUpload from '../components/BoardImageUpload';
 import BoardCategorySlider from '../components/slider/BoardCategorySlider';
@@ -46,9 +45,9 @@ function BoardWriteScreen({ UserData }: Props) {
 	return (
 		<div>
 			<header className="w-full h-[5.6rem] flex items-center justify-between mb-[1.6rem]">
-				<div role="presentation" onClick={() => router.back()}>
+				<button onClick={() => router.back()}>
 					<CorssIcon />
-				</div>
+				</button>
 				<span className="text-g10 text-subhead4 ml-[0.1rem]">글쓰기</span>
 				<div>
 					<button className="disabled:text-g7 text-primary text-[1.4rem]" disabled={title === '' || content === ''}>

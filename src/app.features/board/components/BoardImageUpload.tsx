@@ -1,7 +1,8 @@
 import React from 'react';
-import CameraIcon from '../../../app.modules/assets/board/camera.svg';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import CameraIcon from '../../../app.modules/assets/board/camera.svg';
 import 'swiper/css';
+
 function BoardImageUpload({ onImageChange, previewUrls }: any) {
 	return (
 		<div className="flex w-[calc(100%+4rem)] -translate-x-[2rem] pl-[2rem]">
