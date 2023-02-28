@@ -37,7 +37,15 @@ function BoardCategorySlider() {
 
 	return (
 		<div className="w-[calc(100%+4rem)] -translate-x-[2rem]">
-			<Swiper slidesPerView="auto" spaceBetween={8} slidesOffsetBefore={16} slidesOffsetAfter={16}>
+			<Swiper
+				pagination={{
+					clickable: true,
+				}}
+				slidesPerView="auto"
+				spaceBetween={8}
+				slidesOffsetBefore={16}
+				slidesOffsetAfter={16}
+			>
 				{categories.map(({ icon: Icon, colorIcon: ColorIcon, category }, index) => (
 					<SwiperSlide key={index} style={{ width: '64px' }}>
 						<div role="presentation" className="w-fit" onClick={() => handleCategoryClick(category)}>
