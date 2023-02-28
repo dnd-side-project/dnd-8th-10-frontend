@@ -5,7 +5,13 @@ import CorssIcon from '../../../app.modules/assets/board/cross.svg';
 import BoardImageUpload from '../components/BoardImageUpload';
 import BoardCategorySlider from '../components/slider/BoardCategorySlider';
 
-function BoardWriteScreen() {
+interface Props {
+	UserData: {
+		role: string;
+	};
+}
+
+function BoardWriteScreen({ UserData }: Props) {
 	const router = useRouter();
 	const [title, setTitle] = useState<string>('');
 	const [content, setContent] = useState<string>('');
@@ -44,9 +50,13 @@ function BoardWriteScreen() {
 					<CorssIcon />
 				</div>
 				<span className="text-g10 text-subhead4 ml-[0.1rem]">글쓰기</span>
-				<div className="w-[2.4rem]" />
+				<div>
+					<button className="disabled:text-g7 text-primary text-[1.4rem]" disabled={title === '' || content === ''}>
+						등록
+					</button>
+				</div>
 			</header>
-			<BoardCategorySlider />
+			<BoardCategorySlider main={false} manager={UserData?.role === 'MANAGER'} />
 			<div className="my-[1.2rem]">
 				<BoardImageUpload onImageChange={handleImageChange} previewUrls={previewUrls} />
 			</div>
@@ -70,11 +80,6 @@ function BoardWriteScreen() {
 						onChange={handleContentChange}
 						style={{ resize: 'none' }}
 					/>
-				</div>
-				<div className="absolute w-full bottom-0 mb-[2rem]">
-					<Bar type="button" disabled={title === '' || content === ''}>
-						등록
-					</Bar>
 				</div>
 			</form>
 		</div>
