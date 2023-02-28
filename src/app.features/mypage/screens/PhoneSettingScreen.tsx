@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
+import InputInteractButton from 'src/app.components/Button/InputInteractButton';
 import Header from 'src/app.components/Header';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { MutateUserBody } from 'src/app.modules/api/user';
@@ -11,13 +12,12 @@ interface Props {
 	isLoading: boolean;
 }
 function PhoneSettingScreen({ user, putUser, isLoading }: Props) {
-	const [phoneNumber, setPhoneNumber] = useState<string>();
+	const [phoneNumber, setPhoneNumber] = useState<string | null>(user?.phoneNumber);
 	const submitHandler = () => {
 		if (isLoading) return;
-		if (!phoneNumber) return;
 		const body = {
 			...user,
-			phoneNumber,
+			phoneNumber: !phoneNumber?.trim() ? null : phoneNumber,
 		};
 
 		putUser(body);
@@ -28,10 +28,7 @@ function PhoneSettingScreen({ user, putUser, isLoading }: Props) {
 	const resetPhoneNumberHandler = () => {
 		setPhoneNumber('');
 	};
-	useEffect(() => {
-		if (!user) return;
-		setPhoneNumber(user.phoneNumber);
-	}, [user]);
+
 	return (
 		<>
 			<Header title="전화번호 수정" />
@@ -45,6 +42,7 @@ function PhoneSettingScreen({ user, putUser, isLoading }: Props) {
 					placeholder="010-0000-0000"
 					submitHandler={submitHandler}
 				/>
+				<InputInteractButton disabled={false} onClick={submitHandler} />
 			</main>
 		</>
 	);

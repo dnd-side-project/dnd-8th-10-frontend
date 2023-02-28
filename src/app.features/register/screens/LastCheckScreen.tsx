@@ -52,7 +52,7 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 						<Badge size="small" color="warmGray">
 							<Link href={`${SERVICE_URL.register}?page=2&title=지점 수정`}>
 								<div className="flex items-center space-x-[0.4rem]">
-									<span>{workPlace}</span>
+									<span className="text-body2">{workPlace}</span>
 									<EditIcon className="mt-[0.12rem]" />
 								</div>
 							</Link>
@@ -68,7 +68,7 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 										<Badge size="small" color="warmGray">
 											<Link href={`${SERVICE_URL.register}?page=3&title=근무 일시 수정`}>
 												<div className="flex items-center space-x-[0.4rem]">
-													<span>{time}</span> <EditIcon className="mt-[0.12rem]" />
+													<span className="text-body2">{time}</span> <EditIcon className="mt-[0.12rem]" />
 												</div>
 											</Link>
 										</Badge>
@@ -82,7 +82,7 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 						<Badge size="small" color="warmGray">
 							<Link href={`${SERVICE_URL.register}?page=4&title=전화번호 수정`}>
 								<div className="flex items-center space-x-[0.4rem]">
-									<span>{phoneNumber}</span>
+									<span className="text-body2">{phoneNumber}</span>
 									<EditIcon className="mt-[0.12rem]" />
 								</div>
 							</Link>
@@ -93,7 +93,7 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 						<Badge size="small" color="warmGray">
 							<Link href={`${SERVICE_URL.register}?page=5&title=시급 수정`}>
 								<div className="flex items-center space-x-[0.4rem]">
-									<span>
+									<span className="text-body2">
 										{wage}
 										{wage && '원'}
 									</span>

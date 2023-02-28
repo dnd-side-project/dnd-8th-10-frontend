@@ -1,5 +1,6 @@
 import { Router, useRouter } from 'next/router';
 import React, { useRef } from 'react';
+import InputInteractButton from 'src/app.components/Button/InputInteractButton';
 import Header from 'src/app.components/Header';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import Progress from './Progress';
@@ -27,14 +28,7 @@ function RegisterLayout({ curPage, children, canGoNext }: Props) {
 				{children}
 			</main>
 			{router?.query?.title ? (
-				<button
-					disabled={!canGoNext}
-					onClick={() => router.push(`${SERVICE_URL.register}?page=6`)}
-					id="saveBtn"
-					className="bg-primary disabled:bg-g1 disabled:text-g4 text-w  h-[6rem] min-h-[6rem] text-subhead4  resizing-button"
-				>
-					저장
-				</button>
+				<InputInteractButton disabled={!canGoNext} onClick={() => router.push(`${SERVICE_URL.register}?page=6`)} />
 			) : (
 				<button
 					disabled={!canGoNext}
