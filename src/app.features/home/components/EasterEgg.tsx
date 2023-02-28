@@ -31,7 +31,7 @@ function EasterEgg() {
 	return (
 		<>
 			{showDiv && (
-				<div>
+				<div className="relative">
 					<div className="flex absolute right-0 bottom-0 mb-[4rem] mr-[2rem]">
 						<div className="h-[3.6rem] px-[1.6rem] py-[0.8rem] bg-[#F4F5FF] rounded-[2rem] flex justify-center items-center">
 							<span className="text-subhead2 text-[#BDC0D3]">{eggContent[eggContentIndex]}</span>
