@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import Badge from 'src/app.components/app.base/Button/Badge';
 import Divider from 'src/app.components/Divider';
 import Header from 'src/app.components/Header';
 import InfoBox from 'src/app.components/InfoBox';
@@ -31,47 +32,62 @@ function InventoryScreen({ inventoryHistory }: Props) {
 	console.log(inventoryHistory);
 	return (
 		<>
-			<Header title="시재점검" />
+			<Header title="시재 점검" />
 
-			<main className="pt-[5.6rem] h-[100vh]">
-				<section className="py-[1.6rem]">
-					<InfoBox className="space-y-[1.6rem]">
-						<div className="flex items-center justify-between text-subhead1">
-							<h1>시재 기록</h1>
-							<Link href={SERVICE_URL.inventoryHistory}>
-								<span className="text-primary ">전체보기</span>
-							</Link>
-						</div>
-						{inventoryHistory?.length ? (
-							<ul className="space-y-[0.8rem] ">
-								{inventoryHistory?.map((item) => (
-									<li className="flex items-center justify-between ">
-										<div className="flex items-center space-x-[0.8rem]">
-											<ProfileImage userProfileCode={item.userProfileCode} />
-											<span className="text-g9 text-subhead2">{item.userName}</span>
-											<span className="text-g6 text-subhead1">{item.workTime}</span>
-										</div>
-										<span className="text-g9 text-subhead1">{item.inventorySummumation}</span>
-									</li>
-								))}
-							</ul>
-						) : null}
-					</InfoBox>
-				</section>
-				<Divider />
-				<section className="text-g9 pt-[2.4rem] space-y-[1.2rem]">
-					<h1 className="text-subhead1">점검하고자하는 시재를 선택하세요.</h1>
-					<ul className="text-subhead2 space-y-[0.8rem]">
+			<main className="pt-[7.2rem] h-[100vh] text-g9">
+				<section className=" pt-[1.6rem] pb-[2.4rem] space-y-[1.2rem]">
+					<div className="flex items-center justify-start space-x-[0.8rem]">
+						<h1 className="text-subhead4 ">시재 항목</h1>
+
+						<span className="text-g8 text-subhead1">점검하고자하는 시재를 선택하세요.</span>
+					</div>
+
+					<ul className="text-subhead1 flex justify-between max-w-[32rem] mr-auto">
 						{LINKS.map((item, index) => (
-							<li key={index}>
+							<li key={index} className="w-[10.1rem] h-[10.2rem] bg-g1 rounded-[0.8rem] grid place-content-center">
 								<Link href={item.url}>
-									<div className={`${item.imageRender} before:mr-[0.8rem] flex items-center`}>
+									<div className={`${item.imageRender}  flex flex-col justify-center items-center`}>
 										<span>{item.name}</span>
 									</div>
 								</Link>
 							</li>
 						))}
 					</ul>
+				</section>
+
+				<Divider />
+				<section className="py-[2.4rem] space-y-[1.6rem]">
+					<div className="flex items-center justify-between ">
+						<div className="flex items-center space-x-[0.8rem]">
+							<h1 className="text-subhead4 ">시재 기록</h1>
+							<Badge color="coolGray" size="small">
+								60일 보관
+							</Badge>
+						</div>
+
+						<Link href={SERVICE_URL.inventoryHistory}>
+							<span className="text-primary text-subhead1 ">전체보기</span>
+						</Link>
+					</div>
+					<InfoBox className="flex flex-col space-y-[1.6rem] text-subhead1">
+						<span>오늘의 시재 기록</span>
+						{inventoryHistory?.length ? (
+							<ul className="space-y-[0.8rem] ">
+								{inventoryHistory?.map((item) => (
+									<li className="flex items-center justify-between ">
+										<div className="flex items-center space-x-[0.8rem]">
+											<ProfileImage userProfileCode={item.userProfileCode} />
+											<span className=" text-subhead2">{item.userName}</span>
+											<span className="text-g6 text-subhead1">{item.workTime}</span>
+										</div>
+										<span className=" text-subhead1">{item.inventorySummumation}</span>
+									</li>
+								))}
+							</ul>
+						) : (
+							<span className="text-g7 text-center">오늘의 시재 점검을 하지 않았습니다.</span>
+						)}
+					</InfoBox>
 				</section>
 			</main>
 		</>
