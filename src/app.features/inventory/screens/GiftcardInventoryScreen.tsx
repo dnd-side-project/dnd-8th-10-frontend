@@ -45,7 +45,11 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 					<Bar ClickFn={modalIsOpen}>점검사항 확인</Bar>
 				</div>
 				{isModalOpen && (
-					<LastCheckModal countHistory={countHistory} submitHandler={() => submitInventoryRecord('giftcard')} />
+					<LastCheckModal
+						countHistory={countHistory}
+						submitHandler={() => submitInventoryRecord('giftcard')}
+						category="giftcard"
+					/>
 				)}
 			</main>
 		</>

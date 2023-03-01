@@ -15,17 +15,17 @@ function InventoryScreen({ inventoryHistory }: Props) {
 	const LINKS = [
 		{
 			name: '담배',
-			imageRender: "before:content-[url('/images/checklist/cigarette.svg')]",
+			imageRender: "before:content-[url('/images/inventory/cigarette.svg')]",
 			url: SERVICE_URL.inventoryCigarette,
 		},
 		{
 			name: '쓰레기 봉투',
-			imageRender: "before:content-[url('/images/checklist/garbageBag.svg')]",
+			imageRender: "before:content-[url('/images/inventory/garbagebag.svg')]",
 			url: SERVICE_URL.inventoryBag,
 		},
 		{
 			name: '문화 상품권',
-			imageRender: "before:content-[url('/images/checklist/giftCard.svg')]",
+			imageRender: "before:content-[url('/images/inventory/giftcard.svg')]",
 			url: SERVICE_URL.inventoryCard,
 		},
 	];

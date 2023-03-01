@@ -58,7 +58,11 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 					<Bar ClickFn={modalIsOpen}>점검사항 확인</Bar>
 				</div>
 				{isModalOpen && (
-					<LastCheckModal countHistory={countHistory} submitHandler={() => submitInventoryRecord('garbagebag')} />
+					<LastCheckModal
+						countHistory={countHistory}
+						submitHandler={() => submitInventoryRecord('garbagebag')}
+						category="garbagebag"
+					/>
 				)}
 			</main>
 		</>

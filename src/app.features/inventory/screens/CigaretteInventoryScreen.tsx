@@ -151,7 +151,11 @@ function CountCigaretteScreen({
 					<Bar ClickFn={openSaveModalHandler}>점검사항 확인</Bar>
 				</div>
 				{isSaveModalOpen && isModalOpen && (
-					<LastCheckModal countHistory={countHistory} submitHandler={() => submitInventoryRecord('cigarette')} />
+					<LastCheckModal
+						countHistory={countHistory}
+						submitHandler={() => submitInventoryRecord('cigarette')}
+						category="cigarette"
+					/>
 				)}
 				{isAddModalOpen && isModalOpen && (
 					<Overlay>

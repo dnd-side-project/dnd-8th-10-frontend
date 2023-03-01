@@ -7,16 +7,20 @@ import { CountHistoryType } from '../types';
 interface Props {
 	submitHandler: () => void;
 	countHistory: CountHistoryType;
+	category: 'cigarette' | 'garbagebag' | 'giftcard';
 }
 
-function LastCheckModal({ submitHandler, countHistory }: Props) {
+function LastCheckModal({ submitHandler, countHistory, category }: Props) {
+	const getIconUrl = () => {
+		if (category === 'cigarette') return "before:content-[url('/images/inventory/cigarette_small.svg')]";
+		if (category === 'garbagebag') return "before:content-[url('/images/inventory/garbagebag_small.svg')]";
+		return "before:content-[url('/images/inventory/giftcard_small.svg')]";
+	};
 	return (
 		<Overlay>
 			<TopModal>
 				<div className="space-y-[2.4rem] flex flex-col items-start ">
-					<div
-						className={`before:content-[url('/images/checklist/cigarette_small.svg')] before:mr-[0.8rem] flex items-center`}
-					>
+					<div className={`${getIconUrl()} before:mr-[0.8rem] flex items-center`}>
 						<span className="text-g10 text-subhead3">점검사항 확인</span>
 					</div>
 
