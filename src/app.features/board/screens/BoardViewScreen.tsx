@@ -10,11 +10,11 @@ import useModalStore from 'src/app.modules/store/modal';
 import BackIcon from '../../../app.modules/assets/back.svg';
 import MoreIcon from '../../../app.modules/assets/more.svg';
 import BoardContentView from '../components/BoardContentView';
-import { boardViewData } from '../types';
+import { boardViewDatas } from '../types';
 
 interface Props {
 	id: string | string[] | undefined;
-	boardViewData: boardViewData;
+	boardViewData: boardViewDatas;
 	DelMutate: MutateTpye<number>;
 	boardViewReftch: <TPageData>(
 		options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
