@@ -1,29 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import CheckSmallIcon from '../../../app.modules/assets/board/checkSmall.svg';
+import { boardCheckCategory } from '../api';
+import useStore from '../store';
+import { categoryMapEng, categoryMapKr, formatDate } from '../utils';
+import { PostData } from '../types';
 
 function BoardPreview() {
 	const router = useRouter();
+	const { selectedCategory } = useStore();
+	const [boardData, setBoardData] = useState<PostData[]>([]);
+
+	useEffect(() => {
+		if (selectedCategory) {
+			const data = boardCheckCategory(categoryMapEng[selectedCategory]);
+			data.then((res) => {
+				setBoardData(res.data.data);
+			});
+		}
+	}, [selectedCategory]);
+
 	return (
 		<div>
-			{[...new Array(3)].map((_, index) => (
+			{boardData.map((post, index) => (
 				<div
 					role="presentation"
 					key={index}
-					className="first:pt-[0rem]  py-[1.2rem] border-solid border-b-[0.05rem] border-b-g3"
-					onClick={() => router.push(`${SERVICE_URL.boardView}/${index}`)}
+					className="first:pt-[0rem] py-[1.2rem] border-solid border-b-[0.05rem] border-b-g3 h-fit"
+					onClick={() => router.push(`${SERVICE_URL.boardView}/${post.postId}`)}
 				>
 					<div>
-						<span className="text-subhead2 text-g9">3월 화이트데이 전달사항 있습니다~!</span>
+						<span className="text-subhead2 text-g9">{post.title}</span>
 					</div>
 					<div className="flex justify-between">
 						<div className="text-body1">
-							<span className="text-secondary mr-[0.4rem]">전달</span>
-							<span className="text-g7">김냠냠 점장 1분전</span>
+							<span className="text-secondary mr-[0.4rem]">{categoryMapKr[post.category]}</span>
+							<span className="text-g7">
+								{post.userName} {post.role === 'MANAGER' ? '점장' : '알바생'} {formatDate(post.createDate)}
+							</span>
 						</div>
 						<div className="flex items-center">
-							<CheckSmallIcon /> <span className="text-body1 text-g6 ml-[0.4rem]">11</span>
+							<CheckSmallIcon /> <span className="text-body1 text-g6 ml-[0.4rem]">{post.checkCount}</span>
 						</div>
 					</div>
 				</div>
@@ -33,4 +51,3 @@ function BoardPreview() {
 }
 
 export default BoardPreview;
-/* <div onClick={() => router.push(`${SERVICE_URL.boardView}/${1}`)}>화장실 문고리 부서졌어요....</div> */

@@ -1,3 +1,4 @@
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import BoardModal from 'src/app.components/Modal/BoardModal';
@@ -8,23 +9,38 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useModalStore from 'src/app.modules/store/modal';
 import BackIcon from '../../../app.modules/assets/back.svg';
 import MoreIcon from '../../../app.modules/assets/more.svg';
-import { WriteBody } from '../api';
 import BoardContentView from '../components/BoardContentView';
+import { boardViewData } from '../types';
 
 interface Props {
 	id: string | string[] | undefined;
-	boardViewData: MutateTpye<WriteBody> | unknown;
+	boardViewData: boardViewData;
 	DelMutate: MutateTpye<number>;
+	boardViewReftch: <TPageData>(
+		options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+	) => Promise<QueryObserverResult<any, unknown>>;
 }
 
-function BoardViewScreen({ id, boardViewData, DelMutate }: Props) {
-	const { isModalOpen, modalIsOpen } = useModalStore();
+function BoardViewScreen({ id, boardViewData, boardViewReftch, DelMutate }: Props) {
+	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
 	const router = useRouter();
 	const [delModalView, setDelModalView] = useState<boolean>(false);
 
 	useEffect(() => {
 		setDelModalView(false);
 	}, [isModalOpen]);
+
+	useEffect(() => {
+		return () => modalIsClose();
+	}, []);
+
+	useEffect(() => {
+		setTimeout(() => {
+			// 게시글 수정시 서버 반영 시간 대기해서 리패치, 이거 해결해야하는 문제.
+			boardViewReftch();
+		}, 100);
+	}, [router.asPath]);
+
 	return (
 		<div>
 			<header className="w-full h-[5.6rem] flex items-center justify-between mb-[1.6rem]">
@@ -35,7 +51,7 @@ function BoardViewScreen({ id, boardViewData, DelMutate }: Props) {
 					<MoreIcon />
 				</button>
 			</header>
-			<BoardContentView id={id} />
+			<BoardContentView id={id} boardViewData={boardViewData} />
 			{isModalOpen && (
 				<Overlay>
 					{delModalView ? (

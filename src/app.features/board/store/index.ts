@@ -7,7 +7,7 @@ interface IStore {
 }
 
 const useStore = create<IStore>((set) => ({
-	selectedCategory: '',
+	selectedCategory: '전체',
 	setSelectedCategory: (category) => set(() => ({ selectedCategory: category })),
 }));
 

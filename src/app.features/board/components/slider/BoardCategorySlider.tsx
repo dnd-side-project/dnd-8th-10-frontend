@@ -14,9 +14,13 @@ import CoverColorIcon from '../../../../app.modules/assets/board/category/color/
 import QuestionColorIcon from '../../../../app.modules/assets/board/category/color/question.svg';
 import 'swiper/css';
 import useStore from '../../store';
+import { useRouter } from 'next/router';
 
 function BoardCategorySlider({ main = true, manager = false }) {
-	const { setSelectedCategory } = useStore();
+	const router = useRouter();
+	const { formType, id } = router.query;
+
+	const { selectedCategory, setSelectedCategory } = useStore();
 	const [selectedCategoryView, setSelectedCategoryView] = useState('전체');
 	const [categoryView, setCategoryView] = useState<Array<{ icon: any; colorIcon: any; category: string }>>([
 		{ icon: PersonalNoticeIcon, colorIcon: PersonalNoticeColorIcon, category: '전달' },
@@ -48,10 +52,11 @@ function BoardCategorySlider({ main = true, manager = false }) {
 				{ icon: QuestionIcon, colorIcon: QuestionColorIcon, category: '질문' },
 			]);
 		}
+		setSelectedCategoryView(selectedCategory);
 		return () => {
-			setSelectedCategory('');
+			setSelectedCategoryView('');
 		};
-	}, [manager, main]);
+	}, [manager, main, selectedCategory]);
 
 	return (
 		<div className="w-[calc(100%+4rem)] -translate-x-[2rem]">
