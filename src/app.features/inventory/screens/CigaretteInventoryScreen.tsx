@@ -109,6 +109,7 @@ function CountCigaretteScreen({
 						searchTerm={searchTerm}
 						onSearchTermChange={onSearchTermChange}
 						resetSearchTerm={clearSearchTerm}
+						placeholder="담배명 검색"
 					/>
 					<FilterButtons filterHandler={searchChoHandler} selectedFilter={searchCho} filters={CHO_BUTTONS} />
 				</div>
