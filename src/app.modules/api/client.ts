@@ -40,6 +40,8 @@ client.interceptors.response.use(
 					const expires = new Date();
 					expires.setFullYear(expires.getFullYear() + 10);
 					originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+					console.log('엑세스 토큰 갱신 완료됨. ', newAccessToken);
+					console.log('리프레시 토큰 갱신 완료됨. ', newRefreshToken);
 					document.cookie = `ACCESS_TOKEN=${newAccessToken};expires=${expires};path=/;Secure;SameSite=None`;
 					document.cookie = `REFRESH_TOKEN=${newRefreshToken};expires=${expires};path=/;Secure;SameSite=None`;
 					setCookie('REFRESH_TOKEN', newRefreshToken, { path: '/', secure: true, sameSite: 'none', expires });
