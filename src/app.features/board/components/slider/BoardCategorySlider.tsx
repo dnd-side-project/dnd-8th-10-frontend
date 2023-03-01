@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import TotalIcon from '../../../../app.modules/assets/board/category/total.svg';
 import NoticeIcon from '../../../../app.modules/assets/board/category/notice.svg';
@@ -14,35 +14,56 @@ import CoverColorIcon from '../../../../app.modules/assets/board/category/color/
 import QuestionColorIcon from '../../../../app.modules/assets/board/category/color/question.svg';
 import 'swiper/css';
 
-function BoardCategorySlider() {
+function BoardCategorySlider({ main = true, manager = false }) {
 	const [selectedCategory, setSelectedCategory] = useState('전체');
-
+	const [categoryView, setCategoryView] = useState<Array<{ icon: any; colorIcon: any; category: string }>>([
+		{ icon: PersonalNoticeIcon, colorIcon: PersonalNoticeColorIcon, category: '전달' },
+		{ icon: CoverIcon, colorIcon: CoverColorIcon, category: '대타구함' },
+		{ icon: QuestionIcon, colorIcon: QuestionColorIcon, category: '질문' },
+	]);
 	const handleCategoryClick = (category: string) => {
 		setSelectedCategory(category);
 	};
-	const categories = [
-		{ icon: TotalIcon, colorIcon: TotalColorIcon, category: '전체' },
-		{ icon: NoticeIcon, colorIcon: NoticeColorIcon, category: '공지사항' },
-		{ icon: PersonalNoticeIcon, colorIcon: PersonalNoticeColorIcon, category: '전달' },
-		{ icon: EducationIcon, colorIcon: EducationColorIcon, category: '교육' },
-		{ icon: CoverIcon, colorIcon: CoverColorIcon, category: '대타구함' },
-		{ icon: QuestionIcon, colorIcon: QuestionColorIcon, category: '질문' },
-	];
-
-	const categoriesWorkerWrite = [
-		{ icon: PersonalNoticeIcon, colorIcon: PersonalNoticeColorIcon, category: '전달' },
-		{ icon: CoverIcon, colorIcon: CoverColorIcon, category: '대타구함' },
-		{ icon: QuestionIcon, colorIcon: QuestionColorIcon, category: '질문' },
-	];
+	useEffect(() => {
+		if (main) {
+			setCategoryView([
+				{ icon: TotalIcon, colorIcon: TotalColorIcon, category: '전체' },
+				{ icon: NoticeIcon, colorIcon: NoticeColorIcon, category: '공지' },
+				{ icon: PersonalNoticeIcon, colorIcon: PersonalNoticeColorIcon, category: '전달' },
+				{ icon: EducationIcon, colorIcon: EducationColorIcon, category: '교육' },
+				{ icon: CoverIcon, colorIcon: CoverColorIcon, category: '대타구함' },
+				{ icon: QuestionIcon, colorIcon: QuestionColorIcon, category: '질문' },
+			]);
+		}
+		if (manager) {
+			setCategoryView([
+				{ icon: NoticeIcon, colorIcon: NoticeColorIcon, category: '공지' },
+				{ icon: PersonalNoticeIcon, colorIcon: PersonalNoticeColorIcon, category: '전달' },
+				{ icon: EducationIcon, colorIcon: EducationColorIcon, category: '교육' },
+				{ icon: CoverIcon, colorIcon: CoverColorIcon, category: '대타구함' },
+				{ icon: QuestionIcon, colorIcon: QuestionColorIcon, category: '질문' },
+			]);
+		}
+	}, [manager, main]);
 
 	return (
 		<div className="w-[calc(100%+4rem)] -translate-x-[2rem]">
-			<Swiper slidesPerView="auto" spaceBetween={8} slidesOffsetBefore={16} slidesOffsetAfter={16}>
-				{categories.map(({ icon: Icon, colorIcon: ColorIcon, category }, index) => (
-					<SwiperSlide key={index} style={{ width: '64px' }}>
+			<Swiper
+				pagination={{
+					clickable: true,
+				}}
+				slidesPerView="auto"
+				spaceBetween={main ? 8 : 10}
+				slidesOffsetBefore={main ? 16 : 20}
+				slidesOffsetAfter={main ? 16 : 20}
+			>
+				{categoryView.map(({ icon: Icon, colorIcon: ColorIcon, category }, index) => (
+					<SwiperSlide key={index} style={{ width: main ? '64px' : '56px' }}>
 						<div role="presentation" className="w-fit" onClick={() => handleCategoryClick(category)}>
 							<div
-								className={`w-[6.4rem] h-[6.4rem] flex justify-center items-center rounded-[0.8rem] ${
+								className={`${
+									main ? 'w-[6.4rem] h-[6.4rem]' : 'w-[5.6rem] h-[5.6rem]'
+								} flex justify-center items-center rounded-[0.8rem] ${
 									selectedCategory === category ? 'bg-primarySub' : 'bg-g2'
 								}`}
 							>

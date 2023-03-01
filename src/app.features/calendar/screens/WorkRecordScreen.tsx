@@ -112,8 +112,8 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 			}
 		} else if (title === 'add') {
 			return (
-				getWorkTimeString(startTime, endTime).split('~')[0] === '00:00' ||
-				getWorkTimeString(startTime, endTime).split('~')[1] === '00:00'
+				getWorkTimeString(startTime, endTime).split('~')[0] === '24:00' ||
+				getWorkTimeString(startTime, endTime).split('~')[1] === '24:00'
 			);
 		}
 		return false;

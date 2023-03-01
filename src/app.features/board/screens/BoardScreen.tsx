@@ -22,13 +22,12 @@ function BoardScreen() {
 				<BoardCategorySlider />
 			</div>
 			<BoardPreview />
-			<div
+			<button
 				className="absolute bottom-0 right-0 mb-[8.1rem] cursor-pointer"
-				role="presentation"
 				onClick={() => router.push(`${SERVICE_URL.boardWrite}`)}
 			>
 				<WriteIcon />
-			</div>
+			</button>
 		</div>
 	);
 }
