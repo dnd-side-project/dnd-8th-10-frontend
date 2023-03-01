@@ -19,10 +19,6 @@ function useInventoryHistory() {
 			onError: (error) => {
 				console.log(error);
 			},
-			retry: false,
-			refetchOnMount: false,
-			refetchOnReconnect: false,
-			refetchOnWindowFocus: false,
 		}
 	);
 	return { filter, filterHandler, data, refetch };
