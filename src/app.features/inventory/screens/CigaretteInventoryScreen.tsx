@@ -119,10 +119,7 @@ function CountCigaretteScreen({
 	return (
 		<>
 			<Header title="담배">
-				<button
-					onClick={openAddModalHandler}
-					className="  border-[0.15rem] rounded-[0.8rem] border-g42 font-medium text-[1.4rem] leading-[1.96rem] text-[#66666E] w-[6.2rem] h-[2.8rem]"
-				>
+				<button onClick={openAddModalHandler} className="text-primary text-subhead2">
 					항목추가
 				</button>
 			</Header>
