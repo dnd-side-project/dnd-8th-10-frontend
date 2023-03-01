@@ -46,8 +46,6 @@ function SetPhoneNumScreen() {
 					resetHandler={resetPhoneNumberHandler}
 					mode="default"
 					placeholder="010-0000-0000"
-					onFocus={runningBtnAnim}
-					onBlur={pauseBtnAnim}
 				/>
 			</div>
 		</RegisterLayout>

@@ -3,25 +3,16 @@ import InputCancelIcon from 'src/app.modules/assets/inputCancel.svg';
 import SendCommentIcon from 'src/app.modules/assets/sendComment.svg';
 
 interface Props {
+	id?: string;
 	value: string;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	resetHandler?: () => void;
 	submitHandler?: () => void;
 	placeholder: string;
 	mode: 'default' | 'small' | 'wide';
-	onFocus?: () => void;
-	onBlur?: () => void;
+	name?: string;
 }
-function TextInput({
-	value,
-	onChange,
-	resetHandler,
-	submitHandler,
-	placeholder,
-	mode = 'default',
-	onFocus,
-	onBlur,
-}: Props) {
+function TextInput({ id, value, onChange, resetHandler, submitHandler, placeholder, mode = 'default', name }: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -38,9 +29,9 @@ function TextInput({
 	return (
 		<form onSubmit={onSubmit} className="relative">
 			<input
+				id={id}
 				ref={inputRef}
-				onFocus={onFocus}
-				onBlur={onBlur}
+				name={name}
 				value={value}
 				onChange={onChange}
 				placeholder={placeholder}

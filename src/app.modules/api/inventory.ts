@@ -41,10 +41,18 @@ export interface IInventoryHistory {
 	workTime: string; // 18:00~23:00
 	userProfileCode: number;
 	list: Partial<IInventoryList>[]; // inventoryName,diff,category
+	inventorySummumation?: string;
 }
 // 모든 시재 기록 조회
 export const getInventoryRecord = async (category: Category | 'ALL') => {
 	console.log(category, 'caategor');
 	const res = await client.get(`/api/inventory/record?${category !== 'ALL' ? `category=${category}` : ''}`);
+	return res;
+};
+
+// 오늘 시재 기록 조회
+
+export const getInventoryRecordToday = async () => {
+	const res = await client.get(`/api/inventory/record/today`);
 	return res;
 };

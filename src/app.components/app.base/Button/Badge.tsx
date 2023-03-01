@@ -7,7 +7,7 @@ interface Props {
 }
 function Badge({ color, size, children }: Props) {
 	const getBgColor = () => {
-		if (color === 'coolGray') return 'bg-g9';
+		if (color === 'coolGray') return 'bg-g6';
 		if (color === 'secondary') return 'bg-secondary';
 		if (color === 'white') return 'bg-w';
 		return 'bg-g1';

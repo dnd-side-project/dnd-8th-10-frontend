@@ -21,9 +21,9 @@ function InventoryHistoryScreen({ inventoryHistory, filterHandler, filter }: Pro
 
 	return (
 		<>
-			<Header title="시재기록" />
+			<Header title="전체 시재 기록" />
 
-			<main className=" space-y-[1.6rem]  text-subhead1 h-[100vh] text-g9 relative overflow-hidden">
+			<main className="pt-[7.2rem] space-y-[1.6rem]  text-subhead1 h-[100vh] text-g9 relative overflow-hidden">
 				<FilterButtons filterHandler={filterHandler} selectedFilter={filter} filters={Object.keys(mappedFilter)} />
 				<div className=" pb-[1.6rem] h-[calc(100%-6rem)] overflow-y-scroll scrollbar-hidden">
 					<ul className="space-y-[0.8rem] ">
@@ -34,7 +34,7 @@ function InventoryHistoryScreen({ inventoryHistory, filterHandler, filter }: Pro
 										<div className="space-x-[0.8rem] flex items-center">
 											<ProfileImage size="md" userProfileCode={item.userProfileCode} />
 											<span className="text-subhead2">{item.userName}</span>
-											<span className="text-g6 ">
+											<span className="text-g7 text-subhead1 ">
 												{item.workDay}/{item.workTime}
 											</span>
 										</div>
