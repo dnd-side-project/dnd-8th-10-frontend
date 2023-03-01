@@ -11,3 +11,14 @@ export const refreshToken = async () => {
 	const res = await client.get('/oauth/token/refresh');
 	return res;
 };
+
+export const logout = async (): Promise<unknown> => {
+	try {
+		const res = await client.get('/api/user/logout');
+		return res;
+	} catch (error) {
+		console.log(error);
+		alert('에러 발생');
+		return error;
+	}
+};

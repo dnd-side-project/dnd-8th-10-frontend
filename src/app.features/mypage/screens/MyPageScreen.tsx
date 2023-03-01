@@ -13,10 +13,12 @@ import { IUser } from '../types';
 
 interface Props {
 	user: IUser;
+	logoutHandler: () => void;
 }
 // TODO: 프로필이미지 캐싱 필요
-function MyPageScreen({ user }: Props) {
+function MyPageScreen({ user, logoutHandler }: Props) {
 	const router = useRouter();
+
 	return (
 		<>
 			<header className="flex items-center justify-between bg-white  h-[5.6rem] px-[2rem] fixed w-full max-w-[42rem] -translate-x-[2rem] mx-auto ">
@@ -50,8 +52,8 @@ function MyPageScreen({ user }: Props) {
 						<li className=" border-solid border-b-[0.1rem] pb-[2rem] border-g3 w-full flex flex-col space-y-[0.2rem] text-subhead2 text-g9">
 							문의하기
 						</li>
-						<li className="last:border-none border-solid border-b-[0.1rem] pb-[2rem] border-g3 w-full flex flex-col space-y-[0.2rem] text-subhead2 text-g9 ">
-							로그아웃
+						<li className="last:border-none border-solid border-b-[0.1rem] pb-[2rem] border-g3 w-full flex flex-col items-start space-y-[0.2rem] text-subhead2 text-g9 ">
+							<button onClick={logoutHandler}>로그아웃</button>
 						</li>
 					</ul>
 				</div>
