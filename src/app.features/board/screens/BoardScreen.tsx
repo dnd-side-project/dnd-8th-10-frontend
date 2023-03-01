@@ -14,7 +14,9 @@ function BoardScreen() {
 		<div>
 			<header className="w-full h-[5.6rem] flex items-center justify-between">
 				<span className="text-g10 text-subhead4 ml-[0.1rem]">편의점 게시판</span>
-				<SearchIcon />
+				<button type="button" onClick={() => router.push(SERVICE_URL.boardSearch)}>
+					<SearchIcon />
+				</button>
 			</header>
 			<BoardPreviewSlider />
 			<Divider />

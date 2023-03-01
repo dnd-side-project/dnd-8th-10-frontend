@@ -21,4 +21,5 @@ export const SERVICE_URL = {
 	board: '/board',
 	boardWrite: '/board/write',
 	boardView: '/board/view',
+	boardSearch: '/board/search',
 };
