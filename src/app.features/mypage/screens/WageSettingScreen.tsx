@@ -47,8 +47,6 @@ function WageSettingScreen({ user, putUser, isLoading }: Props) {
 					resetHandler={resetwageHandler}
 					mode="default"
 					placeholder="9,620 원"
-					onFocus={runningBtnAnim}
-					onBlur={pauseBtnAnim}
 				/>
 				<InputInteractButton disabled={!wage} onClick={submitHandler} />
 			</main>

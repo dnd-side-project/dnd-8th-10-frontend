@@ -10,22 +10,9 @@ interface Props {
 	submitHandler?: () => void;
 	placeholder: string;
 	mode: 'default' | 'small' | 'wide';
-	onFocus?: () => void;
-	onBlur?: () => void;
 	name?: string;
 }
-function TextInput({
-	id,
-	value,
-	onChange,
-	resetHandler,
-	submitHandler,
-	placeholder,
-	mode = 'default',
-	onFocus,
-	onBlur,
-	name,
-}: Props) {
+function TextInput({ id, value, onChange, resetHandler, submitHandler, placeholder, mode = 'default', name }: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -45,8 +32,6 @@ function TextInput({
 				id={id}
 				ref={inputRef}
 				name={name}
-				onFocus={onFocus}
-				onBlur={onBlur}
 				value={value}
 				onChange={onChange}
 				placeholder={placeholder}
