@@ -12,7 +12,7 @@ function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false }: Pro
 	const [isAnimating, setIsAnimating] = useState(false);
 
 	useEffect(() => {
-		if (isModalOpen && !children.props.content) {
+		if (isModalOpen && !children.props.yesFn) {
 			setIsAnimating(true);
 		}
 	}, [isModalOpen]);
@@ -22,7 +22,7 @@ function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false }: Pro
 			<div
 				role="presentation"
 				onClick={() => {
-					if (!children.props.title) {
+					if (!children.props.yesFn) {
 						setIsAnimating(false);
 						setTimeout(() => {
 							modalIsClose();
@@ -34,7 +34,7 @@ function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false }: Pro
 				className={`translate-x-0 z-50  fixed max-w-[42rem] mx-auto top-0 left-0 bottom-0 right-0 ${bgColor} ${
 					blur && 'backdrop-filter backdrop-blur-[0.4rem]'
 				}  ${
-					!children.props.title &&
+					!children.props.yesFn &&
 					`transition-all duration-500 ease-in-out ${isAnimating ? 'opacity-100' : 'opacity-0'}`
 				}`}
 			/>

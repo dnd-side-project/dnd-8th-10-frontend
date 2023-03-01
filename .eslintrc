@@ -24,6 +24,7 @@
     "dot-notation":"off",
     "react/jsx-no-useless-fragment":"off",
     "react-hooks/exhaustive-deps":"off",
+    "react/prop-types": "off",
     "jsx-a11y/label-has-associated-control": [
       2,
       {
@@ -31,6 +32,5 @@
       }
     ]
 
-  },
- 
+  }
 }
