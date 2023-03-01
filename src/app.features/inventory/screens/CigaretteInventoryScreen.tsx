@@ -7,6 +7,8 @@ import Bar from 'src/app.components/app.base/Button/Bar';
 import Overlay from 'src/app.components/Modal/Overlay';
 import TopModal from 'src/app.components/Modal/TopModal';
 import useModalStore from 'src/app.modules/store/modal';
+import TextInput from 'src/app.components/app.base/Input/TextInput';
+import InputInteractButton from 'src/app.components/Button/InputInteractButton';
 import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryList';
 import useCountHistory from '../hooks/useCountHistory';
@@ -58,12 +60,12 @@ function CountCigaretteScreen({
 	editInventory,
 	editInventoryLoading,
 }: Props) {
-	console.log(inventoryList);
 	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
 	const CHO_BUTTONS = ['전체', 'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [searchCho, setSearchCho] = useState<ChoType>('전체');
 	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	const [newCiga, setNewCiga] = useState<string>('');
 	// TODO: 모달이름 바꾸기
 	const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);
 	const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
@@ -87,26 +89,37 @@ function CountCigaretteScreen({
 		editInventory(body);
 		setIsSaveModalOpen(false);
 	};
-	const submitNewCigarette = (e: React.BaseSyntheticEvent) => {
+	const submitNewCigarette = (e: React.FormEvent) => {
 		e.preventDefault();
+		console.log('new 담배');
 		if (addCigaretteLoading) return;
 		const body = {
-			inventoryName: e.target.newCigarette.value,
+			inventoryName: newCiga,
 		};
 		addCigarette(body);
 		setIsAddModalOpen(false);
 	};
 	const openSaveModalHandler = () => {
 		setIsSaveModalOpen(true);
+		setIsAddModalOpen(false);
 		modalIsOpen();
 	};
-
-	console.log(isSaveModalOpen, isAddModalOpen);
+	const openAddModalHandler = () => {
+		setIsAddModalOpen(true);
+		setIsSaveModalOpen(false);
+		modalIsOpen();
+	};
+	const newCigaHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setNewCiga(e.target.value);
+	};
+	const resetCigaHandler = () => {
+		setNewCiga('');
+	};
 	return (
 		<>
 			<Header title="담배">
 				<button
-					onClick={() => setIsAddModalOpen(true)}
+					onClick={openAddModalHandler}
 					className="  border-[0.15rem] rounded-[0.8rem] border-g42 font-medium text-[1.4rem] leading-[1.96rem] text-[#66666E] w-[6.2rem] h-[2.8rem]"
 				>
 					항목추가
@@ -172,15 +185,22 @@ function CountCigaretteScreen({
 				{isAddModalOpen && isModalOpen && (
 					<Overlay>
 						<TopModal>
-							<div className="">
-								<form onSubmit={submitNewCigarette} className="flex flex-col">
-									<label htmlFor="newCigarette">항목추가</label>
-									<input id="newCigarette" name="newCigarette" type="text" />
-									<button type="submit" className=" w-full py-[2rem] bg-blue-500">
-										항목추가
-									</button>
-								</form>
-							</div>
+							<form onSubmit={submitNewCigarette} className="flex flex-col space-y-[1.2rem]">
+								<label className="text-g10 text-subhead3" htmlFor="newCigarette">
+									항목추가
+								</label>
+								<TextInput
+									id="newCigarette"
+									name="newCigarette"
+									value={newCiga}
+									onChange={newCigaHandler}
+									resetHandler={resetCigaHandler}
+									mode="default"
+									placeholder="새 담배 입력"
+								/>
+								<div aria-hidden className="h-[6rem]" />
+								<InputInteractButton type="submit" disabled={!newCiga.trim()} />
+							</form>
 						</TopModal>
 					</Overlay>
 				)}

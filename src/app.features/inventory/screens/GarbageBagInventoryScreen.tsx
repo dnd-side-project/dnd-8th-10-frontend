@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import Bar from 'src/app.components/app.base/Button/Bar';
 import Header from 'src/app.components/Header';
+import Overlay from 'src/app.components/Modal/Overlay';
+import TopModal from 'src/app.components/Modal/TopModal';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { IInventoryList, PutInventoryBody } from 'src/app.modules/api/inventory';
+import useModalStore from 'src/app.modules/store/modal';
 import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryList';
 import useCountHistory from '../hooks/useCountHistory';
@@ -13,7 +17,8 @@ interface Props {
 }
 
 function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventoryLoading }: Props) {
-	const { countHistory, changeDiffHandler } = useCountHistory();
+	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
+	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
 	const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);
 	const submitInventoryRecord = (category: string) => {
 		if (editInventoryLoading) return;
@@ -56,23 +61,36 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 						점검사항 확인
 					</button>
 				</div>
-				{isSaveModalOpen && (
-					<div
-						className=" pb-[2rem] pt-[8.8rem]  bg-white aria-hidden:hidden  w-full  left-0 bottom-0   z-50 fixed"
-						aria-hidden={!isSaveModalOpen}
-					>
-						<ul className="flex flex-col gap-[8px]">
-							{Object.entries(countHistory).map((history, index) => (
-								<li key={index} className="flex justify-between">
-									<span className="">{history[0]}</span>
-									<span>{history[1]}</span>
-								</li>
-							))}
-						</ul>
-						<button onClick={() => submitInventoryRecord('garbagebag')} className=" w-full py-[2rem] bg-blue-500">
-							점검사항 저장
-						</button>
-					</div>
+				{isSaveModalOpen && isModalOpen && (
+					<Overlay>
+						<TopModal>
+							<div className="space-y-[2.4rem] flex flex-col items-start ">
+								<div
+									className={`before:content-[url('/images/checklist/cigarette_small.svg')] before:mr-[0.8rem] flex items-center`}
+								>
+									<span className="text-g10 text-subhead3">점검사항 확인</span>
+								</div>
+
+								<ul className="flex flex-col gap-[8px] w-full text-subhead-long2 ">
+									{Object.entries(countHistory).map(([inventoryName, inventoryDiff], index) => (
+										<li key={index} className="flex justify-between items-center ">
+											<span className="">{inventoryName}</span>
+											<span
+												className={`${
+													// eslint-disable-next-line no-nested-ternary
+													inventoryDiff !== 0 ? (inventoryDiff > 0 ? 'text-primary' : 'text-secondary') : ''
+												}`}
+											>
+												{inventoryDiff !== 0 && <>{inventoryDiff >= 0 && '+ '}</>}
+												{inventoryDiff}
+											</span>
+										</li>
+									))}
+								</ul>
+								<Bar ClickFn={() => submitInventoryRecord('garbagebag')}>저장하기</Bar>
+							</div>
+						</TopModal>
+					</Overlay>
 				)}
 			</main>
 		</>

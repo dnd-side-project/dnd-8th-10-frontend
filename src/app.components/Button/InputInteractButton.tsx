@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface Props {
 	disabled: boolean;
 	onClick?: () => void;
+	type?: 'submit' | 'reset' | 'button';
 }
 
-function InputInteractButton({ disabled, onClick }: Props) {
+function InputInteractButton({ disabled, onClick, type = 'button' }: Props) {
+	const btnRef = useRef<HTMLButtonElement>(null);
+	const handleResize = (e: any) => {
+		console.log('reszie', e);
+		const btn = btnRef?.current;
+		if (btn === null) return;
+		if (!btn) return;
+
+		btn.style.animationName = 'expand';
+		btn.style.animationPlayState = 'running';
+	};
+	useEffect(() => {
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
 	return (
 		<button
+			ref={btnRef}
+			type={type}
 			disabled={disabled}
 			onClick={onClick}
 			id="saveBtn"

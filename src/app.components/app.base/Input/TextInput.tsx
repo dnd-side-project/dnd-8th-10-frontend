@@ -3,6 +3,7 @@ import InputCancelIcon from 'src/app.modules/assets/inputCancel.svg';
 import SendCommentIcon from 'src/app.modules/assets/sendComment.svg';
 
 interface Props {
+	id?: string;
 	value: string;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	resetHandler?: () => void;
@@ -11,8 +12,10 @@ interface Props {
 	mode: 'default' | 'small' | 'wide';
 	onFocus?: () => void;
 	onBlur?: () => void;
+	name?: string;
 }
 function TextInput({
+	id,
 	value,
 	onChange,
 	resetHandler,
@@ -21,6 +24,7 @@ function TextInput({
 	mode = 'default',
 	onFocus,
 	onBlur,
+	name,
 }: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const onSubmit = (e: React.FormEvent) => {
@@ -38,7 +42,9 @@ function TextInput({
 	return (
 		<form onSubmit={onSubmit} className="relative">
 			<input
+				id={id}
 				ref={inputRef}
+				name={name}
 				onFocus={onFocus}
 				onBlur={onBlur}
 				value={value}
