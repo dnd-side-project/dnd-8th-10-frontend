@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useRouter } from 'next/router';
 import TotalIcon from '../../../../app.modules/assets/board/category/total.svg';
 import NoticeIcon from '../../../../app.modules/assets/board/category/notice.svg';
 import PersonalNoticeIcon from '../../../../app.modules/assets/board/category/personalNotice.svg';
@@ -14,7 +15,6 @@ import CoverColorIcon from '../../../../app.modules/assets/board/category/color/
 import QuestionColorIcon from '../../../../app.modules/assets/board/category/color/question.svg';
 import 'swiper/css';
 import useStore from '../../store';
-import { useRouter } from 'next/router';
 
 function BoardCategorySlider({ main = true, manager = false }) {
 	const router = useRouter();

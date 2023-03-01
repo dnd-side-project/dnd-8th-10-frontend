@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import BackIcon from '../../../app.modules/assets/back.svg';
 import SearchIcon from 'src/app.modules/assets/search.svg';
 import DelIcon from 'src/app.modules/assets/inputDel.svg';
 import Overlay from 'src/app.components/Modal/Overlay';
 import Modal from 'src/app.components/Modal/Modal';
 import useModalStore from 'src/app.modules/store/modal';
+import BackIcon from '../../../app.modules/assets/back.svg';
 import BoardPreview from '../components/BoardPreview';
 
 function BoardSearchScreen() {

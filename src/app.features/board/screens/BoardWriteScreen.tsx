@@ -6,7 +6,7 @@ import { WriteBody } from '../api';
 import BoardImageUpload from '../components/BoardImageUpload';
 import BoardCategorySlider from '../components/slider/BoardCategorySlider';
 import useStore from '../store';
-import { boardViewData } from '../types';
+import { boardViewDatas } from '../types';
 import { categoryMapEng, categoryMapKr } from '../utils';
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 	UserData: {
 		role: string;
 	};
-	boardViewData: boardViewData;
+	boardViewData: boardViewDatas;
 	BoardWriteMutate: MutateTpye<WriteBody>;
 	BoardModifyMutate: MutateTpye<WriteBody>;
 }

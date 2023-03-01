@@ -25,16 +25,17 @@ export const formatDate = (dateString: string) => {
 	const week = day * 7;
 	if (diff < hour) {
 		return `${Math.floor(diff / minute)}분 전`;
-	} else if (diff < day) {
-		return `${Math.floor(diff / hour)}시간 전`;
-	} else if (diff < week) {
-		return `${Math.floor(diff / day)}일 전`;
-	} else {
-		const year = date.getFullYear();
-		const month = `0${date.getMonth() + 1}`.slice(-2);
-		const day = `0${date.getDate()}`.slice(-2);
-		const hours = `0${date.getHours()}`.slice(-2);
-		const minutes = `0${date.getMinutes()}`.slice(-2);
-		return `${year}.${month}.${day}. ${hours}:${minutes}`;
 	}
+	if (diff < day) {
+		return `${Math.floor(diff / hour)}시간 전`;
+	}
+	if (diff < week) {
+		return `${Math.floor(diff / day)}일 전`;
+	}
+	const year = date.getFullYear();
+	const month = `0${date.getMonth() + 1}`.slice(-2);
+	const days = `0${date.getDate()}`.slice(-2);
+	const hours = `0${date.getHours()}`.slice(-2);
+	const minutes = `0${date.getMinutes()}`.slice(-2);
+	return `${year}.${month}.${days}. ${hours}:${minutes}`;
 };

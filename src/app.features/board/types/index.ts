@@ -1,4 +1,4 @@
-export interface PostData {
+export interface PostDatas {
 	postId: number;
 	title: string;
 	content: string;
@@ -10,7 +10,7 @@ export interface PostData {
 	modifiedDate: string;
 }
 
-export interface boardViewData {
+export interface boardViewDatas {
 	category: string;
 	checkCount: number;
 	comments: string[];
