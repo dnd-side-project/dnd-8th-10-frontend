@@ -44,13 +44,14 @@ function MyPageScreen({ user }: Props) {
 				<Divider />
 				<div className="py-[2.4rem]">
 					<ul className=" space-y-[2rem]">
-						<li className=" border-solid border-b-[0.1rem] pb-[2rem] border-g3 w-full flex flex-col space-y-[0.2rem] ">
-							<span className="text-subhead1 text-g6">게시물 관리</span>
-							<span className="text-subhead2 text-g9">내가 쓴글</span>
+						<li className=" border-solid border-b-[0.1rem] pb-[2rem] border-g3 w-full flex flex-col space-y-[0.2rem] text-subhead2 text-g9">
+							내가 쓴글
 						</li>
-						<li className=" border-solid border-b-[0.1rem] pb-[2rem] border-g3 w-full flex flex-col space-y-[0.2rem] ">
-							<span className="text-subhead1 text-g6">고객센터</span>
-							<span className="text-subhead2 text-g9">문의하기</span>
+						<li className=" border-solid border-b-[0.1rem] pb-[2rem] border-g3 w-full flex flex-col space-y-[0.2rem] text-subhead2 text-g9">
+							문의하기
+						</li>
+						<li className="last:border-none border-solid border-b-[0.1rem] pb-[2rem] border-g3 w-full flex flex-col space-y-[0.2rem] text-subhead2 text-g9 ">
+							로그아웃
 						</li>
 					</ul>
 				</div>
