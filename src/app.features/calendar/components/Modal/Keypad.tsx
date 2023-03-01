@@ -51,7 +51,7 @@ function Keypad({ year, month }: Props) {
 			</div>
 			<div className="pt-[6rem]">
 				<Bar
-					type="wide"
+					mode="wide"
 					disabled={keypadYear === '' || keypadMonth === ''}
 					ClickFn={() => {
 						setCalendar(Number(keypadYear), Number(keypadMonth) - 1);

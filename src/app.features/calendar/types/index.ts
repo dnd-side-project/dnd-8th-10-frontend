@@ -26,6 +26,7 @@ export interface ISalaryList {
 	userCode: number;
 	userName: string;
 	userProfileCode: number;
+	wage: number;
 }
 
 export interface IDaySalary {
@@ -43,6 +44,7 @@ export interface ISalaryDetail {
 	workTime: string;
 	daySalary: IDaySalary[];
 	totalSalary: number;
+	wage: number;
 }
 export interface Time {
 	hour: string;

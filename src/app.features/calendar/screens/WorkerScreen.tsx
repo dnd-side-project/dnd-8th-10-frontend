@@ -8,6 +8,8 @@ import useModalStore from 'src/app.modules/store/modal';
 import SettingIcon from 'src/app.modules/assets/calendar/salary/setting.svg';
 import MoneyIcon from 'src/app.modules/assets/calendar/salary/money.svg';
 import InfoIcon from 'src/app.modules/assets/calendar/salary/info.svg';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import { useRouter } from 'next/router';
 import { getSalary } from '../api';
 import Keypad from '../components/Modal/Keypad';
 import SalaryDetail from '../components/SalaryDetail';
@@ -21,6 +23,7 @@ function WorkerScreen() {
 	const { isModalOpen, modalIsOpen } = useModalStore();
 	const [salaryData, setSalaryData] = useState<ISalaryData[]>([]);
 	const [workHour, setWorkHour] = useState<number>();
+	const router = useRouter();
 	const { data, isLoading, refetch } = useQuery(
 		['salary'],
 		() => getSalary({ year: String(year), month: String(month + 1) }),
@@ -67,7 +70,12 @@ function WorkerScreen() {
 										{year}년 {month + 1}월
 									</span>
 									<CtlIcon className="ml-[0.4rem]" />
-									<SettingIcon className="fixed right-0 mr-[1.9rem]" />
+								</button>
+								<button
+									className="fixed right-0 mr-[1.9rem] pointer-events-auto"
+									onClick={() => router.push(SERVICE_URL.editWage)}
+								>
+									<SettingIcon />
 								</button>
 							</div>
 						</div>
