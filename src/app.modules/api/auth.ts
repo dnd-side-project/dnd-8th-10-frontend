@@ -1,3 +1,4 @@
+import { getCookie } from '../cookie';
 import client from './client';
 
 export const oauth2 = async (code: string) => {
@@ -14,7 +15,10 @@ export const refreshToken = async () => {
 
 export const logout = async (): Promise<unknown> => {
 	try {
-		const res = await client.get('/api/user/logout');
+		const refreshFromCookie = getCookie('REFRESH_TOKEN');
+		const res = await client.get('/api/user/logout', {
+			headers: { refresh: `Bearer ${refreshFromCookie}` },
+		});
 		return res;
 	} catch (error) {
 		console.log(error);
