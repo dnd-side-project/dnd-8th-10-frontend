@@ -4,6 +4,7 @@ import BoardModal from 'src/app.components/Modal/BoardModal';
 import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import { MutateTpye } from 'src/app.modules/api/client';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useModalStore from 'src/app.modules/store/modal';
 import BackIcon from '../../../app.modules/assets/back.svg';
 import MoreIcon from '../../../app.modules/assets/more.svg';
@@ -27,10 +28,10 @@ function BoardViewScreen({ id, boardViewData, DelMutate }: Props) {
 	return (
 		<div>
 			<header className="w-full h-[5.6rem] flex items-center justify-between mb-[1.6rem]">
-				<button onClick={() => router.back()}>
+				<button type="button" onClick={() => router.back()}>
 					<BackIcon stroke="#66666E" />
 				</button>
-				<button onClick={() => modalIsOpen()}>
+				<button type="button" onClick={() => modalIsOpen()}>
 					<MoreIcon />
 				</button>
 			</header>
@@ -48,7 +49,7 @@ function BoardViewScreen({ id, boardViewData, DelMutate }: Props) {
 					) : (
 						<BoardModal
 							yesFn={() => {
-								console.log('수정');
+								router.push(`${SERVICE_URL.boardWrite}/${id}?formType=${'modify'}`);
 							}}
 							noFn={() => setDelModalView(true)}
 						/>

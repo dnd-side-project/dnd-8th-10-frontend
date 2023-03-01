@@ -24,7 +24,7 @@ function BoardScreen() {
 			<BoardPreview />
 			<button
 				className="absolute bottom-0 right-0 mb-[8.1rem] cursor-pointer"
-				onClick={() => router.push(`${SERVICE_URL.boardWrite}`)}
+				onClick={() => router.push(`${SERVICE_URL.boardWrite}/${'new'}?formType=${'create'}`)}
 			>
 				<WriteIcon />
 			</button>

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MutateTpye } from 'src/app.modules/api/client';
 import CorssIcon from '../../../app.modules/assets/board/cross.svg';
 import { WriteBody } from '../api';
@@ -8,13 +8,16 @@ import BoardCategorySlider from '../components/slider/BoardCategorySlider';
 import useStore from '../store';
 
 interface Props {
+	id: string | string[] | undefined;
+	formType: string | string[] | undefined;
 	UserData: {
 		role: string;
 	};
 	BoardWriteMutate: MutateTpye<WriteBody>;
+	BoardModifyMutate: MutateTpye<number>;
 }
 
-function BoardWriteScreen({ UserData, BoardWriteMutate }: Props) {
+function BoardWriteScreen({ id, formType, UserData, BoardWriteMutate, BoardModifyMutate }: Props) {
 	const router = useRouter();
 	const { selectedCategory } = useStore();
 	const [title, setTitle] = useState<string>('');
@@ -27,7 +30,12 @@ function BoardWriteScreen({ UserData, BoardWriteMutate }: Props) {
 	const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		// 게시글 작성
-		BoardWriteMutate({ title, content, category: selectedCategory });
+		if (formType === 'create') {
+			BoardWriteMutate({ title, content, category: selectedCategory });
+		} else {
+			// 게시글 수정
+			BoardModifyMutate(Number(id));
+		}
 		router.back();
 
 		// 이미지
@@ -50,20 +58,29 @@ function BoardWriteScreen({ UserData, BoardWriteMutate }: Props) {
 		}
 	};
 
+	useEffect(() => {
+		// 수정 페이지면 게시글 데이터 불러오기
+		if (formType === 'modify') {
+			setTitle('');
+			setContent('');
+		}
+	}, [formType]);
+
 	return (
 		<div>
 			<form onSubmit={handleFormSubmit}>
 				<header className="w-full h-[5.6rem] flex items-center justify-between mb-[1.6rem]">
-					<button onClick={() => router.back()}>
+					<button type="button" onClick={() => router.back()}>
 						<CorssIcon />
 					</button>
-					<span className="text-g10 text-subhead4 ml-[0.1rem]">글쓰기</span>
+					<span className="text-g10 text-subhead4 ml-[0.1rem]">{formType === 'create' ? '글쓰기' : '글쓰기 수정'}</span>
 					<div>
 						<button
+							type="button"
 							className="disabled:text-g7 text-primary text-[1.4rem]"
 							disabled={title === '' || content === '' || selectedCategory === ''}
 						>
-							등록
+							{formType === 'create' ? '등록' : '완료'}
 						</button>
 					</div>
 				</header>
