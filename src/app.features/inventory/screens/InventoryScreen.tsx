@@ -28,7 +28,7 @@ function InventoryScreen({ inventoryHistory }: Props) {
 			url: SERVICE_URL.inventoryCard,
 		},
 	];
-
+	console.log(inventoryHistory);
 	return (
 		<>
 			<Header title="시재점검" />
@@ -44,14 +44,14 @@ function InventoryScreen({ inventoryHistory }: Props) {
 						</div>
 						{inventoryHistory?.length ? (
 							<ul className="space-y-[0.8rem] ">
-								{inventoryHistory?.slice(0, 2).map((item) => (
+								{inventoryHistory?.map((item) => (
 									<li className="flex items-center justify-between ">
 										<div className="flex items-center space-x-[0.8rem]">
 											<ProfileImage userProfileCode={item.userProfileCode} />
 											<span className="text-g9 text-subhead2">{item.userName}</span>
 											<span className="text-g6 text-subhead1">{item.workTime}</span>
 										</div>
-										<span className="text-g9 text-subhead1">{item.list[0].inventoryName}</span>
+										<span className="text-g9 text-subhead1">{item.inventorySummumation}</span>
 									</li>
 								))}
 							</ul>
