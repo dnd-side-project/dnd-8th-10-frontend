@@ -5,12 +5,12 @@ import CheckSmallIcon from '../../../app.modules/assets/board/checkSmall.svg';
 import { boardCheckCategory } from '../api';
 import useStore from '../store';
 import { categoryMapEng, categoryMapKr, formatDate } from '../utils';
-import { PostData } from '../types';
+import { PostDatas } from '../types';
 
 function BoardPreview() {
 	const router = useRouter();
 	const { selectedCategory } = useStore();
-	const [boardData, setBoardData] = useState<PostData[]>([]);
+	const [boardData, setBoardData] = useState<PostDatas[]>([]);
 
 	useEffect(() => {
 		if (selectedCategory) {
