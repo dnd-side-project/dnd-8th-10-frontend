@@ -194,11 +194,10 @@ function CheckListScreen({
 		searchDateHandler(getSearchDateString(weekidx, selectedDate));
 	};
 	const getButtonStyle = (weekIdx: number, selectedDate: number) => {
-		if (todayString === getSearchDateString(weekIdx, selectedDate)) {
-			return 'border-[0.1rem] border-primary text-primary';
-		}
+		const todayStyle =
+			todayString === getSearchDateString(weekIdx, selectedDate) ? 'border-[0.15rem] border-primary' : '';
 
-		if (weekState && weekState[weekIdx]) return 'bg-g3';
+		if (weekState && weekState[weekIdx]) return `bg-primarySub text-primary ${todayStyle}`;
 		return '';
 	};
 	const getDateTitle = () => {
@@ -212,14 +211,16 @@ function CheckListScreen({
 				<div className="space-y-[2rem] pb-[1.2rem]">
 					<span className="text-g10 text-subhead4">{getDateTitle()}</span>
 					<div className="text-g8 space-y-[1.6rem]">
-						<ul className="grid grid-cols-7 text-center text-body1 ">
+						<ul className="grid grid-cols-7 text-g10 text-center text-body1 ">
 							{['일', '월', '화', '수', '목', '금', '토'].map((w) => (
-								<li key={w}>{w}</li>
+								<li key={w} className="first:text-g7  last:text-g7">
+									{w}
+								</li>
 							))}
 						</ul>
-						<ul className="grid grid-cols-7 text-center text-subhead2">
+						<ul className="grid grid-cols-7 text-center text-body2 ">
 							{week.map((w, index) => (
-								<li key={index} className="first:text-secondary last:text-primary">
+								<li key={index} className="first:text-g7 text-g10 last:text-g7">
 									<button
 										name="searchDate"
 										value={w}
@@ -241,7 +242,7 @@ function CheckListScreen({
 				<Divider classNames="fixed  w-full max-w-[42rem] z-[50]" />
 
 				{isChecklistFetched && isWorkDay ? (
-					<div className=" text-subhead2 space-y-[1.6rem] py-[2rem] relative h-[calc(100vh-20.6rem)] overflow-y-scroll scrollbar-hidden ">
+					<div className=" text-subhead2 space-y-[1.6rem] py-[2.4rem] relative h-[calc(100vh-20.6rem)] overflow-y-scroll scrollbar-hidden ">
 						<div className="w-full bg-white ">
 							<button
 								onClick={() => setAddTodoInputOpen(true)}
