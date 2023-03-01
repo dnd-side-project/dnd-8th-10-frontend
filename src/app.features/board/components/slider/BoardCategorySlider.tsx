@@ -13,17 +13,21 @@ import EducationColorIcon from '../../../../app.modules/assets/board/category/co
 import CoverColorIcon from '../../../../app.modules/assets/board/category/color/cover.svg';
 import QuestionColorIcon from '../../../../app.modules/assets/board/category/color/question.svg';
 import 'swiper/css';
+import useStore from '../../store';
 
 function BoardCategorySlider({ main = true, manager = false }) {
-	const [selectedCategory, setSelectedCategory] = useState('전체');
+	const { setSelectedCategory } = useStore();
+	const [selectedCategoryView, setSelectedCategoryView] = useState('전체');
 	const [categoryView, setCategoryView] = useState<Array<{ icon: any; colorIcon: any; category: string }>>([
 		{ icon: PersonalNoticeIcon, colorIcon: PersonalNoticeColorIcon, category: '전달' },
 		{ icon: CoverIcon, colorIcon: CoverColorIcon, category: '대타구함' },
 		{ icon: QuestionIcon, colorIcon: QuestionColorIcon, category: '질문' },
 	]);
 	const handleCategoryClick = (category: string) => {
+		setSelectedCategoryView(category);
 		setSelectedCategory(category);
 	};
+
 	useEffect(() => {
 		if (main) {
 			setCategoryView([
@@ -44,6 +48,9 @@ function BoardCategorySlider({ main = true, manager = false }) {
 				{ icon: QuestionIcon, colorIcon: QuestionColorIcon, category: '질문' },
 			]);
 		}
+		return () => {
+			setSelectedCategory('');
+		};
 	}, [manager, main]);
 
 	return (
@@ -64,13 +71,13 @@ function BoardCategorySlider({ main = true, manager = false }) {
 								className={`${
 									main ? 'w-[6.4rem] h-[6.4rem]' : 'w-[5.6rem] h-[5.6rem]'
 								} flex justify-center items-center rounded-[0.8rem] ${
-									selectedCategory === category ? 'bg-primarySub' : 'bg-g2'
+									selectedCategoryView === category ? 'bg-primarySub' : 'bg-g2'
 								}`}
 							>
-								{selectedCategory === category ? <ColorIcon /> : <Icon />}
+								{selectedCategoryView === category ? <ColorIcon /> : <Icon />}
 							</div>
 							<div className="text-center mt-[0.6rem]">
-								<span className={`text-body1 ${selectedCategory === category ? 'text-primary' : 'text-g8'}  `}>
+								<span className={`text-body1 ${selectedCategoryView === category ? 'text-primary' : 'text-g8'}  `}>
 									{category}
 								</span>
 							</div>
