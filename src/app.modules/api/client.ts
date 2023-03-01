@@ -40,7 +40,8 @@ client.interceptors.response.use(
 					const expires = new Date();
 					expires.setFullYear(expires.getFullYear() + 10);
 					originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-					setCookie('ACCESS_TOKEN', newAccessToken, { path: '/', secure: true, sameSite: 'none', expires });
+					document.cookie = `ACCESS_TOKEN=${newAccessToken};expires=${expires};path=/;Secure;SameSite=None`;
+					document.cookie = `REFRESH_TOKEN=${newRefreshToken};expires=${expires};path=/;Secure;SameSite=None`;
 					setCookie('REFRESH_TOKEN', newRefreshToken, { path: '/', secure: true, sameSite: 'none', expires });
 				}
 

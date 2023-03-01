@@ -25,9 +25,8 @@ const Login: NextPage = () => {
 				if (accessToken && refreshToken) {
 					const expires = new Date();
 					expires.setFullYear(expires.getFullYear() + 10);
-
-					setCookie('REFRESH_TOKEN', refreshToken, { path: '/', secure: true, sameSite: 'none', expires });
-					setCookie('ACCESS_TOKEN', accessToken, { path: '/', secure: true, sameSite: 'none', expires });
+					document.cookie = `ACCESS_TOKEN=${accessToken};expires=${expires};path=/;Secure;SameSite=None`;
+					document.cookie = `REFRESH_TOKEN=${refreshToken};expires=${expires};path=/;Secure;SameSite=None`;
 					client.defaults.headers.Authorization = `Bearer ${accessToken}`;
 				}
 				// 필수정보를 입력하지 않은 경우면 register. 아니면 home으로 이동
