@@ -25,7 +25,7 @@ function InputInteractButton({ disabled, onClick, type = 'button' }: Props) {
 				}
 			} else if (height > prevHeight?.current) {
 				// eslint-disable-next-line no-unused-expressions, no-lonely-if
-				if (btn.style.animationName !== 'shrink') {
+				if (btn.style.animationName === 'expand') {
 					btn.style.animationName = 'shrink';
 					btn.style.animationPlayState = 'running';
 				}
