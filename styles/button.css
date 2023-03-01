@@ -7,9 +7,9 @@
     bottom:2rem;
     cursor: pointer;
     border-radius:0.8rem;
-    animation-play-state: paused;
     animation-name: expand;
-    animation-duration: .5s;
+    animation-play-state: paused;
+    animation-duration: .7s;
     animation-fill-mode: forwards;
    
   }

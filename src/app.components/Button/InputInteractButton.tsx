@@ -20,12 +20,14 @@ function InputInteractButton({ disabled, onClick, type = 'button' }: Props) {
 			if (height < prevHeight?.current) {
 				// eslint-disable-next-line no-unused-expressions
 				if (btn.style.animationName !== 'expand') {
-					btn.style.animationName = 'expand';
-					btn.style.animationPlayState = 'running';
+					setTimeout(() => {
+						btn.style.animationName = 'expand';
+						btn.style.animationPlayState = 'running';
+					}, 500);
 				}
 			} else if (height > prevHeight?.current) {
 				// eslint-disable-next-line no-unused-expressions, no-lonely-if
-				if (btn.style.animationName !== 'shrink') {
+				if (btn.style.animationName === 'expand') {
 					btn.style.animationName = 'shrink';
 					btn.style.animationPlayState = 'running';
 				}
