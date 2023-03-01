@@ -12,6 +12,7 @@ import InputInteractButton from 'src/app.components/Button/InputInteractButton';
 import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryList';
 import useCountHistory from '../hooks/useCountHistory';
+import LastCheckModal from '../components/LastCheckModal';
 
 const getInitialSound = (str: string) => {
 	const CHO_LIST = [
@@ -152,35 +153,7 @@ function CountCigaretteScreen({
 					<Bar ClickFn={openSaveModalHandler}>점검사항 확인</Bar>
 				</div>
 				{isSaveModalOpen && isModalOpen && (
-					<Overlay>
-						<TopModal>
-							<div className="space-y-[2.4rem] flex flex-col items-start ">
-								<div
-									className={`before:content-[url('/images/checklist/cigarette_small.svg')] before:mr-[0.8rem] flex items-center`}
-								>
-									<span className="text-g10 text-subhead3">점검사항 확인</span>
-								</div>
-
-								<ul className="flex flex-col gap-[8px] w-full text-subhead-long2 ">
-									{Object.entries(countHistory).map(([inventoryName, inventoryDiff], index) => (
-										<li key={index} className="flex justify-between items-center ">
-											<span className="">{inventoryName}</span>
-											<span
-												className={`${
-													// eslint-disable-next-line no-nested-ternary
-													inventoryDiff !== 0 ? (inventoryDiff > 0 ? 'text-primary' : 'text-secondary') : ''
-												}`}
-											>
-												{inventoryDiff !== 0 && <>{inventoryDiff >= 0 && '+ '}</>}
-												{inventoryDiff}
-											</span>
-										</li>
-									))}
-								</ul>
-								<Bar ClickFn={() => submitInventoryRecord('cigarette')}>저장하기</Bar>
-							</div>
-						</TopModal>
-					</Overlay>
+					<LastCheckModal countHistory={countHistory} submitHandler={() => submitInventoryRecord('cigarette')} />
 				)}
 				{isAddModalOpen && isModalOpen && (
 					<Overlay>
