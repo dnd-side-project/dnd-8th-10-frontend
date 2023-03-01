@@ -1,17 +1,28 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { MutateTpye } from 'src/app.modules/api/client';
 import CorssIcon from '../../../app.modules/assets/board/cross.svg';
+import { WriteBody } from '../api';
 import BoardImageUpload from '../components/BoardImageUpload';
 import BoardCategorySlider from '../components/slider/BoardCategorySlider';
+import useStore from '../store';
+import { boardViewDatas } from '../types';
+import { categoryMapEng, categoryMapKr } from '../utils';
 
 interface Props {
+	id: string | string[] | undefined;
+	formType: string | string[] | undefined;
 	UserData: {
 		role: string;
 	};
+	boardViewData: boardViewDatas;
+	BoardWriteMutate: MutateTpye<WriteBody>;
+	BoardModifyMutate: MutateTpye<WriteBody>;
 }
 
-function BoardWriteScreen({ UserData }: Props) {
+function BoardWriteScreen({ id, formType, UserData, boardViewData, BoardWriteMutate, BoardModifyMutate }: Props) {
 	const router = useRouter();
+	const { selectedCategory, setSelectedCategory } = useStore();
 	const [title, setTitle] = useState<string>('');
 	const [content, setContent] = useState<string>('');
 	const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -21,12 +32,19 @@ function BoardWriteScreen({ UserData }: Props) {
 
 	const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const formData = new FormData();
-		formData.append('title', title);
-		formData.append('content', content);
-		for (let i = 0; i < imageFiles.length; i += 1) {
-			formData.append('imageFiles', imageFiles[i]);
+		// 게시글 작성
+		if (formType === 'create') {
+			BoardWriteMutate({ title, content, category: categoryMapEng[selectedCategory] });
+		} else {
+			// 게시글 수정
+			BoardModifyMutate({ postId: Number(id), title, content, category: categoryMapEng[selectedCategory] });
 		}
+		router.back();
+		// 이미지
+		// const formData = new FormData();
+		// for (let i = 0; i < imageFiles.length; i += 1) {
+		// 	formData.append('imageFiles', imageFiles[i]);
+		// }
 	};
 
 	const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,24 +60,37 @@ function BoardWriteScreen({ UserData }: Props) {
 		}
 	};
 
+	useEffect(() => {
+		// 수정 페이지면 게시글 데이터 불러오기
+		if (formType === 'modify') {
+			setSelectedCategory(categoryMapKr[boardViewData.category]);
+			setTitle(boardViewData.title);
+			setContent(boardViewData.content);
+		}
+	}, [formType]);
+
 	return (
 		<div>
-			<header className="w-full h-[5.6rem] flex items-center justify-between mb-[1.6rem]">
-				<button onClick={() => router.back()}>
-					<CorssIcon />
-				</button>
-				<span className="text-g10 text-subhead4 ml-[0.1rem]">글쓰기</span>
-				<div>
-					<button className="disabled:text-g7 text-primary text-[1.4rem]" disabled={title === '' || content === ''}>
-						등록
-					</button>
-				</div>
-			</header>
-			<BoardCategorySlider main={false} manager={UserData?.role === 'MANAGER'} />
-			<div className="my-[1.2rem]">
-				<BoardImageUpload onImageChange={handleImageChange} previewUrls={previewUrls} />
-			</div>
 			<form onSubmit={handleFormSubmit}>
+				<header className="w-full h-[5.6rem] flex items-center justify-between mb-[1.6rem]">
+					<button type="button" onClick={() => router.back()}>
+						<CorssIcon />
+					</button>
+					<span className="text-g10 text-subhead4 ml-[0.1rem]">{formType === 'create' ? '글쓰기' : '글쓰기 수정'}</span>
+					<div>
+						<button
+							type="submit"
+							className="disabled:text-g7 text-primary text-[1.4rem]"
+							disabled={title === '' || content === '' || selectedCategory === ''}
+						>
+							{formType === 'create' ? '등록' : '완료'}
+						</button>
+					</div>
+				</header>
+				<BoardCategorySlider main={false} manager={UserData?.role === 'MANAGER'} />
+				<div className="my-[1.2rem]">
+					<BoardImageUpload onImageChange={handleImageChange} previewUrls={previewUrls} />
+				</div>
 				<div>
 					<input
 						className="w-full h-[4.8rem] bg-g1 rounded-[0.8rem] focus:outline-none px-[1.2rem] text-subhead2 text-g9"

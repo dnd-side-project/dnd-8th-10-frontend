@@ -9,7 +9,7 @@ import DelIcon from 'src/app.modules/assets/delete.svg';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import { parseSetWorkTime, getDayOfWeek, setWorkTimeReset } from 'src/app.modules/util/calendar';
 import { MutateTpye } from 'src/app.modules/api/client';
-import KeypadDelIcon from 'src/app.modules/assets/calendar/keypadDel.svg';
+import KeypadDelIcon from 'src/app.modules/assets/inputDel.svg';
 import { getWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import useStore from '../store';
 import useTimeSetStore, { IUser } from '../store/time';
