@@ -88,7 +88,9 @@ function ManagerScreen() {
 													.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 												원
 											</span>
-											<span className="text-subhead1 text-g6">시간당9,620원</span>
+											<span className="text-subhead1 text-g6">
+												시간당 {manageData[0]?.wage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
+											</span>
 										</div>
 										<button
 											type="button"
@@ -126,7 +128,9 @@ function ManagerScreen() {
 														.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 													원
 												</span>
-												<span className="text-subhead1 text-g6">시간당9,620</span>
+												<span className="text-subhead1 text-g6">
+													시간당 {info.wage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
+												</span>
 											</div>
 
 											<button

@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 
 interface props {
 	data: number | undefined;
-	manager?: boolean;
+	wage?: number;
 }
-function TotalSalary({ data, manager = false }: props) {
+function TotalSalary({ data, wage }: props) {
 	const [totalSalary, setTotalSalary] = useState<number>();
 
 	useEffect(() => {
@@ -16,12 +16,12 @@ function TotalSalary({ data, manager = false }: props) {
 	return (
 		<div
 			className={`text-w flex flex-col justify-center ${
-				manager ? 'h-[10.1rem]' : 'h-[7.4rem]'
-			} items-center bg-transparent-30% rounded-[0.8rem] ${manager ? 'pb-[2.4rem]' : ''}`}
+				wage ? 'h-[10.1rem]' : 'h-[7.4rem]'
+			} items-center bg-transparent-30% rounded-[0.8rem] ${wage ? 'pb-[2.4rem]' : ''}`}
 		>
-			{manager && (
+			{wage && (
 				<div className="mt-[2.4rem] mb-[0.6rem]">
-					<span className=" text-subhead1">시간당 9,620원</span>
+					<span className="text-subhead1">시간당 {wage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</span>
 				</div>
 			)}
 

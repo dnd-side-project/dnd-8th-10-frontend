@@ -8,14 +8,14 @@ import useModalStore from 'src/app.modules/store/modal';
 import SettingIcon from 'src/app.modules/assets/calendar/salary/setting.svg';
 import MoneyIcon from 'src/app.modules/assets/calendar/salary/money.svg';
 import InfoIcon from 'src/app.modules/assets/calendar/salary/info.svg';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import { useRouter } from 'next/router';
 import { getSalary } from '../api';
 import Keypad from '../components/Modal/Keypad';
 import SalaryDetail from '../components/SalaryDetail';
 import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';
 import { ISalaryData } from '../types';
-import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
-import { useRouter } from 'next/router';
 
 function WorkerScreen() {
 	// 직원 급여 페이지

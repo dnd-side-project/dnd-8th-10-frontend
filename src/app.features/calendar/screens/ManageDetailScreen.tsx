@@ -4,13 +4,13 @@ import Header from 'src/app.components/Header';
 import SettingIcon from 'src/app.modules/assets/calendar/salary/setting.svg';
 import MoneyIcon from 'src/app.modules/assets/calendar/salary/money.svg';
 import InfoIcon from 'src/app.modules/assets/calendar/salary/info.svg';
+import { useRouter } from 'next/router';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { getUserSalary } from '../api';
 import SalaryDetail from '../components/SalaryDetail';
 import TotalSalary from '../components/TotalSalary';
 import useStore from '../store';
 import { ISalaryDetail } from '../types';
-import { useRouter } from 'next/router';
-import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 
 function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 	// 급여 상세페이지
@@ -23,7 +23,6 @@ function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 		{
 			onSuccess: (res) => {
 				setSalaryData(res.data.data);
-				console.log(res.data.data);
 			},
 			onError: (error) => {
 				console.log(error);
@@ -64,7 +63,7 @@ function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 								<span className="text-[1rem] text-w ml-[0.4rem]">세금 공제 전 금액입니다</span>
 							</div>
 						</div>
-						<TotalSalary data={salaryData.totalSalary} manager />
+						<TotalSalary data={salaryData.totalSalary} wage={salaryData.wage} />
 					</div>
 					<div className="w-[calc(100%+4rem)] px-[2rem] pb-[2rem] -translate-x-[2rem] bg-w">
 						<SalaryDetail data={salaryData.daySalary} />
