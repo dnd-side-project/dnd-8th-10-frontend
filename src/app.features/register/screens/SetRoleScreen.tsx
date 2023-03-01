@@ -21,6 +21,7 @@ function SetRoleScreen({ userName }: Props) {
 		setRole(value);
 	};
 	// TODO: 화면크기별로 버튼 간격 대응하기
+	// TODO: 역할선택버튼 간격 최대 1.2 rem 으로
 	return (
 		<RegisterLayout curPage={1} canGoNext={role !== null}>
 			<div className="space-y-[11.4rem] flex flex-col ">
