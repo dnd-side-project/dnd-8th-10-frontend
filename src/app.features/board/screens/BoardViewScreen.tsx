@@ -9,7 +9,7 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useModalStore from 'src/app.modules/store/modal';
 import BackIcon from '../../../app.modules/assets/back.svg';
 import MoreIcon from '../../../app.modules/assets/more.svg';
-import BoardContentView from '../components/BoardContentView';
+import BoardContentView from '../components/boardView/BoardContentView';
 import { boardViewDatas } from '../types';
 
 interface Props {
@@ -56,7 +56,7 @@ function BoardViewScreen({ id, boardViewData, DelMutate }: Props) {
 					) : (
 						<BoardModal
 							yesFn={() => {
-								router.push(`${SERVICE_URL.boardWrite}/${id}?formType=${'modify'}`);
+								router.push(`${SERVICE_URL.boardEdit}/${id}`);
 							}}
 							noFn={() => setDelModalView(true)}
 						/>

@@ -44,7 +44,7 @@ function BoardPreviewSlider() {
 							<div
 								role="presentation"
 								className="w-fit"
-								onClick={() => router.push(`${SERVICE_URL.boardView}/${index}`)}
+								onClick={() => router.push(`${SERVICE_URL.boardView}/${post.postId}`)}
 							>
 								<SlideImgIcon />
 								<div className="flex items-center mt-[0.8rem]">

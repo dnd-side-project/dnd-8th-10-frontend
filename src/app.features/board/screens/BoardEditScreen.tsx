@@ -6,16 +6,19 @@ import { WriteBody } from '../api';
 import BoardImageUpload from '../components/BoardImageUpload';
 import BoardCategorySlider from '../components/slider/BoardCategorySlider';
 import useStore from '../store';
-import { categoryMapEng } from '../utils';
+import { boardViewDatas } from '../types';
+import { categoryMapEng, categoryMapKr } from '../utils';
 
 interface Props {
+	id: string | string[] | undefined;
 	UserData: {
 		role: string;
 	};
-	BoardWriteMutate: MutateTpye<WriteBody>;
+	boardViewData: boardViewDatas;
+	BoardModifyMutate: MutateTpye<WriteBody>;
 }
 
-function BoardWriteScreen({ UserData, BoardWriteMutate }: Props) {
+function BoardEditScreen({ id, UserData, boardViewData, BoardModifyMutate }: Props) {
 	const router = useRouter();
 	const { selectedCategory, setSelectedCategory } = useStore();
 	const [title, setTitle] = useState<string>('');
@@ -27,8 +30,8 @@ function BoardWriteScreen({ UserData, BoardWriteMutate }: Props) {
 
 	const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		// 게시글 작성
-		BoardWriteMutate({ title, content, category: categoryMapEng[selectedCategory] });
+		// 게시글 수정
+		BoardModifyMutate({ postId: Number(id), title, content, category: categoryMapEng[selectedCategory] });
 
 		// 이미지
 		// const formData = new FormData();
@@ -51,7 +54,11 @@ function BoardWriteScreen({ UserData, BoardWriteMutate }: Props) {
 	};
 
 	useEffect(() => {
-		setSelectedCategory('전체');
+		// 게시글 데이터 불러오기
+		setSelectedCategory(categoryMapKr[boardViewData.category]);
+		setTitle(boardViewData.title);
+		setContent(boardViewData.content);
+
 		return () => {
 			setSelectedCategory('전체');
 		};
@@ -64,14 +71,14 @@ function BoardWriteScreen({ UserData, BoardWriteMutate }: Props) {
 					<button type="button" onClick={() => router.back()}>
 						<CorssIcon />
 					</button>
-					<span className="text-g10 text-subhead4 ml-[0.1rem]">글쓰기</span>
+					<span className="text-g10 text-subhead4 ml-[0.1rem]">글쓰기 수정</span>
 					<div>
 						<button
 							type="submit"
 							className="disabled:text-g7 text-primary text-[1.4rem]"
 							disabled={title === '' || content === '' || selectedCategory === ''}
 						>
-							등록
+							완료
 						</button>
 					</div>
 				</header>
@@ -103,4 +110,4 @@ function BoardWriteScreen({ UserData, BoardWriteMutate }: Props) {
 		</div>
 	);
 }
-export default BoardWriteScreen;
+export default BoardEditScreen;

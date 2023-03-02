@@ -27,10 +27,7 @@ function BoardScreen() {
 				<BoardPreview />
 			</div>
 			<div className="flex justify-end max-w-[42rem] -translate-x-[4rem] w-full fixed bottom-0 mb-[8.1rem] ">
-				<button
-					className="cursor-pointer"
-					onClick={() => router.push(`${SERVICE_URL.boardWrite}/${'new'}?formType=${'create'}`)}
-				>
+				<button className="cursor-pointer" onClick={() => router.push(SERVICE_URL.boardWrite)}>
 					<WriteIcon />
 				</button>
 			</div>
