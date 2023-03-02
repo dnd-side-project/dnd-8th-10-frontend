@@ -6,7 +6,7 @@ import Overlay from 'src/app.components/Modal/Overlay';
 import Header from 'src/app.components/Header';
 import DelIcon from 'src/app.modules/assets/delete.svg';
 import Bar from 'src/app.components/app.base/Button/Bar';
-import { parseSetWorkTime, getDayOfWeek, setWorkTimeReset } from 'src/app.modules/util/calendar';
+import { parseSetWorkTime, getDayOfWeek, setWorkTimeReset, getSendWorkTimeString } from 'src/app.modules/util/calendar';
 import { MutateTpye } from 'src/app.modules/api/client';
 import KeypadDelIcon from 'src/app.modules/assets/inputDel.svg';
 import { getWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
@@ -47,8 +47,8 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 	// 수정 버튼
 	const modifyBtn = async () => {
 		let workTimeData;
-		if (getWorkTimeString(startTime, endTime) !== '00:00~00:00') {
-			workTimeData = getWorkTimeString(startTime, endTime);
+		if (getSendWorkTimeString(startTime, endTime) !== '00:00~00:00') {
+			workTimeData = getSendWorkTimeString(startTime, endTime);
 			const [start, end] = workTimeData.split('~');
 			const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 			const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
@@ -101,19 +101,26 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 	}, [UserData]);
 
 	const disabledFn = () => {
+		if (
+			getSendWorkTimeString(startTime, endTime).split('~')[0] === '00:00' ||
+			getSendWorkTimeString(startTime, endTime).split('~')[1] === '00:00'
+		) {
+			return true;
+		}
+
 		if (title === 'modify') {
 			if (currentTime) {
 				return (
-					getWorkTimeString(currentTime.startTime, currentTime?.endTime).split('~')[0] ===
-						getWorkTimeString(startTime, endTime).split('~')[0] &&
-					getWorkTimeString(currentTime.startTime, currentTime?.endTime).split('~')[1] ===
-						getWorkTimeString(startTime, endTime).split('~')[1]
+					getSendWorkTimeString(currentTime.startTime, currentTime?.endTime).split('~')[0] ===
+						getSendWorkTimeString(startTime, endTime).split('~')[0] &&
+					getSendWorkTimeString(currentTime.startTime, currentTime?.endTime).split('~')[1] ===
+						getSendWorkTimeString(startTime, endTime).split('~')[1]
 				);
 			}
 		} else if (title === 'add') {
 			return (
-				getWorkTimeString(startTime, endTime).split('~')[0] === '24:00' ||
-				getWorkTimeString(startTime, endTime).split('~')[1] === '24:00'
+				getSendWorkTimeString(startTime, endTime).split('~')[0] === '00:00' ||
+				getSendWorkTimeString(startTime, endTime).split('~')[1] === '00:00'
 			);
 		}
 		return false;
@@ -121,12 +128,13 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 
 	const timeReset = () => {
 		if (openModalFlag === 'startTime') {
-			setInitTime(setWorkTimeReset(getWorkTimeString(startTime, endTime), true));
+			setInitTime(setWorkTimeReset(getSendWorkTimeString(startTime, endTime), true));
 		} else {
-			setInitTime(setWorkTimeReset(getWorkTimeString(startTime, endTime)));
+			setInitTime(setWorkTimeReset(getSendWorkTimeString(startTime, endTime)));
 		}
 		return null;
 	};
+
 	return (
 		<>
 			<div className="h-[100vh] flex flex-col justify-between">
