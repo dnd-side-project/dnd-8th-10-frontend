@@ -7,11 +7,11 @@ import { useRouter } from 'next/router';
 import SlideImgIcon from '../../assets/slideImg.svg';
 import { boardCheckCategory } from '../../api';
 import { categoryMapEng, categoryMapKr, formatDate } from '../../utils';
-import { boardViewDatas } from '../../types';
+import { IBoardViewData } from '../../types';
 
 function BoardPreviewSlider() {
 	const router = useRouter();
-	const [BoardPreviewData, setBoardPreviewData] = useState<boardViewDatas[]>([]);
+	const [BoardPreviewData, setBoardPreviewData] = useState<IBoardViewData[]>([]);
 	useEffect(() => {
 		const pesonalNoticeData = boardCheckCategory(categoryMapEng['공지']);
 		const noticeData = boardCheckCategory(categoryMapEng['전달']);

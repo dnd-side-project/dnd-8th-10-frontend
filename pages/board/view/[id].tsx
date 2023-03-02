@@ -1,7 +1,6 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { boardDelete } from 'src/app.features/board/api';
 import BoardViewScreen from 'src/app.features/board/screens/BoardViewScreen';
 import useBoardView from 'src/app.modules/hooks/board/useBoardView';
@@ -24,7 +23,7 @@ const ViewPage: NextPage = () => {
 	console.log(boardViewData);
 	return (
 		<div className="h-[100vh]">
-			<BoardViewScreen id={id} boardViewData={boardViewData} DelMutate={DelMutate} />
+			<BoardViewScreen boardViewData={boardViewData} DelMutate={DelMutate} />
 		</div>
 	);
 };
