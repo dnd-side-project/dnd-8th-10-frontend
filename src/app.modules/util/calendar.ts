@@ -21,12 +21,7 @@ export function crossDate(clickDay: string, toDay: string) {
 
 export const formatTimeView = (time: string, type = 'view') => {
 	const [start, end] = time.split('~');
-	let formatHour;
-	if (type === 'Reset') {
-		formatHour = (hour: number) => hour % 12;
-	} else {
-		formatHour = (hour: number) => (hour % 12 === 0 ? 12 : hour % 12);
-	}
+	const formatHour = (hour: number) => (hour % 12 === 0 ? 12 : hour % 12);
 	const formatMinute = (minute: number) => minute.toString().padStart(2, '0');
 
 	const [startHour, startMinute] = start.split(':').map((value) => parseInt(value, 10));
@@ -70,7 +65,7 @@ export const parseSetWorkTime = (workTime: string): IUser => {
 
 export const setWorkTimeReset = (workTime: string, start = false): IUser => {
 	if (start) {
-		const [meridiemRight, hourRight, minuteRight] = formatTimeView(workTime, 'Reset')[1].split(' ');
+		const [meridiemRight, hourRight, minuteRight] = formatTimeView(workTime, '')[1].split(' ');
 		return {
 			startTime: {
 				meridiem: 'am',
@@ -84,7 +79,7 @@ export const setWorkTimeReset = (workTime: string, start = false): IUser => {
 			},
 		};
 	}
-	const [meridiemLeft, hourLeft, minuteLeft] = formatTimeView(workTime, 'Reset')[0].split(' ');
+	const [meridiemLeft, hourLeft, minuteLeft] = formatTimeView(workTime, '')[0].split(' ');
 	return {
 		startTime: {
 			meridiem: meridiemLeft === '오전' ? 'am' : 'pm',
@@ -124,7 +119,7 @@ export const homeTimeView = (timeStr: string) => {
 	return result;
 };
 
-export const getSendWorkTimeString = (startTime: Time, endTime: Time) => {
+export const getResetWorkTimeString = (startTime: Time, endTime: Time) => {
 	try {
 		return `${startTime.hour.length === 1 && startTime.meridiem === 'am' ? '0' : ''}${
 			+startTime.hour + (startTime.meridiem === 'am' ? 0 : 12)
