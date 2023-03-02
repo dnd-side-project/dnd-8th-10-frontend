@@ -16,12 +16,12 @@ const ViewPage: NextPage = () => {
 	// 게시글 삭제
 	const { mutate: DelMutate } = useMutation(boardDelete, {
 		onSuccess: (res) => {
-			// console.log(res);
+			console.log(res);
 			router.back();
 		},
 		onError: (error) => console.log(error),
 	});
-
+	console.log(boardViewData);
 	return (
 		<div className="h-[100vh]">
 			<BoardViewScreen id={id} boardViewData={boardViewData} DelMutate={DelMutate} />

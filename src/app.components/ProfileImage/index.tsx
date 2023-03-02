@@ -14,7 +14,6 @@ function ProfileImage({ size, userProfileCode, round = false }: Props) {
 	const getRoundSize = () => {
 		return 'w-[6rem] h-[6rem] min-w-[6rem] min-h-[6rem]';
 	};
-	console.log(userProfileCode);
 	return (
 		<>
 			{round ? (
