@@ -14,7 +14,7 @@ import CommentSettingIcon from '../../../app.modules/assets/board/ellipsis.svg';
 import BoardContentView from '../components/boardView/BoardContentView';
 import { IBoardViewData, IComment } from '../types';
 import { formatDate } from '../utils';
-import { PostCommentBody } from '../api/viewResponse';
+import { DeleteCommentParam, PostCommentBody } from '../api/viewResponse';
 
 interface Props {
 	// id?: string | string[] | undefined;
@@ -22,13 +22,21 @@ interface Props {
 	DelMutate: MutateTpye<number>;
 	ViewCheckMutate: MutateTpye<number>;
 	PostCommentMutate: MutateTpye<PostCommentBody>;
+	DeleteCommentMutate: MutateTpye<DeleteCommentParam>;
 	mutateCommentResult: IComment[];
 }
 // TODO: 게시물 확인 버튼 api 연동(0)
 // TODO: 백엔드 boardViewData에 해당 게시물을 체크했는지에 대한 필드 추가 됬는지 확인하기
 // TODO: 댓글 멘션 관련 로직 논의
-// TODO: 댓글 C,R(0),U,D
-function BoardViewScreen({ boardViewData, DelMutate, ViewCheckMutate, PostCommentMutate, mutateCommentResult }: Props) {
+// TODO: 댓글 C(0),R(0),U,D
+function BoardViewScreen({
+	boardViewData,
+	DelMutate,
+	ViewCheckMutate,
+	PostCommentMutate,
+	DeleteCommentMutate,
+	mutateCommentResult,
+}: Props) {
 	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
 	const router = useRouter();
 	const [delModalView, setDelModalView] = useState<boolean>(false);
@@ -75,6 +83,12 @@ function BoardViewScreen({ boardViewData, DelMutate, ViewCheckMutate, PostCommen
 		if (!newComment.trim() || !postId) return;
 		const body = { postId, content: newComment };
 		PostCommentMutate(body);
+	};
+	const deleteCommentHandler = (commentId: number) => {
+		const { postId } = boardViewData;
+		if (!postId) return;
+		const param = { postId, commentId };
+		DeleteCommentMutate(param);
 	};
 	return (
 		<div>
@@ -123,7 +137,9 @@ function BoardViewScreen({ boardViewData, DelMutate, ViewCheckMutate, PostCommen
 												<span>{formatDate(createdDate)}</span>
 											</div>
 										</div>
-										<CommentSettingIcon />
+										<button onClick={() => deleteCommentHandler(commentId)}>
+											<CommentSettingIcon />
+										</button>
 									</div>
 									<p className="text-body2 text-g9">{content}</p>
 								</div>

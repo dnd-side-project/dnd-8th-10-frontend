@@ -17,3 +17,14 @@ export const postComment = async (body: PostCommentBody) => {
 	const res = await client.post(`/api/board/${postId}/comment`, { ...rest });
 	return res;
 };
+export interface DeleteCommentParam {
+	postId: number;
+	commentId: string;
+}
+// 댓글 삭제
+
+export const deleteComment = async (body: DeleteCommentParam) => {
+	const { postId, commentId } = body;
+	const res = await client.delete(`/api/board/${postId}/${commentId}`);
+	return res;
+};
