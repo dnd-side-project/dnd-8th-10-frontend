@@ -29,7 +29,7 @@ function MyPageScreen({ user, logoutHandler }: Props) {
 			</header>
 			<main className="h-[100vh] pt-[7.2rem]">
 				<div className="pb-[1.6rem] space-y-[1.6rem]">
-					{user && <Profile {...user} mypage />}
+					{user && <Profile {...user} />}
 					<InfoBox>
 						<button
 							onClick={() => router.push(SERVICE_URL.myStore)}
