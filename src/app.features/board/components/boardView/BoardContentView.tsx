@@ -1,31 +1,15 @@
 import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import ViewImgIcon from '../../assets/viewImg.svg';
-import CheckIcon from '../../../../app.modules/assets/board/check.svg';
+import CheckIcon from 'src/app.modules/assets/board/check.svg';
+import { IBoardViewData } from '../../types';
 import { categoryMapKr, formatDate } from '../../utils';
 
 interface Props {
-	id: string | string[] | undefined;
-	boardViewData: {
-		category: string;
-		checkCount: number;
-		comments: string[];
-		content: string;
-		createDate: string;
-		modifiedDate: string;
-		postId: number;
-		role: string;
-		title: string;
-		userCode: number;
-		userName: string;
-		viewCount: number;
-	};
+	boardViewData: IBoardViewData;
 }
 
-function BoardContentView({ id, boardViewData }: Props) {
+function BoardContentView({ boardViewData }: Props) {
 	return (
-		<div>
+		<section>
 			{boardViewData && (
 				<>
 					<div className="mb-[1.6rem]">
@@ -52,16 +36,16 @@ function BoardContentView({ id, boardViewData }: Props) {
 					<div className="mb-[2.4rem]">
 						<span className="text-body2 text-g9">{boardViewData.content}</span>
 					</div>
-					<div className="flex text-body-long2 text-g6 pb-[1.2rem] border-solid border-b-[0.05rem] border-b-g3">
-						<div className="mr-[0.8rem] flex items-center">
+					<div className="flex items-center text-body-long2 text-g6 pb-[1.2rem] border-solid border-b-[0.05rem] space-x-[0.8rem] border-b-g3">
+						<div className="flex items-center  justify-center space-x-[0.4rem] bg-g1 px-[0.8rem] py-[0.5rem] rounded-[0.4rem]">
 							<CheckIcon />
-							<span className="ml-[0.4rem]">{boardViewData.checkCount}</span>
+							<span className="leading-[100%]">{boardViewData.checkCount}</span>
 						</div>
 						<div>조회 {boardViewData.viewCount}</div>
 					</div>
 				</>
 			)}
-		</div>
+		</section>
 	);
 }
 
