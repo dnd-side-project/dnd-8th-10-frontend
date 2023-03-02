@@ -23,13 +23,14 @@ function BoardScreen() {
 			<div className="my-[2.4rem]">
 				<BoardCategorySlider />
 			</div>
-			<BoardPreview />
-			<button
-				className="absolute bottom-0 right-0 mb-[8.1rem] cursor-pointer"
-				onClick={() => router.push(`${SERVICE_URL.boardWrite}/${'new'}?formType=${'create'}`)}
-			>
-				<WriteIcon />
-			</button>
+			<div className="pb-[5.6rem]">
+				<BoardPreview />
+			</div>
+			<div className="flex justify-end max-w-[42rem] -translate-x-[4rem] w-full fixed bottom-0 mb-[8.1rem] ">
+				<button className="cursor-pointer" onClick={() => router.push(SERVICE_URL.boardWrite)}>
+					<WriteIcon />
+				</button>
+			</div>
 		</div>
 	);
 }

@@ -6,7 +6,7 @@ function useBoardView(id: string | string[] | undefined) {
 		data: boardViewData,
 		refetch: boardViewReftch,
 		isLoading: boardViewLoading,
-	} = useQuery(['boardLoad'], () => boardView(Number(id)), {
+	} = useQuery(['boardView', id], () => boardView(Number(id)), {
 		select: (res) => res.data.data,
 		onSuccess: (res) => {
 			// console.log(res);
@@ -14,6 +14,7 @@ function useBoardView(id: string | string[] | undefined) {
 		onError: (error) => {
 			console.log(error);
 		},
+		enabled: true,
 	});
 	return { boardViewData, boardViewReftch, boardViewLoading };
 }
