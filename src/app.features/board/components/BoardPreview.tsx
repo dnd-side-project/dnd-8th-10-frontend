@@ -16,7 +16,7 @@ function BoardPreview() {
 		if (selectedCategory) {
 			const data = boardCheckCategory(categoryMapEng[selectedCategory]);
 			data.then((res) => {
-				setBoardData(res.data.data);
+				setBoardData(res.data.data.sort((a: { postId: number }, b: { postId: number }) => b.postId - a.postId));
 			});
 		}
 	}, [selectedCategory]);

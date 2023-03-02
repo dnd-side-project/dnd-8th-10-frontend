@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import Badge from 'src/app.components/app.base/Button/Badge';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useRouter } from 'next/router';
 import SlideImgIcon from '../../assets/slideImg.svg';
+import { boardCheckCategory } from '../../api';
+import { categoryMapEng, categoryMapKr, formatDate } from '../../utils';
+import { boardViewDatas } from '../../types';
 
 function BoardPreviewSlider() {
 	const router = useRouter();
+	const [BoardPreviewData, setBoardPreviewData] = useState<boardViewDatas[]>([]);
+	useEffect(() => {
+		const pesonalNoticeData = boardCheckCategory(categoryMapEng['공지']);
+		const noticeData = boardCheckCategory(categoryMapEng['전달']);
+		Promise.all([pesonalNoticeData, noticeData]).then((responses) => {
+			const allPosts = responses[0].data.data;
+			const noticePosts = responses[1].data.data;
+			const data = allPosts.concat(noticePosts);
+			data.sort((a: { postId: number }, b: { postId: number }) => b.postId - a.postId);
+			setBoardPreviewData(data);
+		});
+	}, []);
+
 	return (
 		<div>
 			<div className="mt-[1.6rem] mb-[0.8rem]">
@@ -23,7 +39,7 @@ function BoardPreviewSlider() {
 					slidesOffsetBefore={16}
 					slidesOffsetAfter={16}
 				>
-					{[...new Array(11)].map((_, index) => (
+					{BoardPreviewData.map((post, index) => (
 						<SwiperSlide key={index} style={{ width: '225px' }}>
 							<div
 								role="presentation"
@@ -33,14 +49,14 @@ function BoardPreviewSlider() {
 								<SlideImgIcon />
 								<div className="flex items-center mt-[0.8rem]">
 									<Badge color="secondary" size="small">
-										공지
+										{categoryMapKr[post.category]}
 									</Badge>
-									<span className="text-subhead2 text-g9 ml-[0.8rem]">
-										{`${index}월 발렌타인데이 이벤트 필독!`.slice(0, 17)}
-									</span>
+									<span className="text-subhead2 text-g9 ml-[0.8rem]">{post.title}</span>
 								</div>
 								<div className="mt-[0.2rem]">
-									<span className="text-body1 text-g7">김냠냠 점장 1분전</span>
+									<span className="text-body1 text-g7">
+										{post.userName} {post.role === 'MANAGER' ? '점장' : '알바생'} {formatDate(post.createDate)}
+									</span>
 								</div>
 							</div>
 						</SwiperSlide>
