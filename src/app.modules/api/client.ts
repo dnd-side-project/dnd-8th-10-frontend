@@ -29,7 +29,6 @@ client.interceptors.response.use(
 				// token refresh 요청
 
 				const refreshToken = getCookie('REFRESH_TOKEN');
-				console.log(refreshToken, 'refresh');
 				const res = await client.get(
 					'/oauth/token/refresh', // token refresh api
 					{ headers: { refresh: refreshToken } }
@@ -40,8 +39,9 @@ client.interceptors.response.use(
 					const expires = new Date();
 					expires.setFullYear(expires.getFullYear() + 10);
 					originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-					console.log('엑세스 토큰 갱신 완료됨. ', newAccessToken);
-					console.log('리프레시 토큰 갱신 완료됨. ', newRefreshToken);
+					client.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
+					console.log('엑세스 토큰 갱신 완료됨. ');
+					console.log('리프레시 토큰 갱신 완료됨. ');
 					document.cookie = `ACCESS_TOKEN=${newAccessToken};expires=${expires};path=/;Secure;SameSite=None`;
 					document.cookie = `REFRESH_TOKEN=${newRefreshToken};expires=${expires};path=/;Secure;SameSite=None`;
 					setCookie('REFRESH_TOKEN', newRefreshToken, { path: '/', secure: true, sameSite: 'none', expires });
