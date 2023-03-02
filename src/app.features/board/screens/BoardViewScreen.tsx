@@ -12,6 +12,7 @@ import MoreIcon from '../../../app.modules/assets/more.svg';
 import CommentSettingIcon from '../../../app.modules/assets/board/ellipsis.svg';
 import BoardContentView from '../components/boardView/BoardContentView';
 import { IBoardViewData } from '../types';
+import { formatDate } from '../utils';
 
 interface Props {
 	// id?: string | string[] | undefined;
@@ -66,15 +67,16 @@ function BoardViewScreen({ boardViewData, DelMutate }: Props) {
 					))}
 				</div>
 				<ul className="space-y-[1.6rem]">
-					{boardViewData?.comments?.map(({ commentId, content, userCode, userName, createdDate }) => (
+					{boardViewData?.comments?.map(({ commentId, content, userCode, userName, createdDate, role }) => (
 						<li key={commentId} className="flex space-x-[0.8rem]">
-							<ProfileImage userProfileCode={userCode} />
+							<ProfileImage userProfileCode={userCode} size="sm" />
 							<div className="w-full">
 								<div className="flex justify-between  items-center ">
 									<div className="flex space-x-[0.4rem]">
 										<span className="text-subhead1 text-g9">{userName}</span>
 										<div className="text-body1 flex space-x-[0.4rem] text-g6">
-											<span>{createdDate}</span>
+											<span>{role === 'MANAGER' ? '점장' : '알바생'}</span>
+											<span>{formatDate(createdDate)}</span>
 										</div>
 									</div>
 									<CommentSettingIcon />
