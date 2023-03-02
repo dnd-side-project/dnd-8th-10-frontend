@@ -7,14 +7,14 @@ import { categoryMapEng, categoryMapKr } from '../utils';
 import BoardImageUploadSlider from './slider/BoardImageUploadSlider';
 import BoardCategorySlider from './slider/BoardCategorySlider';
 import CorssIcon from '../../../app.modules/assets/board/cross.svg';
-import { boardViewDatas } from '../types';
+import { IBoardViewData } from '../types';
 
 interface Props {
 	id?: string | string[] | undefined;
 	UserData: {
 		role: string;
 	};
-	boardViewData?: boardViewDatas;
+	boardViewData?: IBoardViewData;
 	BoardMutate: MutateTpye<WriteBody>;
 }
 

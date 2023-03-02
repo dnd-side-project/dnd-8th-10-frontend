@@ -23,7 +23,6 @@ export interface IComment {
 }
 
 export interface IBoardViewData {
-	map(arg0: (post: any, index: any) => JSX.Element): import('react').ReactNode;
 	category: string;
 	checkCount: number;
 	comments: IComment[];

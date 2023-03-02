@@ -24,7 +24,7 @@ const ViewPage: NextPage = () => {
 	console.log(boardViewData);
 	return (
 		<div className="h-[100vh]">
-			<BoardViewScreen id={id} boardViewData={boardViewData} DelMutate={DelMutate} />
+			<BoardViewScreen boardViewData={boardViewData} DelMutate={DelMutate} />
 		</div>
 	);
 };
