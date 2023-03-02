@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import { KAKAO_OAUTH2_URL } from 'src/app.features/login/constants';
-import LoginGraphic from 'src/app.modules/assets/login/login.svg';
 import KaKaoIcon from 'src/app.modules/assets/login/kakao.svg';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import lottie from 'lottie-web';
@@ -19,11 +18,12 @@ function Jsontest3() {
 			animationData: loginJson,
 		});
 	}, []);
-	return <div id="container3" className="w-full " />;
+	return <div id="container3" className="w-full absolute top-[25vh] " />;
 }
 function LoginScreen() {
 	return (
-		<div className=" pt-[16vh]  h-[100vh] relative">
+		<div className=" pt-[14vh]  h-[100vh] relative">
+			<Jsontest3 />
 			<div className="space-y-[3.7rem] ">
 				<h1 className="text-title2 text-g9">
 					슬기로운 편의점 생활!
@@ -32,7 +32,6 @@ function LoginScreen() {
 					<br />
 					일하러 가볼까요?
 				</h1>
-				<Jsontest3 />
 			</div>
 			<div className="absolute bottom-[2rem] w-full">
 				<Bar bgColor="bg-[#FAE64D]">

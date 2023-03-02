@@ -11,11 +11,16 @@ function ProfileImage({ size, userProfileCode, round = false }: Props) {
 		if (size === 'md') return 'w-[3.4rem] h-[3.4rem] min-w-[3.4rem] min-h-[3.4rem]';
 		return 'w-[2.8rem] h-[2.8rem] min-w-[2.8rem] min-h-[2.8rem]';
 	};
+	const getRoundSize = () => {
+		return 'w-[6rem] h-[6rem] min-w-[6rem] min-h-[6rem]';
+	};
 	console.log(userProfileCode);
 	return (
 		<>
 			{round ? (
-				<div>{userProfileCode && <img alt="profile" src={`/images/user/round_profile${userProfileCode}.svg`} />}</div>
+				<div className={getRoundSize()}>
+					{userProfileCode && <img alt="profile" src={`/images/user/round_profile${userProfileCode}.svg`} />}
+				</div>
 			) : (
 				<div className={getSize()}>
 					{userProfileCode && <img alt="profile" src={`/images/user/small_profile${userProfileCode}.svg`} />}
