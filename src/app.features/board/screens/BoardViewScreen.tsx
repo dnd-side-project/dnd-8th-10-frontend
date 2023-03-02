@@ -16,12 +16,9 @@ interface Props {
 	id: string | string[] | undefined;
 	boardViewData: boardViewDatas;
 	DelMutate: MutateTpye<number>;
-	boardViewReftch: <TPageData>(
-		options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-	) => Promise<QueryObserverResult<any, unknown>>;
 }
 
-function BoardViewScreen({ id, boardViewData, boardViewReftch, DelMutate }: Props) {
+function BoardViewScreen({ id, boardViewData, DelMutate }: Props) {
 	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
 	const router = useRouter();
 	const [delModalView, setDelModalView] = useState<boolean>(false);
@@ -34,13 +31,6 @@ function BoardViewScreen({ id, boardViewData, boardViewReftch, DelMutate }: Prop
 		return () => modalIsClose();
 	}, []);
 
-	// useEffect(() => {
-	// 	setTimeout(() => {
-	// 		// 게시글 수정시 서버 반영 시간 대기해서 리패치, 이거 해결해야하는 문제.
-	// 		boardViewReftch();
-	// 	}, 100);
-	// }, [router.asPath]);
-
 	return (
 		<div>
 			<header className="w-full h-[5.6rem] flex items-center justify-between mb-[1.6rem]">
@@ -52,6 +42,7 @@ function BoardViewScreen({ id, boardViewData, boardViewReftch, DelMutate }: Prop
 				</button>
 			</header>
 			<BoardContentView id={id} boardViewData={boardViewData} />
+			{/* 댓글 작업할 공간 */}
 			{isModalOpen && (
 				<Overlay>
 					{delModalView ? (

@@ -11,7 +11,7 @@ const ViewPage: NextPage = () => {
 	const { id } = router.query;
 
 	// 게시글 보기
-	const { boardViewData, boardViewReftch, boardViewLoading } = useBoardView(id);
+	const { boardViewData, boardViewLoading } = useBoardView(id);
 
 	// 게시글 삭제
 	const { mutate: DelMutate } = useMutation(boardDelete, {
@@ -24,7 +24,7 @@ const ViewPage: NextPage = () => {
 
 	return (
 		<div className="h-[100vh]">
-			<BoardViewScreen id={id} boardViewData={boardViewData} boardViewReftch={boardViewReftch} DelMutate={DelMutate} />
+			<BoardViewScreen id={id} boardViewData={boardViewData} DelMutate={DelMutate} />
 		</div>
 	);
 };
