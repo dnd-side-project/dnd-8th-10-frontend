@@ -1,5 +1,6 @@
 import { WEEK_ENG } from 'src/app.features/calendar/constants';
 import { IUser } from 'src/app.features/calendar/store/time';
+import { Time } from 'src/app.features/calendar/types';
 
 export const transIdx = (year: number, month: number, day: number) => {
 	return `${year}.${month + 1}.${day}`;
@@ -20,16 +21,21 @@ export function crossDate(clickDay: string, toDay: string) {
 
 export const formatTimeView = (time: string, type = 'view') => {
 	const [start, end] = time.split('~');
-	const formatHour = (hour: number) => (hour % 12 === 0 ? 12 : hour % 12);
+	let formatHour;
+	if (type === 'Reset') {
+		formatHour = (hour: number) => hour % 12;
+	} else {
+		formatHour = (hour: number) => (hour % 12 === 0 ? 12 : hour % 12);
+	}
 	const formatMinute = (minute: number) => minute.toString().padStart(2, '0');
 
 	const [startHour, startMinute] = start.split(':').map((value) => parseInt(value, 10));
-	const startMeridiem = startHour < 12 ? '오전' : '오후';
+	const startMeridiem = startHour <= 12 ? '오전' : '오후';
 	const formattedStartHour = formatHour(startHour);
 	const formattedStartMinute = formatMinute(startMinute);
 
 	const [endHour, endMinute] = end.split(':').map((value) => parseInt(value, 10));
-	const endMeridiem = endHour < 12 ? '오전' : '오후';
+	const endMeridiem = endHour <= 12 ? '오전' : '오후';
 	const formattedEndHour = formatHour(endHour);
 	const formattedEndMinute = formatMinute(endMinute);
 
@@ -64,7 +70,7 @@ export const parseSetWorkTime = (workTime: string): IUser => {
 
 export const setWorkTimeReset = (workTime: string, start = false): IUser => {
 	if (start) {
-		const [meridiemRight, hourRight, minuteRight] = formatTimeView(workTime, '')[1].split(' ');
+		const [meridiemRight, hourRight, minuteRight] = formatTimeView(workTime, 'Reset')[1].split(' ');
 		return {
 			startTime: {
 				meridiem: 'am',
@@ -78,7 +84,7 @@ export const setWorkTimeReset = (workTime: string, start = false): IUser => {
 			},
 		};
 	}
-	const [meridiemLeft, hourLeft, minuteLeft] = formatTimeView(workTime, '')[0].split(' ');
+	const [meridiemLeft, hourLeft, minuteLeft] = formatTimeView(workTime, 'Reset')[0].split(' ');
 	return {
 		startTime: {
 			meridiem: meridiemLeft === '오전' ? 'am' : 'pm',
@@ -116,4 +122,19 @@ export const homeTimeView = (timeStr: string) => {
 		result += ` ${minute}분`;
 	}
 	return result;
+};
+
+export const getSendWorkTimeString = (startTime: Time, endTime: Time) => {
+	try {
+		return `${startTime.hour.length === 1 && startTime.meridiem === 'am' ? '0' : ''}${
+			+startTime.hour + (startTime.meridiem === 'am' ? 0 : 12)
+		}:${startTime.minute.length === 1 ? '0' : ''}${startTime.minute}~${
+			endTime.hour.length === 1 && endTime.meridiem === 'am' ? '0' : ''
+		}${+endTime.hour + (endTime.meridiem === 'am' ? 0 : 12)}:${endTime.minute.length === 1 ? '0' : ''}${
+			endTime.minute
+		}`;
+	} catch (e) {
+		console.log(e);
+		return '';
+	}
 };
