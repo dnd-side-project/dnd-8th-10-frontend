@@ -39,7 +39,6 @@ function BoardWriteScreen({ id, formType, UserData, boardViewData, BoardWriteMut
 			// 게시글 수정
 			BoardModifyMutate({ postId: Number(id), title, content, category: categoryMapEng[selectedCategory] });
 		}
-		router.back();
 		// 이미지
 		// const formData = new FormData();
 		// for (let i = 0; i < imageFiles.length; i += 1) {

@@ -34,12 +34,12 @@ function BoardViewScreen({ id, boardViewData, boardViewReftch, DelMutate }: Prop
 		return () => modalIsClose();
 	}, []);
 
-	useEffect(() => {
-		setTimeout(() => {
-			// 게시글 수정시 서버 반영 시간 대기해서 리패치, 이거 해결해야하는 문제.
-			boardViewReftch();
-		}, 100);
-	}, [router.asPath]);
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		// 게시글 수정시 서버 반영 시간 대기해서 리패치, 이거 해결해야하는 문제.
+	// 		boardViewReftch();
+	// 	}, 100);
+	// }, [router.asPath]);
 
 	return (
 		<div>
