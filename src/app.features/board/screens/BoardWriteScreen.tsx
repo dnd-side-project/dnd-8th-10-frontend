@@ -65,7 +65,12 @@ function BoardWriteScreen({ id, formType, UserData, boardViewData, BoardWriteMut
 			setSelectedCategory(categoryMapKr[boardViewData.category]);
 			setTitle(boardViewData.title);
 			setContent(boardViewData.content);
+		} else {
+			setSelectedCategory('전체');
 		}
+		return () => {
+			setSelectedCategory('전체');
+		};
 	}, [formType]);
 
 	return (
