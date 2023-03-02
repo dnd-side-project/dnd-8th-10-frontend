@@ -46,6 +46,7 @@ function BoardViewScreen({ boardViewData, DelMutate, ViewCheckMutate }: Props) {
 		if (!postId) return;
 		console.log(postId);
 		ViewCheckMutate(postId);
+		setViewCheckCountOffset((prev) => (!prev ? 1 : 0));
 	};
 	return (
 		<div>
@@ -69,6 +70,7 @@ function BoardViewScreen({ boardViewData, DelMutate, ViewCheckMutate }: Props) {
 						['latest', '최신순'],
 					].map(([value, display]) => (
 						<button
+							key={value}
 							onClick={() => commentSortHandler(value as SoryByType)}
 							name="sortBy"
 							value={value}

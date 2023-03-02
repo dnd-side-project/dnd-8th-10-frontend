@@ -6,9 +6,10 @@ import { categoryMapKr, formatDate } from '../../utils';
 interface Props {
 	boardViewData: IBoardViewData;
 	viewCheckHandler: () => void;
+	viewCheckCountOffset: 0 | 1;
 }
 
-function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
+function BoardContentView({ boardViewData, viewCheckHandler, viewCheckCountOffset }: Props) {
 	return (
 		<section>
 			{boardViewData && (
@@ -43,7 +44,7 @@ function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 							className="flex items-center  justify-center space-x-[0.4rem] bg-g1 px-[0.8rem] py-[0.5rem] rounded-[0.4rem]"
 						>
 							<CheckIcon />
-							<span className="leading-[100%]">{boardViewData.checkCount}</span>
+							<span className="leading-[100%]">{boardViewData.checkCount + viewCheckCountOffset}</span>
 						</button>
 						<div>조회 {boardViewData.viewCount}</div>
 					</div>
