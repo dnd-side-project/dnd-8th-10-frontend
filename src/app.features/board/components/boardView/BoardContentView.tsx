@@ -5,9 +5,10 @@ import { categoryMapKr, formatDate } from '../../utils';
 
 interface Props {
 	boardViewData: IBoardViewData;
+	viewCheckHandler: () => void;
 }
 
-function BoardContentView({ boardViewData }: Props) {
+function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 	return (
 		<section>
 			{boardViewData && (
@@ -37,10 +38,13 @@ function BoardContentView({ boardViewData }: Props) {
 						<span className="text-body2 text-g9">{boardViewData.content}</span>
 					</div>
 					<div className="flex items-center text-body-long2 text-g6 pb-[1.2rem] border-solid border-b-[0.05rem] space-x-[0.8rem] border-b-g3">
-						<div className="flex items-center  justify-center space-x-[0.4rem] bg-g1 px-[0.8rem] py-[0.5rem] rounded-[0.4rem]">
+						<button
+							onClick={viewCheckHandler}
+							className="flex items-center  justify-center space-x-[0.4rem] bg-g1 px-[0.8rem] py-[0.5rem] rounded-[0.4rem]"
+						>
 							<CheckIcon />
 							<span className="leading-[100%]">{boardViewData.checkCount}</span>
-						</div>
+						</button>
 						<div>조회 {boardViewData.viewCount}</div>
 					</div>
 				</>
