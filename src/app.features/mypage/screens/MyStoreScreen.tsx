@@ -48,7 +48,7 @@ function MyStoreScreen({ store }: Props) {
 													{item.workTime.split(',').map((time, idx) => (
 														<li key={`time-${idx}`}>
 															<Badge size="small" color="warmGray">
-																{time}
+																<span className="text-body1">{time}</span>
 															</Badge>
 														</li>
 													))}
@@ -81,7 +81,7 @@ function MyStoreScreen({ store }: Props) {
 													{item.workTime.split(',').map((time, idx) => (
 														<li key={`time-${idx}`}>
 															<Badge size="small" color="warmGray">
-																{time}
+																<span className="text-body1">{time}</span>
 															</Badge>
 														</li>
 													))}
