@@ -8,13 +8,12 @@ import { MutateTpye } from 'src/app.modules/api/client';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useModalStore from 'src/app.modules/store/modal';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
-import BackIcon from '../../../app.modules/assets/back.svg';
-import MoreIcon from '../../../app.modules/assets/more.svg';
 import CommentSettingIcon from '../../../app.modules/assets/board/ellipsis.svg';
 import BoardContentView from '../components/boardView/BoardContentView';
 import { IBoardViewData, IComment } from '../types';
 import { formatDate } from '../utils';
 import { DeleteCommentParam, PostCommentBody } from '../api/viewResponse';
+import BoardViewHeader from '../components/boardView/Header';
 
 interface Props {
 	// id?: string | string[] | undefined;
@@ -23,33 +22,22 @@ interface Props {
 	ViewCheckMutate: MutateTpye<number>;
 	PostCommentMutate: MutateTpye<PostCommentBody>;
 	DeleteCommentMutate: MutateTpye<DeleteCommentParam>;
-	mutateCommentResult: IComment[];
 }
 // TODO: 게시물 확인 버튼 api 연동(0)
 // TODO: 백엔드 boardViewData에 해당 게시물을 체크했는지에 대한 필드 추가 됬는지 확인하기
 // TODO: 댓글 멘션 관련 로직 논의
 // TODO: 댓글 C(0),R(0),U,D
-function BoardViewScreen({
-	boardViewData,
-	DelMutate,
-	ViewCheckMutate,
-	PostCommentMutate,
-	DeleteCommentMutate,
-	mutateCommentResult,
-}: Props) {
+function BoardViewScreen({ boardViewData, DelMutate, ViewCheckMutate, PostCommentMutate, DeleteCommentMutate }: Props) {
 	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
 	const router = useRouter();
-	const [delModalView, setDelModalView] = useState<boolean>(false);
 	type SoryByType = 'earliest' | 'latest';
 	const [commentSortBy, setCommentSortBy] = useState<SoryByType>('earliest');
 	const [newComment, setNewComment] = useState<string>('');
-	const [viewCheckCountOffset, setViewCheckCountOffset] = useState<0 | 1>(0); // TODO: 내가 체크했는지 확인하고 값 결정 해야함
+	const [viewCheckCountOffset, setViewCheckCountOffset] = useState<-1 | 1 | 0>(0); // TODO: 내가 체크했는지 확인하고 값 결정 해야함
 	const [commentInputMode, setCommentInputMode] = useState<'small' | 'wide'>('small');
-
-	useEffect(() => {
-		setDelModalView(false);
-	}, [isModalOpen]);
-
+	const [delCommentModalOpen, setDelCommentModalOpen] = useState<boolean>(false);
+	const [optionModalOpen, setOptionModalOpen] = useState<boolean>(false);
+	const [focusCommentId, setFocusCommentId] = useState<number | null>();
 	useEffect(() => {
 		return () => modalIsClose();
 	}, []);
@@ -64,11 +52,6 @@ function BoardViewScreen({
 		setViewCheckCountOffset((prev) => (!prev ? 1 : 0));
 	};
 	const sortedCommentList = () => {
-		console.log(mutateCommentResult, 'alakfja');
-		if (mutateCommentResult.length) {
-			if (commentSortBy === 'earliest') return mutateCommentResult;
-			return [...mutateCommentResult].reverse();
-		}
 		const { comments } = boardViewData;
 		if (!comments) return [];
 		if (commentSortBy === 'earliest') return comments;
@@ -81,25 +64,24 @@ function BoardViewScreen({
 		console.log(newComment);
 		const { postId } = boardViewData;
 		if (!newComment.trim() || !postId) return;
+		console.log('adsfafd');
 		const body = { postId, content: newComment };
 		PostCommentMutate(body);
 	};
 	const deleteCommentHandler = (commentId: number) => {
+		console.log('삭제', commentId);
 		const { postId } = boardViewData;
 		if (!postId) return;
 		const param = { postId, commentId };
 		DeleteCommentMutate(param);
+		setDelCommentModalOpen(false);
 	};
+	useEffect(() => {
+		setDelCommentModalOpen(false);
+	}, [isModalOpen]);
 	return (
 		<div>
-			<header className="w-full h-[5.6rem] flex items-center justify-between mb-[1.6rem]">
-				<button type="button" onClick={() => router.back()}>
-					<BackIcon stroke="#66666E" />
-				</button>
-				<button type="button" onClick={modalIsOpen}>
-					<MoreIcon />
-				</button>
-			</header>
+			<BoardViewHeader DelMutate={DelMutate} postId={boardViewData?.postId ?? null} />
 			<BoardContentView
 				boardViewData={boardViewData}
 				viewCheckHandler={viewCheckHandler}
@@ -137,7 +119,12 @@ function BoardViewScreen({
 												<span>{formatDate(createdDate)}</span>
 											</div>
 										</div>
-										<button onClick={() => deleteCommentHandler(commentId)}>
+										<button
+											onClick={() => {
+												setFocusCommentId(commentId);
+												setOptionModalOpen(true);
+											}}
+										>
 											<CommentSettingIcon />
 										</button>
 									</div>
@@ -162,24 +149,28 @@ function BoardViewScreen({
 					onFocus={() => setCommentInputMode('wide')}
 				/>
 			</footer>
-			{isModalOpen && (
+			{delCommentModalOpen && (
 				<Overlay>
-					{delModalView ? (
-						<Modal
-							title="삭제하시겠습니까?"
-							yesFn={() => DelMutate(Number(boardViewData.postId))}
-							yesTitle="삭제"
-							noBtn
-							noTitle="아니오"
-						/>
-					) : (
-						<BoardModal
-							yesFn={() => {
-								router.push(`${SERVICE_URL.boardEdit}/${boardViewData.postId}`);
-							}}
-							noFn={() => setDelModalView(true)}
-						/>
-					)}
+					<Modal
+						title="삭제하시겠습니까?"
+						yesFn={() => deleteCommentHandler(focusCommentId as number)}
+						yesTitle="삭제"
+						noBtn
+						noTitle="아니오"
+					/>
+				</Overlay>
+			)}
+			{optionModalOpen && (
+				<Overlay>
+					<BoardModal
+						yesFn={() => {
+							router.push(`${SERVICE_URL.boardEdit}/${boardViewData.postId}`);
+						}}
+						noFn={() => {
+							setOptionModalOpen(false);
+							setDelCommentModalOpen(true);
+						}}
+					/>
 				</Overlay>
 			)}
 		</div>

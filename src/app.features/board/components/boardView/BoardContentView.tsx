@@ -6,7 +6,7 @@ import { categoryMapKr, formatDate } from '../../utils';
 interface Props {
 	boardViewData: IBoardViewData;
 	viewCheckHandler: () => void;
-	viewCheckCountOffset: 0 | 1;
+	viewCheckCountOffset: 0 | 1 | -1;
 }
 
 function BoardContentView({ boardViewData, viewCheckHandler, viewCheckCountOffset }: Props) {

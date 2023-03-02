@@ -19,7 +19,7 @@ export const postComment = async (body: PostCommentBody) => {
 };
 export interface DeleteCommentParam {
 	postId: number;
-	commentId: string;
+	commentId: number;
 }
 // 댓글 삭제
 
