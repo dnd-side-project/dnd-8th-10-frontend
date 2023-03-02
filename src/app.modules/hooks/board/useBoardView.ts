@@ -14,7 +14,7 @@ function useBoardView(id: string | string[] | undefined) {
 		onError: (error) => {
 			console.log(error);
 		},
-		enabled: true,
+		enabled: !!id,
 	});
 	return { boardViewData, boardViewReftch, boardViewLoading };
 }

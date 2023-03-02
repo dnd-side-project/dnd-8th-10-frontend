@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { boardDelete } from 'src/app.features/board/api';
 import { postViewCheck } from 'src/app.features/board/api/viewResponse';
 import BoardViewScreen from 'src/app.features/board/screens/BoardViewScreen';
