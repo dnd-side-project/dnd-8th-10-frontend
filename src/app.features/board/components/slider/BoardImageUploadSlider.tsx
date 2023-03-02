@@ -1,6 +1,6 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import CameraIcon from '../../../app.modules/assets/board/camera.svg';
+import CameraIcon from '../../../../app.modules/assets/board/camera.svg';
 import 'swiper/css';
 
 function BoardImageUploadSlider({ onImageChange, previewUrls }: any) {
