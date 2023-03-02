@@ -1,9 +1,9 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import CameraIcon from '../../../app.modules/assets/board/camera.svg';
+import CameraIcon from '../../../../app.modules/assets/board/camera.svg';
 import 'swiper/css';
 
-function BoardImageUpload({ onImageChange, previewUrls }: any) {
+function BoardImageUploadSlider({ onImageChange, previewUrls }: any) {
 	return (
 		<div className="flex w-[calc(100%+4rem)] -translate-x-[2rem] pl-[2rem]">
 			<label htmlFor="image">
@@ -22,7 +22,6 @@ function BoardImageUpload({ onImageChange, previewUrls }: any) {
 					))}
 				</Swiper>
 			</div>
-
 			<input
 				type="file"
 				id="image"
@@ -36,4 +35,4 @@ function BoardImageUpload({ onImageChange, previewUrls }: any) {
 	);
 }
 
-export default BoardImageUpload;
+export default BoardImageUploadSlider;

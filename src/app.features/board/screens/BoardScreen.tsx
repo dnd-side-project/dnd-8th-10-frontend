@@ -26,8 +26,8 @@ function BoardScreen() {
 			<div className="pb-[5.6rem]">
 				<BoardPreview />
 			</div>
-			<div className="flex justify-end max-w-[42rem] -translate-x-[4rem] w-full fixed bottom-0 mb-[8.1rem] ">
-				<button className="cursor-pointer" onClick={() => router.push(SERVICE_URL.boardWrite)}>
+			<div className="flex justify-end max-w-[42rem] -translate-x-[4rem] w-full fixed bottom-0 mb-[8.1rem] pointer-events-none">
+				<button className="cursor-pointer pointer-events-auto" onClick={() => router.push(SERVICE_URL.boardWrite)}>
 					<WriteIcon />
 				</button>
 			</div>
