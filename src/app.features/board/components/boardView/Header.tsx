@@ -16,16 +16,14 @@ interface Props {
 }
 
 function Header({ postId, DelMutate, myPost }: Props) {
-	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	const [modalOpen, setModalOpen] = useState(false);
 	const router = useRouter();
 	const [delModalView, setDelModalView] = useState<boolean>(false);
 	const delMutateHandler = () => {
 		if (postId === null) return;
 		DelMutate(postId);
 	};
-	useEffect(() => {
-		setDelModalView(false);
-	}, [isModalOpen]);
+
 	return (
 		<>
 			<header className="w-full h-[5.6rem] flex items-center justify-between mb-[1.6rem]">
@@ -33,21 +31,28 @@ function Header({ postId, DelMutate, myPost }: Props) {
 					<BackIcon stroke="#66666E" />
 				</button>
 				{myPost && (
-					<button type="button" onClick={modalIsOpen}>
+					<button type="button" onClick={() => setModalOpen(true)}>
 						<MoreIcon />
 					</button>
 				)}
 			</header>
-			{isModalOpen && (
-				<Overlay>
+			{modalOpen && (
+				<Overlay overlayClickFn={() => setModalOpen(false)}>
 					{delModalView ? (
-						<Modal title="삭제하시겠습니까?" yesFn={delMutateHandler} yesTitle="삭제" noBtn noTitle="아니오" />
+						<Modal
+							title="삭제하시겠습니까?"
+							yesFn={delMutateHandler}
+							yesTitle="삭제"
+							noFn={() => setDelModalView(false)}
+							noTitle="아니오"
+						/>
 					) : (
 						<BoardModal
 							yesFn={() => {
 								router.push(`${SERVICE_URL.boardEdit}/${postId}`);
 							}}
-							noFn={() => setDelModalView(true)}
+							noFn={delMutateHandler}
+							cancelFn={() => setModalOpen(false)}
 						/>
 					)}
 				</Overlay>

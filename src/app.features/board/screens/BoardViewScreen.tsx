@@ -7,6 +7,7 @@ import ProfileImage from 'src/app.components/ProfileImage';
 import { MutateTpye } from 'src/app.modules/api/client';
 import useModalStore from 'src/app.modules/store/modal';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
+import TopModal from 'src/app.components/Modal/TopModal';
 import CommentSettingIcon from '../../../app.modules/assets/board/ellipsis.svg';
 import BoardContentView from '../components/boardView/BoardContentView';
 import { IBoardViewData, IComment } from '../types';
@@ -39,7 +40,11 @@ function BoardViewScreen({
 	DeleteCommentMutate,
 	PutCommentMutate,
 }: Props) {
-	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	const {
+		isModalOpen: isCheckPersonModalOpen,
+		modalIsOpen: checkPersonModalOpen,
+		modalIsClose: checkPersonModalClose,
+	} = useModalStore();
 	const router = useRouter();
 	type SoryByType = 'earliest' | 'latest';
 	type FocusCommentType = {
@@ -53,10 +58,9 @@ function BoardViewScreen({
 	const [optionModalOpen, setOptionModalOpen] = useState<boolean>(false);
 	const [focusComment, setFocusComment] = useState<FocusCommentType | null>(null);
 	const [isEditCommentMode, setIsEditcommentMode] = useState<boolean>(false);
+
 	const [myPost, setMyPost] = useState<boolean>(false);
-	useEffect(() => {
-		return () => modalIsClose();
-	}, []);
+
 	const commentSortHandler = (sortBy: SoryByType) => {
 		setCommentSortBy(sortBy);
 	};
@@ -102,10 +106,8 @@ function BoardViewScreen({
 		console.log(body);
 		PutCommentMutate(body);
 		setIsEditcommentMode(false);
+		setOptionModalOpen(false);
 	};
-	useEffect(() => {
-		setDelCommentModalOpen(false);
-	}, [isModalOpen]);
 
 	useEffect(() => {
 		if (boardViewData && userData) {
@@ -135,6 +137,15 @@ function BoardViewScreen({
 									{display}
 								</button>
 							))}
+							<button
+								onClick={() => {
+									console.log(optionModalOpen, delCommentModalOpen);
+									checkPersonModalOpen();
+								}}
+								className="aria-pressed:text-g9 text-g6 text-subhead1"
+							>
+								체크한사람확인 임시 버튼
+							</button>
 						</div>
 						<ul className="space-y-[1.6rem]">
 							{boardViewData &&
@@ -181,18 +192,26 @@ function BoardViewScreen({
 						/>
 					</footer>
 					{delCommentModalOpen && (
-						<Overlay>
+						<Overlay
+							overlayClickFn={() => {
+								setDelCommentModalOpen(false);
+							}}
+						>
 							<Modal
 								title="삭제하시겠습니까?"
 								yesFn={() => deleteCommentHandler(focusComment?.commentId as number)}
 								yesTitle="삭제"
-								noBtn
+								noFn={() => setDelCommentModalOpen(false)}
 								noTitle="아니오"
 							/>
 						</Overlay>
 					)}
 					{optionModalOpen && (
-						<Overlay>
+						<Overlay
+							overlayClickFn={() => {
+								setOptionModalOpen(false);
+							}}
+						>
 							<BoardModal
 								yesFn={() => {
 									setIsEditcommentMode(true);
@@ -203,6 +222,13 @@ function BoardViewScreen({
 									setDelCommentModalOpen(true);
 								}}
 							/>
+						</Overlay>
+					)}
+					{isCheckPersonModalOpen && (
+						<Overlay>
+							<TopModal>
+								<span>체크체크</span>
+							</TopModal>
 						</Overlay>
 					)}
 				</div>
