@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import Header from 'src/app.components/Header';
-import { formatDate } from 'src/app.features/board/utils';
+import { categoryMapKr, formatDate } from 'src/app.features/board/utils';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import TotalColorIcon from '../../../app.modules/assets/board/category/color/total.svg';
 import NoticeColorIcon from '../../../app.modules/assets/board/category/color/notice.svg';
@@ -33,7 +33,7 @@ function AlarmScreen({ AlarmData }: Props) {
 					<div
 						role="presentation"
 						key={index}
-						className="flex items-center first:pt-[0rem] py-[1.6rem] border-solid border-b-[0.05rem] border-b-g3 h-fit"
+						className="flex  first:pt-[0rem] py-[1.6rem] border-solid border-b-[0.05rem] border-b-g3 h-fit"
 						onClick={() => router.push(`${SERVICE_URL.boardView}/${post.postId}`)}
 					>
 						<div className="mr-[1.2rem] w-[4rem] h-[4rem] rounded-[0.8rem] bg-g1 flex justify-center items-center">
@@ -45,8 +45,11 @@ function AlarmScreen({ AlarmData }: Props) {
 							{post.category === 'question' && <QuestionColorIcon />}
 						</div>
 						<div>
-							<div>
-								<span className="text-subhead2 text-g9">{post.title}</span>
+							<div className="mb-[0.8rem]">
+								<span className="text-subhead2 text-g9">{categoryMapKr[post.category]} 글이 등록되었습니다.</span>
+							</div>
+							<div className="mb-[0.4rem]">
+								<span className="text-subhead1 text-g9">{post.title}</span>
 							</div>
 							<div className="flex justify-between">
 								<div className="text-body1">
