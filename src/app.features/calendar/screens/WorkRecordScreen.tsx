@@ -11,7 +11,7 @@ import {
 	parseSetWorkTime,
 	getDayOfWeek,
 	setWorkTimeReset,
-	getResetWorkTimeString,
+	getLogicWorkTimeString,
 	homeTimeView,
 } from 'src/app.modules/util/calendar';
 import KeypadDelIcon from 'src/app.modules/assets/inputDel.svg';
@@ -49,28 +49,24 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 
 		setTime(value, name, openModalFlag as 'startTime' | 'endTime');
 	};
-
 	// 수정 버튼
 	const modifyBtn = async () => {
-		let workTimeData;
-		if (getWorkTimeString(startTime, endTime) !== '00:00~00:00') {
-			workTimeData = getWorkTimeString(startTime, endTime);
-			const [start, end] = workTimeData.split('~');
-			const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
-			const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
-			const timeDiff = Number(Math.abs((startSplit - endSplit) / 60));
+		const workTimeData = getLogicWorkTimeString(startTime, endTime);
 
-			if (title === 'add') {
-				// 출근하기
-				WorkMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
-			} else {
-				// 수정하기
-				ModifyMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff, timeCardId: Number(id) });
-			}
-			isDayReset();
+		const [start, end] = workTimeData.split('~');
+		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
+		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
+		const timeDiff = Number(Math.abs((startSplit - endSplit) / 60));
+
+		if (title === 'add') {
+			// 출근하기
+			WorkMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
+		} else {
+			// 수정하기
+			ModifyMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff, timeCardId: Number(id) });
 		}
+		isDayReset();
 	};
-
 	// 삭제 버튼
 	const delBtn = async () => {
 		const data = delWorkModify(Number(id));
@@ -107,13 +103,6 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 	}, [UserData]);
 
 	const disabledFn = () => {
-		if (
-			getWorkTimeString(startTime, endTime).split('~')[0] === '24:00' ||
-			getWorkTimeString(startTime, endTime).split('~')[1] === '24:00'
-		) {
-			return true;
-		}
-
 		if (title === 'modify') {
 			if (currentTime) {
 				return (
@@ -124,19 +113,16 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 				);
 			}
 		} else if (title === 'add') {
-			return (
-				getWorkTimeString(startTime, endTime).split('~')[0] === '24:00' ||
-				getWorkTimeString(startTime, endTime).split('~')[1] === '24:00'
-			);
+			return false;
 		}
 		return false;
 	};
 
 	const timeReset = () => {
 		if (openModalFlag === 'startTime') {
-			setInitTime(setWorkTimeReset(getResetWorkTimeString(startTime, endTime), true));
+			setInitTime(setWorkTimeReset(getLogicWorkTimeString(startTime, endTime), true));
 		} else {
-			setInitTime(setWorkTimeReset(getResetWorkTimeString(startTime, endTime)));
+			setInitTime(setWorkTimeReset(getLogicWorkTimeString(startTime, endTime)));
 		}
 		return null;
 	};
@@ -173,9 +159,8 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 									: 'text-g7 text-body2'
 							} w-[50%] flex justify-between items-center pl-[1.2rem] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
-							{getWorkTimeString(startTime, endTime).split('~')[0] === '24:00'
-								? '오전 00시 00분'
-								: homeTimeView(getWorkTimeString(startTime, endTime).split('~')[0])}
+							{startTime.meridiem === 'am' ? '오전' : '오후'}{' '}
+							{homeTimeView(getWorkTimeString(startTime, endTime).split('~')[0], 'notHome')}
 							{openModalFlag === 'startTime' && (
 								<div role="presentation" className="mr-[1.6rem]" onClick={() => timeReset()}>
 									<KeypadDelIcon />
@@ -191,9 +176,8 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 									: 'text-g7 text-body2'
 							} w-[50%] flex justify-between items-center pl-[1.2rem] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
-							{getWorkTimeString(startTime, endTime).split('~')[1] === '24:00'
-								? '오전 00시 00분'
-								: homeTimeView(getWorkTimeString(startTime, endTime).split('~')[1])}
+							{endTime.meridiem === 'am' ? '오전' : '오후'}{' '}
+							{homeTimeView(getWorkTimeString(startTime, endTime).split('~')[1], 'notHome')}
 							{openModalFlag === 'endTime' && (
 								<div role="presentation" className="mr-[1.6rem]" onClick={() => timeReset()}>
 									<KeypadDelIcon />
