@@ -28,3 +28,18 @@ export const deleteComment = async (body: DeleteCommentParam) => {
 	const res = await client.delete(`/api/board/${postId}/${commentId}`);
 	return res;
 };
+
+// 댓글 수정
+
+export interface PutCommentBody {
+	postId: number;
+	content: string;
+	commentId: number;
+}
+
+export const putComment = async (body: PutCommentBody) => {
+	const { postId, commentId, ...rest } = body;
+	console.log(body, 'body');
+	const res = await client.put(`/api/board/${postId}/${commentId}`, { ...rest });
+	return res;
+};

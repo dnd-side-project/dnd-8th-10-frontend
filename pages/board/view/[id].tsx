@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { boardDelete } from 'src/app.features/board/api';
-import { deleteComment, postComment, postViewCheck } from 'src/app.features/board/api/viewResponse';
+import { deleteComment, postComment, postViewCheck, putComment } from 'src/app.features/board/api/viewResponse';
 import BoardViewScreen from 'src/app.features/board/screens/BoardViewScreen';
 import { IComment } from 'src/app.features/board/types';
 import { getCookie } from 'src/app.modules/cookie';
@@ -26,6 +26,14 @@ const ViewPage: NextPage = () => {
 
 	// 댓글 작성
 	const { mutate: PostCommentMutate } = useMutation(postComment, {
+		onSuccess: (res) => {
+			console.log(res);
+			queryClient.invalidateQueries(['boardView', id]);
+		},
+		onError: (error) => console.log(error),
+	});
+	// 댓글 수정
+	const { mutate: PutCommentMutate } = useMutation(putComment, {
 		onSuccess: (res) => {
 			console.log(res);
 			queryClient.invalidateQueries(['boardView', id]);
@@ -57,6 +65,7 @@ const ViewPage: NextPage = () => {
 				ViewCheckMutate={ViewCheckMutate}
 				PostCommentMutate={PostCommentMutate}
 				DeleteCommentMutate={DeleteCommentMutate}
+				PutCommentMutate={PutCommentMutate}
 			/>
 		</div>
 	);

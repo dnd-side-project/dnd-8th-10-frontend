@@ -23,4 +23,5 @@ export const SERVICE_URL = {
 	boardEdit: '/board/edit',
 	boardView: '/board/view',
 	boardSearch: '/board/search',
+	commentEdit: '/board/comment/edit',
 };
