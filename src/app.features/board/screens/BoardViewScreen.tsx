@@ -5,7 +5,6 @@ import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import ProfileImage from 'src/app.components/ProfileImage';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import useModalStore from 'src/app.modules/store/modal';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import CommentSettingIcon from '../../../app.modules/assets/board/ellipsis.svg';
@@ -46,7 +45,6 @@ function BoardViewScreen({
 	};
 	const [commentSortBy, setCommentSortBy] = useState<SoryByType>('earliest');
 	const [newComment, setNewComment] = useState<string>('');
-	const [viewCheckCountOffset, setViewCheckCountOffset] = useState<-1 | 1 | 0>(0); // TODO: 내가 체크했는지 확인하고 값 결정 해야함
 	const [commentInputMode, setCommentInputMode] = useState<'small' | 'wide'>('small');
 	const [delCommentModalOpen, setDelCommentModalOpen] = useState<boolean>(false);
 	const [optionModalOpen, setOptionModalOpen] = useState<boolean>(false);
@@ -63,7 +61,6 @@ function BoardViewScreen({
 		if (!postId) return;
 		console.log(postId);
 		ViewCheckMutate(postId);
-		setViewCheckCountOffset((prev) => (!prev ? 1 : 0));
 	};
 	const sortedCommentList = () => {
 		const { comments } = boardViewData;
@@ -110,11 +107,7 @@ function BoardViewScreen({
 			{!isEditCommentMode ? (
 				<div>
 					<BoardViewHeader DelMutate={DelMutate} postId={boardViewData?.postId ?? null} />
-					<BoardContentView
-						boardViewData={boardViewData}
-						viewCheckHandler={viewCheckHandler}
-						viewCheckCountOffset={viewCheckCountOffset}
-					/>
+					<BoardContentView boardViewData={boardViewData} viewCheckHandler={viewCheckHandler} />
 					<section className="pt-[1.8rem] pb-[5.4rem] space-y-[1.6rem]">
 						<div className="flex items-center space-x-[0.4rem]">
 							{[
