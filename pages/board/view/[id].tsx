@@ -59,6 +59,7 @@ const ViewPage: NextPage = () => {
 	});
 
 	const { data: userData, isLoading: LoadingData } = useUser();
+
 	return (
 		<div className="h-[100vh]">
 			<BoardViewScreen
