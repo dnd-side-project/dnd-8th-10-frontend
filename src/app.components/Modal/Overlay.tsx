@@ -5,9 +5,10 @@ interface Props {
 	bgColor?: string;
 	blur?: boolean;
 	children: ReactElement;
+	overlayClickFn?: () => void;
 }
 
-function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false }: Props) {
+function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false, overlayClickFn }: Props) {
 	const { modalIsClose, isModalOpen } = useModalStore();
 	const [isAnimating, setIsAnimating] = useState(false);
 
@@ -29,6 +30,9 @@ function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false }: Pro
 						}, 500);
 					} else {
 						modalIsClose();
+					}
+					if (overlayClickFn) {
+						overlayClickFn();
 					}
 				}}
 				className={`translate-x-0 z-50  fixed max-w-[42rem] mx-auto top-0 left-0 bottom-0 right-0 ${bgColor} ${

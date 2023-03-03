@@ -5,13 +5,13 @@ interface Props {
 	title: string;
 	subTitle?: string;
 	yesFn: () => void;
-	noBtn?: boolean;
+	noFn?: () => void;
 	yesTitle: string;
 	noTitle?: string;
 	iconView?: boolean;
 }
 
-function Modal({ title, subTitle, yesFn, noBtn = false, yesTitle, noTitle, iconView = false }: Props) {
+function Modal({ title, subTitle, yesFn, noFn, yesTitle, noTitle, iconView = false }: Props) {
 	const { modalIsClose } = useModalStore();
 
 	return (
@@ -38,10 +38,13 @@ function Modal({ title, subTitle, yesFn, noBtn = false, yesTitle, noTitle, iconV
 				</div>
 
 				<div className="flex items-center justify-center">
-					{noBtn && (
+					{noFn && (
 						<button
 							type="button"
-							onClick={() => modalIsClose()}
+							onClick={() => {
+								modalIsClose();
+								noFn();
+							}}
 							className="text-[1.4rem] h-[5.6rem] w-full border-solid border-r-[0.15rem] border-b-g3"
 						>
 							{noTitle}
@@ -53,7 +56,7 @@ function Modal({ title, subTitle, yesFn, noBtn = false, yesTitle, noTitle, iconV
 							yesFn();
 							modalIsClose();
 						}}
-						className={`text-[1.4rem] h-[5.6rem] px-[1rem] py-[0.9rem] w-full ${noBtn && 'text-secondary'} ${
+						className={`text-[1.4rem] h-[5.6rem] px-[1rem] py-[0.9rem] w-full ${noFn && 'text-secondary'} ${
 							yesTitle === '탈퇴하기' && 'text-secondary'
 						}`}
 					>
