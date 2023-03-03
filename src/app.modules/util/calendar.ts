@@ -146,3 +146,38 @@ export const WorkListTimeView = (time: string) => {
 	}
 	return `오전 ${hour}:${minute}`;
 };
+
+export const getTotalWorkHour = (firstTime: string, lastTime: string) => {
+	const startSplit = Number(firstTime.split(':')[0]) * 60 + Number(firstTime.split(':')[1]);
+	const endSplit = Number(lastTime.split(':')[0]) * 60 + Number(lastTime.split(':')[1]);
+	const timeDiff = Number(Math.abs((startSplit - endSplit) / 60));
+	return timeDiff;
+};
+
+export const getLastTime = (time: string[]) => {
+	return time.sort((a, b) => {
+		const [aHour, aMinute] = a.split(':').map(Number);
+		const [bHour, bMinute] = b.split(':').map(Number);
+		if (aHour < bHour) {
+			return 1;
+		} else if (aHour > bHour) {
+			return -1;
+		} else {
+			return aMinute < bMinute ? 1 : aMinute > bMinute ? -1 : 0;
+		}
+	})[0];
+};
+
+export const getFirstTime = (time: string[]) => {
+	return time.sort((a, b) => {
+		const [aHour, aMinute] = a.split(':').map(Number);
+		const [bHour, bMinute] = b.split(':').map(Number);
+		if (aHour < bHour) {
+			return -1;
+		} else if (aHour > bHour) {
+			return 1;
+		} else {
+			return aMinute < bMinute ? -1 : aMinute > bMinute ? 1 : 0;
+		}
+	})[0];
+};

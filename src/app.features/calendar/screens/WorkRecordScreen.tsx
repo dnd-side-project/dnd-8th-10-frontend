@@ -11,6 +11,9 @@ import {
 	getDayOfWeek,
 	setWorkTimeReset,
 	getLogicWorkTimeString,
+	getFirstTime,
+	getLastTime,
+	getTotalWorkHour,
 } from 'src/app.modules/util/calendar';
 import KeypadDelIcon from 'src/app.modules/assets/inputDel.svg';
 import { getWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
@@ -33,6 +36,10 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 	const { clickDay, isDayReset } = useStore();
 	const [year, month, day] = clickDay.split('.');
 	const [currentTime, setCurrentTime] = useState<IUser>();
+	const [workingFirstTime, setWorkingFirstTime] = useState('');
+	const [workingLastTime, setWorkingLastTime] = useState('');
+	const [totalWorkTime, setTotalWorkTime] = useState<number>();
+
 	const router = useRouter();
 	const {
 		user: { startTime, endTime },
@@ -58,6 +65,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 
 		if (title === 'add') {
 			// 출근하기
+
 			WorkMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
 		} else {
 			// 수정하기
@@ -90,6 +98,13 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 				const data = getWorkList({ year, month, day });
 				data.then((res) => {
 					const getWorkTimes = res.data.data.filter((val: { timeCardId: number }) => val.timeCardId === Number(id));
+					const firstTime = res.data.data.map((val: { workTime: string }) => val.workTime.split('~')[0]);
+					const lastTime = res.data.data.map((val: { workTime: string }) => val.workTime.split('~')[1]);
+
+					setWorkingFirstTime(getFirstTime(firstTime));
+					setWorkingLastTime(getLastTime(lastTime));
+					setTotalWorkTime(getTotalWorkHour(getFirstTime(firstTime), getLastTime(lastTime)));
+
 					if (getWorkTimes.length > 0) {
 						setInitTime(parseSetWorkTime(getWorkTimes[0].workTime));
 						setCurrentTime(parseSetWorkTime(getWorkTimes[0].workTime));
