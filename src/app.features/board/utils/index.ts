@@ -24,6 +24,9 @@ export const formatDate = (dateString: string) => {
 	const day = hour * 24;
 	const week = day * 7;
 	if (diff < hour) {
+		if (Math.floor(diff / minute) === 0) {
+			return '방금 전';
+		}
 		return `${Math.floor(diff / minute)}분 전`;
 	}
 	if (diff < day) {

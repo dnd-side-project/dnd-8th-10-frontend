@@ -8,6 +8,7 @@ import BoardViewScreen from 'src/app.features/board/screens/BoardViewScreen';
 import { IComment } from 'src/app.features/board/types';
 import { getCookie } from 'src/app.modules/cookie';
 import useBoardView from 'src/app.modules/hooks/board/useBoardView';
+import useUser from 'src/app.modules/hooks/user/useUser';
 
 const ViewPage: NextPage = () => {
 	const router = useRouter();
@@ -56,10 +57,12 @@ const ViewPage: NextPage = () => {
 		},
 		onError: (error) => console.log(error),
 	});
-	console.log(boardViewData);
+
+	const { data: userData, isLoading: LoadingData } = useUser();
 	return (
 		<div className="h-[100vh]">
 			<BoardViewScreen
+				userData={userData}
 				boardViewData={boardViewData}
 				DelMutate={DelMutate}
 				ViewCheckMutate={ViewCheckMutate}
