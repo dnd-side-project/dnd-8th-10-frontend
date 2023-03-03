@@ -14,12 +14,17 @@ interface Props {
 		userName: string;
 		workTime: string;
 	};
+	boardNoticeData: {
+		postId: number;
+		title: string;
+		category: string;
+	};
 }
-function HomeScreen({ grayData, WorkMutate, todayWork, userData }: Props) {
+function HomeScreen({ grayData, WorkMutate, todayWork, userData, boardNoticeData }: Props) {
 	return (
 		<div className="bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem] py-[5.6rem]">
 			<MainPoster />
-			<BoardPreview />
+			<BoardPreview boardNoticeData={boardNoticeData} />
 			<WorkStatus grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} userName={userData?.userName} />
 			<Shortcut />
 		</div>
