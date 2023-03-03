@@ -13,7 +13,7 @@ function BoardImgUploadScreen({ postId, FormData, BoardWriteImgMutate }: Props) 
 		BoardWriteImgMutate({ postId, FormData });
 	}, [postId, FormData]);
 
-	return <div></div>;
+	return <div />;
 }
 
 export default BoardImgUploadScreen;

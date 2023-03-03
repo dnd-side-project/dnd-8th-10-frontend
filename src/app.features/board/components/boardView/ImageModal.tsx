@@ -28,7 +28,7 @@ function ImageModal({ imgData }: { imgData: string[] }) {
 					{imgData.map((_, index) => (
 						<SwiperSlide key={index} style={{ width: '225px' }}>
 							<div className="w-fit h-[100vh] z-0 flex justify-center items-center">
-								<img src={`data:image/png;base64,${imgData[index]}`} alt="example image" />
+								<img src={`data:image/png;base64,${imgData[index]}`} alt={String(index)} />
 							</div>
 						</SwiperSlide>
 					))}

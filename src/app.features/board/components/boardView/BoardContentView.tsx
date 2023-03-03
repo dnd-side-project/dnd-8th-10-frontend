@@ -52,7 +52,7 @@ function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 											imgModalIsOpen();
 										}}
 									>
-										<img src={`data:image/png;base64,${imgData[index]}`} alt="example image" />
+										<img src={`data:image/png;base64,${imgData[index]}`} alt={String(index)} />
 									</button>
 								</SwiperSlide>
 							))}
