@@ -9,6 +9,7 @@ import { getDayOfWeek } from 'src/app.modules/util/calendar';
 import Header from 'src/app.features/home/components/Header';
 import useUser from 'src/app.modules/hooks/user/useUser';
 import EasterEgg from 'src/app.features/home/components/EasterEgg';
+import { boardCheckCategory } from 'src/app.features/board/api';
 
 const Home: NextPage = () => {
 	const { toDay } = useStore();
@@ -52,13 +53,33 @@ const Home: NextPage = () => {
 		},
 	});
 
+	const { data: boardNoticeData, isLoading: boardNoticeLoading } = useQuery(
+		['noticeData'],
+		() => boardCheckCategory('notice'),
+		{
+			select: (res) => res.data.data.sort((a: { postId: number }, b: { postId: number }) => b.postId - a.postId)[0],
+			onSuccess: (res) => {
+				console.log(res);
+			},
+			onError: (error) => {
+				console.log(error);
+			},
+		}
+	);
+
 	return (
 		<>
 			{!isLoading && (
 				<>
 					<Header />
 					<main className="h-[100vh] bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem]">
-						<HomeScreen grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} userData={data} />
+						<HomeScreen
+							grayData={grayData}
+							WorkMutate={WorkMutate}
+							todayWork={todayWork}
+							userData={data}
+							boardNoticeData={boardNoticeData}
+						/>
 					</main>
 					<EasterEgg />
 					<Navigation />

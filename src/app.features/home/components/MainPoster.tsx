@@ -1,6 +1,22 @@
-import React from 'react';
-import MainIcon from '../../../../public/images/home/main.svg';
+import React, { useEffect } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import lottie from 'lottie-web';
+import mainJson from 'public/lottie/main.json';
 
+function MainIcon() {
+	useEffect(() => {
+		const container = document.querySelector('#containerMain');
+		if (!container) return;
+		lottie.loadAnimation({
+			container,
+			renderer: 'svg',
+			loop: true,
+			autoplay: true,
+			animationData: mainJson,
+		});
+	}, []);
+	return <div id="containerMain" />;
+}
 function MainPoster() {
 	return (
 		<div className="h-[23.8rem] relative mb-[2.4rem]">
