@@ -15,7 +15,7 @@ interface Props {
 
 function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 	const { isImgModalOpen, imgModalIsOpen } = useImgModal();
-	console.log(isImgModalOpen);
+
 	return (
 		<section>
 			{boardViewData && (
