@@ -25,7 +25,7 @@ export const boardWrite = async (body: WriteBody) => {
 };
 
 // 게시글 작성 (이미지) RequestPart: form-data, PostId
-export const boardWriteImg = async (body: any) => {
+export const boardWriteImg = async (body: WriteImgBody) => {
 	const res = await client.post(
 		'api/image/upload',
 		{ ...body },

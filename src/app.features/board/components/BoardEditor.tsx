@@ -41,7 +41,7 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 		// 이미지
 		const formData = new FormData();
 		for (let i = 0; i < imageFiles.length; i += 1) {
-			formData.append('imageFiles', imageFiles[i]);
+			formData.append('files', imageFiles[i]);
 		}
 		BoardWriteImgMutate({ postId: Number(id), files: formData });
 	};

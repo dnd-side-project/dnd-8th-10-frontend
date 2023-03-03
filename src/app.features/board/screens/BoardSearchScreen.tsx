@@ -5,9 +5,9 @@ import DelIcon from 'src/app.modules/assets/inputDel.svg';
 import Overlay from 'src/app.components/Modal/Overlay';
 import Modal from 'src/app.components/Modal/Modal';
 import useModalStore from 'src/app.modules/store/modal';
+import { useQuery } from '@tanstack/react-query';
 import BackIcon from '../../../app.modules/assets/back.svg';
 import BoardPreview from '../components/BoardPreview';
-import { useQuery } from '@tanstack/react-query';
 import { boardSearch } from '../api/search';
 
 function BoardSearchScreen() {
