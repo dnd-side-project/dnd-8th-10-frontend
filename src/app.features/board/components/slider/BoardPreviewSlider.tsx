@@ -4,11 +4,10 @@ import Badge from 'src/app.components/app.base/Button/Badge';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useRouter } from 'next/router';
-import SlideImgIcon from '../../assets/slideImg.svg';
 import { boardCheckCategory } from '../../api';
 import { categoryMapEng, categoryMapKr, formatDate } from '../../utils';
 import { IBoardViewData } from '../../types';
-
+import NoImage from '../../../../../public/images/board/noImage.svg';
 function BoardPreviewSlider() {
 	const router = useRouter();
 	const [BoardPreviewData, setBoardPreviewData] = useState<IBoardViewData[]>([]);
@@ -46,7 +45,7 @@ function BoardPreviewSlider() {
 								className="w-fit"
 								onClick={() => router.push(`${SERVICE_URL.boardView}/${post.postId}`)}
 							>
-								<SlideImgIcon />
+								<NoImage />
 								<div className="flex items-center mt-[0.8rem]">
 									<Badge color="secondary" size="small">
 										{categoryMapKr[post.category]}
