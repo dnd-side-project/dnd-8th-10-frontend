@@ -16,7 +16,9 @@ import BoardViewHeader from '../components/boardView/Header';
 import CommentEditScreen from './CommentEditScreen';
 
 interface Props {
-	// id?: string | string[] | undefined;
+	userData: {
+		userName: string;
+	};
 	boardViewData: IBoardViewData;
 	DelMutate: MutateTpye<number>;
 	ViewCheckMutate: MutateTpye<number>;
@@ -29,6 +31,7 @@ interface Props {
 // TODO: 댓글 멘션 관련 로직 논의
 // TODO: 댓글 C(0),R(0),U,D
 function BoardViewScreen({
+	userData,
 	boardViewData,
 	DelMutate,
 	ViewCheckMutate,
@@ -50,6 +53,7 @@ function BoardViewScreen({
 	const [optionModalOpen, setOptionModalOpen] = useState<boolean>(false);
 	const [focusComment, setFocusComment] = useState<FocusCommentType | null>(null);
 	const [isEditCommentMode, setIsEditcommentMode] = useState<boolean>(false);
+	const [myPost, setMyPost] = useState<boolean>(false);
 	useEffect(() => {
 		return () => modalIsClose();
 	}, []);
@@ -102,11 +106,17 @@ function BoardViewScreen({
 	useEffect(() => {
 		setDelCommentModalOpen(false);
 	}, [isModalOpen]);
+
+	useEffect(() => {
+		if (boardViewData && userData) {
+			setMyPost(boardViewData.userName === userData.userName);
+		}
+	}, [boardViewData, userData]);
 	return (
 		<>
 			{!isEditCommentMode ? (
 				<div>
-					<BoardViewHeader DelMutate={DelMutate} postId={boardViewData?.postId ?? null} />
+					<BoardViewHeader myPost={myPost} DelMutate={DelMutate} postId={boardViewData?.postId ?? null} />
 					<BoardContentView boardViewData={boardViewData} viewCheckHandler={viewCheckHandler} />
 					<section className="pt-[1.8rem] pb-[5.4rem] space-y-[1.6rem]">
 						<div className="flex items-center space-x-[0.4rem]">
