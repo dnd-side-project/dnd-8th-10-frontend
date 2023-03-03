@@ -11,12 +11,12 @@ function ImageModal() {
 	const { isImgModalOpen, imgModalIsClose } = useImgModal();
 	return (
 		<div className="flex flex-col justify-center translate-x-0 z-50  fixed max-w-[42rem] mx-auto inset-0 bg-black">
-			<header className=" absolute right-0 top-0 mx-[2rem] my-[2rem] flex justify-end">
-				<button className="" type="button" onClick={() => imgModalIsClose()}>
+			<header className="z-50 absolute right-0 top-0 mx-[2rem] my-[2rem] flex justify-end">
+				<button type="button" onClick={() => imgModalIsClose()}>
 					<CrossIcon />
 				</button>
 			</header>
-			<div className="">
+			<div>
 				<Swiper
 					slidesPerView="auto"
 					spaceBetween={8}
@@ -27,7 +27,7 @@ function ImageModal() {
 				>
 					{[...new Array(10)].map((_, index) => (
 						<SwiperSlide key={index} style={{ width: '225px' }}>
-							<div className="w-fit h-[100vh] flex justify-center items-center">
+							<div className="w-fit h-[100vh] z-0 flex justify-center items-center">
 								<NoImage />
 							</div>
 						</SwiperSlide>
