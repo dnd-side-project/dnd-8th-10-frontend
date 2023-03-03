@@ -5,12 +5,11 @@ import TopModal from 'src/app.components/Modal/TopModal';
 import { CountHistoryType } from '../types';
 
 interface Props {
-	submitHandler: () => void;
 	countHistory: CountHistoryType;
 	category: 'cigarette' | 'garbagebag' | 'giftcard';
 }
 
-function LastCheckModal({ submitHandler, countHistory, category }: Props) {
+function LastCheckModal({ countHistory, category }: Props) {
 	const getIconUrl = () => {
 		if (category === 'cigarette') return "before:content-[url('/images/inventory/cigarette_small.svg')]";
 		if (category === 'garbagebag') return "before:content-[url('/images/inventory/garbagebag_small.svg')]";
@@ -40,7 +39,6 @@ function LastCheckModal({ submitHandler, countHistory, category }: Props) {
 							</li>
 						))}
 					</ul>
-					<Bar ClickFn={submitHandler}>저장하기</Bar>
 				</div>
 			</TopModal>
 		</Overlay>

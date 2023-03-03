@@ -79,7 +79,11 @@ function CountCigaretteScreen({
 	const clearSearchTerm = () => {
 		setSearchTerm('');
 	};
-
+	const openSaveModalHandler = () => {
+		setIsSaveModalOpen(true);
+		setIsAddModalOpen(false);
+		modalIsOpen();
+	};
 	const submitInventoryRecord = (category: string) => {
 		if (editInventoryLoading) return;
 		const list = Object.keys(countHistory).map((inventoryName) => ({
@@ -89,6 +93,7 @@ function CountCigaretteScreen({
 		const body = { category, list };
 		editInventory(body);
 		setIsSaveModalOpen(false);
+		openSaveModalHandler();
 	};
 	const submitNewCigarette = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -98,13 +103,10 @@ function CountCigaretteScreen({
 			inventoryName: newCiga,
 		};
 		addCigarette(body);
-		setIsAddModalOpen(false);
-	};
-	const openSaveModalHandler = () => {
 		setIsSaveModalOpen(true);
 		setIsAddModalOpen(false);
-		modalIsOpen();
 	};
+
 	const openAddModalHandler = () => {
 		setIsAddModalOpen(true);
 		setIsSaveModalOpen(false);
@@ -148,15 +150,9 @@ function CountCigaretteScreen({
 					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient  "
 					aria-hidden={isModalOpen}
 				>
-					<Bar ClickFn={openSaveModalHandler}>점검사항 확인</Bar>
+					<Bar ClickFn={() => submitInventoryRecord('cigarette')}>점검사항 저장</Bar>
 				</div>
-				{isSaveModalOpen && isModalOpen && (
-					<LastCheckModal
-						countHistory={countHistory}
-						submitHandler={() => submitInventoryRecord('cigarette')}
-						category="cigarette"
-					/>
-				)}
+				{isSaveModalOpen && isModalOpen && <LastCheckModal countHistory={countHistory} category="cigarette" />}
 				{isAddModalOpen && isModalOpen && (
 					<Overlay>
 						<TopModal>

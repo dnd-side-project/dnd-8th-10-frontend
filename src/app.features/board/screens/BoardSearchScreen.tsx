@@ -5,19 +5,34 @@ import DelIcon from 'src/app.modules/assets/inputDel.svg';
 import Overlay from 'src/app.components/Modal/Overlay';
 import Modal from 'src/app.components/Modal/Modal';
 import useModalStore from 'src/app.modules/store/modal';
+import { useQuery } from '@tanstack/react-query';
 import BackIcon from '../../../app.modules/assets/back.svg';
 import BoardPreview from '../components/BoardPreview';
+import { boardSearch } from '../api/search';
 
 function BoardSearchScreen() {
 	const router = useRouter();
 	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+
 	const [searchContent, setEearchContent] = useState('');
+	const { data: searchData, refetch: searchRefetch } = useQuery(['boardSearch'], () => boardSearch(searchContent), {
+		select: (res) => res.data.data,
+		onSuccess: (res) => {
+			console.log(res);
+		},
+		onError: (error) => {
+			console.log(error);
+		},
+		enabled: false,
+	});
+
 	const searchdHandler = (event: React.ChangeEvent<HTMLInputElement>) => setEearchContent(event.target.value);
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		if (searchContent.length <= 1) {
 			modalIsOpen();
 		}
+		searchRefetch();
 		event.preventDefault();
 	};
 
@@ -48,7 +63,7 @@ function BoardSearchScreen() {
 				</div>
 			</header>
 			<div>
-				<BoardPreview />
+				<BoardPreview searchData={searchData} search />
 			</div>
 			{isModalOpen && (
 				<Overlay>

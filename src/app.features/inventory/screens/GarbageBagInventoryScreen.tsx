@@ -55,15 +55,16 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient   z-50 aria-hidden:hidden"
 					aria-hidden={isModalOpen}
 				>
-					<Bar ClickFn={modalIsOpen}>점검사항 확인</Bar>
+					<Bar
+						ClickFn={() => {
+							submitInventoryRecord('garbagebag');
+							modalIsOpen();
+						}}
+					>
+						점검사항 확인
+					</Bar>
 				</div>
-				{isModalOpen && (
-					<LastCheckModal
-						countHistory={countHistory}
-						submitHandler={() => submitInventoryRecord('garbagebag')}
-						category="garbagebag"
-					/>
-				)}
+				{isModalOpen && <LastCheckModal countHistory={countHistory} category="garbagebag" />}
 			</main>
 		</>
 	);

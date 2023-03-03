@@ -24,7 +24,7 @@ interface Props {
 	id: string | string[] | undefined;
 }
 function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Props) {
-	const { isModalOpen, modalIsOpen } = useModalStore();
+	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
 	const { clickDay, isDayReset } = useStore();
 	const [year, month, day] = clickDay.split('.');
 	const [currentTime, setCurrentTime] = useState<IUser>();
@@ -207,7 +207,13 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 			</div>
 			{isModalOpen && (
 				<Overlay>
-					<Modal title="출근기록이 삭제됩니다!" yesFn={() => delBtn()} yesTitle="삭제" noBtn noTitle="취소" />
+					<Modal
+						title="출근기록이 삭제됩니다!"
+						yesFn={() => delBtn()}
+						yesTitle="삭제"
+						noFn={() => modalIsClose()}
+						noTitle="취소"
+					/>
 				</Overlay>
 			)}
 		</>

@@ -1,0 +1,10 @@
+.swiper-pagination{
+    --swiper-pagination-color: white;
+--swiper-pagination-left: auto;
+--swiper-pagination-right: 8px;
+--swiper-pagination-bottom: 20px;
+--swiper-pagination-top: auto;
+--swiper-pagination-bullet-inactive-color: #878793;
+--swiper-pagination-bullet-inactive-opacity: 0.2;
+--swiper-pagination-bullet-opacity: 1;
+}
