@@ -42,7 +42,7 @@ function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 											imgModalIsOpen();
 										}}
 									>
-										<NoImage />
+										{/* <NoImage /> */}
 									</button>
 								</SwiperSlide>
 							))}

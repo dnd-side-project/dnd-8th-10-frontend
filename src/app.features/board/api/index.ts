@@ -7,6 +7,11 @@ export interface WriteBody {
 	category: string;
 }
 
+export interface WriteImgBody {
+	postId: number;
+	files: FormData;
+}
+
 // 게시글 카테고리별 조회
 export const boardCheckCategory = async (category: string) => {
 	const res = await client.get('api/board/category', { params: { category } });
@@ -16,6 +21,21 @@ export const boardCheckCategory = async (category: string) => {
 // 게시글 작성
 export const boardWrite = async (body: WriteBody) => {
 	const res = await client.post('api/board', { ...body });
+	return res;
+};
+
+// 게시글 작성 (이미지) RequestPart: form-data, PostId
+export const boardWriteImg = async (body: any) => {
+	const res = await client.post(
+		'api/image/upload',
+		{ ...body },
+		{
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+			transformRequest: (formData) => formData,
+		}
+	);
 	return res;
 };
 

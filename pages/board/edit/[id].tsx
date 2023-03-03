@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { boardModify } from 'src/app.features/board/api';
+import { boardModify, boardWriteImg } from 'src/app.features/board/api';
 import BoardEditScreen from 'src/app.features/board/screens/BoardEditScreen';
 import useBoardView from 'src/app.modules/hooks/board/useBoardView';
 import useUser from 'src/app.modules/hooks/user/useUser';
@@ -24,7 +24,13 @@ const EditPage: NextPage = () => {
 		},
 		onError: (error) => alert('오류 발생.'),
 	});
-
+	const { mutate: BoardWriteImgMutate } = useMutation(boardWriteImg, {
+		onSuccess: (res) => {
+			console.log(res);
+			router.back();
+		},
+		onError: (error) => console.log(error),
+	});
 	return (
 		<>
 			{!boardViewLoading && !useLoading && (
@@ -34,6 +40,7 @@ const EditPage: NextPage = () => {
 						UserData={data}
 						boardViewData={boardViewData}
 						BoardModifyMutate={BoardModifyMutate}
+						BoardWriteImgMutate={BoardWriteImgMutate}
 					/>
 				</div>
 			)}
