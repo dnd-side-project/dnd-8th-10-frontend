@@ -11,7 +11,6 @@ import {
 	getDayOfWeek,
 	setWorkTimeReset,
 	getLogicWorkTimeString,
-	homeTimeView,
 } from 'src/app.modules/util/calendar';
 import KeypadDelIcon from 'src/app.modules/assets/inputDel.svg';
 import { getWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
@@ -52,7 +51,6 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 	// 수정 버튼
 	const modifyBtn = async () => {
 		const workTimeData = getLogicWorkTimeString(startTime, endTime);
-
 		const [start, end] = workTimeData.split('~');
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
@@ -113,7 +111,10 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 				);
 			}
 		} else if (title === 'add') {
-			return false;
+			return (
+				getWorkTimeString(startTime, endTime).split('~')[0] === '24:00' ||
+				getWorkTimeString(startTime, endTime).split('~')[1] === '24:00'
+			);
 		}
 		return false;
 	};

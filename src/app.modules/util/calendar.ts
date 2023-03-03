@@ -19,9 +19,15 @@ export function crossDate(clickDay: string, toDay: string) {
 	return { clickDayData, toDayData };
 }
 
-export const formatTimeView = (time: string) => {
+export const formatTimeView = (time: string, type = 'reset') => {
 	const [start, end] = time.split('~');
-	const formatHour = (hour: number) => (hour % 12 === 0 ? 12 : hour % 12);
+	let formatHour;
+	if (type === 'reset') {
+		formatHour = (hour: number) => hour % 12;
+	} else {
+		formatHour = (hour: number) => (hour % 12 === 0 ? 12 : hour % 12);
+	}
+
 	const formatMinute = (minute: number) => minute.toString().padStart(2, '0');
 
 	const [startHour, startMinute] = start.split(':').map((value) => parseInt(value, 10));
@@ -62,7 +68,7 @@ export const setWorkTimeReset = (workTime: string, start = false): IUser => {
 		return {
 			startTime: {
 				meridiem: 'am',
-				hour: '1',
+				hour: '0',
 				minute: '0',
 			},
 			endTime: {
@@ -81,7 +87,7 @@ export const setWorkTimeReset = (workTime: string, start = false): IUser => {
 		},
 		endTime: {
 			meridiem: 'am',
-			hour: '1',
+			hour: '0',
 			minute: '0',
 		},
 	};
