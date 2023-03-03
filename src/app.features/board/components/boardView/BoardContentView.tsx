@@ -1,7 +1,7 @@
 import React from 'react';
 import CheckIcon from 'src/app.modules/assets/board/check.svg';
-import NoImage from '../../../../../public/images/board/noImage.svg';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import NoImage from '../../../../../public/images/board/noImage.svg';
 import { IBoardViewData } from '../../types';
 import { categoryMapKr, formatDate } from '../../utils';
 import useImgModal from '../../store/imgModal';

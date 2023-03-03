@@ -1,17 +1,17 @@
 import React from 'react';
 import CrossIcon from 'src/app.modules/assets/cross.svg';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper';
 import useImgModal from '../../store/imgModal';
 import NoImage from '../../../../../public/images/board/noImage.svg';
-import { Pagination } from 'swiper';
 import 'swiper/css/pagination';
 import 'swiper/css';
 
 function ImageModal() {
 	const { isImgModalOpen, imgModalIsClose } = useImgModal();
 	return (
-		<div className="flex flex-col justify-center items-center translate-x-0 z-50  fixed max-w-[42rem] mx-auto inset-0 bg-black">
-			<header className=" absolute right-0  top-0 mx-[2rem] my-[2rem] flex justify-end">
+		<div className="flex flex-col justify-center translate-x-0 z-50  fixed max-w-[42rem] mx-auto inset-0 bg-black">
+			<header className=" absolute right-0 top-0 mx-[2rem] my-[2rem] flex justify-end">
 				<button className="" type="button" onClick={() => imgModalIsClose()}>
 					<CrossIcon />
 				</button>
@@ -22,12 +22,14 @@ function ImageModal() {
 					spaceBetween={8}
 					slidesOffsetBefore={20}
 					slidesOffsetAfter={15}
-					pagination={true}
+					pagination
 					modules={[Pagination]}
 				>
-					{[...new Array(2)].map((_, index) => (
+					{[...new Array(10)].map((_, index) => (
 						<SwiperSlide key={index} style={{ width: '225px' }}>
-							<NoImage />
+							<div className="w-fit h-[100vh] flex justify-center items-center">
+								<NoImage />
+							</div>
 						</SwiperSlide>
 					))}
 				</Swiper>
