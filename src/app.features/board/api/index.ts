@@ -9,7 +9,7 @@ export interface WriteBody {
 
 export interface WriteImgBody {
 	postId: number;
-	files: FormData;
+	FormData: FormData;
 }
 
 // 게시글 카테고리별 조회
@@ -26,16 +26,17 @@ export const boardWrite = async (body: WriteBody) => {
 
 // 게시글 작성 (이미지) RequestPart: form-data, PostId
 export const boardWriteImg = async (body: WriteImgBody) => {
-	const res = await client.post(
-		'api/image/upload',
-		{ ...body },
-		{
-			headers: {
-				'Content-Type': 'multipart/form-data',
-			},
-			transformRequest: (formData) => formData,
-		}
-	);
+	const res = await client.post(`api/image/upload/${body.postId}`, body.FormData, {
+		headers: {
+			'Content-Type': 'multipart/form-data',
+		},
+	});
+	return res;
+};
+
+// 이미지 불러오기
+export const boardImgLoad = async (postId: number) => {
+	const res = await client.get(`/api/image/view`, { params: { postId } });
 	return res;
 };
 
