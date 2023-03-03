@@ -186,7 +186,9 @@ function BoardViewScreen({
 								title="삭제하시겠습니까?"
 								yesFn={() => deleteCommentHandler(focusComment?.commentId as number)}
 								yesTitle="삭제"
-								noBtn
+								noFn={() => {
+									return null;
+								}}
 								noTitle="아니오"
 							/>
 						</Overlay>
