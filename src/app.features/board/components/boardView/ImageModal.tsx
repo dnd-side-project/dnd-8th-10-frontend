@@ -7,7 +7,7 @@ import NoImage from '../../../../../public/images/board/noImage.svg';
 import 'swiper/css/pagination';
 import 'swiper/css';
 
-function ImageModal() {
+function ImageModal({ imgData }: { imgData: string[] }) {
 	const { isImgModalOpen, imgModalIsClose } = useImgModal();
 	return (
 		<div className="flex flex-col justify-center translate-x-0 z-50  fixed max-w-[42rem] mx-auto inset-0 bg-black">
@@ -25,10 +25,10 @@ function ImageModal() {
 					pagination
 					modules={[Pagination]}
 				>
-					{[...new Array(10)].map((_, index) => (
+					{imgData.map((_, index) => (
 						<SwiperSlide key={index} style={{ width: '225px' }}>
 							<div className="w-fit h-[100vh] z-0 flex justify-center items-center">
-								<NoImage />
+								<img src={`data:image/png;base64,${imgData[index]}`} alt={String(index)} />
 							</div>
 						</SwiperSlide>
 					))}

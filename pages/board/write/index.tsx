@@ -12,15 +12,15 @@ const WritePage: NextPage = () => {
 	// 게시글 작성
 	const { mutate: BoardWriteMutate } = useMutation(boardWrite, {
 		onSuccess: (res) => {
-			// console.log(res);
+			// console.log(res.data);
 			router.back();
+			// BoardWriteImgMutate({ postId: Number(id), FormData: formData });
 		},
 		onError: (error) => alert('오류 발생.'),
 	});
 	const { mutate: BoardWriteImgMutate } = useMutation(boardWriteImg, {
 		onSuccess: (res) => {
 			console.log(res);
-			router.back();
 		},
 		onError: (error) => console.log(error),
 	});

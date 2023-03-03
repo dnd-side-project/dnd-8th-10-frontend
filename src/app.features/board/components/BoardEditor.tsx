@@ -43,12 +43,13 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 		for (let i = 0; i < imageFiles.length; i += 1) {
 			formData.append('files', imageFiles[i]);
 		}
-		BoardWriteImgMutate({ postId: Number(id), files: formData });
+		BoardWriteImgMutate({ postId: Number(id), FormData: formData });
 	};
 	const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.files) {
 			// 전송할 파일
 			setImageFiles(Array.from(event.target.files));
+
 			// 미리보기
 			const imageUrls: string[] = [];
 			for (let i = 0; i < event.target.files.length; i += 1) {

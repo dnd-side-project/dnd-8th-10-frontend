@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use, useEffect, useState } from 'react';
 import CheckIcon from 'src/app.modules/assets/board/check.svg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import NoImage from '../../../../../public/images/board/noImage.svg';
@@ -7,6 +7,7 @@ import { categoryMapKr, formatDate } from '../../utils';
 import useImgModal from '../../store/imgModal';
 import ImageModal from './ImageModal';
 import 'swiper/css';
+import { boardImgLoad } from '../../api';
 
 interface Props {
 	boardViewData: IBoardViewData;
@@ -15,6 +16,15 @@ interface Props {
 
 function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 	const { isImgModalOpen, imgModalIsOpen } = useImgModal();
+	const [imgData, setImgData] = useState([]);
+	useEffect(() => {
+		if (boardViewData) {
+			const data = boardImgLoad(boardViewData.postId);
+			data.then((res) => {
+				setImgData(res.data);
+			});
+		}
+	}, [boardViewData]);
 
 	return (
 		<section>
@@ -34,7 +44,7 @@ function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 					</div>
 					<div className="flex w-[calc(100%+4rem)] -translate-x-[2rem] mb-[0.8rem]">
 						<Swiper slidesPerView="auto" spaceBetween={8} slidesOffsetBefore={20} slidesOffsetAfter={15}>
-							{[...new Array(3)].map((_, index) => (
+							{imgData.map((_, index) => (
 								<SwiperSlide key={index} style={{ width: '225px' }}>
 									<button
 										type="button"
@@ -42,7 +52,7 @@ function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 											imgModalIsOpen();
 										}}
 									>
-										{/* <NoImage /> */}
+										<img src={`data:image/png;base64,${imgData[index]}`} alt={String(index)} />
 									</button>
 								</SwiperSlide>
 							))}
@@ -65,7 +75,7 @@ function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 					</div>
 				</>
 			)}
-			{isImgModalOpen && <ImageModal />}
+			{isImgModalOpen && <ImageModal imgData={imgData} />}
 		</section>
 	);
 }
