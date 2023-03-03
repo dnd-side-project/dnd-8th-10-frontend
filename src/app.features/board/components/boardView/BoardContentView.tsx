@@ -1,7 +1,12 @@
 import React from 'react';
 import CheckIcon from 'src/app.modules/assets/board/check.svg';
+import NoImage from '../../../../../public/images/board/noImage.svg';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { IBoardViewData } from '../../types';
 import { categoryMapKr, formatDate } from '../../utils';
+import useImgModal from '../../store/imgModal';
+import ImageModal from './ImageModal';
+import 'swiper/css';
 
 interface Props {
 	boardViewData: IBoardViewData;
@@ -9,6 +14,7 @@ interface Props {
 }
 
 function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
+	const { isImgModalOpen, imgModalIsOpen } = useImgModal();
 	return (
 		<section>
 			{boardViewData && (
@@ -25,15 +31,22 @@ function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 							</span>
 						</div>
 					</div>
-					{/* <div className="w-[calc(100%+4rem)] -translate-x-[2rem] mb-[0.8rem]">
-				<Swiper slidesPerView="auto" spaceBetween={8} slidesOffsetBefore={20} slidesOffsetAfter={15}>
-					{[...new Array(3)].map((_, index) => (
-						<SwiperSlide key={index} style={{ width: '320px' }}>
-							<ViewImgIcon />
-						</SwiperSlide>
-					))}
-				</Swiper>
-			</div> */}
+					<div className="flex w-[calc(100%+4rem)] -translate-x-[2rem] mb-[0.8rem]">
+						<Swiper slidesPerView="auto" spaceBetween={8} slidesOffsetBefore={20} slidesOffsetAfter={15}>
+							{[...new Array(3)].map((_, index) => (
+								<SwiperSlide key={index} style={{ width: '225px' }}>
+									<button
+										type="button"
+										onClick={() => {
+											imgModalIsOpen();
+										}}
+									>
+										<NoImage />
+									</button>
+								</SwiperSlide>
+							))}
+						</Swiper>
+					</div>
 					<div className="mb-[2.4rem]">
 						<span className="text-body2 text-g9">{boardViewData.content}</span>
 					</div>
@@ -51,6 +64,7 @@ function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 					</div>
 				</>
 			)}
+			{isImgModalOpen && <ImageModal />}
 		</section>
 	);
 }
