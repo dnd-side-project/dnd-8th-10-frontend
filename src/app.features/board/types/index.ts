@@ -37,3 +37,9 @@ export interface IBoardViewData {
 	viewCount: number;
 	check: boolean;
 }
+
+export interface IBoardCheckPerson {
+	userCode: number;
+	userName: string;
+	email: string;
+}

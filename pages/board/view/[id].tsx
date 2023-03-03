@@ -3,7 +3,13 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { boardDelete } from 'src/app.features/board/api';
-import { deleteComment, postComment, postViewCheck, putComment } from 'src/app.features/board/api/viewResponse';
+import {
+	deleteComment,
+	getViewCheckPerson,
+	postComment,
+	postViewCheck,
+	putComment,
+} from 'src/app.features/board/api/viewResponse';
 import BoardViewScreen from 'src/app.features/board/screens/BoardViewScreen';
 import { IComment } from 'src/app.features/board/types';
 import { getCookie } from 'src/app.modules/cookie';
@@ -16,13 +22,26 @@ const ViewPage: NextPage = () => {
 	const queryClient = useQueryClient();
 	// 게시글 보기
 	const { boardViewData } = useBoardView(id);
+
 	// 게시물 확인 버튼 클릭
 	const { mutate: ViewCheckMutate } = useMutation(postViewCheck, {
 		onSuccess: (res) => {
 			console.log(res);
 			queryClient.invalidateQueries(['boardView', id]);
+			queryClient.invalidateQueries(['boardCheckPerson', id]);
 		},
 		onError: (error) => console.log(error),
+	});
+	// 게시물 체크한 사람
+	const { data: boardCheckPerson } = useQuery(['boardCheckPerson', id], () => getViewCheckPerson(Number(id)), {
+		select: (res) => res.data.data,
+		onSuccess: (res) => {
+			// console.log(res);
+		},
+		onError: (error) => {
+			console.log(error);
+		},
+		enabled: !!id,
 	});
 
 	// 댓글 작성
@@ -63,6 +82,7 @@ const ViewPage: NextPage = () => {
 		<div className="h-[100vh]">
 			<BoardViewScreen
 				userData={userData}
+				boardCheckPerson={boardCheckPerson}
 				boardViewData={boardViewData}
 				DelMutate={DelMutate}
 				ViewCheckMutate={ViewCheckMutate}

@@ -8,9 +8,10 @@ import { MutateTpye } from 'src/app.modules/api/client';
 import useModalStore from 'src/app.modules/store/modal';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import TopModal from 'src/app.components/Modal/TopModal';
+import CheckIcon from 'src/app.modules/assets/board/check.svg';
 import CommentSettingIcon from '../../../app.modules/assets/board/ellipsis.svg';
 import BoardContentView from '../components/boardView/BoardContentView';
-import { IBoardViewData, IComment } from '../types';
+import { IBoardCheckPerson, IBoardViewData, IComment } from '../types';
 import { formatDate } from '../utils';
 import { DeleteCommentParam, PostCommentBody, PutCommentBody } from '../api/viewResponse';
 import BoardViewHeader from '../components/boardView/Header';
@@ -21,6 +22,7 @@ interface Props {
 		userName: string;
 	};
 	boardViewData: IBoardViewData;
+	boardCheckPerson: IBoardCheckPerson[];
 	DelMutate: MutateTpye<number>;
 	ViewCheckMutate: MutateTpye<number>;
 	PostCommentMutate: MutateTpye<PostCommentBody>;
@@ -39,6 +41,7 @@ function BoardViewScreen({
 	PostCommentMutate,
 	DeleteCommentMutate,
 	PutCommentMutate,
+	boardCheckPerson,
 }: Props) {
 	const {
 		isModalOpen: isCheckPersonModalOpen,
@@ -84,7 +87,7 @@ function BoardViewScreen({
 		const { postId } = boardViewData;
 		if (!newComment.trim() || !postId) return;
 		console.log('adsfafd');
-		const body = { postId, content: newComment };
+		const body = { postId, content: newComment, email: '' };
 		PostCommentMutate(body);
 		setNewComment('');
 	};
@@ -227,7 +230,21 @@ function BoardViewScreen({
 					{isCheckPersonModalOpen && (
 						<Overlay>
 							<TopModal>
-								<span>체크체크</span>
+								<div className="space-y-[2.4rem]">
+									<div className="flex items-center space-x-[0.8rem] text-subhead2 text-g9">
+										<CheckIcon stroke="#4382FF" />
+										<span>이 게시글을 체크한 사람</span>
+									</div>
+									<ul className="space-y-[2.4rem]">
+										{boardCheckPerson?.map(({ userCode, email, userName }) => (
+											<li className="flex items-center space-x-[0.8rem]">
+												<ProfileImage userProfileCode={userCode} size="xs" />
+												<span className="text-subhead2 text-g9">{userName}</span>
+												<span className="text-body2 text-g6">{email}</span>
+											</li>
+										))}
+									</ul>
+								</div>
 							</TopModal>
 						</Overlay>
 					)}
