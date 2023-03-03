@@ -15,7 +15,7 @@ function Header() {
 			</div>
 			<button className="relative" type="button" onClick={() => router.push(SERVICE_URL.alarm)}>
 				<AlarmIcon />
-				<div className="w-[0.6rem] h-[0.6rem] bg-secondary rounded-[50%] absolute right-0 top-0"></div>
+				<div className="w-[0.6rem] h-[0.6rem] bg-secondary rounded-[50%] absolute right-0 top-0" />
 			</button>
 		</header>
 	);
