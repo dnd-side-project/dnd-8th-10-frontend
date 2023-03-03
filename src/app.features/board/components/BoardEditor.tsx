@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { WriteBody } from '../api';
+import { WriteBody, WriteImgBody } from '../api';
 import useStore from '../store';
 import { categoryMapEng, categoryMapKr } from '../utils';
 import BoardImageUploadSlider from './slider/BoardImageUploadSlider';
@@ -16,9 +16,10 @@ interface Props {
 	};
 	boardViewData?: IBoardViewData;
 	BoardMutate: MutateTpye<WriteBody>;
+	BoardWriteImgMutate: MutateTpye<WriteImgBody>;
 }
 
-function BoardEditor({ id, UserData, boardViewData, BoardMutate }: Props) {
+function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMutate }: Props) {
 	const router = useRouter();
 	const { selectedCategory, setSelectedCategory } = useStore();
 	const [title, setTitle] = useState<string>('');
@@ -38,10 +39,11 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate }: Props) {
 			BoardMutate({ title, content, category: categoryMapEng[selectedCategory] });
 		}
 		// 이미지
-		// const formData = new FormData();
-		// for (let i = 0; i < imageFiles.length; i += 1) {
-		// 	formData.append('imageFiles', imageFiles[i]);
-		// }
+		const formData = new FormData();
+		for (let i = 0; i < imageFiles.length; i += 1) {
+			formData.append('files', imageFiles[i]);
+		}
+		BoardWriteImgMutate({ postId: Number(id), files: formData });
 	};
 	const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.files) {

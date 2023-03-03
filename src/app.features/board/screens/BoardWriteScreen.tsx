@@ -1,6 +1,6 @@
 import React from 'react';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { WriteBody } from '../api';
+import { WriteBody, WriteImgBody } from '../api';
 import BoardEditor from '../components/BoardEditor';
 
 interface Props {
@@ -8,9 +8,10 @@ interface Props {
 		role: string;
 	};
 	BoardWriteMutate: MutateTpye<WriteBody>;
+	BoardWriteImgMutate: MutateTpye<WriteImgBody>;
 }
 
-function BoardWriteScreen({ UserData, BoardWriteMutate }: Props) {
-	return <BoardEditor UserData={UserData} BoardMutate={BoardWriteMutate} />;
+function BoardWriteScreen({ UserData, BoardWriteMutate, BoardWriteImgMutate }: Props) {
+	return <BoardEditor UserData={UserData} BoardMutate={BoardWriteMutate} BoardWriteImgMutate={BoardWriteImgMutate} />;
 }
 export default BoardWriteScreen;

@@ -7,23 +7,30 @@ import useStore from '../store';
 import { categoryMapEng, categoryMapKr, formatDate } from '../utils';
 import { PostDatas } from '../types';
 
-function BoardPreview() {
+interface Props {
+	searchData?: PostDatas[];
+	search?: boolean;
+}
+
+function BoardPreview({ searchData, search = false }: Props) {
 	const router = useRouter();
 	const { selectedCategory } = useStore();
 	const [boardData, setBoardData] = useState<PostDatas[]>([]);
 
 	useEffect(() => {
-		if (selectedCategory) {
+		if (search && searchData) {
+			setBoardData(searchData);
+		} else if (selectedCategory) {
 			const data = boardCheckCategory(categoryMapEng[selectedCategory]);
 			data.then((res) => {
 				setBoardData(res.data.data.sort((a: { postId: number }, b: { postId: number }) => b.postId - a.postId));
 			});
 		}
-	}, [selectedCategory]);
+	}, [selectedCategory, searchData, search]);
 
 	return (
 		<div>
-			{boardData.map((post, index) => (
+			{boardData?.map((post, index) => (
 				<div
 					role="presentation"
 					key={index}
