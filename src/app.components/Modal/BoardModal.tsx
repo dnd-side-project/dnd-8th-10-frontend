@@ -3,9 +3,10 @@ import useModalStore from 'src/app.modules/store/modal';
 interface Props {
 	yesFn: () => void;
 	noFn: () => void;
+	cancelFn?: () => void;
 }
 
-function BoardModal({ yesFn, noFn }: Props) {
+function BoardModal({ yesFn, noFn, cancelFn }: Props) {
 	const { modalIsClose } = useModalStore();
 
 	return (
@@ -27,7 +28,16 @@ function BoardModal({ yesFn, noFn }: Props) {
 				</div>
 			</div>
 			<div className="bg-w rounded-[0.8rem] mt-[0.9rem] ">
-				<button type="button" onClick={() => modalIsClose()} className="w-full h-[5.6rem] text-body3 text-g9">
+				<button
+					type="button"
+					onClick={() => {
+						modalIsClose();
+						if (cancelFn) {
+							cancelFn();
+						}
+					}}
+					className="w-full h-[5.6rem] text-body3 text-g9"
+				>
 					취소
 				</button>
 			</div>
