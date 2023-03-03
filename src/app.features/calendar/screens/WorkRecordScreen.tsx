@@ -159,8 +159,9 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 									: 'text-g7 text-body2'
 							} w-[50%] flex justify-between items-center pl-[1.2rem] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
-							{startTime.meridiem === 'am' ? '오전' : '오후'}{' '}
-							{homeTimeView(getWorkTimeString(startTime, endTime).split('~')[0], 'notHome')}
+							{`${startTime.meridiem === 'am' ? '오전' : '오후'} ${
+								startTime.hour.length > 1 ? startTime.hour : `0${startTime.hour}`
+							}시 ${startTime.minute.length > 1 ? startTime.minute : `0${startTime.minute}`}분`}
 							{openModalFlag === 'startTime' && (
 								<div role="presentation" className="mr-[1.6rem]" onClick={() => timeReset()}>
 									<KeypadDelIcon />
@@ -176,8 +177,9 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 									: 'text-g7 text-body2'
 							} w-[50%] flex justify-between items-center pl-[1.2rem] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
-							{endTime.meridiem === 'am' ? '오전' : '오후'}{' '}
-							{homeTimeView(getWorkTimeString(startTime, endTime).split('~')[1], 'notHome')}
+							{`${endTime.meridiem === 'am' ? '오전' : '오후'} ${
+								endTime.hour.length > 1 ? endTime.hour : `0${endTime.hour}`
+							}시 ${endTime.minute.length > 1 ? endTime.minute : `0${endTime.minute}`}분`}
 							{openModalFlag === 'endTime' && (
 								<div role="presentation" className="mr-[1.6rem]" onClick={() => timeReset()}>
 									<KeypadDelIcon />
