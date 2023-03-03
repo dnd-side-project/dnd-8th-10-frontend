@@ -62,7 +62,7 @@ export const setWorkTimeReset = (workTime: string, start = false): IUser => {
 		return {
 			startTime: {
 				meridiem: 'am',
-				hour: '0',
+				hour: '1',
 				minute: '0',
 			},
 			endTime: {
@@ -81,7 +81,7 @@ export const setWorkTimeReset = (workTime: string, start = false): IUser => {
 		},
 		endTime: {
 			meridiem: 'am',
-			hour: '0',
+			hour: '1',
 			minute: '0',
 		},
 	};
