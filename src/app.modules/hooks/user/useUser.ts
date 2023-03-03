@@ -11,7 +11,7 @@ function useUser() {
 			if (JSON.stringify(getCookie('USER')) !== JSON.stringify(res)) {
 				const expires = new Date();
 				expires.setDate(expires.getDate() + 7); // 일주일 동안 저장
-				document.cookie = `USER=${encodeURIComponent(JSON.stringify(res))};expires=${expires}`;
+				document.cookie = `USER=${encodeURIComponent(JSON.stringify(res))};expires=${expires};path=/`;
 				updateUser(res);
 			}
 		},

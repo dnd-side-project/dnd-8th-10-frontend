@@ -9,6 +9,7 @@ import useModalStore from 'src/app.modules/store/modal';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import TopModal from 'src/app.components/Modal/TopModal';
 import CheckIcon from 'src/app.modules/assets/board/check.svg';
+import useStore from 'src/app.modules/hooks/user/useStore';
 import CommentSettingIcon from '../../../app.modules/assets/board/ellipsis.svg';
 import BoardContentView from '../components/boardView/BoardContentView';
 import { IBoardCheckPerson, IBoardViewData, IComment } from '../types';
@@ -43,11 +44,8 @@ function BoardViewScreen({
 	PutCommentMutate,
 	boardCheckPerson,
 }: Props) {
-	const {
-		isModalOpen: isCheckPersonModalOpen,
-		modalIsOpen: checkPersonModalOpen,
-		modalIsClose: checkPersonModalClose,
-	} = useModalStore();
+	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	console.log(boardViewData);
 	const router = useRouter();
 	type SoryByType = 'earliest' | 'latest';
 	type FocusCommentType = {
@@ -61,9 +59,11 @@ function BoardViewScreen({
 	const [optionModalOpen, setOptionModalOpen] = useState<boolean>(false);
 	const [focusComment, setFocusComment] = useState<FocusCommentType | null>(null);
 	const [isEditCommentMode, setIsEditcommentMode] = useState<boolean>(false);
-
+	const [isCheckPersonkModal, setIsCheckPersonkModal] = useState<boolean>(false);
 	const [myPost, setMyPost] = useState<boolean>(false);
-
+	const [canStoreFecth, setCanStoreFetch] = useState<boolean>(true);
+	const [mentionUserCodes, setMentionUserCodes] = useState<string[]>([]);
+	const { data: storeInfo, refetch: storeRefetch } = useStore(canStoreFecth);
 	const commentSortHandler = (sortBy: SoryByType) => {
 		setCommentSortBy(sortBy);
 	};
@@ -80,16 +80,28 @@ function BoardViewScreen({
 		return [...comments].reverse();
 	};
 	const newCommentHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setNewComment(e.target.value);
+		const { value } = e.target;
+		if (value.slice(-1) === '@') {
+			console.log(storeInfo);
+			setCanStoreFetch(true);
+			storeRefetch();
+			modalIsOpen();
+		} else if (isModalOpen) {
+			modalIsClose();
+		}
+		setNewComment(value);
 	};
 	const newCommentSubmitHandler = () => {
-		console.log(newComment);
+		console.log(newComment, '댓글 post');
 		const { postId } = boardViewData;
 		if (!newComment.trim() || !postId) return;
 		console.log('adsfafd');
-		const body = { postId, content: newComment, email: '' };
+		const mentionUserCodesBody = Array.from(new Set(mentionUserCodes));
+		const body = { postId, content: newComment, userCode: mentionUserCodesBody };
+		console.log(body, 'bodybody');
 		PostCommentMutate(body);
 		setNewComment('');
+		setMentionUserCodes([]);
 	};
 	const deleteCommentHandler = (commentId: number) => {
 		console.log('삭제', commentId);
@@ -117,6 +129,7 @@ function BoardViewScreen({
 			setMyPost(boardViewData.userName === userData.userName);
 		}
 	}, [boardViewData, userData]);
+	console.log(storeInfo);
 	return (
 		<>
 			{!isEditCommentMode ? (
@@ -143,7 +156,8 @@ function BoardViewScreen({
 							<button
 								onClick={() => {
 									console.log(optionModalOpen, delCommentModalOpen);
-									checkPersonModalOpen();
+									setIsCheckPersonkModal(true);
+									modalIsOpen();
 								}}
 								className="aria-pressed:text-g9 text-g6 text-subhead1"
 							>
@@ -152,9 +166,9 @@ function BoardViewScreen({
 						</div>
 						<ul className="space-y-[1.6rem]">
 							{boardViewData &&
-								sortedCommentList().map(({ commentId, content, userCode, userName, createdDate, role }) => (
+								sortedCommentList().map(({ commentId, content, userProfileCode, userName, createdDate, role }) => (
 									<li key={commentId} className="flex space-x-[0.8rem]">
-										<ProfileImage userProfileCode={userCode} size="sm" />
+										<ProfileImage userProfileCode={userProfileCode} size="sm" />
 										<div className="w-full">
 											<div className="flex justify-between  items-center ">
 												<div className="flex space-x-[0.4rem]">
@@ -182,7 +196,7 @@ function BoardViewScreen({
 					<footer
 						className={`${
 							commentInputMode === 'small' ? 'px-[2rem]' : ''
-						} absolute w-full flex items-center -translate-x-[2rem] max-w-[42rem] mx-auto bottom-0  min-h-[5.6rem] h-fit border-solid border-t-[0.05rem] border-g3`}
+						} absolute w-full z-[100] flex items-center -translate-x-[2rem] max-w-[42rem] mx-auto bottom-0  min-h-[5.6rem] h-fit border-solid border-t-[0.05rem] border-g3`}
 					>
 						<TextInput
 							mode={commentInputMode}
@@ -227,24 +241,51 @@ function BoardViewScreen({
 							/>
 						</Overlay>
 					)}
-					{isCheckPersonModalOpen && (
-						<Overlay>
+					{isModalOpen && (
+						<Overlay overlayClickFn={() => setIsCheckPersonkModal(false)}>
 							<TopModal>
-								<div className="space-y-[2.4rem]">
-									<div className="flex items-center space-x-[0.8rem] text-subhead2 text-g9">
-										<CheckIcon stroke="#4382FF" />
-										<span>이 게시글을 체크한 사람</span>
-									</div>
-									<ul className="space-y-[2.4rem]">
-										{boardCheckPerson?.map(({ userCode, email, userName }) => (
-											<li className="flex items-center space-x-[0.8rem]">
-												<ProfileImage userProfileCode={userCode} size="xs" />
-												<span className="text-subhead2 text-g9">{userName}</span>
-												<span className="text-body2 text-g6">{email}</span>
-											</li>
-										))}
-									</ul>
-								</div>
+								<>
+									{isCheckPersonkModal ? (
+										<div className="space-y-[2.4rem] pb-[12rem]">
+											<div className="flex items-center space-x-[0.8rem] text-subhead2 text-g9">
+												<CheckIcon stroke="#4382FF" />
+												<span>이 게시글을 체크한 사람</span>
+											</div>
+											<ul className="space-y-[2.4rem]">
+												{boardCheckPerson?.map(({ userProfileCode, email, userName }) => (
+													<li className="flex items-center space-x-[0.8rem]">
+														<ProfileImage userProfileCode={userProfileCode} size="xs" />
+														<span className="text-subhead2 text-g9">{userName}</span>
+														<span className="text-body2 text-g6">{email}</span>
+													</li>
+												))}
+											</ul>
+										</div>
+									) : (
+										<div className="space-y-[2.4rem]">
+											<ul className="space-y-[2.4rem] pb-[6rem]">
+												{storeInfo?.userList?.map(
+													({ userProfileCode, userCode, email, userName }: IBoardCheckPerson) => (
+														<li className="flex items-center space-x-[0.8rem]" key={userCode}>
+															<button
+																onClick={() => {
+																	setMentionUserCodes((prev) => [...prev, userCode]);
+																	setNewComment((prev) => prev + userName);
+																	modalIsClose();
+																}}
+																className="flex items-center space-x-[0.8rem]"
+															>
+																<ProfileImage userProfileCode={userProfileCode} size="xs" />
+																<span className="text-subhead2 text-g9">{userName}</span>
+																<span className="text-body2 text-g6">{email}</span>
+															</button>
+														</li>
+													)
+												)}
+											</ul>
+										</div>
+									)}
+								</>
 							</TopModal>
 						</Overlay>
 					)}

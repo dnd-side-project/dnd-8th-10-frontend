@@ -32,6 +32,7 @@ function TextInput({
 		if (!inputRef?.current) return;
 		inputRef.current.blur();
 		if (!submitHandler) return;
+		console.log('왜 안되냐');
 		submitHandler();
 	};
 	const getPadding = () => {
