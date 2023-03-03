@@ -41,7 +41,15 @@ function Header({ postId, DelMutate, myPost }: Props) {
 			{isModalOpen && (
 				<Overlay>
 					{delModalView ? (
-						<Modal title="삭제하시겠습니까?" yesFn={delMutateHandler} yesTitle="삭제" noBtn noTitle="아니오" />
+						<Modal
+							title="삭제하시겠습니까?"
+							yesFn={delMutateHandler}
+							yesTitle="삭제"
+							noFn={() => {
+								modalIsClose();
+							}}
+							noTitle="아니오"
+						/>
 					) : (
 						<BoardModal
 							yesFn={() => {
