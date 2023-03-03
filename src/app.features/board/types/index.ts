@@ -18,7 +18,7 @@ export interface IComment {
 	createdDate: string; // '2023-03-02T10:47:26';
 	modifiedDate: string; // '2023-03-02T10:47:26';
 	role: RoleType;
-	userCode: number;
+	userProfileCode: number;
 	userName: string;
 }
 
@@ -36,4 +36,11 @@ export interface IBoardViewData {
 	userName: string;
 	viewCount: number;
 	check: boolean;
+}
+// TODO: 이름바꾸기
+export interface IBoardCheckPerson {
+	userProfileCode: number;
+	userName: string;
+	email: string;
+	userCode: string;
 }

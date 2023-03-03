@@ -9,7 +9,14 @@ export const postViewCheck = async (postId: number) => {
 export interface PostCommentBody {
 	postId: number;
 	content: string;
+	email?: string[] | string;
 }
+
+// 게시글 체크한 사람 조회
+export const getViewCheckPerson = async (postId: number) => {
+	const res = await client.get(`/api/board/${postId}/check`);
+	return res;
+};
 
 // 댓글 작성
 export const postComment = async (body: PostCommentBody) => {
@@ -35,6 +42,7 @@ export interface PutCommentBody {
 	postId: number;
 	content: string;
 	commentId: number;
+	email?: string[] | string;
 }
 
 export const putComment = async (body: PutCommentBody) => {
