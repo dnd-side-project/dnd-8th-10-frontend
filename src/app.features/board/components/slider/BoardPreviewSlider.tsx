@@ -8,6 +8,7 @@ import { boardCheckCategory } from '../../api';
 import { categoryMapEng, categoryMapKr, formatDate } from '../../utils';
 import { IBoardViewData } from '../../types';
 import NoImage from '../../../../../public/images/board/noImage.svg';
+
 function BoardPreviewSlider() {
 	const router = useRouter();
 	const [BoardPreviewData, setBoardPreviewData] = useState<IBoardViewData[]>([]);
