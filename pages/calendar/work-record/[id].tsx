@@ -22,7 +22,7 @@ const WorkRecord: NextPage = () => {
 	// 수정하기
 	const { mutate: ModifyMutate } = useMutation(putWorkModify, {
 		onSuccess: (res) => {
-			// console.log(res);
+			console.log(res);
 			router.back();
 		},
 		onError: (error) => console.log(error),
