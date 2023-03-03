@@ -27,7 +27,7 @@ function MainPoster() {
 					오늘도 화이팅!
 				</span>
 			</div>
-			<div className="absolute bottom-0 right-0 ">
+			<div className="absolute bottom-0 right-[-10px]">
 				<MainIcon />
 			</div>
 		</div>
