@@ -136,8 +136,7 @@ export const WorkListTimeView = (time: string) => {
 		return '오전 12:00';
 	}
 	if (hour >= '12') {
-		return '오후 ' + `${hour === '12' ? hour : Number(hour) - 12}` + ':' + minute;
-	} else {
-		return '오전 ' + hour + ':' + minute;
+		return `${hour}` === '12' ? `오후 ${hour}` : `오후 ${Number(hour) - 12}:${minute}`;
 	}
+	return `오전 ${hour}:${minute}`;
 };
