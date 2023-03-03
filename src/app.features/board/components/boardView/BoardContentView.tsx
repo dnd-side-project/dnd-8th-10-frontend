@@ -75,7 +75,7 @@ function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 					</div>
 				</>
 			)}
-			{isImgModalOpen && <ImageModal />}
+			{isImgModalOpen && <ImageModal imgData={imgData} />}
 		</section>
 	);
 }
