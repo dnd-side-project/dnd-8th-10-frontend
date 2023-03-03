@@ -17,7 +17,7 @@ import { formatDate } from '../utils';
 import { DeleteCommentParam, PostCommentBody, PutCommentBody } from '../api/viewResponse';
 import BoardViewHeader from '../components/boardView/Header';
 import CommentEditScreen from './CommentEditScreen';
-
+// TODO: 멘션 기능 보완하기
 interface Props {
 	userData: {
 		userName: string;
