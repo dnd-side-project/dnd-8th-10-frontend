@@ -71,7 +71,7 @@ const Home: NextPage = () => {
 		<>
 			{!isLoading && (
 				<>
-					<Header />
+					<Header workPlace={data?.workPlace ?? ''} />
 					<main className="h-[100vh] bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem]">
 						<HomeScreen
 							grayData={grayData}
