@@ -12,9 +12,10 @@ import { MutateTpye } from 'src/app.modules/api/client';
 interface Props {
 	DelMutate: MutateTpye<number>;
 	postId: number | null;
+	myPost: boolean;
 }
 
-function Header({ postId, DelMutate }: Props) {
+function Header({ postId, DelMutate, myPost }: Props) {
 	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
 	const router = useRouter();
 	const [delModalView, setDelModalView] = useState<boolean>(false);
@@ -31,9 +32,11 @@ function Header({ postId, DelMutate }: Props) {
 				<button type="button" onClick={() => router.back()}>
 					<BackIcon stroke="#66666E" />
 				</button>
-				<button type="button" onClick={modalIsOpen}>
-					<MoreIcon />
-				</button>
+				{myPost && (
+					<button type="button" onClick={modalIsOpen}>
+						<MoreIcon />
+					</button>
+				)}
 			</header>
 			{isModalOpen && (
 				<Overlay>
