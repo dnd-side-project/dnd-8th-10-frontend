@@ -35,4 +35,5 @@ export interface IBoardViewData {
 	userCode: number;
 	userName: string;
 	viewCount: number;
+	check: boolean;
 }
