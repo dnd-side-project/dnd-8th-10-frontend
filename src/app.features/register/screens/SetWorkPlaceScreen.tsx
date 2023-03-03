@@ -86,7 +86,7 @@ function SetWorkPlaceScreen() {
 						onSearchTermChange={searchTermHandler}
 						resetSearchTerm={resetSearchTerm}
 						isSearched={Boolean(workPlace?.trim())}
-						placeholder="편의점 위치명, 위치 검색"
+						placeholder="편의점 지점명, 위치 검색  예)0000점"
 						onFocus={runningBtnAnim}
 						onBlur={pauseBtnAnim}
 					/>
