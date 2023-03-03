@@ -8,8 +8,8 @@ import { categoryMapEng, categoryMapKr, formatDate } from '../utils';
 import { PostDatas } from '../types';
 
 interface Props {
-	searchData: PostDatas[];
-	search: boolean;
+	searchData?: PostDatas[];
+	search?: boolean;
 }
 
 function BoardPreview({ searchData, search = false }: Props) {
@@ -18,7 +18,7 @@ function BoardPreview({ searchData, search = false }: Props) {
 	const [boardData, setBoardData] = useState<PostDatas[]>([]);
 
 	useEffect(() => {
-		if (search) {
+		if (search && searchData) {
 			setBoardData(searchData);
 		} else if (selectedCategory) {
 			const data = boardCheckCategory(categoryMapEng[selectedCategory]);
