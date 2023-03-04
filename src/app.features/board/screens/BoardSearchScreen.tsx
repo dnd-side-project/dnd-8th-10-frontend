@@ -9,16 +9,17 @@ import { useQuery } from '@tanstack/react-query';
 import BackIcon from '../../../app.modules/assets/back.svg';
 import BoardPreview from '../components/BoardPreview';
 import { boardSearch } from '../api/search';
+import useStore from '../store';
 
 function BoardSearchScreen() {
 	const router = useRouter();
 	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
-
+	const { setSelectedCategory } = useStore();
 	const [searchContent, setEearchContent] = useState('');
 	const { data: searchData, refetch: searchRefetch } = useQuery(['boardSearch'], () => boardSearch(searchContent), {
 		select: (res) => res.data.data,
 		onSuccess: (res) => {
-			console.log(res);
+			// console.log(res);
 		},
 		onError: (error) => {
 			console.log(error);

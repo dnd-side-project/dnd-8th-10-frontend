@@ -21,6 +21,7 @@ function Header({ postId, DelMutate, myPost }: Props) {
 	const [delModalView, setDelModalView] = useState<boolean>(false);
 	const delMutateHandler = () => {
 		if (postId === null) return;
+		console.log('게시글 삭제');
 		DelMutate(postId);
 	};
 
@@ -51,7 +52,7 @@ function Header({ postId, DelMutate, myPost }: Props) {
 							yesFn={() => {
 								router.push(`${SERVICE_URL.boardEdit}/${postId}`);
 							}}
-							noFn={delMutateHandler}
+							noFn={() => setDelModalView(true)}
 							cancelFn={() => setModalOpen(false)}
 						/>
 					)}

@@ -18,8 +18,11 @@ function BoardPreview({ searchData, search = false }: Props) {
 	const [boardData, setBoardData] = useState<PostDatas[]>([]);
 
 	useEffect(() => {
-		if (search && searchData) {
-			setBoardData(searchData);
+		if (search) {
+			setBoardData([]);
+			if (searchData) {
+				setBoardData(searchData);
+			}
 		} else if (selectedCategory) {
 			const data = boardCheckCategory(categoryMapEng[selectedCategory]);
 			data.then((res) => {
