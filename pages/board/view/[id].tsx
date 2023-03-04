@@ -71,7 +71,7 @@ const ViewPage: NextPage = () => {
 	// 게시글 삭제
 	const { mutate: DelMutate } = useMutation(boardDelete, {
 		onSuccess: (res) => {
-			console.log(res);
+			console.log('게시글 삭제');
 			router.back();
 		},
 		onError: (error) => console.log(error),

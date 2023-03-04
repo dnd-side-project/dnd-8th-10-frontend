@@ -21,7 +21,7 @@ interface Props {
 
 function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMutate }: Props) {
 	const router = useRouter();
-	const { selectedCategory, setSelectedCategory } = useStore();
+	const { selectedCategory, setSelectedCategory, setImgFormData } = useStore();
 	const [title, setTitle] = useState<string>('');
 	const [content, setContent] = useState<string>('');
 	const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -30,25 +30,26 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 	const handleContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => setContent(event.target.value);
 	const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-
+		let writePostId;
 		if (id && boardViewData) {
 			// 게시글 수정
 			BoardMutate({ postId: Number(id), title, content, category: categoryMapEng[selectedCategory] });
+			// 이미지
+			const formData = new FormData();
+			for (let i = 0; i < imageFiles.length; i += 1) {
+				formData.append('files', imageFiles[i]);
+			}
+			BoardWriteImgMutate({ postId: Number(id), FormData: formData });
 		} else {
 			// 게시글 작성
 			BoardMutate({ title, content, category: categoryMapEng[selectedCategory] });
 		}
-		// 이미지
-		const formData = new FormData();
-		for (let i = 0; i < imageFiles.length; i += 1) {
-			formData.append('files', imageFiles[i]);
-		}
-		BoardWriteImgMutate({ postId: Number(id), FormData: formData });
 	};
 	const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.files) {
 			// 전송할 파일
 			setImageFiles(Array.from(event.target.files));
+			setImgFormData(Array.from(event.target.files));
 
 			// 미리보기
 			const imageUrls: string[] = [];
