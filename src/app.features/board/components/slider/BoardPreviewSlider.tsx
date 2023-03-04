@@ -4,7 +4,7 @@ import Badge from 'src/app.components/app.base/Button/Badge';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useRouter } from 'next/router';
-import { boardCheckCategory } from '../../api';
+import { boardCheckCategory, boardImgLoad } from '../../api';
 import { categoryMapEng, categoryMapKr, formatDate } from '../../utils';
 import { IBoardViewData } from '../../types';
 import NoImage from '../../../../../public/images/board/noImage.svg';
@@ -12,6 +12,7 @@ import NoImage from '../../../../../public/images/board/noImage.svg';
 function BoardPreviewSlider() {
 	const router = useRouter();
 	const [BoardPreviewData, setBoardPreviewData] = useState<IBoardViewData[]>([]);
+	const [thumbnail, setThumbnail] = useState<string[]>([]);
 	useEffect(() => {
 		const pesonalNoticeData = boardCheckCategory(categoryMapEng['공지']);
 		const noticeData = boardCheckCategory(categoryMapEng['전달']);
@@ -21,9 +22,15 @@ function BoardPreviewSlider() {
 			const data = allPosts.concat(noticePosts);
 			data.sort((a: { postId: number }, b: { postId: number }) => b.postId - a.postId);
 			setBoardPreviewData(data);
+			data.forEach((val: { postId: number }) => {
+				const dataImg = boardImgLoad(val.postId);
+				dataImg.then((res) => {
+					setThumbnail((prevThumbnails) => prevThumbnails.concat(res.data));
+				});
+			});
 		});
 	}, []);
-
+	console.log(thumbnail);
 	return (
 		<div>
 			<div className="mt-[1.6rem] mb-[0.8rem]">
@@ -46,7 +53,11 @@ function BoardPreviewSlider() {
 								className="w-fit"
 								onClick={() => router.push(`${SERVICE_URL.boardView}/${post.postId}`)}
 							>
-								<NoImage />
+								{thumbnail.length > 0 ? (
+									<img src={`data:image/png;base64,${thumbnail[index]}`} alt={String(index)} />
+								) : (
+									<NoImage />
+								)}
 								<div className="flex items-center mt-[0.8rem]">
 									<Badge color="secondary" size="small">
 										{categoryMapKr[post.category]}
