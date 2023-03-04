@@ -85,9 +85,11 @@ function CheckListScreen({
 		const { curMonthLastDate } = getCurMonthLastDayInfo(year, month);
 		const { prevMonthLastDate, prevMonthLastDay } = getPrevMonthLastDayInfo(year, month);
 		const DATE = date;
-		const DAY = day === 6 ? 0 : day; // 일요일 처리
+		const DAY = day; // 일요일 처리
 		const res = [];
+		console.log(DAY, day, 'DAy');
 		for (let i = 0; i < DAY; i += 1) {
+			console.log(i);
 			if (DATE - (DAY - i) <= 0) {
 				res.push(prevMonthLastDate - (prevMonthLastDay - i));
 			} else res.push(DATE - (DAY - i));
@@ -159,7 +161,7 @@ function CheckListScreen({
 		deleteChecklist(editTodoInputOpenIdx as number);
 	};
 	const getSearchDateString = (weekIdx: number, selectedDate: number) => {
-		const todayWeekIdx = day === 6 ? 0 : day;
+		const todayWeekIdx = day;
 		let selectedMonth = month;
 		let selectedYear = year;
 		if (selectedDate < date && todayWeekIdx < weekIdx) {
