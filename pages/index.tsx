@@ -10,6 +10,7 @@ import Header from 'src/app.features/home/components/Header';
 import useUser from 'src/app.modules/hooks/user/useUser';
 import EasterEgg from 'src/app.features/home/components/EasterEgg';
 import { boardCheckCategory } from 'src/app.features/board/api';
+import { getAlarmNotice } from 'src/app.modules/api/alram';
 
 const Home: NextPage = () => {
 	const { toDay } = useStore();
@@ -53,6 +54,17 @@ const Home: NextPage = () => {
 		},
 	});
 
+	// 알림있는지 확인
+	const { data: hasAlarm } = useQuery(['notice'], getAlarmNotice, {
+		select: (res) => res.data,
+		onSuccess: (res) => {
+			// console.log(res);
+		},
+		onError: (error) => {
+			console.log(error);
+		},
+	});
+
 	const { data: boardNoticeData, isLoading: boardNoticeLoading } = useQuery(
 		['noticeData'],
 		() => boardCheckCategory('notice'),
@@ -71,7 +83,8 @@ const Home: NextPage = () => {
 		<>
 			{!isLoading && (
 				<>
-					<Header />
+					<Header workPlace={data?.workPlace ?? ''} hasNotice={false} />
+
 					<main className="h-[100vh] bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem]">
 						<HomeScreen
 							grayData={grayData}

@@ -3,10 +3,12 @@ import { NextPage } from 'next';
 import React from 'react';
 import { boardCheckCategory } from 'src/app.features/board/api';
 import AlarmScreen from 'src/app.features/home/screens/AlarmScreen';
+import { getAlarmList } from 'src/app.modules/api/alram';
 
 const Alarm: NextPage = () => {
-	const { data: AlarmData, isLoading: AlarmLoading } = useQuery(['noticeData'], () => boardCheckCategory('all'), {
-		select: (res) => res.data.data.sort((a: { postId: number }, b: { postId: number }) => b.postId - a.postId),
+	// 알림있는지 확인
+	const { data: hasAlarm } = useQuery(['notice', 'list'], getAlarmList, {
+		select: (res) => res.data,
 		onSuccess: (res) => {
 			// console.log(res);
 		},
@@ -14,7 +16,11 @@ const Alarm: NextPage = () => {
 			console.log(error);
 		},
 	});
-	return <>{!AlarmLoading && <AlarmScreen AlarmData={AlarmData} />}</>;
+	return (
+		<>
+			<AlarmScreen AlarmData={AlarmData} />
+		</>
+	);
 };
 
 export default Alarm;
