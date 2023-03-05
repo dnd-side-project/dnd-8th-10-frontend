@@ -13,7 +13,7 @@ function BoardModal({ yesFn, noFn, cancelFn }: Props) {
 		<div
 			role="dialog"
 			aria-modal="true"
-			className="z-50 w-full px-[2rem] text-center fixed  max-w-[42rem] left-[50%] bottom-0 translate-x-[-50%] mb-[2rem]"
+			className="z-[101] w-full px-[2rem] text-center fixed  max-w-[42rem] left-[50%] bottom-0 translate-x-[-50%] mb-[2rem]"
 		>
 			<div className="bg-w rounded-[0.8rem]">
 				<div className="border-solid border-b-[0.1rem] border-b-g3">

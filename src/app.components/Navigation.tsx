@@ -30,8 +30,10 @@ function Navigation() {
 					</li>
 					<li>
 						<Link href={SERVICE_URL.board} className="flex flex-col items-center">
-							<BoardIcon stroke={`${router.pathname === '' ? '#66666E' : '#E8E8EB'}`} />
-							<div className={`${router.pathname === '' ? 'text-[#66666E]' : 'text-[#E8E8EB]'}`}>게시판</div>
+							<BoardIcon stroke={`${router.pathname === `${SERVICE_URL.board}` ? '#66666E' : '#E8E8EB'}`} />
+							<div className={`${router.pathname === `${SERVICE_URL.board}` ? 'text-[#66666E]' : 'text-[#E8E8EB]'}`}>
+								게시판
+							</div>
 						</Link>
 					</li>
 					<li>

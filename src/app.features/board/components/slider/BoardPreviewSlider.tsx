@@ -4,7 +4,7 @@ import Badge from 'src/app.components/app.base/Button/Badge';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useRouter } from 'next/router';
-import { boardCheckCategory } from '../../api';
+import { boardCheckCategory, boardImgLoad } from '../../api';
 import { categoryMapEng, categoryMapKr, formatDate } from '../../utils';
 import { IBoardViewData } from '../../types';
 import NoImage from '../../../../../public/images/board/noImage.svg';
@@ -12,6 +12,8 @@ import NoImage from '../../../../../public/images/board/noImage.svg';
 function BoardPreviewSlider() {
 	const router = useRouter();
 	const [BoardPreviewData, setBoardPreviewData] = useState<IBoardViewData[]>([]);
+	const [thumbnail, setThumbnail] = useState<string[]>([]);
+
 	useEffect(() => {
 		const pesonalNoticeData = boardCheckCategory(categoryMapEng['공지']);
 		const noticeData = boardCheckCategory(categoryMapEng['전달']);
@@ -21,6 +23,12 @@ function BoardPreviewSlider() {
 			const data = allPosts.concat(noticePosts);
 			data.sort((a: { postId: number }, b: { postId: number }) => b.postId - a.postId);
 			setBoardPreviewData(data);
+			data.forEach((val: { postId: number }) => {
+				const dataImg = boardImgLoad(val.postId);
+				dataImg.then((res) => {
+					setThumbnail((prevThumbnails) => [...prevThumbnails, res.data]);
+				});
+			});
 		});
 	}, []);
 
@@ -41,12 +49,16 @@ function BoardPreviewSlider() {
 				>
 					{BoardPreviewData.map((post, index) => (
 						<SwiperSlide key={index} style={{ width: '225px' }}>
-							<div
-								role="presentation"
-								className="w-fit"
-								onClick={() => router.push(`${SERVICE_URL.boardView}/${post.postId}`)}
-							>
-								<NoImage />
+							<div role="presentation" onClick={() => router.push(`${SERVICE_URL.boardView}/${post.postId}`)}>
+								{thumbnail.length > 0 && thumbnail[index]?.length > 0 ? (
+									<img
+										className="rounded-[0.8rem] w-[22.5rem] h-[10.1rem] object-cover"
+										src={`data:image/png;base64,${thumbnail[index][0]}`}
+										alt={String(index)}
+									/>
+								) : (
+									<NoImage />
+								)}
 								<div className="flex items-center mt-[0.8rem]">
 									<Badge color="secondary" size="small">
 										{categoryMapKr[post.category]}

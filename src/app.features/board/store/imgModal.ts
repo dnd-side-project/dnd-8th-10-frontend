@@ -2,13 +2,15 @@ import create from 'zustand';
 
 interface IStore {
 	isImgModalOpen: boolean;
-	imgModalIsOpen: () => void;
+	modalIndex: number;
+	imgModalIsOpen: (index: number) => void;
 	imgModalIsClose: () => void;
 }
 
 const useImgModal = create<IStore>((set) => ({
 	isImgModalOpen: false,
-	imgModalIsOpen: () => set(() => ({ isImgModalOpen: true })),
+	modalIndex: 0,
+	imgModalIsOpen: (index) => set(() => ({ isImgModalOpen: true, modalIndex: index })),
 	imgModalIsClose: () => set(() => ({ isImgModalOpen: false })),
 }));
 
