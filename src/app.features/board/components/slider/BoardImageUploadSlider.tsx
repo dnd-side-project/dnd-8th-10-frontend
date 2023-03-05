@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import CameraIcon from '../../../../app.modules/assets/board/camera.svg';
 import 'swiper/css';
 
-function BoardImageUploadSlider({ onImageChange, previewUrls }: any) {
+function BoardImageUploadSlider({ onImageChange, previewUrls, handleDeleteImage }: any) {
 	return (
 		<div className="flex w-[calc(100%+4rem)] -translate-x-[2rem] pl-[2rem]">
 			<label htmlFor="image">
@@ -13,10 +13,16 @@ function BoardImageUploadSlider({ onImageChange, previewUrls }: any) {
 			</label>
 			<div className="overflow-hidden">
 				<Swiper slidesPerView="auto" spaceBetween={8} slidesOffsetAfter={20}>
-					{previewUrls.map((url: string) => (
+					{previewUrls.map((url: string, index: number) => (
 						<SwiperSlide key={url} style={{ width: '67px' }}>
 							<div className="w-[6.7rem] h-[6.7rem]">
-								<img src={url} alt={url} className="w-full h-full object-cover rounded-[0.5rem]" />
+								<img
+									role="presentation"
+									src={url}
+									alt={url}
+									className="w-full h-full object-cover rounded-[0.5rem]"
+									onClick={() => handleDeleteImage(index)}
+								/>
 							</div>
 						</SwiperSlide>
 					))}

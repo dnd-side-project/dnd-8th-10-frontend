@@ -13,6 +13,7 @@ function BoardPreviewSlider() {
 	const router = useRouter();
 	const [BoardPreviewData, setBoardPreviewData] = useState<IBoardViewData[]>([]);
 	const [thumbnail, setThumbnail] = useState<string[]>([]);
+
 	useEffect(() => {
 		const pesonalNoticeData = boardCheckCategory(categoryMapEng['공지']);
 		const noticeData = boardCheckCategory(categoryMapEng['전달']);
@@ -25,12 +26,12 @@ function BoardPreviewSlider() {
 			data.forEach((val: { postId: number }) => {
 				const dataImg = boardImgLoad(val.postId);
 				dataImg.then((res) => {
-					setThumbnail((prevThumbnails) => prevThumbnails.concat(res.data));
+					setThumbnail((prevThumbnails) => [...prevThumbnails, res.data]);
 				});
 			});
 		});
 	}, []);
-	console.log(thumbnail);
+
 	return (
 		<div>
 			<div className="mt-[1.6rem] mb-[0.8rem]">
@@ -48,13 +49,13 @@ function BoardPreviewSlider() {
 				>
 					{BoardPreviewData.map((post, index) => (
 						<SwiperSlide key={index} style={{ width: '225px' }}>
-							<div
-								role="presentation"
-								className="w-fit"
-								onClick={() => router.push(`${SERVICE_URL.boardView}/${post.postId}`)}
-							>
-								{thumbnail.length > 0 ? (
-									<img src={`data:image/png;base64,${thumbnail[index]}`} alt={String(index)} />
+							<div role="presentation" onClick={() => router.push(`${SERVICE_URL.boardView}/${post.postId}`)}>
+								{thumbnail.length > 0 && thumbnail[index]?.length > 0 ? (
+									<img
+										className="rounded-[0.8rem] w-[22.5rem] h-[10.1rem] object-cover"
+										src={`data:image/png;base64,${thumbnail[index][0]}`}
+										alt={String(index)}
+									/>
 								) : (
 									<NoImage />
 								)}

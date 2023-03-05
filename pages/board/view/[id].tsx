@@ -21,7 +21,7 @@ const ViewPage: NextPage = () => {
 	const { id } = router.query;
 	const queryClient = useQueryClient();
 	// 게시글 보기
-	const { boardViewData } = useBoardView(id);
+	const { boardViewData, boardViewReftch } = useBoardView(id);
 
 	// 게시물 확인 버튼 클릭
 	const { mutate: ViewCheckMutate } = useMutation(postViewCheck, {

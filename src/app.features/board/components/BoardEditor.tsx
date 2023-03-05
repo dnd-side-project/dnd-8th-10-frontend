@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { WriteBody, WriteImgBody } from '../api';
+import { boardImgLoad, WriteBody, WriteImgBody } from '../api';
 import useStore from '../store';
 import { categoryMapEng, categoryMapKr } from '../utils';
 import BoardImageUploadSlider from './slider/BoardImageUploadSlider';
@@ -26,11 +26,13 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 	const [content, setContent] = useState<string>('');
 	const [imageFiles, setImageFiles] = useState<File[]>([]);
 	const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+	const [imgData, setImgData] = useState([]);
+
 	const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
 	const handleContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => setContent(event.target.value);
+
 	const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		let writePostId;
 		if (id && boardViewData) {
 			// 게시글 수정
 			BoardMutate({ postId: Number(id), title, content, category: categoryMapEng[selectedCategory] });
@@ -56,7 +58,7 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 			for (let i = 0; i < event.target.files.length; i += 1) {
 				imageUrls.push(URL.createObjectURL(event.target.files[i]));
 			}
-			setPreviewUrls(imageUrls);
+			setPreviewUrls((state) => [...state, ...imageUrls]);
 		}
 	};
 
@@ -65,6 +67,26 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 			setTitle(boardViewData.title);
 			setContent(boardViewData.content);
 			setSelectedCategory(categoryMapKr[boardViewData.category]);
+			const data = boardImgLoad(boardViewData.postId);
+			data.then((res) => {
+				const urls = res.data.map((base64str: string) => {
+					const binary = atob(base64str);
+					const blob = new Blob([new Uint8Array(binary.length).fill(0).map((_, i) => binary.charCodeAt(i))], {
+						type: 'image/jpeg',
+					});
+					return URL.createObjectURL(blob);
+				});
+				setPreviewUrls(urls);
+				setImageFiles(
+					res.data.map((base64str: string) => {
+						const binary = atob(base64str);
+						const blob = new Blob([new Uint8Array(binary.length).fill(0).map((_, i) => binary.charCodeAt(i))], {
+							type: 'image/jpeg',
+						});
+						return new File([blob], 'filename.jpg', { type: 'image/jpeg' });
+					})
+				);
+			});
 		} else {
 			setSelectedCategory('');
 		}
@@ -72,6 +94,18 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 			setSelectedCategory('전체');
 		};
 	}, [id, boardViewData]);
+
+	const handleDeleteImage = (index: number) => {
+		// 전송할 이미지 데이터에서 삭제
+		const newImageFiles = [...imageFiles];
+		newImageFiles.splice(index, 1);
+		console.log(newImageFiles);
+		setImageFiles(newImageFiles);
+		// 미리보기에서 삭제
+		const newUrls = [...previewUrls];
+		newUrls.splice(index, 1);
+		setPreviewUrls(newUrls);
+	};
 
 	return (
 		<div>
@@ -93,7 +127,11 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 				</header>
 				<BoardCategorySlider main={false} manager={UserData?.role === 'MANAGER'} />
 				<div className="my-[1.2rem]">
-					<BoardImageUploadSlider onImageChange={handleImageChange} previewUrls={previewUrls} />
+					<BoardImageUploadSlider
+						onImageChange={handleImageChange}
+						previewUrls={previewUrls}
+						handleDeleteImage={handleDeleteImage}
+					/>
 				</div>
 				<div>
 					<input
