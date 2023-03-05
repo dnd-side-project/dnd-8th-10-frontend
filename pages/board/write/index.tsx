@@ -10,6 +10,15 @@ const WritePage: NextPage = () => {
 	const router = useRouter();
 	const { data, refetch, isLoading: useLoading } = useUser();
 	const { imgData } = useStore();
+
+	// 게시글 이미지 작성
+	const { mutate: BoardWriteImgMutate } = useMutation(boardWriteImg, {
+		onSuccess: (res) => {
+			// console.log(res);
+		},
+		onError: (error) => console.log(error),
+	});
+
 	// 게시글 작성
 	const { mutate: BoardWriteMutate } = useMutation(boardWrite, {
 		onSuccess: (res) => {
@@ -20,17 +29,12 @@ const WritePage: NextPage = () => {
 				formData.append('files', imgData[i]);
 			}
 			BoardWriteImgMutate({ postId, FormData: formData });
+			router.back();
 		},
 
 		onError: (error) => alert('오류 발생.'),
 	});
-	const { mutate: BoardWriteImgMutate } = useMutation(boardWriteImg, {
-		onSuccess: (res) => {
-			// console.log(res);
-			router.back();
-		},
-		onError: (error) => console.log(error),
-	});
+
 	return (
 		<>
 			{!useLoading && (
