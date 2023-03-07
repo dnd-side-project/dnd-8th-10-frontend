@@ -6,10 +6,10 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { useRouter } from 'next/router';
 import TopModal from 'src/app.components/Modal/TopModal';
-import useModalStore from 'src/app.modules/store/modal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import SalaryIcon from 'src/app.modules/assets/calendar/salary.svg';
 import CtlIcon from 'src/app.modules/assets/calendar/control.svg';
+import useModal from 'src/app.modules/hooks/useModal';
 import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
 import useStore from '../store';
@@ -26,7 +26,7 @@ function CalendarScreen({ currentUser }: Props) {
 		day: [],
 	});
 	const { year, month, setCalendar, modalCalData, isDayReset } = useStore();
-	const { isModalOpen, modalIsOpen } = useModalStore();
+	const { isModalOpen, openModal, closeModal } = useModal();
 	const { isJump, keypadChange } = useKeypadStore();
 	const router = useRouter();
 
@@ -106,7 +106,7 @@ function CalendarScreen({ currentUser }: Props) {
 						className="flex items-center"
 						type="button"
 						onClick={() => {
-							modalIsOpen();
+							openModal();
 							modalCalData('keypad');
 						}}
 					>
@@ -147,6 +147,7 @@ function CalendarScreen({ currentUser }: Props) {
 									firstDay,
 									lastDate,
 									schedule,
+									openModal,
 								})}
 							</ul>
 						</SwiperSlide>
@@ -166,9 +167,15 @@ function CalendarScreen({ currentUser }: Props) {
 				</div>
 			</div>
 			{isModalOpen && (
-				<Overlay>
+				<Overlay
+					overlayClickFn={() =>
+						setTimeout(() => {
+							closeModal();
+						}, 500)
+					}
+				>
 					<TopModal bgColor="bg-g1">
-						<ModalWrap currentUser={currentUser} />
+						<ModalWrap currentUser={currentUser} closeModal={closeModal} />
 					</TopModal>
 				</Overlay>
 			)}

@@ -9,7 +9,7 @@ import CtlIcon from 'src/app.modules/assets/calendar/control.svg';
 import EmptySalary from 'src/app.modules/assets/calendar/emptySalary.svg';
 import ArrowRight from 'src/app.modules/assets/arrowRight.svg';
 import ProfileImage from 'src/app.components/ProfileImage';
-import useModalStore from 'src/app.modules/store/modal';
+import useModal from 'src/app.modules/hooks/useModal';
 import useStore from '../store';
 import { ISalaryList } from '../types';
 import Keypad from '../components/Modal/Keypad';
@@ -18,7 +18,7 @@ import { getSalaryList } from '../api';
 function ManagerScreen() {
 	// 점장 급여 페이지
 	const { year, month, modalCalData, toDay } = useStore();
-	const { isModalOpen, modalIsOpen } = useModalStore();
+	const { isModalOpen, openModal, closeModal } = useModal();
 	const router = useRouter();
 	const [UserData, setUserData] = useState<ISalaryList[]>([]);
 	const [manageData, setManageData] = useState<ISalaryList[]>([]);
@@ -54,7 +54,7 @@ function ManagerScreen() {
 								type="button"
 								className="flex items-center pointer-events-auto"
 								onClick={() => {
-									modalIsOpen();
+									openModal();
 									modalCalData('keypad');
 								}}
 							>
@@ -157,7 +157,13 @@ function ManagerScreen() {
 				</>
 			)}
 			{isModalOpen && (
-				<Overlay>
+				<Overlay
+					overlayClickFn={() =>
+						setTimeout(() => {
+							closeModal();
+						}, 500)
+					}
+				>
 					<TopModal bgColor="bg-g1">
 						<Keypad year={year} month={month} />
 					</TopModal>

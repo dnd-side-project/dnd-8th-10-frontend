@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import useModalStore from 'src/app.modules/store/modal';
+import useModal from 'src/app.modules/hooks/useModal';
 
 interface Props {
 	children: React.ReactElement;
@@ -9,13 +9,13 @@ interface Props {
 }
 
 function TopModal({ children, bgColor = 'bg-w', isAnimating, setIsAnimating }: Props) {
-	const { modalIsClose, isModalOpen } = useModalStore();
+	const { closeModal } = useModal();
 
 	useEffect(() => {
-		if (isModalOpen && setIsAnimating) {
+		if (setIsAnimating) {
 			setIsAnimating(true);
 		}
-	}, [isModalOpen]);
+	}, []);
 
 	return (
 		<div
@@ -34,7 +34,7 @@ function TopModal({ children, bgColor = 'bg-w', isAnimating, setIsAnimating }: P
 							setIsAnimating(false);
 						}
 						setTimeout(() => {
-							modalIsClose();
+							closeModal();
 						}, 500);
 					}}
 					className="w-[5rem] h-[0.4rem] bg-g4 rounded-[1rem]"

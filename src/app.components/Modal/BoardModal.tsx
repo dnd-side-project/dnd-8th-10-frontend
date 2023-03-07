@@ -1,14 +1,10 @@
-import useModalStore from 'src/app.modules/store/modal';
-
 interface Props {
 	yesFn: () => void;
 	noFn: () => void;
-	cancelFn?: () => void;
+	cancelFn: () => void;
 }
 
 function BoardModal({ yesFn, noFn, cancelFn }: Props) {
-	const { modalIsClose } = useModalStore();
-
 	return (
 		<div
 			role="dialog"
@@ -31,7 +27,6 @@ function BoardModal({ yesFn, noFn, cancelFn }: Props) {
 				<button
 					type="button"
 					onClick={() => {
-						modalIsClose();
 						if (cancelFn) {
 							cancelFn();
 						}
