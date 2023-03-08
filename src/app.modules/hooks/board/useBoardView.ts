@@ -10,7 +10,6 @@ function useBoardView(id: string | string[] | undefined) {
 	} = useQuery(['boardView', id], () => boardView(Number(id)), {
 		select: (res) => res.data.data,
 		onSuccess: (res) => {
-			console.log(res.getCookie, 'asdf');
 			// console.log(res);
 		},
 		onError: (error) => {
