@@ -109,6 +109,22 @@ function BoardViewScreen({
 				0,
 				(mentionRef.current.innerHTML as string).length - (newComment.length - value.length)
 			)}`;
+			if (value.length) {
+				// 멘션지점일 경우
+				console.log('입장', tmp, tmp.split('<span ').slice(-1));
+				if (tmp.split('<span ').slice(-1).toString().includes('class="metion-text"') && tmp.endsWith('</span')) {
+					const lastMetionToText = value;
+					console.log('멘션지점임22', `${tmp.split('<span').slice(0, -1).join('<span')}${lastMetionToText}`);
+
+					setNewComment(value);
+					// console.log(, 'test');
+					// mentionRef.current.innerHTML = tmp;
+					mentionRef.current.innerHTML = `${tmp.split('<span').slice(0, -1).join('<span')}${lastMetionToText}`;
+				} else {
+					mentionRef.current.innerHTML = tmp;
+				}
+				return;
+			}
 			if (value.length === 0) {
 				if (tmp === '') {
 					setNewComment('');
@@ -122,7 +138,8 @@ function BoardViewScreen({
 					const lastMetionToText = `@${tmp.split('</span>').slice(-2)[0].split('@').slice(-1).join()}`;
 					setNewComment(lastMetionToText);
 					// console.log(, 'test');
-					mentionRef.current.innerHTML = `${tmp.split('<span').slice(0, -1).join('<span')}${lastMetionToText}`;
+					mentionRef.current.innerHTML = tmp;
+					// mentionRef.current.innerHTML = `${tmp.split('<span').slice(0, -1).join('<span')}<span>${lastMetionToText}`;
 					return;
 				}
 
@@ -140,9 +157,7 @@ function BoardViewScreen({
 					tmp.split('</span>').length === 1
 						? lastMetionToText
 						: `${tmp.split('</span>').slice(0, -1).join('</span>')}</span>${lastMetionToText}`;
-				return;
 			}
-			mentionRef.current.innerHTML = tmp;
 		} else {
 			mentionRef.current.innerHTML = `${mentionRef.current.innerHTML}${value.slice(-1)}`;
 		}
