@@ -9,11 +9,10 @@ import Bar from 'src/app.components/app.base/Button/Bar';
 import {
 	parseSetWorkTime,
 	getDayOfWeek,
-	setWorkTimeReset,
-	getLogicWorkTimeString,
 	getFirstTime,
 	getLastTime,
 	getTotalWorkHour,
+	viewTimeFormat,
 } from 'src/app.modules/util/calendar';
 import KeypadDelIcon from 'src/app.modules/assets/inputDel.svg';
 import { getWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
@@ -46,6 +45,8 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 		setTime,
 		initUser,
 		setInitTime,
+		setStartTime,
+		setEndTime,
 	} = useTimeSetStore();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
 	const timeHandler = (e: React.BaseSyntheticEvent) => {
@@ -57,7 +58,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 	};
 	// 수정 버튼
 	const modifyBtn = async () => {
-		const workTimeData = getLogicWorkTimeString(startTime, endTime);
+		const workTimeData = getWorkTimeString(startTime, endTime);
 		const [start, end] = workTimeData.split('~');
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
@@ -65,7 +66,6 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 
 		if (title === 'add') {
 			// 출근하기
-
 			WorkMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
 		} else {
 			// 수정하기
@@ -104,7 +104,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 					setWorkingFirstTime(getFirstTime(firstTime));
 					setWorkingLastTime(getLastTime(lastTime));
 					setTotalWorkTime(getTotalWorkHour(getFirstTime(firstTime), getLastTime(lastTime)));
-
+					console.log(getWorkTimes[0].workTime);
 					if (getWorkTimes.length > 0) {
 						setInitTime(parseSetWorkTime(getWorkTimes[0].workTime));
 						setCurrentTime(parseSetWorkTime(getWorkTimes[0].workTime));
@@ -127,8 +127,12 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 			}
 		} else if (title === 'add') {
 			return (
-				getWorkTimeString(startTime, endTime).split('~')[0] === '24:00' ||
-				getWorkTimeString(startTime, endTime).split('~')[1] === '24:00'
+				startTime.meridiem === null ||
+				startTime.hour === '' ||
+				startTime.minute === '' ||
+				endTime.meridiem === null ||
+				endTime.hour === '' ||
+				endTime.minute === ''
 			);
 		}
 		return false;
@@ -136,9 +140,9 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 
 	const timeReset = () => {
 		if (openModalFlag === 'startTime') {
-			setInitTime(setWorkTimeReset(getLogicWorkTimeString(startTime, endTime), true));
+			setStartTime();
 		} else {
-			setInitTime(setWorkTimeReset(getLogicWorkTimeString(startTime, endTime)));
+			setEndTime();
 		}
 		return null;
 	};
@@ -175,9 +179,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 									: 'text-g7 text-body2'
 							} w-[50%] flex justify-between items-center pl-[1.2rem] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
-							{`${startTime.meridiem === 'am' ? '오전' : '오후'} ${
-								startTime.hour.length > 1 ? startTime.hour : `0${startTime.hour}`
-							}시 ${startTime.minute.length > 1 ? startTime.minute : `0${startTime.minute}`}분`}
+							{viewTimeFormat(startTime)}
 							{openModalFlag === 'startTime' && (
 								<div role="presentation" className="mr-[1.6rem]" onClick={() => timeReset()}>
 									<KeypadDelIcon />
@@ -193,9 +195,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 									: 'text-g7 text-body2'
 							} w-[50%] flex justify-between items-center pl-[1.2rem] h-[4.8rem] bg-g1 rounded-[0.8rem]`}
 						>
-							{`${endTime.meridiem === 'am' ? '오전' : '오후'} ${
-								endTime.hour.length > 1 ? endTime.hour : `0${endTime.hour}`
-							}시 ${endTime.minute.length > 1 ? endTime.minute : `0${endTime.minute}`}분`}
+							{viewTimeFormat(endTime)}
 							{openModalFlag === 'endTime' && (
 								<div role="presentation" className="mr-[1.6rem]" onClick={() => timeReset()}>
 									<KeypadDelIcon />

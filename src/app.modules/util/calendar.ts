@@ -31,12 +31,21 @@ export const formatTimeView = (time: string, type = 'reset') => {
 	const formatMinute = (minute: number) => minute.toString().padStart(2, '0');
 
 	const [startHour, startMinute] = start.split(':').map((value) => parseInt(value, 10));
-	const startMeridiem = startHour <= 12 ? '오전' : '오후';
+	let startMeridiem;
+	if (startHour === 24) {
+		startMeridiem = '오전';
+	} else {
+		startMeridiem = startHour < 12 ? '오전' : '오후';
+	}
 	const formattedStartHour = formatHour(startHour);
 	const formattedStartMinute = formatMinute(startMinute);
-
 	const [endHour, endMinute] = end.split(':').map((value) => parseInt(value, 10));
-	const endMeridiem = endHour <= 12 ? '오전' : '오후';
+	let endMeridiem;
+	if (endHour === 24) {
+		endMeridiem = '오전';
+	} else {
+		endMeridiem = endHour < 12 ? '오전' : '오후';
+	}
 	const formattedEndHour = formatHour(endHour);
 	const formattedEndMinute = formatMinute(endMinute);
 	return [
@@ -46,8 +55,8 @@ export const formatTimeView = (time: string, type = 'reset') => {
 };
 
 export const parseSetWorkTime = (workTime: string): IUser => {
-	const [meridiemLeft, hourLeft, minuteLeft] = formatTimeView(workTime)[0].split(' ');
-	const [meridiemRight, hourRight, minuteRight] = formatTimeView(workTime)[1].split(' ');
+	const [meridiemLeft, hourLeft, minuteLeft] = formatTimeView(workTime, '')[0].split(' ');
+	const [meridiemRight, hourRight, minuteRight] = formatTimeView(workTime, '')[1].split(' ');
 	return {
 		startTime: {
 			meridiem: meridiemLeft === '오전' ? 'am' : 'pm',
@@ -104,7 +113,9 @@ export const homeTimeView = (timeStr: string, type = 'home') => {
 	let hour = timeSplits[0];
 	const minute = timeSplits[1];
 	let result = '';
-	if (hour < 12) {
+	if (hour === 24) {
+		result = `${type === 'home' ? `오전 12시` : `12시`}`;
+	} else if (hour < 12) {
 		result = `${type === 'home' ? `오전 ${hour}시` : `${hour}시`}`;
 	} else if (hour === 12) {
 		result = `${type === 'home' ? `오후 ${hour}시` : `${hour}시`}`;
@@ -136,10 +147,10 @@ export const getLogicWorkTimeString = (startTime: Time, endTime: Time) => {
 export const WorkListTimeView = (time: string) => {
 	const [hour, minute] = time.split(':');
 	if (time === '24:00') {
-		return '오후 12:00';
+		return '오전 12:00';
 	}
 	if (time === '12:00') {
-		return '오전 12:00';
+		return '오후 12:00';
 	}
 	if (hour >= '12') {
 		return `${hour}` === '12' ? `오전 ${hour}:${minute}` : `오후 ${Number(hour) - 12}:${minute}`;
@@ -160,11 +171,17 @@ export const getLastTime = (time: string[]) => {
 		const [bHour, bMinute] = b.split(':').map(Number);
 		if (aHour < bHour) {
 			return 1;
-		} else if (aHour > bHour) {
-			return -1;
-		} else {
-			return aMinute < bMinute ? 1 : aMinute > bMinute ? -1 : 0;
 		}
+		if (aHour > bHour) {
+			return -1;
+		}
+		if (aMinute < bMinute) {
+			return 1;
+		}
+		if (aMinute > bMinute) {
+			return -1;
+		}
+		return 0;
 	})[0];
 };
 
@@ -174,10 +191,32 @@ export const getFirstTime = (time: string[]) => {
 		const [bHour, bMinute] = b.split(':').map(Number);
 		if (aHour < bHour) {
 			return -1;
-		} else if (aHour > bHour) {
-			return 1;
-		} else {
-			return aMinute < bMinute ? -1 : aMinute > bMinute ? 1 : 0;
 		}
+		if (aHour > bHour) {
+			return 1;
+		}
+		if (aMinute < bMinute) {
+			return 1;
+		}
+		if (aMinute > bMinute) {
+			return -1;
+		}
+		return 0;
 	})[0];
+};
+
+export const viewTimeFormat = (time: Time) => {
+	if (time.meridiem === null && time.hour === '' && time.minute === '') {
+		return '시간 입력';
+	}
+	let merdiem = '';
+	if (time.meridiem === 'am') {
+		merdiem = '오전';
+	}
+	if (time.meridiem === 'pm') {
+		merdiem = '오후';
+	}
+	const hour = time.hour.padStart(2, '0');
+	const minute = time.minute ? `${time.minute.padStart(2, '0')}분` : '';
+	return `${merdiem} ${hour}시 ${minute}`;
 };

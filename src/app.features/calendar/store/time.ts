@@ -1,15 +1,14 @@
-import { RoleType } from 'src/app.modules/api/user';
 import create from 'zustand';
 
 // TODO: 백엔드 용어랑 통일시키기
 export interface IUser {
 	startTime: {
-		meridiem: 'am' | 'pm';
+		meridiem: 'am' | 'pm' | null;
 		hour: string;
 		minute: string;
 	};
 	endTime: {
-		meridiem: 'am' | 'pm';
+		meridiem: 'am' | 'pm' | null;
 		hour: string;
 		minute: string;
 	};
@@ -20,17 +19,19 @@ interface UserState {
 	initUser: () => void;
 	setTime: (value: string, name: 'meridiem' | 'hour' | 'minute', flag: 'startTime' | 'endTime') => void;
 	setInitTime: (newUser: IUser) => void;
+	setStartTime: () => void;
+	setEndTime: () => void;
 }
 const initUser: IUser = {
 	startTime: {
-		meridiem: 'am',
-		hour: '0',
-		minute: '0',
+		meridiem: null,
+		hour: '',
+		minute: '',
 	},
 	endTime: {
-		meridiem: 'am',
-		hour: '0',
-		minute: '0',
+		meridiem: null,
+		hour: '',
+		minute: '',
 	},
 };
 const useTimeSetStore = create<UserState>((set) => ({
@@ -39,6 +40,14 @@ const useTimeSetStore = create<UserState>((set) => ({
 	setTime: (value: string, name: 'meridiem' | 'hour' | 'minute', flag: 'startTime' | 'endTime') =>
 		set((prev) => ({ user: { ...prev.user, [flag]: { ...prev.user[flag], [name]: value } } })),
 	setInitTime: (newUser: IUser) => set(() => ({ user: newUser })),
+	setStartTime: () =>
+		set((prev) => ({
+			user: { ...prev.user, startTime: { ...prev.user.endTime, meridiem: null, hour: '', minute: '' } },
+		})),
+	setEndTime: () =>
+		set((prev) => ({
+			user: { ...prev.user, endTime: { ...prev.user.startTime, meridiem: null, hour: '', minute: '' } },
+		})),
 }));
 
 export default useTimeSetStore;
