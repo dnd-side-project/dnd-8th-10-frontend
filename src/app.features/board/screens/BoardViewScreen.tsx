@@ -76,7 +76,7 @@ function BoardViewScreen({
 	const [isMyPost, setIsMyPost] = useState<boolean>(false);
 	const [canStoreFecth, setCanStoreFetch] = useState<boolean>(true);
 	const [mentionUserCodes, setMentionUserCodes] = useState<string[]>([]);
-	const { data: storeInfo, refetch: storeRefetch } = useStore(canStoreFecth);
+	const { data: storeInfo, refetch: storeRefetch } = useStore(false);
 	const commentSortHandler = (sortBy: SoryByType) => {
 		setCommentSortBy(sortBy);
 	};
@@ -91,75 +91,85 @@ function BoardViewScreen({
 		if (commentSortBy === 'earliest') return comments;
 		return [...comments].reverse();
 	};
+	const tmpCommentRef = useRef<string>('');
 	const newCommentHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;
 		// TODO: 멘션 로직 분리
-		if (value.slice(-1) === '@') {
+		/* if (value.slice(-1) === '@') {
 			// metion 기능 실행하려고 할때만 fetch On
 			if (!canStoreFecth) setCanStoreFetch(true);
 
 			storeRefetch();
 		}
 
-		setNewComment(value);
+		setNewComment(value); */
 		if (mentionRef?.current === null) return;
 		// 댓글 지우는 중
-		if (value.length <= newComment.length && newComment.length) {
+		if (value.length < newComment.length && newComment.length) {
 			const tmp = `${(mentionRef.current.innerHTML as string).slice(
 				0,
 				(mentionRef.current.innerHTML as string).length - (newComment.length - value.length)
 			)}`;
 			if (value.length) {
 				// 멘션지점일 경우
-				console.log('입장', tmp, tmp.split('<span ').slice(-1));
-				if (tmp.split('<span ').slice(-1).toString().includes('class="metion-text"') && tmp.endsWith('</span')) {
-					const lastMetionToText = value;
-					console.log('멘션지점임22', `${tmp.split('<span').slice(0, -1).join('<span')}${lastMetionToText}`);
+				console.log(1);
 
-					setNewComment(value);
+				if (tmp.split('<span').slice(-1).toString().includes('class="metion-text"') && tmp.endsWith('</span')) {
+					tmpCommentRef.current = '';
+					const lastMetionToText = value;
+					console.log('멘션지점임22', `${tmp.split('<span').slice(0, -1).join('<span')}`, lastMetionToText);
+
+					setNewComment(lastMetionToText);
 					// console.log(, 'test');
 					// mentionRef.current.innerHTML = tmp;
 					mentionRef.current.innerHTML = `${tmp.split('<span').slice(0, -1).join('<span')}${lastMetionToText}`;
+					tmpCommentRef.current = tmp.split('<span').slice(0, -1).join('<span');
 				} else {
-					mentionRef.current.innerHTML = tmp;
+					console.log(2);
+					setNewComment(value);
+					mentionRef.current.innerHTML = `${tmpCommentRef.current}${value}`;
 				}
-				return;
 			}
 			if (value.length === 0) {
 				if (tmp === '') {
 					setNewComment('');
 
 					mentionRef.current.innerHTML = ``;
+					tmpCommentRef.current = mentionRef.current.innerHTML;
 					return;
 				}
+				console.log(tmp, 'tmp');
 				// 멘션지점일 경우
-				if (tmp.split('<span ').slice(-1).toString().includes('class="metion-text"') && tmp.endsWith('</span>')) {
-					console.log('멘션지점임');
+				if (tmp.split('<span').slice(-1).toString().includes('class="metion-text"') && tmp.endsWith('</span>')) {
+					console.log('멘션지점임', 3);
 					const lastMetionToText = `@${tmp.split('</span>').slice(-2)[0].split('@').slice(-1).join()}`;
 					setNewComment(lastMetionToText);
 					// console.log(, 'test');
 					mentionRef.current.innerHTML = tmp;
 					// mentionRef.current.innerHTML = `${tmp.split('<span').slice(0, -1).join('<span')}<span>${lastMetionToText}`;
+					// tmpCommentRef.current = tmp;
 					return;
 				}
 
-				// 멘션 지점 아님
-				console.log(
-					'멘션지점 아님',
-					tmp.split('</span>').length,
-					tmp.split('</span>'),
-					tmp.split('</span>').slice(0, -1).join('</span>')
-				);
-
+				tmpCommentRef.current = '';
 				const lastMetionToText = `${tmp.split('</span>').slice(-1).toString()}`;
+				// 멘션 지점 아님
+				console.log('멘션지점 아님', lastMetionToText.length, 'ㅅㄷㅅㄷㅅㄷ');
 				setNewComment(lastMetionToText);
 				mentionRef.current.innerHTML =
 					tmp.split('</span>').length === 1
 						? lastMetionToText
 						: `${tmp.split('</span>').slice(0, -1).join('</span>')}</span>${lastMetionToText}`;
+				tmpCommentRef.current = mentionRef.current.innerHTML;
 			}
 		} else {
-			mentionRef.current.innerHTML = `${mentionRef.current.innerHTML}${value.slice(-1)}`;
+			console.log(tmpCommentRef);
+			if (tmpCommentRef.current === '' && mentionRef.current.innerHTML) {
+				console.log(mentionRef.current.innerHTML, value, '입장3');
+				// tmpCommentRef.current = `${mentionRef.current.innerHTML ?? ''}${value}`;
+			}
+			setNewComment(value);
+			mentionRef.current.innerHTML = `${tmpCommentRef.current}${value}`;
 		}
 	};
 	const newCommentSubmitHandler = () => {
@@ -203,20 +213,23 @@ function BoardViewScreen({
 	}, [boardViewData, userData]);
 
 	const mentionUserHandler = (userCode: string, userName: string) => {
+		console.log('bug hid?');
 		setMentionUserCodes((prev) => [...prev, userCode]);
 		setNewComment(' ');
 		if (mentionRef?.current === null) return;
 		mentionRef.current.innerHTML = `${(mentionRef.current?.innerHTML as string)
 			.split('@')
 			.slice(0, -1)
-			.join('@')}<span class="metion-text" data-index=${mentionUserCodes.length}>@${userName}</span>${' '}`;
+			.join('@')}<span class="metion-text" data-index=${mentionUserCodes.length}>@${userName}</span>`;
 		setCommentInputMode('wide');
+		tmpCommentRef.current = mentionRef.current.innerHTML;
 	};
-	const mentionUserList = storeInfo?.userList?.filter(({ userName }: IBoardCheckPerson) => {
-		return userName.includes(newComment.split('@').slice(-1).toString());
-	});
+	const mentionUserList = () =>
+		storeInfo?.userList?.filter(({ userName }: IBoardCheckPerson) => {
+			return userName.includes(newComment.split('@').slice(-1).toString());
+		});
 
-	// useEffect(() => {
+	//= useEffect(() => {
 	//	if (mentionRef?.current === null) return;
 	// mentionRef.current.innerHTML = newComments.join();
 	// }, [newComments]);
@@ -226,6 +239,7 @@ function BoardViewScreen({
 			{mode !== 'edit' ? (
 				<div>
 					<BoardViewHeader isMyPost={isMyPost} DelMutate={DelMutate} postId={boardViewData?.postId ?? null} />
+					<div ref={mentionRef} />
 					<BoardContentView boardViewData={boardViewData} viewCheckHandler={viewCheckHandler} />
 					<section className="pt-[1.8rem] pb-[5.4rem] space-y-[1.6rem] ">
 						<div className="flex items-center space-x-[0.4rem]">
@@ -283,7 +297,7 @@ function BoardViewScreen({
 								))}
 						</ul>
 					</section>
-					<div ref={mentionRef} />
+
 					<footer
 						className={`${
 							commentInputMode === 'small' ? 'px-[2rem]' : ''
@@ -354,8 +368,8 @@ function BoardViewScreen({
 							</TopModal>
 						</Overlay>
 					)}
-					{mentionUserList?.length && (
-						<MentionModal userList={mentionUserList} onMetionUserClick={mentionUserHandler} />
+					{mentionUserList()?.length && (
+						<MentionModal userList={mentionUserList()} onMetionUserClick={mentionUserHandler} />
 					)}
 				</div>
 			) : (
