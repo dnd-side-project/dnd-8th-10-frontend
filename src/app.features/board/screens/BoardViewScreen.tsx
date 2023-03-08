@@ -153,7 +153,7 @@ function BoardViewScreen({
 		if (!newComment.trim() || !postId) return;
 		console.log('adsfafd');
 		const mentionUserCodesBody = Array.from(new Set(mentionUserCodes));
-		const body = { postId, content: newComment, userCode: mentionUserCodesBody };
+		const body = { postId, content: mentionRef.current?.innerHTML as string, userCode: mentionUserCodesBody };
 		console.log(body, 'bodybody');
 		PostCommentMutate(body);
 		setNewComment('');
@@ -260,7 +260,8 @@ function BoardViewScreen({
 													<CommentSettingIcon />
 												</button>
 											</div>
-											<p className="text-body2 text-g9">{content}</p>
+											{/* eslint-disable-next-line react/no-danger */}
+											<p dangerouslySetInnerHTML={{ __html: content }} className="text-body2 text-g9" />
 										</div>
 									</li>
 								))}
