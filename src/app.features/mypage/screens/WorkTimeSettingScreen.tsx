@@ -8,10 +8,10 @@ import TopModal from 'src/app.components/Modal/TopModal';
 import DayButton from 'src/app.features/register/components/DayButton';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { MutateUserBody } from 'src/app.modules/api/user';
-import useModalStore from 'src/app.modules/store/modal';
 import { dayMap, dayMapReverse, DayType, TimeType, WorkTimeType } from 'src/app.modules/types/workTime';
 import { getUserWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import DeleteIcon from 'src/app.modules/assets/delete.svg';
+import useModal from 'src/app.modules/hooks/useModal';
 import { IUser } from '../types';
 // TODO: register랑 겹치는 부분 컴포넌트화
 // TODO: 설정한 시간이 유효한 값인지 확인
@@ -29,7 +29,7 @@ type Flag = TimeType | null;
 function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 	const [selectedDay, setSelectedDay] = useState<DayType>();
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
-	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	const { isModalOpen, openModal, closeAnimationModal } = useModal();
 	const [workTime, setWorkTime] = useState<WorkTimeType | null>(null);
 	const INIT_WORK_TIME = {
 		meridiem: null,
@@ -43,7 +43,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 
 	const openSetTimeModalHandler = (flag: TimeType) => {
 		setOpenModalFlag(flag);
-		modalIsOpen();
+		openModal();
 		if (!selectedDay) return;
 		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as TimeType] ?? INIT_WORK_TIME;
 		if (!newWorkTimeOnModal) return;
@@ -89,7 +89,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 		setWorkTime(updatedWorkTime);
 		setOpenModalFlag(null);
 		setWorkTimeOnModal(INIT_WORK_TIME);
-		modalIsClose();
+		closeAnimationModal();
 	};
 
 	const timeOnModalHandler = (e: React.BaseSyntheticEvent) => {
