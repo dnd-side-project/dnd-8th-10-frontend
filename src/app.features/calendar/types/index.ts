@@ -7,6 +7,7 @@ export interface IMakeCal {
 		month: number;
 		day: number[];
 	};
+	openModal: () => void;
 }
 
 export interface ISalaryData {

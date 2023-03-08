@@ -4,8 +4,8 @@ import SearchIcon from 'src/app.modules/assets/search.svg';
 import DelIcon from 'src/app.modules/assets/inputDel.svg';
 import Overlay from 'src/app.components/Modal/Overlay';
 import Modal from 'src/app.components/Modal/Modal';
-import useModalStore from 'src/app.modules/store/modal';
 import { useQuery } from '@tanstack/react-query';
+import useModal from 'src/app.modules/hooks/useModal';
 import BackIcon from '../../../app.modules/assets/back.svg';
 import BoardPreview from '../components/BoardPreview';
 import { boardSearch } from '../api/search';
@@ -13,7 +13,8 @@ import useStore from '../store';
 
 function BoardSearchScreen() {
 	const router = useRouter();
-	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	const { isModalOpen, openModal, closeModal } = useModal();
+
 	const { setSelectedCategory } = useStore();
 	const [searchContent, setEearchContent] = useState('');
 	const { data: searchData, refetch: searchRefetch } = useQuery(['boardSearch'], () => boardSearch(searchContent), {
@@ -31,7 +32,7 @@ function BoardSearchScreen() {
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		if (searchContent.length <= 1) {
-			modalIsOpen();
+			openModal();
 		}
 		searchRefetch();
 		event.preventDefault();
@@ -71,7 +72,7 @@ function BoardSearchScreen() {
 					<Modal
 						title="두글자 이상 입력해주세요."
 						yesFn={() => {
-							modalIsClose();
+							closeModal();
 						}}
 						yesTitle="확인"
 					/>

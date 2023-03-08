@@ -1,4 +1,3 @@
-import useModalStore from 'src/app.modules/store/modal';
 import WarningIcon from 'src/app.modules/assets/modal/warning.svg';
 
 interface Props {
@@ -12,8 +11,6 @@ interface Props {
 }
 
 function Modal({ title, subTitle, yesFn, noFn, yesTitle, noTitle, iconView = false }: Props) {
-	const { modalIsClose } = useModalStore();
-
 	return (
 		<div
 			role="dialog"
@@ -42,7 +39,6 @@ function Modal({ title, subTitle, yesFn, noFn, yesTitle, noTitle, iconView = fal
 						<button
 							type="button"
 							onClick={() => {
-								modalIsClose();
 								noFn();
 							}}
 							className="text-[1.4rem] h-[5.6rem] w-full border-solid border-r-[0.15rem] border-b-g3"
@@ -54,7 +50,6 @@ function Modal({ title, subTitle, yesFn, noFn, yesTitle, noTitle, iconView = fal
 						type="button"
 						onClick={() => {
 							yesFn();
-							modalIsClose();
 						}}
 						className={`text-[1.4rem] h-[5.6rem] px-[1rem] py-[0.9rem] w-full ${noFn && 'text-secondary'} ${
 							yesTitle === '탈퇴하기' && 'text-secondary'

@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
 import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
-import useModalStore from 'src/app.modules/store/modal';
 import Header from 'src/app.components/Header';
 import DelIcon from 'src/app.modules/assets/delete.svg';
 import Bar from 'src/app.components/app.base/Button/Bar';
@@ -11,6 +10,7 @@ import { parseSetWorkTime, getDayOfWeek, setWorkTimeReset } from 'src/app.module
 import { MutateTpye } from 'src/app.modules/api/client';
 import KeypadDelIcon from 'src/app.modules/assets/inputDel.svg';
 import { getWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
+import useModal from 'src/app.modules/hooks/useModal';
 import useStore from '../store';
 import useTimeSetStore, { IUser } from '../store/time';
 import { delWorkModify, getToDay, getWorkList, MutateBody } from '../api';
@@ -24,7 +24,7 @@ interface Props {
 	id: string | string[] | undefined;
 }
 function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Props) {
-	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	const { isModalOpen, openModal, closeModal } = useModal();
 	const { clickDay, isDayReset } = useStore();
 	const [year, month, day] = clickDay.split('.');
 	const [currentTime, setCurrentTime] = useState<IUser>();
@@ -136,7 +136,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 							<Header title="근무기록 추가" />
 						) : (
 							<Header title="출근수정">
-								<button type="button" onClick={() => modalIsOpen()}>
+								<button type="button" onClick={() => openModal()}>
 									<DelIcon />
 								</button>
 							</Header>
@@ -206,12 +206,12 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 				</div>
 			</div>
 			{isModalOpen && (
-				<Overlay>
+				<Overlay overlayClickFn={() => closeModal()}>
 					<Modal
 						title="출근기록이 삭제됩니다!"
 						yesFn={() => delBtn()}
 						yesTitle="삭제"
-						noFn={() => modalIsClose()}
+						noFn={() => closeModal()}
 						noTitle="취소"
 					/>
 				</Overlay>

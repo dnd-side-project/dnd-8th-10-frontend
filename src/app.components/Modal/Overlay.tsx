@@ -1,5 +1,4 @@
 import React, { ReactElement, useEffect, useState, ReactNode } from 'react';
-import useModalStore from 'src/app.modules/store/modal';
 
 interface Props {
 	bgColor?: string;
@@ -9,14 +8,12 @@ interface Props {
 }
 
 function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false, overlayClickFn }: Props) {
-	const { modalIsClose, isModalOpen } = useModalStore();
 	const [isAnimating, setIsAnimating] = useState(false);
 
 	useEffect(() => {
-		if (isModalOpen && !children.props.yesFn) {
-			setIsAnimating(true);
-		}
-	}, [isModalOpen]);
+		setIsAnimating(true);
+		return () => setIsAnimating(false);
+	}, []);
 
 	return (
 		<div>
@@ -25,11 +22,6 @@ function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false, overl
 				onClick={() => {
 					if (!children.props.yesFn) {
 						setIsAnimating(false);
-						setTimeout(() => {
-							modalIsClose();
-						}, 500);
-					} else {
-						modalIsClose();
 					}
 					if (overlayClickFn) {
 						overlayClickFn();

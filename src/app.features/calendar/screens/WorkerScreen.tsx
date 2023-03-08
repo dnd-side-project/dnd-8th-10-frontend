@@ -4,12 +4,12 @@ import Header from 'src/app.components/Header';
 import Overlay from 'src/app.components/Modal/Overlay';
 import TopModal from 'src/app.components/Modal/TopModal';
 import CtlIcon from 'src/app.modules/assets/calendar/controlW.svg';
-import useModalStore from 'src/app.modules/store/modal';
 import SettingIcon from 'src/app.modules/assets/calendar/salary/setting.svg';
 import MoneyIcon from 'src/app.modules/assets/calendar/salary/money.svg';
 import InfoIcon from 'src/app.modules/assets/calendar/salary/info.svg';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { useRouter } from 'next/router';
+import useModal from 'src/app.modules/hooks/useModal';
 import { getSalary } from '../api';
 import Keypad from '../components/Modal/Keypad';
 import SalaryDetail from '../components/SalaryDetail';
@@ -20,7 +20,7 @@ import { ISalaryData } from '../types';
 function WorkerScreen() {
 	// 직원 급여 페이지
 	const { year, month, modalCalData } = useStore();
-	const { isModalOpen, modalIsOpen } = useModalStore();
+	const { isModalOpen, openModal, closeModal } = useModal();
 	const [salaryData, setSalaryData] = useState<ISalaryData[]>([]);
 	const [workHour, setWorkHour] = useState<number>();
 	const router = useRouter();
@@ -62,7 +62,7 @@ function WorkerScreen() {
 									type="button"
 									className="flex items-center pointer-events-auto"
 									onClick={() => {
-										modalIsOpen();
+										openModal();
 										modalCalData('keypad');
 									}}
 								>
@@ -106,7 +106,13 @@ function WorkerScreen() {
 			)}
 			{isModalOpen && (
 				<>
-					<Overlay>
+					<Overlay
+						overlayClickFn={() =>
+							setTimeout(() => {
+								closeModal();
+							}, 500)
+						}
+					>
 						<TopModal bgColor="bg-g1">
 							<Keypad year={year} month={month} />
 						</TopModal>
