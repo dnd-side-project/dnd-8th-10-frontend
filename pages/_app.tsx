@@ -6,7 +6,6 @@ import '../styles/globals.css';
 import '../styles/swiper.css';
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Layout from 'src/app.components/Layout';
 import useLocalUserStore from 'src/app.features/mypage/store/user';
 import { useEffect } from 'react';
@@ -28,7 +27,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 	}, []);
 	return (
 		<QueryClientProvider client={queryClient}>
-			<ReactQueryDevtools initialIsOpen={false} />
 			<Layout>
 				<Component {...pageProps} />
 			</Layout>
