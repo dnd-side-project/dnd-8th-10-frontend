@@ -10,6 +10,7 @@ import TopModal from 'src/app.components/Modal/TopModal';
 import CheckIcon from 'src/app.modules/assets/board/check.svg';
 import useStore from 'src/app.modules/hooks/user/useStore';
 import useModal from 'src/app.modules/hooks/useModal';
+import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import CommentSettingIcon from '../../../app.modules/assets/board/ellipsis.svg';
 import BoardContentView from '../components/boardView/BoardContentView';
 import { IBoardCheckPerson, IBoardViewData, IComment } from '../types';
@@ -33,7 +34,7 @@ interface Props {
 // TODO: 게시물 확인 버튼 api 연동(0)
 // TODO: 백엔드 boardViewData에 해당 게시물을 체크했는지에 대한 필드 추가 됬는지 확인하기
 // TODO: 댓글 멘션 관련 로직 논의
-// TODO: 댓글 C(0),R(0),U,D
+// TODO: 댓글 C(0),R(0),U(0),D(0)
 function BoardViewScreen({
 	userData,
 	boardViewData,
@@ -44,7 +45,21 @@ function BoardViewScreen({
 	PutCommentMutate,
 	boardCheckPerson,
 }: Props) {
-	const { isModalOpen, closeModal, openModal } = useModal();
+	const {
+		query: { mode },
+	} = useRouter();
+	const { isModalOpen: isMentionModalOpen, closeModal: closeMentionModal, openModal: openMentionModal } = useModal();
+	const {
+		isModalOpen: isDelCommentModalOpen,
+		closeModal: closeDelCommentModal,
+		openModal: openDelCommentModal,
+	} = useModal();
+	const {
+		isModalOpen: isWhoCheckedModalOpen,
+		closeModal: closeWhoCheckedModal,
+		openModal: openWhoCheckedModal,
+	} = useModal();
+	const { isModalOpen: isOptionModalOpen, closeModal: closeOptionModal, openModal: openOptionModal } = useModal();
 	console.log(boardViewData);
 	const router = useRouter();
 	type SoryByType = 'earliest' | 'latest';
@@ -55,11 +70,8 @@ function BoardViewScreen({
 	const [commentSortBy, setCommentSortBy] = useState<SoryByType>('earliest');
 	const [newComment, setNewComment] = useState<string>('');
 	const [commentInputMode, setCommentInputMode] = useState<'small' | 'wide'>('small');
-	const [delCommentModalOpen, setDelCommentModalOpen] = useState<boolean>(false);
-	const [optionModalOpen, setOptionModalOpen] = useState<boolean>(false);
+
 	const [focusComment, setFocusComment] = useState<FocusCommentType | null>(null);
-	const [isEditCommentMode, setIsEditcommentMode] = useState<boolean>(false);
-	const [isCheckPersonkModal, setIsCheckPersonkModal] = useState<boolean>(false);
 	const [myPost, setMyPost] = useState<boolean>(false);
 	const [canStoreFecth, setCanStoreFetch] = useState<boolean>(true);
 	const [mentionUserCodes, setMentionUserCodes] = useState<string[]>([]);
@@ -85,9 +97,9 @@ function BoardViewScreen({
 			console.log(storeInfo);
 			setCanStoreFetch(true);
 			storeRefetch();
-			openModal();
-		} else if (isModalOpen) {
-			closeModal();
+			openMentionModal();
+		} else if (isMentionModalOpen) {
+			closeMentionModal();
 		}
 		setNewComment(value);
 	};
@@ -109,9 +121,9 @@ function BoardViewScreen({
 		if (!postId) return;
 		const param = { postId, commentId };
 		DeleteCommentMutate(param);
-		setDelCommentModalOpen(false);
+		closeDelCommentModal();
 	};
-	const commentEditHandler = (editComment: string) => {
+	const putCommentHandler = (editComment: string) => {
 		console.log('수정');
 		const { postId } = boardViewData;
 		if (!postId || focusComment === null) return;
@@ -120,8 +132,8 @@ function BoardViewScreen({
 		const body = { postId, commentId, content: editComment };
 		console.log(body);
 		PutCommentMutate(body);
-		setIsEditcommentMode(false);
-		setOptionModalOpen(false);
+		closeOptionModal();
+		router.push(`${SERVICE_URL.boardView}/${postId}`);
 	};
 
 	useEffect(() => {
@@ -132,7 +144,7 @@ function BoardViewScreen({
 	console.log(storeInfo);
 	return (
 		<>
-			{!isEditCommentMode ? (
+			{mode !== 'edit' ? (
 				<div>
 					<BoardViewHeader myPost={myPost} DelMutate={DelMutate} postId={boardViewData?.postId ?? null} />
 					<BoardContentView boardViewData={boardViewData} viewCheckHandler={viewCheckHandler} />
@@ -155,9 +167,7 @@ function BoardViewScreen({
 							))}
 							<button
 								onClick={() => {
-									console.log(optionModalOpen, delCommentModalOpen);
-									setIsCheckPersonkModal(true);
-									openModal();
+									openWhoCheckedModal();
 								}}
 								className="aria-pressed:text-g9 text-g6 text-subhead1"
 							>
@@ -181,7 +191,7 @@ function BoardViewScreen({
 												<button
 													onClick={() => {
 														setFocusComment({ commentId, content });
-														setOptionModalOpen(true);
+														openOptionModal();
 													}}
 												>
 													<CommentSettingIcon />
@@ -208,91 +218,90 @@ function BoardViewScreen({
 							onFocus={() => setCommentInputMode('wide')}
 						/>
 					</footer>
-					{delCommentModalOpen && (
+					{isDelCommentModalOpen && (
 						<Overlay
 							overlayClickFn={() => {
-								setDelCommentModalOpen(false);
+								closeDelCommentModal();
 							}}
 						>
 							<Modal
 								title="삭제하시겠습니까?"
 								yesFn={() => deleteCommentHandler(focusComment?.commentId as number)}
 								yesTitle="삭제"
-								noFn={() => setDelCommentModalOpen(false)}
+								noFn={closeDelCommentModal}
 								noTitle="아니오"
 							/>
 						</Overlay>
 					)}
-					{optionModalOpen && (
+					{isOptionModalOpen && (
 						<Overlay
 							overlayClickFn={() => {
-								setOptionModalOpen(false);
+								closeOptionModal();
 							}}
 						>
 							<BoardModal
 								yesFn={() => {
-									setIsEditcommentMode(true);
-									setOptionModalOpen(false);
+									router.push(`${SERVICE_URL.boardView}/${boardViewData.postId}?mode=edit`);
+									closeOptionModal();
 								}}
 								noFn={() => {
-									setOptionModalOpen(false);
-									setDelCommentModalOpen(true);
+									closeOptionModal();
+									openDelCommentModal();
 								}}
-								cancelFn={closeModal}
+								cancelFn={closeOptionModal}
 							/>
 						</Overlay>
 					)}
-					{isModalOpen && (
-						<Overlay overlayClickFn={() => setIsCheckPersonkModal(false)}>
+					{isWhoCheckedModalOpen && (
+						<Overlay overlayClickFn={closeWhoCheckedModal}>
 							<TopModal>
-								<>
-									{isCheckPersonkModal ? (
-										<div className="space-y-[2.4rem] pb-[12rem]">
-											<div className="flex items-center space-x-[0.8rem] text-subhead2 text-g9">
-												<CheckIcon stroke="#4382FF" />
-												<span>이 게시글을 체크한 사람</span>
-											</div>
-											<ul className="space-y-[2.4rem]">
-												{boardCheckPerson?.map(({ userProfileCode, email, userName }) => (
-													<li className="flex items-center space-x-[0.8rem]">
-														<ProfileImage userProfileCode={userProfileCode} size="xs" />
-														<span className="text-subhead2 text-g9">{userName}</span>
-														<span className="text-body2 text-g6">{email}</span>
-													</li>
-												))}
-											</ul>
-										</div>
-									) : (
-										<div className="space-y-[2.4rem]">
-											<ul className="space-y-[2.4rem] pb-[6rem]">
-												{storeInfo?.userList?.map(
-													({ userProfileCode, userCode, email, userName }: IBoardCheckPerson) => (
-														<li className="flex items-center space-x-[0.8rem]" key={userCode}>
-															<button
-																onClick={() => {
-																	setMentionUserCodes((prev) => [...prev, userCode]);
-																	setNewComment((prev) => prev + userName);
-																	closeModal();
-																}}
-																className="flex items-center space-x-[0.8rem]"
-															>
-																<ProfileImage userProfileCode={userProfileCode} size="xs" />
-																<span className="text-subhead2 text-g9">{userName}</span>
-																<span className="text-body2 text-g6">{email}</span>
-															</button>
-														</li>
-													)
-												)}
-											</ul>
-										</div>
-									)}
-								</>
+								<div className="space-y-[2.4rem] pb-[12rem]">
+									<div className="flex items-center space-x-[0.8rem] text-subhead2 text-g9">
+										<CheckIcon stroke="#4382FF" />
+										<span>이 게시글을 체크한 사람</span>
+									</div>
+									<ul className="space-y-[2.4rem]">
+										{boardCheckPerson?.map(({ userProfileCode, email, userName }) => (
+											<li className="flex items-center space-x-[0.8rem]">
+												<ProfileImage userProfileCode={userProfileCode} size="xs" />
+												<span className="text-subhead2 text-g9">{userName}</span>
+												<span className="text-body2 text-g6">{email}</span>
+											</li>
+										))}
+									</ul>
+								</div>
+							</TopModal>
+						</Overlay>
+					)}
+					{isMentionModalOpen && (
+						<Overlay overlayClickFn={closeWhoCheckedModal}>
+							<TopModal>
+								<div className="space-y-[2.4rem]">
+									<ul className="space-y-[2.4rem] pb-[6rem]">
+										{storeInfo?.userList?.map(({ userProfileCode, userCode, email, userName }: IBoardCheckPerson) => (
+											<li className="flex items-center space-x-[0.8rem]" key={userCode}>
+												<button
+													onClick={() => {
+														setMentionUserCodes((prev) => [...prev, userCode]);
+														setNewComment((prev) => prev + userName);
+														closeMentionModal();
+													}}
+													className="flex items-center space-x-[0.8rem]"
+												>
+													<ProfileImage userProfileCode={userProfileCode} size="xs" />
+													<span className="text-subhead2 text-g9">{userName}</span>
+													<span className="text-body2 text-g6">{email}</span>
+												</button>
+											</li>
+										))}
+									</ul>
+								</div>
 							</TopModal>
 						</Overlay>
 					)}
 				</div>
 			) : (
-				<CommentEditScreen commentEditHandler={commentEditHandler} prevComment={focusComment?.content as string} />
+				<CommentEditScreen commentEditHandler={putCommentHandler} prevComment={focusComment?.content as string} />
 			)}
 		</>
 	);

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { boardView } from 'src/app.features/board/api';
+import { getCookie } from 'src/app.modules/cookie';
 
 function useBoardView(id: string | string[] | undefined) {
 	const {
@@ -9,6 +10,7 @@ function useBoardView(id: string | string[] | undefined) {
 	} = useQuery(['boardView', id], () => boardView(Number(id)), {
 		select: (res) => res.data.data,
 		onSuccess: (res) => {
+			console.log(res.getCookie, 'asdf');
 			// console.log(res);
 		},
 		onError: (error) => {
