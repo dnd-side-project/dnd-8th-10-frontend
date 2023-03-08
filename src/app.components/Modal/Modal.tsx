@@ -15,7 +15,7 @@ function Modal({ title, subTitle, yesFn, noFn, yesTitle, noTitle, iconView = fal
 		<div
 			role="dialog"
 			aria-modal="true"
-			className="text-g9 z-50 w-[25rem] text-center rounded-[0.8rem] bg-w absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]"
+			className="text-g9 z-[102] w-[25rem] text-center rounded-[0.8rem] bg-w absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]"
 		>
 			<div>
 				<div className="flex items-center justify-center border-solid border-b-[0.15rem] border-b-g3">
