@@ -5,10 +5,15 @@ function useModal() {
 	const closeModal = () => {
 		setIsModalOpen(false);
 	};
+	const closeAnimationModal = () => {
+		setTimeout(() => {
+			setIsModalOpen(false);
+		}, 500);
+	};
 	const openModal = () => {
 		setIsModalOpen(true);
 	};
-	return { isModalOpen, closeModal, openModal };
+	return { isModalOpen, openModal, closeModal, closeAnimationModal };
 }
 
 export default useModal;
