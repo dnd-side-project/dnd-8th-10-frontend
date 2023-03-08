@@ -37,7 +37,7 @@ function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 					<div className="w-[calc(100%+4rem)] px-[2rem] pb-[2rem] -translate-x-[2rem] text-w bg-primary">
 						<div className="pb-[5.6rem]">
 							<Header title="" mode="white" />
-							<div className="pointer-events-none h-[5.6rem] max-w-[42rem] -translate-x-[2rem] fixed z-50 flex mx-auto w-full items-center justify-center">
+							<div className="pointer-events-none h-[5.6rem] max-w-[50rem] -translate-x-[2rem] fixed z-50 flex mx-auto w-full items-center justify-center">
 								<div className="flex items-center pointer-events-auto">
 									<span className="text-w text-subhead4">
 										{salaryData.userName} {`${salaryData.role === 'MANAGER' ? '매니저' : '알바생'}`}

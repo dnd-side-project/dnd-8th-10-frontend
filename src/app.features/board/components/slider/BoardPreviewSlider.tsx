@@ -17,17 +17,16 @@ function BoardPreviewSlider() {
 	useEffect(() => {
 		const pesonalNoticeData = boardCheckCategory(categoryMapEng['공지']);
 		const noticeData = boardCheckCategory(categoryMapEng['전달']);
-		Promise.all([pesonalNoticeData, noticeData]).then((responses) => {
-			const allPosts = responses[0].data.data;
-			const noticePosts = responses[1].data.data;
-			const data = allPosts.concat(noticePosts);
-			data.sort((a: { postId: number }, b: { postId: number }) => b.postId - a.postId);
+		Promise.all([pesonalNoticeData, noticeData]).then((res) => {
+			const allPosts = res[0].data.data;
+			const noticePosts = res[1].data.data;
+			const data = allPosts
+				.concat(noticePosts)
+				.sort((a: { postId: number }, b: { postId: number }) => b.postId - a.postId);
 			setBoardPreviewData(data);
-			data.forEach((val: { postId: number }) => {
-				const dataImg = boardImgLoad(val.postId);
-				dataImg.then((res) => {
-					setThumbnail((prevThumbnails) => [...prevThumbnails, res.data]);
-				});
+			const postIds = data.map((post: { postId: number }) => post.postId);
+			Promise.all(postIds.map((postId: number) => boardImgLoad(postId))).then((thumbnailRes) => {
+				setThumbnail(thumbnailRes.map((thumbnailMap) => thumbnailMap.data));
 			});
 		});
 	}, []);
