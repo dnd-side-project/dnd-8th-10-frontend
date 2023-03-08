@@ -5,8 +5,8 @@ import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
 import { mappedDay, DayType, TimeType } from 'src/app.modules/types/workTime';
 import TopModal from 'src/app.components/Modal/TopModal';
 import Overlay from 'src/app.components/Modal/Overlay';
-import useModalStore from 'src/app.modules/store/modal';
 import Bar from 'src/app.components/app.base/Button/Bar';
+import useModal from 'src/app.modules/hooks/useModal';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore, { INIT_WORKTIME } from '../store';
 
@@ -28,7 +28,7 @@ function SetTimeScreen() {
 	} = useRegisterUserStore();
 
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
-	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	const { isModalOpen, closeModal, openModal } = useModal();
 	const INIT_WORK_TIME = {
 		meridiem: null,
 		hour: null,
@@ -62,7 +62,7 @@ function SetTimeScreen() {
 		setTime(updatedWorkTime);
 		setOpenModalFlag(null);
 		setWorkTimeOnModal(INIT_WORK_TIME);
-		modalIsClose();
+		closeModal();
 	};
 	const selectedDayHandler = (e: BaseSyntheticEvent) => {
 		setSelectedDay(e.target.value);
@@ -82,7 +82,7 @@ function SetTimeScreen() {
 	const openSetTimeModalHandler = (flag: TimeType) => {
 		if (!selectedDay) return;
 		setOpenModalFlag(flag);
-		modalIsOpen();
+		openModal();
 		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as TimeType] ?? INIT_WORK_TIME;
 		setWorkTimeOnModal(newWorkTimeOnModal);
 	};

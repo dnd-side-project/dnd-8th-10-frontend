@@ -3,7 +3,7 @@ import Bar from 'src/app.components/app.base/Button/Bar';
 import Header from 'src/app.components/Header';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { IInventoryList, PutInventoryBody } from 'src/app.modules/api/inventory';
-import useModalStore from 'src/app.modules/store/modal';
+import useModal from 'src/app.modules/hooks/useModal';
 import InventoryList from '../components/InventoryList';
 import LastCheckModal from '../components/LastCheckModal';
 import useCountHistory from '../hooks/useCountHistory';
@@ -15,7 +15,7 @@ interface Props {
 }
 function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLoading }: Props) {
 	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
-	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	const { isModalOpen, closeModal, openModal } = useModal();
 	const submitInventoryRecord = (category: string) => {
 		if (editInventoryLoading) return;
 		const list = Object.keys(countHistory).map((inventoryName) => ({
@@ -24,7 +24,7 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 		}));
 		const body = { category, list };
 		editInventory(body);
-		modalIsClose();
+		closeModal();
 	};
 	return (
 		<>
@@ -45,7 +45,7 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 					<Bar
 						ClickFn={() => {
 							submitInventoryRecord('giftcard');
-							modalIsOpen();
+							openModal();
 						}}
 					>
 						점검사항 확인

@@ -6,9 +6,9 @@ import { IInventoryList, PostCigaretteBody, PutInventoryBody } from 'src/app.mod
 import Bar from 'src/app.components/app.base/Button/Bar';
 import Overlay from 'src/app.components/Modal/Overlay';
 import TopModal from 'src/app.components/Modal/TopModal';
-import useModalStore from 'src/app.modules/store/modal';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import InputInteractButton from 'src/app.components/Button/InputInteractButton';
+import useModal from 'src/app.modules/hooks/useModal';
 import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryList';
 import useCountHistory from '../hooks/useCountHistory';
@@ -65,7 +65,7 @@ function CountCigaretteScreen({
 	const CHO_BUTTONS = ['전체', 'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [searchCho, setSearchCho] = useState<ChoType>('전체');
-	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	const { isModalOpen, closeModal, openModal } = useModal();
 	const [newCiga, setNewCiga] = useState<string>('');
 	// TODO: 모달이름 바꾸기
 	const [isSaveModalOpen, setIsSaveModalOpen] = useState<boolean>(false);
@@ -82,7 +82,7 @@ function CountCigaretteScreen({
 	const openSaveModalHandler = () => {
 		setIsSaveModalOpen(true);
 		setIsAddModalOpen(false);
-		modalIsOpen();
+		closeModal();
 	};
 	const submitInventoryRecord = (category: string) => {
 		if (editInventoryLoading) return;
@@ -110,7 +110,7 @@ function CountCigaretteScreen({
 	const openAddModalHandler = () => {
 		setIsAddModalOpen(true);
 		setIsSaveModalOpen(false);
-		modalIsOpen();
+		openModal();
 	};
 	const newCigaHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setNewCiga(e.target.value);
