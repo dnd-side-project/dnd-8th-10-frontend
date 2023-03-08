@@ -61,7 +61,7 @@ function BoardViewScreen({
 		openModal: openWhoCheckedModal,
 	} = useModal();
 	const { isModalOpen: isOptionModalOpen, closeModal: closeOptionModal, openModal: openOptionModal } = useModal();
-	console.log(boardViewData);
+
 	const router = useRouter();
 	type SoryByType = 'earliest' | 'latest';
 	type FocusCommentType = {
@@ -83,7 +83,6 @@ function BoardViewScreen({
 	const viewCheckHandler = () => {
 		const { postId } = boardViewData;
 		if (!postId) return;
-		console.log(postId);
 		ViewCheckMutate(postId);
 	};
 	const sortedCommentList = () => {
@@ -104,16 +103,45 @@ function BoardViewScreen({
 
 		setNewComment(value);
 		if (mentionRef?.current === null) return;
-		if (value.length < newComment.length && newComment.length) {
-			console.log(
-				newComment.length - (newComment.length - value.length),
-				mentionRef.current.innerHTML as string,
-				'asdfasdf'
-			);
-			mentionRef.current.innerHTML = `${(mentionRef.current.innerHTML as string).slice(
+		// 댓글 지우는 중
+		if (value.length <= newComment.length && newComment.length) {
+			const tmp = `${(mentionRef.current.innerHTML as string).slice(
 				0,
 				(mentionRef.current.innerHTML as string).length - (newComment.length - value.length)
 			)}`;
+			if (value.length === 0) {
+				if (tmp === '') {
+					setNewComment('');
+
+					mentionRef.current.innerHTML = ``;
+					return;
+				}
+				// 멘션지점일 경우
+				if (tmp.split('<span ').slice(-1).toString().includes('class="metion-text"') && tmp.endsWith('</span>')) {
+					const lastMetionToText = `@${tmp.split('</span>').slice(-2)[0].split('@').slice(-1).join()}`;
+					setNewComment(lastMetionToText);
+					// console.log(, 'test');
+					mentionRef.current.innerHTML = `${tmp.split('<span').slice(0, -1).join('<span')}${lastMetionToText}`;
+					return;
+				}
+
+				// 멘션 지점 아님
+				console.log(
+					'멘션지점 아님',
+					tmp.split('</span>').length,
+					tmp.split('</span>'),
+					tmp.split('</span>').slice(0, -1).join('</span>')
+				);
+
+				const lastMetionToText = `${tmp.split('</span>').slice(-1).toString()}`;
+				setNewComment(lastMetionToText);
+				mentionRef.current.innerHTML =
+					tmp.split('</span>').length === 1
+						? lastMetionToText
+						: `${tmp.split('</span>').slice(0, -1).join('</span>')}</span>${lastMetionToText}`;
+				return;
+			}
+			mentionRef.current.innerHTML = tmp;
 		} else {
 			mentionRef.current.innerHTML = `${mentionRef.current.innerHTML}${value.slice(-1)}`;
 		}
@@ -157,7 +185,7 @@ function BoardViewScreen({
 			setIsMyPost(boardViewData.userName === userData.userName);
 		}
 	}, [boardViewData, userData]);
-	console.log(storeInfo);
+
 	const mentionUserHandler = (userCode: string, userName: string) => {
 		setMentionUserCodes((prev) => [...prev, userCode]);
 		setNewComment('');
@@ -169,13 +197,9 @@ function BoardViewScreen({
 		setCommentInputMode('wide');
 	};
 	const mentionUserList = storeInfo?.userList?.filter(({ userName }: IBoardCheckPerson) => {
-		console.log(newComment.split('@').slice(-1).toString());
-
 		return userName.includes(newComment.split('@').slice(-1).toString());
 	});
-	const lastCommentCharHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		console.log(e);
-	};
+
 	// useEffect(() => {
 	//	if (mentionRef?.current === null) return;
 	// mentionRef.current.innerHTML = newComments.join();
@@ -256,7 +280,6 @@ function BoardViewScreen({
 							submitHandler={newCommentSubmitHandler}
 							onBlur={() => setCommentInputMode('small')}
 							onFocus={() => setCommentInputMode('wide')}
-							onKeyDown={lastCommentCharHandler}
 						/>
 					</footer>
 					{isDelCommentModalOpen && (
