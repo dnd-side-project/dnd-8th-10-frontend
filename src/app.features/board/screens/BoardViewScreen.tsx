@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BoardModal from 'src/app.components/Modal/BoardModal';
 import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
@@ -18,6 +18,7 @@ import { formatDate } from '../utils';
 import { DeleteCommentParam, PostCommentBody, PutCommentBody } from '../api/viewResponse';
 import BoardViewHeader from '../components/boardView/Header';
 import CommentEditScreen from './CommentEditScreen';
+import MentionModal from '../components/boardView/modal/MentionModal';
 // TODO: 멘션 기능 보완하기
 interface Props {
 	userData: {
@@ -48,7 +49,7 @@ function BoardViewScreen({
 	const {
 		query: { mode },
 	} = useRouter();
-	const { isModalOpen: isMentionModalOpen, closeModal: closeMentionModal, openModal: openMentionModal } = useModal();
+
 	const {
 		isModalOpen: isDelCommentModalOpen,
 		closeModal: closeDelCommentModal,
@@ -67,12 +68,12 @@ function BoardViewScreen({
 		commentId: number;
 		content: string;
 	};
+	const mentionRef = useRef<HTMLDivElement>(null);
 	const [commentSortBy, setCommentSortBy] = useState<SoryByType>('earliest');
 	const [newComment, setNewComment] = useState<string>('');
 	const [commentInputMode, setCommentInputMode] = useState<'small' | 'wide'>('small');
-
 	const [focusComment, setFocusComment] = useState<FocusCommentType | null>(null);
-	const [myPost, setMyPost] = useState<boolean>(false);
+	const [isMyPost, setIsMyPost] = useState<boolean>(false);
 	const [canStoreFecth, setCanStoreFetch] = useState<boolean>(true);
 	const [mentionUserCodes, setMentionUserCodes] = useState<string[]>([]);
 	const { data: storeInfo, refetch: storeRefetch } = useStore(canStoreFecth);
@@ -93,19 +94,34 @@ function BoardViewScreen({
 	};
 	const newCommentHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;
+		// TODO: 멘션 로직 분리
 		if (value.slice(-1) === '@') {
-			console.log(storeInfo);
-			setCanStoreFetch(true);
+			// metion 기능 실행하려고 할때만 fetch On
+			if (!canStoreFecth) setCanStoreFetch(true);
+
 			storeRefetch();
-			openMentionModal();
-		} else if (isMentionModalOpen) {
-			closeMentionModal();
 		}
+
 		setNewComment(value);
+		if (mentionRef?.current === null) return;
+		if (value.length < newComment.length && newComment.length) {
+			console.log(
+				newComment.length - (newComment.length - value.length),
+				mentionRef.current.innerHTML as string,
+				'asdfasdf'
+			);
+			mentionRef.current.innerHTML = `${(mentionRef.current.innerHTML as string).slice(
+				0,
+				(mentionRef.current.innerHTML as string).length - (newComment.length - value.length)
+			)}`;
+		} else {
+			mentionRef.current.innerHTML = `${mentionRef.current.innerHTML}${value.slice(-1)}`;
+		}
 	};
 	const newCommentSubmitHandler = () => {
 		console.log(newComment, '댓글 post');
 		const { postId } = boardViewData;
+		// const content = newComments.join().trim();
 		if (!newComment.trim() || !postId) return;
 		console.log('adsfafd');
 		const mentionUserCodesBody = Array.from(new Set(mentionUserCodes));
@@ -138,17 +154,40 @@ function BoardViewScreen({
 
 	useEffect(() => {
 		if (boardViewData && userData) {
-			setMyPost(boardViewData.userName === userData.userName);
+			setIsMyPost(boardViewData.userName === userData.userName);
 		}
 	}, [boardViewData, userData]);
 	console.log(storeInfo);
+	const mentionUserHandler = (userCode: string, userName: string) => {
+		setMentionUserCodes((prev) => [...prev, userCode]);
+		setNewComment('');
+		if (mentionRef?.current === null) return;
+		mentionRef.current.innerHTML = `${(mentionRef.current?.innerHTML as string).slice(
+			0,
+			-1
+		)}<span class="metion-text" data-index=${mentionUserCodes.length}>@${userName}</span>`;
+		setCommentInputMode('wide');
+	};
+	const mentionUserList = storeInfo?.userList?.filter(({ userName }: IBoardCheckPerson) => {
+		console.log(newComment.split('@').slice(-1).toString());
+
+		return userName.includes(newComment.split('@').slice(-1).toString());
+	});
+	const lastCommentCharHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		console.log(e);
+	};
+	// useEffect(() => {
+	//	if (mentionRef?.current === null) return;
+	// mentionRef.current.innerHTML = newComments.join();
+	// }, [newComments]);
+
 	return (
 		<>
 			{mode !== 'edit' ? (
 				<div>
-					<BoardViewHeader myPost={myPost} DelMutate={DelMutate} postId={boardViewData?.postId ?? null} />
+					<BoardViewHeader isMyPost={isMyPost} DelMutate={DelMutate} postId={boardViewData?.postId ?? null} />
 					<BoardContentView boardViewData={boardViewData} viewCheckHandler={viewCheckHandler} />
-					<section className="pt-[1.8rem] pb-[5.4rem] space-y-[1.6rem]">
+					<section className="pt-[1.8rem] pb-[5.4rem] space-y-[1.6rem] ">
 						<div className="flex items-center space-x-[0.4rem]">
 							{[
 								['earliest', '등록순'],
@@ -203,10 +242,11 @@ function BoardViewScreen({
 								))}
 						</ul>
 					</section>
+					<div ref={mentionRef} />
 					<footer
 						className={`${
 							commentInputMode === 'small' ? 'px-[2rem]' : ''
-						} absolute w-full z-[100] flex items-center -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0  min-h-[5.6rem] h-fit border-solid border-t-[0.05rem] border-g3`}
+						} absolute w-full z-[150] flex items-center -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0  min-h-[5.6rem] h-fit border-solid border-t-[0.05rem] border-g3`}
 					>
 						<TextInput
 							mode={commentInputMode}
@@ -216,6 +256,7 @@ function BoardViewScreen({
 							submitHandler={newCommentSubmitHandler}
 							onBlur={() => setCommentInputMode('small')}
 							onFocus={() => setCommentInputMode('wide')}
+							onKeyDown={lastCommentCharHandler}
 						/>
 					</footer>
 					{isDelCommentModalOpen && (
@@ -273,31 +314,8 @@ function BoardViewScreen({
 							</TopModal>
 						</Overlay>
 					)}
-					{isMentionModalOpen && (
-						<Overlay overlayClickFn={closeWhoCheckedModal}>
-							<TopModal>
-								<div className="space-y-[2.4rem]">
-									<ul className="space-y-[2.4rem] pb-[6rem]">
-										{storeInfo?.userList?.map(({ userProfileCode, userCode, email, userName }: IBoardCheckPerson) => (
-											<li className="flex items-center space-x-[0.8rem]" key={userCode}>
-												<button
-													onClick={() => {
-														setMentionUserCodes((prev) => [...prev, userCode]);
-														setNewComment((prev) => prev + userName);
-														closeMentionModal();
-													}}
-													className="flex items-center space-x-[0.8rem]"
-												>
-													<ProfileImage userProfileCode={userProfileCode} size="xs" />
-													<span className="text-subhead2 text-g9">{userName}</span>
-													<span className="text-body2 text-g6">{email}</span>
-												</button>
-											</li>
-										))}
-									</ul>
-								</div>
-							</TopModal>
-						</Overlay>
+					{mentionUserList?.length && (
+						<MentionModal userList={mentionUserList} onMetionUserClick={mentionUserHandler} />
 					)}
 				</div>
 			) : (

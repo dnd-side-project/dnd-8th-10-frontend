@@ -2,6 +2,9 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+.metion-text{
+   color:#4382FF;
+}
 
 @layer components {
 

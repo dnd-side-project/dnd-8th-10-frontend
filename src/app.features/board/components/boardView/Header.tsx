@@ -12,10 +12,10 @@ import useModal from 'src/app.modules/hooks/useModal';
 interface Props {
 	DelMutate: MutateTpye<number>;
 	postId: number | null;
-	myPost: boolean;
+	isMyPost: boolean;
 }
 
-function Header({ postId, DelMutate, myPost }: Props) {
+function Header({ postId, DelMutate, isMyPost }: Props) {
 	const { isModalOpen, closeModal, openModal } = useModal();
 	const router = useRouter();
 	const [delModalView, setDelModalView] = useState<boolean>(false);
@@ -31,7 +31,7 @@ function Header({ postId, DelMutate, myPost }: Props) {
 				<button type="button" onClick={() => router.back()}>
 					<BackIcon stroke="#66666E" />
 				</button>
-				{myPost && (
+				{isMyPost && (
 					<button type="button" onClick={openModal}>
 						<MoreIcon />
 					</button>
