@@ -241,7 +241,7 @@ function CheckListScreen({
 						</ul>
 					</div>
 				</div>
-				<Divider classNames="fixed  w-full max-w-[42rem] z-[50]" />
+				<Divider classNames="fixed  w-full max-w-[50rem] z-[50]" />
 
 				{isChecklistFetched && isWorkDay ? (
 					<div className=" text-subhead2 space-y-[1.6rem] py-[2.4rem] relative h-[calc(100vh-20.6rem)] overflow-y-scroll scrollbar-hidden ">

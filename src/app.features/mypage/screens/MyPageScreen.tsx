@@ -21,7 +21,7 @@ function MyPageScreen({ user, logoutHandler }: Props) {
 
 	return (
 		<>
-			<header className="flex items-center justify-between bg-white  h-[5.6rem] px-[2rem] fixed w-full max-w-[42rem] -translate-x-[2rem] mx-auto ">
+			<header className="flex items-center justify-between bg-white  h-[5.6rem] px-[2rem] fixed w-full max-w-[50rem] -translate-x-[2rem] mx-auto ">
 				<h1 className="text-subhead4 text-g10 ">마이페이지</h1>
 				<button onClick={() => router.push(SERVICE_URL.profileSetting)}>
 					<SettingIcon />

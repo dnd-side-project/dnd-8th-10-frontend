@@ -196,7 +196,7 @@ function BoardViewScreen({
 					<footer
 						className={`${
 							commentInputMode === 'small' ? 'px-[2rem]' : ''
-						} absolute w-full z-[100] flex items-center -translate-x-[2rem] max-w-[42rem] mx-auto bottom-0  min-h-[5.6rem] h-fit border-solid border-t-[0.05rem] border-g3`}
+						} absolute w-full z-[100] flex items-center -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0  min-h-[5.6rem] h-fit border-solid border-t-[0.05rem] border-g3`}
 					>
 						<TextInput
 							mode={commentInputMode}
