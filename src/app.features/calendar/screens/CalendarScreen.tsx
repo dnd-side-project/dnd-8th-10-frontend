@@ -26,7 +26,7 @@ function CalendarScreen({ currentUser }: Props) {
 		day: [],
 	});
 	const { year, month, setCalendar, modalCalData, isDayReset } = useStore();
-	const { isModalOpen, openModal, closeModal } = useModal();
+	const { isModalOpen, openModal, closeModal, closeAnimationModal } = useModal();
 	const { isJump, keypadChange } = useKeypadStore();
 	const router = useRouter();
 
@@ -167,13 +167,7 @@ function CalendarScreen({ currentUser }: Props) {
 				</div>
 			</div>
 			{isModalOpen && (
-				<Overlay
-					overlayClickFn={() =>
-						setTimeout(() => {
-							closeModal();
-						}, 500)
-					}
-				>
+				<Overlay overlayClickFn={() => closeAnimationModal()}>
 					<TopModal bgColor="bg-g1">
 						<ModalWrap currentUser={currentUser} closeModal={closeModal} />
 					</TopModal>

@@ -20,7 +20,8 @@ import { ISalaryData } from '../types';
 function WorkerScreen() {
 	// 직원 급여 페이지
 	const { year, month, modalCalData } = useStore();
-	const { isModalOpen, openModal, closeModal, closeAnimationModal } = useModal();
+	const { isModalOpen, openModal, closeAnimationModal } = useModal();
+
 	const [salaryData, setSalaryData] = useState<ISalaryData[]>([]);
 	const [workHour, setWorkHour] = useState<number>();
 	const router = useRouter();
@@ -106,13 +107,7 @@ function WorkerScreen() {
 			)}
 			{isModalOpen && (
 				<>
-					<Overlay
-						overlayClickFn={() =>
-							setTimeout(() => {
-								closeModal();
-							}, 500)
-						}
-					>
+					<Overlay overlayClickFn={() => closeAnimationModal()}>
 						<TopModal bgColor="bg-g1">
 							<Keypad year={year} month={month} />
 						</TopModal>

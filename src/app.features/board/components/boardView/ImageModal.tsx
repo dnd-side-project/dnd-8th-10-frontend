@@ -10,7 +10,7 @@ function ImageModal({ imgData }: { imgData: string[] }) {
 	const { modalIndex, imgModalIsClose } = useImgModal();
 
 	return (
-		<div className="flex flex-col justify-center translate-x-0 z-[101]  fixed max-w-[42rem] mx-auto inset-0 bg-black">
+		<div className="flex flex-col justify-center translate-x-0 z-[101]  fixed max-w-[50rem] mx-auto inset-0 bg-black">
 			<header className="z-50 absolute right-0 top-0 mx-[2rem] my-[2rem] flex justify-end">
 				<button type="button" onClick={() => imgModalIsClose()}>
 					<CrossIcon />

@@ -18,7 +18,7 @@ import { getSalaryList } from '../api';
 function ManagerScreen() {
 	// 점장 급여 페이지
 	const { year, month, modalCalData, toDay } = useStore();
-	const { isModalOpen, openModal, closeModal } = useModal();
+	const { isModalOpen, openModal, closeAnimationModal } = useModal();
 	const router = useRouter();
 	const [UserData, setUserData] = useState<ISalaryList[]>([]);
 	const [manageData, setManageData] = useState<ISalaryList[]>([]);
@@ -157,13 +157,7 @@ function ManagerScreen() {
 				</>
 			)}
 			{isModalOpen && (
-				<Overlay
-					overlayClickFn={() =>
-						setTimeout(() => {
-							closeModal();
-						}, 500)
-					}
-				>
+				<Overlay overlayClickFn={() => closeAnimationModal()}>
 					<TopModal bgColor="bg-g1">
 						<Keypad year={year} month={month} />
 					</TopModal>
