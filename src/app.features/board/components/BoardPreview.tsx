@@ -37,7 +37,7 @@ function BoardPreview({ searchData, search = false }: Props) {
 				<div
 					role="presentation"
 					key={index}
-					className="first:pt-[0rem] py-[1.2rem] border-solid border-b-[0.05rem] border-b-g3 h-fit"
+					className="first:pt-[0rem] py-[1.2rem] border-solid border-b-[0.05rem] border-b-g3 "
 					onClick={() => router.push(`${SERVICE_URL.boardView}/${post.postId}`)}
 				>
 					<div>
