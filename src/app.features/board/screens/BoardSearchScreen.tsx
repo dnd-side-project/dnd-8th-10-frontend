@@ -33,9 +33,10 @@ function BoardSearchScreen() {
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		if (searchContent.length <= 1) {
 			openModal();
+		} else {
+			searchRefetch();
+			event.preventDefault();
 		}
-		searchRefetch();
-		event.preventDefault();
 	};
 
 	return (

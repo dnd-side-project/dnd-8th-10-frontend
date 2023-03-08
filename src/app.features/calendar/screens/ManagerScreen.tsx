@@ -49,7 +49,7 @@ function ManagerScreen() {
 				<>
 					<div className="pb-[5.6rem]">
 						<Header title="" />
-						<div className="pointer-events-none h-[5.6rem] max-w-[42rem] -translate-x-[2rem] fixed z-50 flex mx-auto w-full items-center justify-center">
+						<div className="pointer-events-none h-[5.6rem] max-w-[50rem] -translate-x-[2rem] fixed z-50 flex mx-auto w-full items-center justify-center">
 							<button
 								type="button"
 								className="flex items-center pointer-events-auto"

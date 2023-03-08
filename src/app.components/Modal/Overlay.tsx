@@ -27,7 +27,7 @@ function Overlay({ children, bgColor = 'bg-transparent-30%', blur = false, overl
 						overlayClickFn();
 					}
 				}}
-				className={`translate-x-0 z-50  fixed max-w-[50rem] mx-auto top-0 left-0 bottom-0 right-0 ${bgColor} ${
+				className={`translate-x-0 z-[101]  fixed max-w-[50rem] mx-auto top-0 left-0 bottom-0 right-0 ${bgColor} ${
 					blur && 'backdrop-filter backdrop-blur-[0.4rem]'
 				}  ${
 					!children.props.yesFn &&
