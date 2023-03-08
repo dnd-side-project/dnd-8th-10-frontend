@@ -5,11 +5,11 @@ import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import ProfileImage from 'src/app.components/ProfileImage';
 import { MutateTpye } from 'src/app.modules/api/client';
-import useModalStore from 'src/app.modules/store/modal';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import TopModal from 'src/app.components/Modal/TopModal';
 import CheckIcon from 'src/app.modules/assets/board/check.svg';
 import useStore from 'src/app.modules/hooks/user/useStore';
+import useModal from 'src/app.modules/hooks/useModal';
 import CommentSettingIcon from '../../../app.modules/assets/board/ellipsis.svg';
 import BoardContentView from '../components/boardView/BoardContentView';
 import { IBoardCheckPerson, IBoardViewData, IComment } from '../types';
@@ -44,7 +44,7 @@ function BoardViewScreen({
 	PutCommentMutate,
 	boardCheckPerson,
 }: Props) {
-	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	const { isModalOpen, closeModal, openModal } = useModal();
 	console.log(boardViewData);
 	const router = useRouter();
 	type SoryByType = 'earliest' | 'latest';
@@ -85,9 +85,9 @@ function BoardViewScreen({
 			console.log(storeInfo);
 			setCanStoreFetch(true);
 			storeRefetch();
-			modalIsOpen();
+			openModal();
 		} else if (isModalOpen) {
-			modalIsClose();
+			closeModal();
 		}
 		setNewComment(value);
 	};
@@ -157,7 +157,7 @@ function BoardViewScreen({
 								onClick={() => {
 									console.log(optionModalOpen, delCommentModalOpen);
 									setIsCheckPersonkModal(true);
-									modalIsOpen();
+									openModal();
 								}}
 								className="aria-pressed:text-g9 text-g6 text-subhead1"
 							>
@@ -238,6 +238,7 @@ function BoardViewScreen({
 									setOptionModalOpen(false);
 									setDelCommentModalOpen(true);
 								}}
+								cancelFn={closeModal}
 							/>
 						</Overlay>
 					)}
@@ -271,7 +272,7 @@ function BoardViewScreen({
 																onClick={() => {
 																	setMentionUserCodes((prev) => [...prev, userCode]);
 																	setNewComment((prev) => prev + userName);
-																	modalIsClose();
+																	closeModal();
 																}}
 																className="flex items-center space-x-[0.8rem]"
 															>

@@ -7,6 +7,7 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import Modal from 'src/app.components/Modal/Modal';
 import BoardModal from 'src/app.components/Modal/BoardModal';
 import { MutateTpye } from 'src/app.modules/api/client';
+import useModal from 'src/app.modules/hooks/useModal';
 
 interface Props {
 	DelMutate: MutateTpye<number>;
@@ -15,7 +16,7 @@ interface Props {
 }
 
 function Header({ postId, DelMutate, myPost }: Props) {
-	const [modalOpen, setModalOpen] = useState(false);
+	const { isModalOpen, closeModal, openModal } = useModal();
 	const router = useRouter();
 	const [delModalView, setDelModalView] = useState<boolean>(false);
 	const delMutateHandler = () => {
@@ -31,13 +32,13 @@ function Header({ postId, DelMutate, myPost }: Props) {
 					<BackIcon stroke="#66666E" />
 				</button>
 				{myPost && (
-					<button type="button" onClick={() => setModalOpen(true)}>
+					<button type="button" onClick={openModal}>
 						<MoreIcon />
 					</button>
 				)}
 			</header>
-			{modalOpen && (
-				<Overlay overlayClickFn={() => setModalOpen(false)}>
+			{isModalOpen && (
+				<Overlay overlayClickFn={closeModal}>
 					{delModalView ? (
 						<Modal
 							title="삭제하시겠습니까?"
@@ -45,7 +46,7 @@ function Header({ postId, DelMutate, myPost }: Props) {
 							yesTitle="삭제"
 							noFn={() => {
 								setDelModalView(false);
-								setModalOpen(false);
+								openModal();
 							}}
 							noTitle="아니오"
 						/>
@@ -55,7 +56,7 @@ function Header({ postId, DelMutate, myPost }: Props) {
 								router.push(`${SERVICE_URL.boardEdit}/${postId}`);
 							}}
 							noFn={() => setDelModalView(true)}
-							cancelFn={() => setModalOpen(false)}
+							cancelFn={closeModal}
 						/>
 					)}
 				</Overlay>
