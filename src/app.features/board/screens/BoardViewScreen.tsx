@@ -118,6 +118,7 @@ function BoardViewScreen({
 				}
 				// 멘션지점일 경우
 				if (tmp.split('<span ').slice(-1).toString().includes('class="metion-text"') && tmp.endsWith('</span>')) {
+					console.log('멘션지점임');
 					const lastMetionToText = `@${tmp.split('</span>').slice(-2)[0].split('@').slice(-1).join()}`;
 					setNewComment(lastMetionToText);
 					// console.log(, 'test');
@@ -188,12 +189,12 @@ function BoardViewScreen({
 
 	const mentionUserHandler = (userCode: string, userName: string) => {
 		setMentionUserCodes((prev) => [...prev, userCode]);
-		setNewComment('');
+		setNewComment(' ');
 		if (mentionRef?.current === null) return;
-		mentionRef.current.innerHTML = `${(mentionRef.current?.innerHTML as string).slice(
-			0,
-			-1
-		)}<span class="metion-text" data-index=${mentionUserCodes.length}>@${userName}</span>`;
+		mentionRef.current.innerHTML = `${(mentionRef.current?.innerHTML as string)
+			.split('@')
+			.slice(0, -1)
+			.join('@')}<span class="metion-text" data-index=${mentionUserCodes.length}>@${userName}</span>${' '}`;
 		setCommentInputMode('wide');
 	};
 	const mentionUserList = storeInfo?.userList?.filter(({ userName }: IBoardCheckPerson) => {
