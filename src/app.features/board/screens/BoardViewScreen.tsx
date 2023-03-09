@@ -114,7 +114,28 @@ function BoardViewScreen({
 		// newRange.setEnd(end);
 		// selection?.removeAllRanges();
 		// selection?.addRange(newRange);
-		if (e.keyCode === 8) {
+		if (commentRef?.current === null) return;
+		const selection: any = window.getSelection();
+		if (selection === null) return;
+
+		if (selection.baseNode.parentNode.tagName === 'WS-MENTION') {
+			console.log(selection.baseNode);
+			const range = selection.getRangeAt(0);
+			const previousNode = range.startContainer.textContent;
+			console.log(previousNode, 'fasgawe');
+			const newNode = document.createTextNode(previousNode);
+			commentRef.current.replaceChild(newNode, selection.baseNode.parentNode);
+			// const newRange = document.createRange();
+			// newRange.selectNodeContents(commentRef.current);
+
+			// newRange.collapse(false);
+			// console.log(newRange.endContainer);
+			// newRange.setEnd(end);
+			// selection?.removeAllRanges();
+			// selection?.addRange(newRange);
+			// commentRef.current.removeChild(selection.baseNode.parentNode);
+		}
+		/* if (e.keyCode === 8) {
 			// 지우기
 			if (commentRef?.current === null) return;
 			const selection: any = window.getSelection();
@@ -144,7 +165,7 @@ function BoardViewScreen({
 			// selection?.removeAllRanges();
 			// selection?.addRange(newRange);
 			return;
-		}
+		} */
 		if (e.keyCode === 50 && e.shiftKey) {
 			if (storeFecthDisabled) {
 				console.log('골뱅이');
