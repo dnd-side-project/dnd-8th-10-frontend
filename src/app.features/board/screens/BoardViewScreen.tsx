@@ -265,66 +265,67 @@ function BoardViewScreen({
 	return (
 		<>
 			{mode !== 'edit' ? (
-				<div>
+				<div className="h-full">
 					<BoardViewHeader isMyPost={isMyPost} DelMutate={DelMutate} postId={boardViewData?.postId ?? null} />
-					<BoardContentView boardViewData={boardViewData} viewCheckHandler={viewCheckHandler} />
-					<section className="pt-[1.8rem] pb-[5.4rem] space-y-[1.6rem] ">
-						<div className="flex items-center space-x-[0.4rem]">
-							{[
-								['earliest', '등록순'],
-								['latest', '최신순'],
-							].map(([value, display]) => (
+					<main className=" pt-[1.6rem] h-[calc(100vh-5.6rem)] pb-[8rem] overflow-y-scroll scrollbar-hidden">
+						<BoardContentView boardViewData={boardViewData} viewCheckHandler={viewCheckHandler} />
+						<section className="py-[1.8rem]   space-y-[1.6rem]   ">
+							<div className="flex items-center space-x-[0.4rem]">
+								{[
+									['earliest', '등록순'],
+									['latest', '최신순'],
+								].map(([value, display]) => (
+									<button
+										key={value}
+										onClick={() => commentSortHandler(value as SoryByType)}
+										name="sortBy"
+										value={value}
+										aria-pressed={commentSortBy === value}
+										className="aria-pressed:text-g9 text-g6 text-subhead1"
+									>
+										{display}
+									</button>
+								))}
 								<button
-									key={value}
-									onClick={() => commentSortHandler(value as SoryByType)}
-									name="sortBy"
-									value={value}
-									aria-pressed={commentSortBy === value}
+									onClick={() => {
+										openWhoCheckedModal();
+									}}
 									className="aria-pressed:text-g9 text-g6 text-subhead1"
 								>
-									{display}
+									체크한사람확인 임시 버튼
 								</button>
-							))}
-							<button
-								onClick={() => {
-									openWhoCheckedModal();
-								}}
-								className="aria-pressed:text-g9 text-g6 text-subhead1"
-							>
-								체크한사람확인 임시 버튼
-							</button>
-						</div>
-						<ul className="space-y-[1.6rem]">
-							{boardViewData &&
-								sortedCommentList().map(({ commentId, content, userProfileCode, userName, createdDate, role }) => (
-									<li key={commentId} className="flex space-x-[0.8rem]">
-										<ProfileImage userProfileCode={userProfileCode} size="sm" />
-										<div className="w-full">
-											<div className="flex justify-between  items-center ">
-												<div className="flex space-x-[0.4rem]">
-													<span className="text-subhead1 text-g9">{userName}</span>
-													<div className="text-body1 flex space-x-[0.4rem] text-g6">
-														<span>{role === 'MANAGER' ? '점장' : '알바생'}</span>
-														<span>{formatDate(createdDate)}</span>
+							</div>
+							<ul className="space-y-[1.6rem]">
+								{boardViewData &&
+									sortedCommentList().map(({ commentId, content, userProfileCode, userName, createdDate, role }) => (
+										<li key={commentId} className="flex space-x-[0.8rem]">
+											<ProfileImage userProfileCode={userProfileCode} size="sm" />
+											<div className="w-full">
+												<div className="flex justify-between  items-center ">
+													<div className="flex space-x-[0.4rem]">
+														<span className="text-subhead1 text-g9">{userName}</span>
+														<div className="text-body1 flex space-x-[0.4rem] text-g6">
+															<span>{role === 'MANAGER' ? '점장' : '알바생'}</span>
+															<span>{formatDate(createdDate)}</span>
+														</div>
 													</div>
+													<button
+														onClick={() => {
+															setFocusComment({ commentId, content });
+															openOptionModal();
+														}}
+													>
+														<CommentSettingIcon />
+													</button>
 												</div>
-												<button
-													onClick={() => {
-														setFocusComment({ commentId, content });
-														openOptionModal();
-													}}
-												>
-													<CommentSettingIcon />
-												</button>
+												{/* eslint-disable-next-line react/no-danger */}
+												<p dangerouslySetInnerHTML={{ __html: content }} className="text-body2 text-g9" />
 											</div>
-											{/* eslint-disable-next-line react/no-danger */}
-											<p dangerouslySetInnerHTML={{ __html: content }} className="text-body2 text-g9" />
-										</div>
-									</li>
-								))}
-						</ul>
-					</section>
-
+										</li>
+									))}
+							</ul>
+						</section>
+					</main>
 					<footer
 						className={` absolute w-full z-[150] flex items-center bg-[#F8F8FA]  -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0  min-h-[5.6rem] h-fit border-solid border-t-[0.05rem] border-g3`}
 					>

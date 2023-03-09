@@ -27,7 +27,7 @@ function Header({ postId, DelMutate, isMyPost }: Props) {
 
 	return (
 		<>
-			<header className="w-full h-[5.6rem] flex items-center justify-between mb-[1.6rem]">
+			<header className="w-full h-[5.6rem] flex items-center justify-between ">
 				<button type="button" onClick={() => router.back()}>
 					<BackIcon stroke="#66666E" />
 				</button>
