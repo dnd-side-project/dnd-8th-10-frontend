@@ -1,6 +1,6 @@
 import PlusIcon from 'src/app.modules/assets/calendar/plus.svg';
 import EmptyWork from 'src/app.modules/assets/calendar/emptyWork.svg';
-import { formatTimeView } from 'src/app.modules/util/calendar';
+import { formatTimeView, WorkListTimeView } from 'src/app.modules/util/calendar';
 import { ISalaryProps } from '../types';
 
 function SalaryDetail({ data }: ISalaryProps) {
@@ -33,7 +33,9 @@ function SalaryDetail({ data }: ISalaryProps) {
 											{info.month}월 {info.day}일
 										</span>
 										<span className="text-subhead1 text-g6">
-											{`${formatTimeView(info.workTime)[0]} - ${formatTimeView(info.workTime)[1]}`}
+											{`${WorkListTimeView(info.workTime.split('~')[0])} - ${WorkListTimeView(
+												info.workTime.split('~')[1]
+											)}`}
 										</span>
 									</div>
 								</div>

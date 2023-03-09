@@ -39,7 +39,7 @@ export const mappedDayReverse = {
 	일: '6',
 };
 export type TimeInfoType = {
-	meridiem: 'am' | 'pm';
+	meridiem: 'am' | 'pm' | null;
 	hour: string;
 	minute: string;
 };
