@@ -6,7 +6,6 @@ import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import ProfileImage from 'src/app.components/ProfileImage';
 import { MutateTpye } from 'src/app.modules/api/client';
-import TextInput from 'src/app.components/app.base/Input/TextInput';
 import TopModal from 'src/app.components/Modal/TopModal';
 import CheckIcon from 'src/app.modules/assets/board/check.svg';
 import useStore from 'src/app.modules/hooks/user/useStore';
@@ -75,7 +74,7 @@ function BoardViewScreen({
 		content: string;
 	};
 	// console.log(boardViewData);
-	const mentionRef = useRef<HTMLDivElement>(null);
+	const commentRef = useRef<HTMLDivElement>(null);
 	const [commentSortBy, setCommentSortBy] = useState<SoryByType>('earliest');
 	const [commentInputMode, setCommentInputMode] = useState<'small' | 'wide'>('small');
 	const [focusComment, setFocusComment] = useState<FocusCommentType | null>(null);
@@ -118,9 +117,9 @@ function BoardViewScreen({
 		const { postId } = boardViewData;
 		// const content = newComments.join().trim();
 		if (!postId) return;
-		if (mentionRef?.current === null) return;
+		if (commentRef?.current === null) return;
 		const mentionUserCodesBody = Array.from(new Set(mentionUserCodes));
-		const body = { postId, content: mentionRef.current.innerHTML as string, userCode: mentionUserCodesBody };
+		const body = { postId, content: commentRef.current.innerHTML as string, userCode: mentionUserCodesBody };
 		console.log(body, 'post comment body');
 		PostCommentMutate(body);
 
@@ -154,7 +153,7 @@ function BoardViewScreen({
 	}, [boardViewData, userData]);
 	// 멘션할 유저 선택함
 	const mentionUserHandler = (userCode: string, userName: string) => {
-		if (mentionRef?.current === null) return;
+		if (commentRef?.current === null) return;
 		if (commentFormRef?.current === null) return;
 		const userNameString = `@${userName}`;
 		// 코멘트 arr size 2 증가
@@ -164,12 +163,12 @@ function BoardViewScreen({
 		// prev[NEW_COMMENT_LAST_INDEX] = prev[NEW_COMMENT_LAST_INDEX].slice(0, -1);
 		// setNewComments([...prev, newComment, ' ']);
 
-		mentionRef.current.innerHTML = `${mentionRef.current.innerHTML.slice(0, -1)}${newComment}&nbsp;`;
+		commentRef.current.innerHTML = `${commentRef.current.innerHTML.slice(0, -1)}${newComment}&nbsp;`;
 		const selection = window.getSelection();
 		console.log(window.getSelection()?.toString(), 'qqqq');
 		const newRange = document.createRange();
 		console.log(newRange);
-		newRange.selectNodeContents(mentionRef.current);
+		newRange.selectNodeContents(commentRef.current);
 		newRange.collapse(false);
 		console.log(newRange.endContainer);
 		// newRange.setEnd(end);
@@ -199,17 +198,6 @@ function BoardViewScreen({
 			{mode !== 'edit' ? (
 				<div>
 					<BoardViewHeader isMyPost={isMyPost} DelMutate={DelMutate} postId={boardViewData?.postId ?? null} />
-					<div ref={commentFormRef} onMouseUp={handleTextSelection} role="textbox" className="w-full h-5">
-						<p
-							ref={mentionRef}
-							onInput={newCommentHandler}
-							contentEditable
-							className=" text-body2   placeholder:text-g7 text-g9 w-full px-[3.2rem]"
-						/>
-					</div>
-					<button onClick={newCommentSubmitHandler} className="mt-[2rem]">
-						댓글 제출
-					</button>
 					<BoardContentView boardViewData={boardViewData} viewCheckHandler={viewCheckHandler} />
 					<section className="pt-[1.8rem] pb-[5.4rem] space-y-[1.6rem] ">
 						<div className="flex items-center space-x-[0.4rem]">
@@ -271,17 +259,16 @@ function BoardViewScreen({
 					<footer
 						className={`${
 							commentInputMode === 'small' ? 'px-[2rem]' : ''
-						} absolute w-full z-[150] flex items-center -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0  min-h-[5.6rem] h-fit border-solid border-t-[0.05rem] border-g3`}
+						} absolute w-full z-[150] flex items-center bg-w -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0  min-h-[5.6rem] h-fit border-solid border-t-[0.05rem] border-g3`}
 					>
-						<TextInput
-							mode={commentInputMode}
-							value=""
-							onChange={newCommentHandler}
-							placeholder="댓글을 입력해 주세요"
-							submitHandler={newCommentSubmitHandler}
-							onBlur={() => setCommentInputMode('small')}
-							onFocus={() => setCommentInputMode('wide')}
-						/>
+						<div role="textbox" className="w-full h-5">
+							<p
+								ref={commentRef}
+								onInput={newCommentHandler}
+								contentEditable
+								className=" text-body2   placeholder:text-g7 text-g9 w-full px-[3.2rem]"
+							/>
+						</div>
 					</footer>
 					{isDelCommentModalOpen && (
 						<Overlay
