@@ -57,16 +57,17 @@ export const formatTimeView = (time: string, type = 'reset') => {
 export const parseSetWorkTime = (workTime: string): IUser => {
 	const [meridiemLeft, hourLeft, minuteLeft] = formatTimeView(workTime, '')[0].split(' ');
 	const [meridiemRight, hourRight, minuteRight] = formatTimeView(workTime, '')[1].split(' ');
+	console.log();
 	return {
 		startTime: {
 			meridiem: meridiemLeft === '오전' ? 'am' : 'pm',
 			hour: hourLeft,
-			minute: minuteLeft,
+			minute: minuteLeft === '00' ? '0' : minuteLeft,
 		},
 		endTime: {
 			meridiem: meridiemRight === '오전' ? 'am' : 'pm',
 			hour: hourRight,
-			minute: minuteRight,
+			minute: minuteRight === '00' ? '0' : minuteRight,
 		},
 	};
 };
@@ -129,21 +130,6 @@ export const homeTimeView = (timeStr: string, type = 'home') => {
 	return result;
 };
 
-export const getLogicWorkTimeString = (startTime: Time, endTime: Time) => {
-	try {
-		return `${startTime.hour.length === 1 && startTime.meridiem === 'am' ? '0' : ''}${
-			+startTime.hour + (startTime.meridiem === 'am' ? 0 : 12)
-		}:${startTime.minute.length === 1 ? '0' : ''}${startTime.minute}~${
-			endTime.hour.length === 1 && endTime.meridiem === 'am' ? '0' : ''
-		}${+endTime.hour + (endTime.meridiem === 'am' ? 0 : 12)}:${endTime.minute.length === 1 ? '0' : ''}${
-			endTime.minute
-		}`;
-	} catch (e) {
-		console.log(e);
-		return '';
-	}
-};
-
 export const WorkListTimeView = (time: string) => {
 	const [hour, minute] = time.split(':');
 	if (time === '24:00') {
@@ -153,16 +139,11 @@ export const WorkListTimeView = (time: string) => {
 		return '오후 12:00';
 	}
 	if (hour >= '12') {
-		return `${hour}` === '12' ? `오전 ${hour}:${minute}` : `오후 ${Number(hour) - 12}:${minute}`;
+		return `${hour}` === '12'
+			? `오전 ${hour}:${minute}`
+			: `오후 ${String(Number(hour) - 12).padStart(2, '0')}:${minute}`;
 	}
 	return `오전 ${hour}:${minute}`;
-};
-
-export const getTotalWorkHour = (firstTime: string, lastTime: string) => {
-	const startSplit = Number(firstTime.split(':')[0]) * 60 + Number(firstTime.split(':')[1]);
-	const endSplit = Number(lastTime.split(':')[0]) * 60 + Number(lastTime.split(':')[1]);
-	const timeDiff = Number(Math.abs((startSplit - endSplit) / 60));
-	return timeDiff;
 };
 
 export const getLastTime = (time: string[]) => {
@@ -196,10 +177,10 @@ export const getFirstTime = (time: string[]) => {
 			return 1;
 		}
 		if (aMinute < bMinute) {
-			return 1;
+			return -1;
 		}
 		if (aMinute > bMinute) {
-			return -1;
+			return 1;
 		}
 		return 0;
 	})[0];
@@ -219,4 +200,18 @@ export const viewTimeFormat = (time: Time) => {
 	const hour = time.hour.padStart(2, '0');
 	const minute = time.minute ? `${time.minute.padStart(2, '0')}분` : '';
 	return `${merdiem} ${hour}시 ${minute}`;
+};
+
+export const workTimeDuplication = (workTime: string, startTime: string, endTime: string) => {
+	const [start, end] = workTime.split('~');
+	const minTime = new Date(`2023-01-01T${startTime}`);
+	const maxTime = new Date(`2023-01-01T${endTime}`);
+	const workStartTime = new Date(`2023-01-01T${start}`);
+	const workEndTime = new Date(`2023-01-01T${end}`);
+	if (start === startTime && end === endTime) {
+		return true;
+	}
+	const innerTime = minTime <= workStartTime && maxTime >= workEndTime;
+	const outTime = minTime >= workStartTime && maxTime <= workEndTime;
+	return innerTime || outTime;
 };

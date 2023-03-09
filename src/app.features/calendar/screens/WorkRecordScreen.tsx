@@ -11,8 +11,8 @@ import {
 	getDayOfWeek,
 	getFirstTime,
 	getLastTime,
-	getTotalWorkHour,
 	viewTimeFormat,
+	workTimeDuplication,
 } from 'src/app.modules/util/calendar';
 import KeypadDelIcon from 'src/app.modules/assets/inputDel.svg';
 import { getWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
@@ -31,13 +31,13 @@ interface Props {
 	id: string | string[] | undefined;
 }
 function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Props) {
-	const { isModalOpen, openModal, closeModal } = useModal();
+	const { isModalOpen: isDelModalOpen, openModal: delOpenModal, closeModal: delCloseModal } = useModal();
+	const { isModalOpen: isDupleModalOpen, openModal: DupleOpenModal, closeModal: DupleCloseModal } = useModal();
 	const { clickDay, isDayReset } = useStore();
 	const [year, month, day] = clickDay.split('.');
 	const [currentTime, setCurrentTime] = useState<IUser>();
 	const [workingFirstTime, setWorkingFirstTime] = useState('');
 	const [workingLastTime, setWorkingLastTime] = useState('');
-	const [totalWorkTime, setTotalWorkTime] = useState<number>();
 
 	const router = useRouter();
 	const {
@@ -63,7 +63,11 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
 		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
 		const timeDiff = Number(Math.abs((startSplit - endSplit) / 60));
-
+		// 출근 시간 겹칠때
+		if (workTimeDuplication(workTimeData, workingFirstTime, workingLastTime)) {
+			DupleOpenModal();
+			return;
+		}
 		if (title === 'add') {
 			// 출근하기
 			WorkMutate({ year, month, day, workTime: workTimeData, workHour: timeDiff });
@@ -73,6 +77,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 		}
 		isDayReset();
 	};
+
 	// 삭제 버튼
 	const delBtn = async () => {
 		const data = delWorkModify(Number(id));
@@ -82,12 +87,31 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 		});
 	};
 
+	// 자신의 출근한 리스트 가져옴 (중복 방지를 위해)
+	const getWorkListData = (type: string = 'add') => {
+		const workListData = getWorkList({ year, month, day });
+		workListData.then((res) => {
+			let getMyWorkTimes = res.data.data.filter((val: { name: string }) => val.name === UserData.userName);
+			if (type === 'modify') {
+				// 수정일때 현재의 수정 시간은 중복에서 포함 안함
+				getMyWorkTimes = getMyWorkTimes.filter((val: { timeCardId: number }) => val.timeCardId !== Number(id));
+			}
+			if (getMyWorkTimes.length > 0) {
+				const firstTime = getMyWorkTimes.map((val: { workTime: string }) => val.workTime.split('~')[0]);
+				const lastTime = getMyWorkTimes.map((val: { workTime: string }) => val.workTime.split('~')[1]);
+				setWorkingFirstTime(getFirstTime(firstTime));
+				setWorkingLastTime(getLastTime(lastTime));
+			}
+		});
+	};
+
 	useEffect(() => {
-		// 오늘 추가일시
 		if (UserData) {
 			if (title === 'add') {
-				const data = getToDay(getDayOfWeek(clickDay));
-				data.then((res) => {
+				getWorkListData();
+				// 추가일시
+				const toDayData = getToDay(getDayOfWeek(clickDay));
+				toDayData.then((res) => {
 					if (res.data !== '') {
 						setInitTime(parseSetWorkTime(res.data));
 						setCurrentTime(parseSetWorkTime(res.data));
@@ -95,19 +119,13 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 				});
 			} else {
 				// 수정일시
+				getWorkListData('modify');
 				const data = getWorkList({ year, month, day });
 				data.then((res) => {
-					const getWorkTimes = res.data.data.filter((val: { timeCardId: number }) => val.timeCardId === Number(id));
-					const firstTime = res.data.data.map((val: { workTime: string }) => val.workTime.split('~')[0]);
-					const lastTime = res.data.data.map((val: { workTime: string }) => val.workTime.split('~')[1]);
-
-					setWorkingFirstTime(getFirstTime(firstTime));
-					setWorkingLastTime(getLastTime(lastTime));
-					setTotalWorkTime(getTotalWorkHour(getFirstTime(firstTime), getLastTime(lastTime)));
-					console.log(getWorkTimes[0].workTime);
-					if (getWorkTimes.length > 0) {
-						setInitTime(parseSetWorkTime(getWorkTimes[0].workTime));
-						setCurrentTime(parseSetWorkTime(getWorkTimes[0].workTime));
+					const getWorkTime = res.data.data.filter((val: { timeCardId: number }) => val.timeCardId === Number(id));
+					if (getWorkTime.length > 0) {
+						setInitTime(parseSetWorkTime(getWorkTime[0].workTime));
+						setCurrentTime(parseSetWorkTime(getWorkTime[0].workTime));
 					}
 				});
 			}
@@ -156,7 +174,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 							<Header title="근무기록 추가" />
 						) : (
 							<Header title="출근수정">
-								<button type="button" onClick={() => openModal()}>
+								<button type="button" onClick={() => delOpenModal()}>
 									<DelIcon />
 								</button>
 							</Header>
@@ -221,14 +239,24 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 					</Bar>
 				</div>
 			</div>
-			{isModalOpen && (
-				<Overlay overlayClickFn={() => closeModal()}>
+			{isDelModalOpen && (
+				<Overlay overlayClickFn={() => delCloseModal()}>
 					<Modal
 						title="출근기록이 삭제됩니다!"
 						yesFn={() => delBtn()}
 						yesTitle="삭제"
-						noFn={() => closeModal()}
+						noFn={() => delCloseModal()}
 						noTitle="취소"
+					/>
+				</Overlay>
+			)}
+			{isDupleModalOpen && (
+				<Overlay overlayClickFn={() => DupleCloseModal()}>
+					<Modal
+						title="내 출근시간이랑 겹칩니다."
+						subTitle="다시 입력해 주세요!"
+						yesFn={() => DupleCloseModal()}
+						yesTitle="확인"
 					/>
 				</Overlay>
 			)}
