@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 import { useRouter } from 'next/router';
 import React, { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
@@ -96,11 +97,55 @@ function BoardViewScreen({
 		if (!comments) return [];
 		if (commentSortBy === 'earliest') return comments;
 		return [...comments].reverse();
-	};
-	const newCommentHandler = (e: React.ChangeEvent<HTMLDivElement>) => {
+	}; // React.ChangeEvent<HTMLDivElement>
+	const commentKeyboardHandler = (e: React.KeyboardEvent<HTMLParagraphElement>) => {
 		// TODO: 멘션 로직 분리
+
 		// metion 기능 최초실행시 fetch On
-		if (e.target.innerText.slice(-1) === '@') {
+
+		// console.log(e.target.innerHTML, window?.getSelection());
+		// const selection = window.getSelection();
+		// const newRange = document.createRange();
+
+		// newRange.selectNodeContents(commentRef.current);
+		// console.log(newRange);
+		// newRange.collapse(false);
+		// console.log(newRange.endContainer);
+		// newRange.setEnd(end);
+		// selection?.removeAllRanges();
+		// selection?.addRange(newRange);
+		if (e.keyCode === 8) {
+			// 지우기
+			if (commentRef?.current === null) return;
+			const selection: any = window.getSelection();
+			if (selection === null) return;
+
+			if (selection.baseNode.parentNode.tagName === 'WS-MENTION') {
+				console.log(selection.baseNode);
+				commentRef.current.replaceChild(selection.baseNode, selection.baseNode.parentNode);
+				const newRange = document.createRange();
+				newRange.selectNodeContents(commentRef.current);
+
+				newRange.collapse(false);
+				// console.log(newRange.endContainer);
+				// newRange.setEnd(end);
+				selection?.removeAllRanges();
+				selection?.addRange(newRange);
+				// commentRef.current.removeChild(selection.baseNode.parentNode);
+			}
+			// const selection = window.getSelection();
+			// const newRange = document.createRange();
+
+			// newRange.selectNodeContents(commentRef.current);
+			// console.log(newRange);
+			/// newRange.collapse(false);
+			// console.log(newRange.startContainer);
+			// newRange.setEnd(end);
+			// selection?.removeAllRanges();
+			// selection?.addRange(newRange);
+			return;
+		}
+		if (e.keyCode === 50 && e.shiftKey) {
 			if (storeFecthDisabled) {
 				console.log('골뱅이');
 				setStoreFetchDisabled(false);
@@ -155,27 +200,35 @@ function BoardViewScreen({
 	const mentionUserHandler = (userCode: string, userName: string) => {
 		if (commentRef?.current === null) return;
 		const userNameString = `@${userName}`;
-		// 코멘트 arr size 2 증가
 		setMentionUserCodes((prev) => [...prev, userCode]);
-		const newComment = `<ws-mention class="mention-text" data-index=${mentionUserCodes.length}>${userNameString}</ws-mention>`;
-		// const prev = [...newComments];
-		// prev[NEW_COMMENT_LAST_INDEX] = prev[NEW_COMMENT_LAST_INDEX].slice(0, -1);
-		// setNewComments([...prev, newComment, ' ']);
-
-		commentRef.current.innerHTML = `${commentRef.current.innerHTML.slice(0, -1)}${newComment}&nbsp;`;
+		const newMention = `<ws-mention class="mention-text" data-index=${mentionUserCodes.length}>${userNameString}</ws-mention>`;
 		const selection = window.getSelection();
-		console.log(window.getSelection()?.toString(), 'qqqq');
-		const newRange = document.createRange();
-		console.log(newRange);
-		newRange.selectNodeContents(commentRef.current);
-		newRange.collapse(false);
-		console.log(newRange.endContainer);
-		// newRange.setEnd(end);
-		selection?.removeAllRanges();
-		selection?.addRange(newRange);
+		if (selection === null) return;
+
+		const parser = new DOMParser();
+		const mentionNode = parser.parseFromString(newMention, 'text/html').body.firstChild;
+		if (mentionNode === null) return;
+		const range = selection.getRangeAt(0);
+		const previousNode = range.startContainer;
+		console.log(previousNode?.toString().slice(-1) === '@', previousNode.textContent);
+		if (previousNode?.textContent?.slice(-1) === '@') {
+			range.setStart(previousNode, previousNode.textContent.length - 1);
+			range.setEnd(previousNode, previousNode.textContent.length);
+			document.execCommand('delete', false);
+		}
+		range.insertNode(mentionNode);
+		range.setStartAfter(mentionNode);
+		range.setEndAfter(mentionNode);
+		const space = document.createTextNode('\u00A0'); // unicode for non-breaking space
+		range.insertNode(space);
+		range.setStartAfter(space);
+		range.setEndAfter(space);
+		selection.removeAllRanges();
+		selection.addRange(range);
 		setCommentInputMode('wide');
 		closeMentiondModal();
 	};
+
 	// TODO: 필터 적용하기
 	const mentionUserList = () => storeInfo?.userList;
 	// const mentionUserList = () =>
@@ -187,10 +240,6 @@ function BoardViewScreen({
 	//	if (mentionRef?.current === null) return;
 	// mentionRef.current.innerHTML = newComments.join();
 	// }, [newComments]);
-	const handleTextSelection = (event: BaseSyntheticEvent) => {
-		const selectedText = window?.getSelection()?.toString();
-		console.log(selectedText, window?.getSelection());
-	};
 
 	return (
 		<>
@@ -261,7 +310,7 @@ function BoardViewScreen({
 						<div role="textbox" className="relative w-full   h-full px-[2rem]">
 							<p
 								ref={commentRef}
-								onInput={newCommentHandler}
+								onKeyDown={commentKeyboardHandler}
 								contentEditable
 								onFocus={() => setCommentInputMode('wide')}
 								onBlur={() => setCommentInputMode('small')}
