@@ -10,7 +10,7 @@ interface Props {
 	resetHandler?: () => void;
 	submitHandler?: () => void;
 	placeholder: string;
-	mode: 'default' | 'small' | 'wide';
+	mode: 'default' | 'small' | 'wide'; // TODO: 모드 없애기
 	name?: string;
 	onFocus?: () => void;
 	onBlur?: () => void;

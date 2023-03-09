@@ -11,6 +11,7 @@ import CheckIcon from 'src/app.modules/assets/board/check.svg';
 import useStore from 'src/app.modules/hooks/user/useStore';
 import useModal from 'src/app.modules/hooks/useModal';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import SendCommentIcon from 'src/app.modules/assets/sendComment.svg';
 import CommentSettingIcon from '../../../app.modules/assets/board/ellipsis.svg';
 import BoardContentView from '../components/boardView/BoardContentView';
 import { IBoardCheckPerson, IBoardViewData, IComment } from '../types';
@@ -82,7 +83,6 @@ function BoardViewScreen({
 	const [storeFecthDisabled, setStoreFetchDisabled] = useState<boolean>(true);
 	const [mentionUserCodes, setMentionUserCodes] = useState<string[]>([]);
 	const { data: storeInfo, refetch: storeRefetch } = useStore(true);
-	const commentFormRef = useRef<HTMLDivElement>(null);
 	const commentSortHandler = (sortBy: SoryByType) => {
 		setCommentSortBy(sortBy);
 	};
@@ -154,7 +154,6 @@ function BoardViewScreen({
 	// 멘션할 유저 선택함
 	const mentionUserHandler = (userCode: string, userName: string) => {
 		if (commentRef?.current === null) return;
-		if (commentFormRef?.current === null) return;
 		const userNameString = `@${userName}`;
 		// 코멘트 arr size 2 증가
 		setMentionUserCodes((prev) => [...prev, userCode]);
@@ -257,17 +256,25 @@ function BoardViewScreen({
 					</section>
 
 					<footer
-						className={`${
-							commentInputMode === 'small' ? 'px-[2rem]' : ''
-						} absolute w-full z-[150] flex items-center bg-w -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0  min-h-[5.6rem] h-fit border-solid border-t-[0.05rem] border-g3`}
+						className={` absolute w-full z-[150] flex items-center bg-[#F8F8FA]  -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0  min-h-[5.6rem] h-fit border-solid border-t-[0.05rem] border-g3`}
 					>
-						<div role="textbox" className="w-full h-5">
+						<div role="textbox" className="relative w-full   h-full px-[2rem]">
 							<p
 								ref={commentRef}
 								onInput={newCommentHandler}
 								contentEditable
-								className=" text-body2   placeholder:text-g7 text-g9 w-full px-[3.2rem]"
+								onFocus={() => setCommentInputMode('wide')}
+								onBlur={() => setCommentInputMode('small')}
+								placeholder="댓글을 입력해주세요"
+								className=" text-body2   placeholder:text-g7 text-g9 w-full  outline-none"
 							/>
+							<button
+								type="submit"
+								onClick={newCommentSubmitHandler}
+								className="absolute right-[1.6rem] top-1/2 -translate-y-1/2"
+							>
+								<SendCommentIcon />
+							</button>
 						</div>
 					</footer>
 					{isDelCommentModalOpen && (
