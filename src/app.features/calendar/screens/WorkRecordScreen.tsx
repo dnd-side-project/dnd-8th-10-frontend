@@ -88,7 +88,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 	};
 
 	// 자신의 출근한 리스트 가져옴 (중복 방지를 위해)
-	const getWorkListData = (type: string = 'add') => {
+	const getWorkListData = (type = 'add') => {
 		const workListData = getWorkList({ year, month, day });
 		workListData.then((res) => {
 			let getMyWorkTimes = res.data.data.filter((val: { name: string }) => val.name === UserData.userName);
