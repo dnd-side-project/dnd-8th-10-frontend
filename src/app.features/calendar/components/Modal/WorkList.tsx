@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import ProfileImage from 'src/app.components/ProfileImage';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
-import { formatTimeView } from 'src/app.modules/util/calendar';
+import { WorkListTimeView } from 'src/app.modules/util/calendar';
 
 interface Props {
 	month: number;
@@ -39,7 +39,9 @@ function WorkList({ month, day, userName, currentUser }: Props) {
 								<ProfileImage size="lg" userProfileCode={item.userProfileCode} />
 								<span className="text-subhead2 text-g10 mx-[0.8rem]">{item.name}</span>
 								<span className="text-body2 text-g8">
-									{`${formatTimeView(item.workTime)[0]} - ${formatTimeView(item.workTime)[1]}`}
+									{`${WorkListTimeView(item.workTime.split('~')[0])} - ${WorkListTimeView(
+										item.workTime.split('~')[1]
+									)}`}
 								</span>
 							</div>
 							<div>
