@@ -267,7 +267,7 @@ function BoardViewScreen({
 			{mode !== 'edit' ? (
 				<div className="h-full">
 					<BoardViewHeader isMyPost={isMyPost} DelMutate={DelMutate} postId={boardViewData?.postId ?? null} />
-					<main className=" pt-[1.6rem] h-[calc(100vh-5.6rem)] pb-[8rem] overflow-y-scroll scrollbar-hidden">
+					<main className=" pt-[1.6rem] h-[calc(100vh-5.6rem)] pb-[6rem] overflow-y-scroll scrollbar-hidden">
 						<BoardContentView boardViewData={boardViewData} viewCheckHandler={viewCheckHandler} />
 						<section className="py-[1.8rem]   space-y-[1.6rem]   ">
 							<div className="flex items-center space-x-[0.4rem]">
