@@ -14,7 +14,7 @@ interface Props {
 	name?: string;
 	onFocus?: () => void;
 	onBlur?: () => void;
-	type?: 'text' | 'tel'; // TODO: 늘리기
+	type?: 'text' | 'tel' | 'number'; // TODO: 늘리기
 }
 function TextInput({
 	id,
