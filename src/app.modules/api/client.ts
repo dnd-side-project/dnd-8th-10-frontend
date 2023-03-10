@@ -44,7 +44,11 @@ client.interceptors.response.use(
 					console.log('리프레시 토큰 갱신 완료됨. ');
 					document.cookie = `ACCESS_TOKEN=${newAccessToken};expires=${expires};path=/;Secure;SameSite=None`;
 					document.cookie = `REFRESH_TOKEN=${newRefreshToken};expires=${expires};path=/;Secure;SameSite=None`;
-					setCookie('REFRESH_TOKEN', newRefreshToken, { path: '/', secure: true, sameSite: 'none', expires });
+
+					if (!getCookie('ACCESS_TOKEN')) {
+						document.cookie = `ACCESS_TOKEN=${newAccessToken}; expires=${expires};path=/;  name=Secure; SameSite=None`;
+						document.cookie = `REFRESH_TOKEN=${newRefreshToken}; expires=${expires};path=/;  name=Secure; SameSite=None`;
+					}
 				}
 
 				return client(originalRequest);

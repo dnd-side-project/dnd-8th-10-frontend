@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { oauth2 } from 'src/app.modules/api/auth';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { AxiosHeaders } from 'axios';
-import { setCookie } from 'src/app.modules/cookie';
+import { getCookie, setCookie } from 'src/app.modules/cookie';
 import client from 'src/app.modules/api/client';
 
 const test = {
@@ -25,8 +25,14 @@ const Login: NextPage = () => {
 				if (accessToken && refreshToken) {
 					const expires = new Date();
 					expires.setFullYear(expires.getFullYear() + 10);
-					document.cookie = `ACCESS_TOKEN=${accessToken};expires=${expires};path=/;Secure;SameSite=None`;
-					document.cookie = `REFRESH_TOKEN=${refreshToken};expires=${expires};path=/;Secure;SameSite=None`;
+					document.cookie = `ACCESS_TOKEN=${accessToken}; expires=${expires};path=/;  Secure; SameSite=None`;
+					document.cookie = `REFRESH_TOKEN=${refreshToken}; expires=${expires};path=/;  Secure; SameSite=None`;
+					if (!getCookie('ACCESS_TOKEN')) {
+						document.cookie = `ACCESS_TOKEN=${accessToken}; expires=${expires};path=/;  name=Secure; SameSite=None`;
+						document.cookie = `REFRESH_TOKEN=${refreshToken}; expires=${expires};path=/;  name=Secure; SameSite=None`;
+					}
+					console.log(accessToken, '쿠키 저장 안되는건가?');
+					setCookie('test', accessToken);
 					client.defaults.headers.Authorization = `Bearer ${accessToken}`;
 				}
 				// 필수정보를 입력하지 않은 경우면 register. 아니면 home으로 이동
@@ -36,8 +42,8 @@ const Login: NextPage = () => {
 					},
 				} = res;
 				const isNewbie = !role;
-				if (isNewbie) router.push(`${SERVICE_URL.register}?page=1&userName=${userName}`);
-				else router.push(SERVICE_URL.home);
+				// if (isNewbie) router.push(`${SERVICE_URL.register}?page=1&userName=${userName}`);
+				// else router.push(SERVICE_URL.home);
 			},
 			onError: (error) => {
 				console.log(error);
