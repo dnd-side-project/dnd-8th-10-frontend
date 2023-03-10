@@ -28,7 +28,7 @@ function SetTimeScreen() {
 	} = useRegisterUserStore();
 
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
-	const { isModalOpen, closeModal, openModal } = useModal();
+	const { isModalOpen, closeAnimationModal, closeModal, openModal } = useModal();
 	const INIT_WORK_TIME = {
 		meridiem: null,
 		hour: null,
@@ -131,14 +131,13 @@ function SetTimeScreen() {
 				</div>
 			</div>
 			{isModalOpen && (
-				<Overlay>
+				<Overlay overlayClickFn={closeModal}>
 					<TopModal>
 						<div className="space-y-[2.4rem] flex flex-col items-center">
 							<span className="text-g10 text-subhead3">
 								언제 {openModalFlag === 'startTime' ? '출근' : '퇴근'}하시나요?
 							</span>
 							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} />
-
 							<Bar
 								ClickFn={workTimeHandler}
 								disabled={!workTimeOnModal.hour || !workTimeOnModal.meridiem || !workTimeOnModal.minute}
