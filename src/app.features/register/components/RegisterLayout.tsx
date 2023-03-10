@@ -15,7 +15,7 @@ function RegisterLayout({ curPage, children, canGoNext }: Props) {
 	const nextHandler = () => {
 		router.push(`${SERVICE_URL.register}?page=${curPage + 1}`);
 	};
-
+	// TODO: text input submit 할때마다 다음 페이지로 옮기기
 	return (
 		<>
 			<Header title={(router?.query?.title as string) ?? ''} />
