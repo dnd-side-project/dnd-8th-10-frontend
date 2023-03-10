@@ -1,5 +1,6 @@
 import { UseMutateFunction } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
+import { COOKIE_KEY } from '../constants/Cookie';
 import { getCookie, setCookie } from '../cookie';
 
 export type MutateTpye<T> = UseMutateFunction<AxiosResponse<any, any>, unknown, T, unknown>;
@@ -9,7 +10,7 @@ const client = axios.create({
 	withCredentials: true,
 	headers: {
 		'Access-Control-Allow-Credentials': true,
-		Authorization: `Bearer ${getCookie('wiseat')}`,
+		Authorization: `Bearer ${getCookie(COOKIE_KEY.ACCESS_TOKEN)}`,
 	},
 });
 
@@ -28,7 +29,7 @@ client.interceptors.response.use(
 				const originalRequest = config;
 				// token refresh 요청
 
-				const refreshToken = getCookie('REFRESH_TOKEN');
+				const refreshToken = getCookie(COOKIE_KEY.REFRESH_TOKEN);
 				const res = await client.get(
 					'/oauth/token/refresh', // token refresh api
 					{ headers: { refresh: refreshToken } }
@@ -41,8 +42,8 @@ client.interceptors.response.use(
 					console.log('엑세스 토큰 갱신 완료됨. ');
 					console.log('리프레시 토큰 갱신 완료됨. ');
 
-					document.cookie = `wiseat=${newAccessToken}; max-age=${3600 * 24 * 7}; Path=/;`;
-					document.cookie = `wisert=${newRefreshToken}; max-age=${3600 * 24 * 7}; Path=/;`;
+					document.cookie = `${COOKIE_KEY.ACCESS_TOKEN}=${newAccessToken}; max-age=${3600 * 24 * 7}; Path=/;`;
+					document.cookie = `${COOKIE_KEY.REFRESH_TOKEN}=${newRefreshToken}; max-age=${3600 * 24 * 7}; Path=/;`;
 				}
 
 				return client(originalRequest);

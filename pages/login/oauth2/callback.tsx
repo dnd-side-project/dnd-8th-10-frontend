@@ -8,6 +8,7 @@ import { AxiosHeaders } from 'axios';
 
 import client from 'src/app.modules/api/client';
 import { getCookie, setCookie } from 'src/app.modules/cookie';
+import { COOKIE_KEY } from 'src/app.modules/constants/Cookie';
 
 const test = {
 	get: {
@@ -24,8 +25,8 @@ const Login: NextPage = () => {
 				const accessToken = res?.headers['authorization']?.split(' ')[1]; // TODO: 토큰 발췌 방식 바꾸기
 				const refreshToken = res?.headers['refresh']?.split(' ')[1];
 				if (accessToken && refreshToken) {
-					document.cookie = `wiseat=${accessToken}; max-age=${3600 * 24 * 7}; Path=/;`;
-					document.cookie = `wisert=${refreshToken}; max-age=${3600 * 24 * 7}; Path=/;`;
+					document.cookie = `${COOKIE_KEY.ACCESS_TOKEN}=${accessToken}; max-age=${3600 * 24 * 7}; Path=/;`;
+					document.cookie = `${COOKIE_KEY.REFRESH_TOKEN}=${refreshToken}; max-age=${3600 * 24 * 7}; Path=/;`;
 
 					client.defaults.headers.Authorization = `Bearer ${accessToken}`;
 				}

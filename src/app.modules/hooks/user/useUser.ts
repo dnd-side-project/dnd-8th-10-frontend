@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import useLocalUserStore from 'src/app.features/mypage/store/user';
 import { getUser } from 'src/app.modules/api/user';
+import { COOKIE_KEY } from 'src/app.modules/constants/Cookie';
 import { getCookie } from 'src/app.modules/cookie';
 
 function useUser() {
@@ -18,7 +19,7 @@ function useUser() {
 		onError: (error) => {
 			console.log(error);
 		},
-		enabled: Boolean(getCookie('wiseat')) || Boolean(getCookie('wisert')), // 토큰이 없으면 유저상태를 가져 올 수 없음. 비로그인 상태로 전환됨
+		enabled: Boolean(getCookie(COOKIE_KEY.ACCESS_TOKEN)) || Boolean(getCookie(COOKIE_KEY.REFRESH_TOKEN)), // 토큰이 없으면 유저상태를 가져 올 수 없음. 비로그인 상태로 전환됨
 	});
 	return { data, refetch, isLoading };
 }
