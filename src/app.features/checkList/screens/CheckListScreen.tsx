@@ -306,7 +306,6 @@ function CheckListScreen({
 												className="aria-hidden:hidden flex items-center w-full space-x-[1rem]"
 											>
 												<input
-													type="text"
 													name="editTodo"
 													onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditContent(e.target.value)}
 													defaultValue={todo.content}
