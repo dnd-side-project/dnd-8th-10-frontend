@@ -51,7 +51,7 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 						점검사항 확인
 					</Bar>
 				</div>
-				{isModalOpen && <LastCheckModal countHistory={countHistory} category="giftcard" />}
+				{isModalOpen && <LastCheckModal closeModal={closeModal} countHistory={countHistory} category="giftcard" />}
 			</main>
 		</>
 	);

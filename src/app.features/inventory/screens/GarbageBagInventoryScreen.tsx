@@ -64,7 +64,7 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 						점검사항 확인
 					</Bar>
 				</div>
-				{isModalOpen && <LastCheckModal countHistory={countHistory} category="garbagebag" />}
+				{isModalOpen && <LastCheckModal closeModal={closeModal} countHistory={countHistory} category="garbagebag" />}
 			</main>
 		</>
 	);

@@ -7,16 +7,17 @@ import { CountHistoryType } from '../types';
 interface Props {
 	countHistory: CountHistoryType;
 	category: 'cigarette' | 'garbagebag' | 'giftcard';
+	closeModal: () => void;
 }
 
-function LastCheckModal({ countHistory, category }: Props) {
+function LastCheckModal({ countHistory, category, closeModal }: Props) {
 	const getIconUrl = () => {
 		if (category === 'cigarette') return "before:content-[url('/images/inventory/cigarette_small.svg')]";
 		if (category === 'garbagebag') return "before:content-[url('/images/inventory/garbagebag_small.svg')]";
 		return "before:content-[url('/images/inventory/giftcard_small.svg')]";
 	};
 	return (
-		<Overlay>
+		<Overlay overlayClickFn={closeModal}>
 			<TopModal>
 				<div className="space-y-[2.4rem] flex flex-col items-start ">
 					<div className={`${getIconUrl()} before:mr-[0.8rem] flex items-center`}>
