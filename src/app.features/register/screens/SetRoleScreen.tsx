@@ -73,7 +73,7 @@ function SetRoleScreen({ userName }: Props) {
 						value="WORKER"
 						className="aria-pressed:text-g9 aria-pressed:text-subhead4 text-g7 text-body3 flex flex-col items-center space-y-[0.8rem]"
 					>
-						<div className="shadow-gray  rounded-[0.8rem]">
+						<div className="shadow-gray  rounded-[0.8rem] max-w-[15.2rem]">
 							{role === 'WORKER' ? <Jsontest1 /> : <InActiveWorkerSvg />}
 						</div>
 						<span>알바생</span>
@@ -85,7 +85,7 @@ function SetRoleScreen({ userName }: Props) {
 						value="MANAGER"
 						className="aria-pressed:text-g9 aria-pressed:text-subhead4 text-g7 text-body3 flex flex-col items-center space-y-[0.8rem]"
 					>
-						<div className="shadow-gray rounded-[0.8rem]">
+						<div className="shadow-gray rounded-[0.8rem]  max-w-[15.2rem]">
 							{role === 'MANAGER' ? <Jsontest2 /> : <InActiveManagerSvg />}
 						</div>
 						<span>점장</span>
