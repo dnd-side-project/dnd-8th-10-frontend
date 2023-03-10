@@ -37,6 +37,7 @@ function SetWageScreen() {
 					resetHandler={resetWageHandler}
 					mode="default"
 					placeholder="현재 최저임금은 9,620원입니다."
+					type="number"
 				/>
 			</div>
 		</RegisterLayout>

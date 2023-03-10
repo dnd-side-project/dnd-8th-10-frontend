@@ -14,6 +14,7 @@ interface Props {
 	name?: string;
 	onFocus?: () => void;
 	onBlur?: () => void;
+	type?: 'text' | 'tel' | 'number'; // TODO: 늘리기
 }
 function TextInput({
 	id,
@@ -27,6 +28,7 @@ function TextInput({
 	onFocus,
 	onBlur,
 	onKeyDown,
+	type = 'text',
 }: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const onSubmit = (e: React.FormEvent) => {
@@ -51,7 +53,7 @@ function TextInput({
 				value={value}
 				onChange={onChange}
 				placeholder={placeholder}
-				type="text"
+				type={type}
 				className={`w-full ${
 					mode !== 'wide' ? 'rounded-[0.8rem]' : ''
 				} bg-[#F8F8FA] ${getPadding()} text-body2   placeholder:text-g7 text-g9   outline-none`}
