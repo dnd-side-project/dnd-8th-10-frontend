@@ -15,7 +15,7 @@ interface Props {
 }
 function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLoading }: Props) {
 	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
-	const { isModalOpen, closeModal, openModal } = useModal();
+	const { isModalOpen, closeAnimationModal: closeModal, openModal } = useModal();
 	const submitInventoryRecord = (category: string) => {
 		if (editInventoryLoading) return;
 		const list = Object.keys(countHistory).map((inventoryName) => ({
@@ -24,7 +24,6 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 		}));
 		const body = { category, list };
 		editInventory(body);
-		closeModal();
 	};
 	return (
 		<>
@@ -39,7 +38,7 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 					/>
 				)}
 				<div
-					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient   z-50 aria-hidden:hidden"
+					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient   "
 					aria-hidden={isModalOpen}
 				>
 					<Bar
@@ -48,10 +47,10 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 							openModal();
 						}}
 					>
-						점검사항 확인
+						점검사항 저장
 					</Bar>
 				</div>
-				{isModalOpen && <LastCheckModal countHistory={countHistory} category="giftcard" />}
+				{isModalOpen && <LastCheckModal closeModal={closeModal} countHistory={countHistory} category="giftcard" />}
 			</main>
 		</>
 	);
