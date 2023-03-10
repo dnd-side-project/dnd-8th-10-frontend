@@ -17,7 +17,7 @@ interface Props {
 
 function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventoryLoading }: Props) {
 	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
-	const { isModalOpen, closeModal, openModal } = useModal();
+	const { isModalOpen, closeAnimationModal: closeModal, openModal } = useModal();
 	const submitInventoryRecord = (category: string) => {
 		if (editInventoryLoading) return;
 		const list = Object.keys(countHistory).map((inventoryName) => ({
@@ -27,7 +27,6 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 		const body = { category, list };
 		console.log(body);
 		editInventory(body);
-		closeModal();
 	};
 	const [filter, setFilter] = useState<'일반 쓰레기' | '음식물 쓰레기'>('일반 쓰레기');
 	const filterHandler = (e: React.BaseSyntheticEvent) => {
@@ -52,7 +51,7 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 					/>
 				)}
 				<div
-					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient   z-50 aria-hidden:hidden"
+					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient "
 					aria-hidden={isModalOpen}
 				>
 					<Bar
@@ -61,10 +60,10 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 							openModal();
 						}}
 					>
-						점검사항 확인
+						점검사항 저장
 					</Bar>
 				</div>
-				{isModalOpen && <LastCheckModal countHistory={countHistory} category="garbagebag" />}
+				{isModalOpen && <LastCheckModal closeModal={closeModal} countHistory={countHistory} category="garbagebag" />}
 			</main>
 		</>
 	);
