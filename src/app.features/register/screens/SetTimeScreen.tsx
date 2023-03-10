@@ -28,7 +28,7 @@ function SetTimeScreen() {
 	} = useRegisterUserStore();
 
 	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
-	const { isModalOpen, closeModal, openModal } = useModal();
+	const { isModalOpen, closeAnimationModal, closeModal, openModal } = useModal();
 	const INIT_WORK_TIME = {
 		meridiem: null,
 		hour: null,
@@ -95,7 +95,7 @@ function SetTimeScreen() {
 				<div className="flex flex-col space-y-[3.2rem]">
 					<div className="space-y-[0.8rem] w-full">
 						<h2 className="text-g6 text-body2">근무요일(복수선택 가능)</h2>
-						<ul className="grid  grid-cols-7  ">
+						<ul className="grid  grid-cols-7 max-w-[31rem] ml-[0.5rem] ">
 							{/* TODO: 간격 화면 크기별로 대응 */}
 							{['6', '0', '1', '2', '3', '4', '5'].map((item, index) => (
 								<li key={index} className="mx-auto">
@@ -131,14 +131,13 @@ function SetTimeScreen() {
 				</div>
 			</div>
 			{isModalOpen && (
-				<Overlay>
+				<Overlay overlayClickFn={closeModal}>
 					<TopModal>
 						<div className="space-y-[2.4rem] flex flex-col items-center">
 							<span className="text-g10 text-subhead3">
 								언제 {openModalFlag === 'startTime' ? '출근' : '퇴근'}하시나요?
 							</span>
 							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} />
-
 							<Bar
 								ClickFn={workTimeHandler}
 								disabled={!workTimeOnModal.hour || !workTimeOnModal.meridiem || !workTimeOnModal.minute}
