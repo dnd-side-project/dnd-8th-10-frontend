@@ -254,6 +254,7 @@ function CheckListScreen({
 									</div>
 									<input
 										type="text"
+										enterKeyHint="done"
 										name="addTodo"
 										value={newTodo}
 										autoComplete="off"
@@ -312,6 +313,8 @@ function CheckListScreen({
 													autoComplete="off"
 													// eslint-disable-next-line jsx-a11y/no-autofocus
 													autoFocus
+													type="text"
+													enterKeyHint="done"
 													onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
 														if (e.key === 'Enter') {
 															editTodoHandler(todo.status);
