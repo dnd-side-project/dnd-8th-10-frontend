@@ -136,7 +136,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 				<div className="flex flex-col space-y-[3.2rem]">
 					<div className="space-y-[0.8rem] w-full">
 						<h2 className="text-g6 text-subhead1">요일 선택</h2>
-						<ul className="grid  grid-cols-7  ">
+						<ul className="grid  grid-cols-7 max-w-[31rem] ml-[0.5rem] ">
 							{/* TODO: 간격 화면 크기별로 대응 */}
 							{['6', '0', '1', '2', '3', '4', '5'].map((day, index) => (
 								<li key={index} className="mx-auto">
