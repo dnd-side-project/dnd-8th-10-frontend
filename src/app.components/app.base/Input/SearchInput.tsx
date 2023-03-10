@@ -27,7 +27,7 @@ function SearchInput({
 		inputRef.current.blur();
 	};
 	return (
-		<form onSubmit={onSubmit} className="relative">
+		<form onSubmit={onSubmit} role="search" className="relative">
 			{!isSearched && <SearchIcon className="absolute left-[1.2rem] top-1/2 -translate-y-1/2" />}
 			<input
 				ref={inputRef}
