@@ -258,6 +258,7 @@ function CheckListScreen({
 										name="addTodo"
 										value={newTodo}
 										autoComplete="off"
+										autoCapitalize="off"
 										onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
 										// eslint-disable-next-line jsx-a11y/no-autofocus
 										autoFocus
@@ -311,6 +312,7 @@ function CheckListScreen({
 													onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditContent(e.target.value)}
 													defaultValue={todo.content}
 													autoComplete="off"
+													autoCapitalize="off"
 													// eslint-disable-next-line jsx-a11y/no-autofocus
 													autoFocus
 													type="text"
