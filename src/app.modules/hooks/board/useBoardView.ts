@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { boardView } from 'src/app.features/board/api';
+import { getCookie } from 'src/app.modules/cookie';
 
 function useBoardView(id: string | string[] | undefined) {
 	const {

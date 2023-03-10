@@ -21,6 +21,7 @@ function WorkerScreen() {
 	// 직원 급여 페이지
 	const { year, month, modalCalData } = useStore();
 	const { isModalOpen, openModal, closeAnimationModal } = useModal();
+
 	const [salaryData, setSalaryData] = useState<ISalaryData[]>([]);
 	const [workHour, setWorkHour] = useState<number>();
 	const router = useRouter();
