@@ -9,7 +9,7 @@ const client = axios.create({
 	withCredentials: true,
 	headers: {
 		'Access-Control-Allow-Credentials': true,
-		Authorization: `Bearer ${getCookie('ACCESS_TOKEN')}`,
+		Authorization: `Bearer ${getCookie('wiseat')}`,
 	},
 });
 
@@ -36,19 +36,13 @@ client.interceptors.response.use(
 				const newAccessToken = res?.headers['authorization']?.split(' ')[1]; // TODO: 토큰 발췌 방식 바꾸기
 				const newRefreshToken = res?.headers['refresh']?.split(' ')[1];
 				if (newAccessToken && newRefreshToken) {
-					const expires = new Date();
-					expires.setFullYear(expires.getFullYear() + 10);
 					originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 					client.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
 					console.log('엑세스 토큰 갱신 완료됨. ');
 					console.log('리프레시 토큰 갱신 완료됨. ');
-					document.cookie = `ACCESS_TOKEN=${newAccessToken};expires=${expires};path=/;Secure;SameSite=None`;
-					document.cookie = `REFRESH_TOKEN=${newRefreshToken};expires=${expires};path=/;Secure;SameSite=None`;
 
-					if (!getCookie('ACCESS_TOKEN')) {
-						document.cookie = `ACCESS_TOKEN=${newAccessToken}; expires=${expires};path=/;  name=Secure; SameSite=None`;
-						document.cookie = `REFRESH_TOKEN=${newRefreshToken}; expires=${expires};path=/;  name=Secure; SameSite=None`;
-					}
+					document.cookie = `wiseat=${newAccessToken}; max-age=${3600 * 24 * 7}; Path=/;`;
+					document.cookie = `wisert=${newRefreshToken}; max-age=${3600 * 24 * 7}; Path=/;`;
 				}
 
 				return client(originalRequest);

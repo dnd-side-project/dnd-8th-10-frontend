@@ -19,10 +19,10 @@ function Mypage() {
 
 		const res = await logout();
 		console.log(res);
-		document.cookie = 'ACCESS_TOKEN=; expires=Thu, 01 Jan 1999 00:00:10 GMT;path=/;';
-		document.cookie = 'REFRESH_TOKEN=; expires=Thu, 01 Jan 1999 00:00:10 GMT;path=/;';
-		document.cookie = 'USER=; expires=Thu, 01 Jan 1999 00:00:10 GMT;path=/;';
-		document.cookie = 'STORE=; expires=Thu, 01 Jan 1999 00:00:10 GMT;path=/;';
+		document.cookie = 'wiseat=; max-age=-1 ;path=/;';
+		document.cookie = 'wisert=; max-age=-1 ;path=/;';
+		document.cookie = 'USER=; max-age=-1 ;path=/;';
+		document.cookie = 'STORE=; max-age=-1 ;path=/;';
 
 		window.location.href = SERVICE_URL.login;
 	};
