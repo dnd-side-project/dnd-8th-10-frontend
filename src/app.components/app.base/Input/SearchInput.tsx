@@ -38,6 +38,7 @@ function SearchInput({
 				onFocus={onFocus}
 				onBlur={onBlur}
 				readOnly={isSearched}
+				autoCapitalize="off"
 				className={`w-full h-[4.8rem] rounded-[0.8rem] bg-[#F8F8FA] ${
 					isSearched ? 'pl-[1.2rem]' : 'pl-[4.4rem]'
 				} text-body2   placeholder:text-g7 text-g9  pr-[1.2rem] py-[1.4rem] outline-none`}
