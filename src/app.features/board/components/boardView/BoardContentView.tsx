@@ -7,6 +7,7 @@ import useImgModal from '../../store/imgModal';
 import ImageModal from './ImageModal';
 import 'swiper/css';
 import { boardImgLoad } from '../../api';
+import Divider from 'src/app.components/Divider';
 
 interface Props {
 	boardViewData: IBoardViewData;
@@ -28,7 +29,7 @@ function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 	return (
 		<section>
 			{boardViewData && (
-				<>
+				<div>
 					<div className="mb-[1.6rem]">
 						<div className="flex items-center">
 							<span className="text-subhead2 text-g9">{boardViewData.title}</span>
@@ -41,19 +42,15 @@ function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 							</span>
 						</div>
 					</div>
-					<div
-						className={`flex w-[calc(100%+4rem)] -translate-x-[2rem] mb-[0.8rem] ${
-							imgData.length === 1 && 'px-[2rem]'
-						}`}
-					>
+					<div className="flex w-[calc(100%+4rem)] -translate-x-[2rem] mb-[0.8rem]">
 						<Swiper
 							slidesPerView="auto"
 							spaceBetween={imgData.length > 1 ? 8 : 0}
 							slidesOffsetBefore={imgData.length > 1 ? 20 : 0}
-							slidesOffsetAfter={imgData.length > 1 ? 20 : 0}
+							slidesOffsetAfter={imgData.length > 1 ? 15 : 0}
 						>
 							{imgData.map((_, index) => (
-								<SwiperSlide key={index} style={{ width: `${imgData.length > 1 ? '90%' : '100%'}` }}>
+								<SwiperSlide key={index} style={{ width: '100%' }}>
 									<button
 										type="button"
 										onClick={() => {
@@ -85,7 +82,7 @@ function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 						</button>
 						<div>조회 {boardViewData.viewCount}</div>
 					</div>
-				</>
+				</div>
 			)}
 			{isImgModalOpen && <ImageModal imgData={imgData} />}
 		</section>
