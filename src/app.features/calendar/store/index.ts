@@ -13,6 +13,8 @@ interface IStore {
 	modalCalData: (clickDay: string, workDay?: boolean) => void;
 	isDayReset: () => void;
 	setCalendar: (year: number, month: number) => void;
+	recordComplete: boolean;
+	setRecordComplete: () => void;
 }
 const today = new Date();
 const useStore = create<IStore>((set) => ({
@@ -27,6 +29,8 @@ const useStore = create<IStore>((set) => ({
 	modalCalData: (clickDay, workDay) => set(() => ({ clickDay, workDay })),
 	isDayReset: () => set(() => ({ clickDay: '' })),
 	setCalendar: (year, month) => set(() => ({ year, month })),
+	recordComplete: false,
+	setRecordComplete: () => set((state) => ({ ...state, recordComplete: !state.recordComplete })),
 }));
 
 export default useStore;

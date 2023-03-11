@@ -25,7 +25,7 @@ function CalendarScreen({ currentUser }: Props) {
 		month: 0,
 		day: [],
 	});
-	const { year, month, setCalendar, modalCalData, isDayReset } = useStore();
+	const { year, month, setCalendar, modalCalData, isDayReset, setRecordComplete, recordComplete } = useStore();
 	const { isModalOpen, openModal, closeModal, closeAnimationModal } = useModal();
 	const { isJump, keypadChange } = useKeypadStore();
 	const router = useRouter();
@@ -89,10 +89,13 @@ function CalendarScreen({ currentUser }: Props) {
 	}, [month, getGrayRefetch, WorkData, isJump]);
 
 	useEffect(() => {
-		if (!isModalOpen) {
+		if (recordComplete) {
+			openModal();
+			setRecordComplete();
+		} else {
 			isDayReset();
 		}
-	}, [isModalOpen]);
+	}, []);
 
 	const salary = () => {
 		router.push(`${SERVICE_URL.calendarSalary}`);
@@ -167,7 +170,14 @@ function CalendarScreen({ currentUser }: Props) {
 				</div>
 			</div>
 			{isModalOpen && (
-				<Overlay overlayClickFn={() => closeAnimationModal()}>
+				<Overlay
+					overlayClickFn={() => {
+						closeAnimationModal();
+						setTimeout(() => {
+							isDayReset();
+						}, 500);
+					}}
+				>
 					<TopModal bgColor="bg-g1">
 						<ModalWrap currentUser={currentUser} closeModal={closeModal} />
 					</TopModal>

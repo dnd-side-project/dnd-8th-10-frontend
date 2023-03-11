@@ -8,7 +8,6 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, openModal
 	const { toDay, clickDay, modalCalData } = useStore();
 	const { month, day } = schedule;
 	const days = [];
-
 	const makeDay = (week: number) => {
 		const result = [];
 		// 첫 주

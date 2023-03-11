@@ -33,31 +33,37 @@ function WorkList({ month, day, userName, currentUser }: Props) {
 			</div>
 			<div>
 				{userName.length > 0 ? (
-					userName.map((item, index) => (
-						<div className="my-[2.4rem] flex items-center justify-between" key={index}>
-							<div className="flex items-center">
-								<ProfileImage size="lg" userProfileCode={item.userProfileCode} />
-								<span className="text-subhead2 text-g10 mx-[0.8rem]">{item.name}</span>
-								<span className="text-body2 text-g8">
-									{`${WorkListTimeView(item.workTime.split('~')[0])} - ${WorkListTimeView(
-										item.workTime.split('~')[1]
-									)}`}
-								</span>
+					userName
+						.sort((a, b) => {
+							const aTime = parseInt(a.workTime.split('~')[1].replace(':', ''), 10);
+							const bTime = parseInt(b.workTime.split('~')[1].replace(':', ''), 10);
+							return aTime - bTime;
+						})
+						.map((item, index) => (
+							<div className="my-[2.4rem] flex items-center justify-between" key={index}>
+								<div className="flex items-center">
+									<ProfileImage size="lg" userProfileCode={item.userProfileCode} />
+									<span className="text-subhead2 text-g10 mx-[0.8rem]">{item.name}</span>
+									<span className="text-body2 text-g8">
+										{`${WorkListTimeView(item.workTime.split('~')[0])} - ${WorkListTimeView(
+											item.workTime.split('~')[1]
+										)}`}
+									</span>
+								</div>
+								<div>
+									{item.name === currentUser && (
+										<button
+											className="bg-w px-[0.9rem] py-[0.4rem] border-solid border-[0.15rem] border-g4  rounded-[0.8rem]"
+											onClick={() => {
+												router.push(`${SERVICE_URL.calendarRecord}/${item.timeCardId}?title=${'modify'}`);
+											}}
+										>
+											<span className="text-[1.4rem] text-g9">출근수정</span>
+										</button>
+									)}
+								</div>
 							</div>
-							<div>
-								{item.name === currentUser && (
-									<button
-										className="bg-w px-[0.9rem] py-[0.4rem] border-solid border-[0.15rem] border-g4  rounded-[0.8rem]"
-										onClick={() => {
-											router.push(`${SERVICE_URL.calendarRecord}/${item.timeCardId}?title=${'modify'}`);
-										}}
-									>
-										<span className="text-[1.4rem] text-g9">출근수정</span>
-									</button>
-								)}
-							</div>
-						</div>
-					))
+						))
 				) : (
 					<div className="text-center mb-[1.2rem] mt-[2.4rem]">
 						<span className="text-body3 text-g7">아직 기록이 없어요.</span>
