@@ -13,7 +13,7 @@ interface Props {
 export const Admin: React.FC<Props> = ({ children, data, type = '' }) => {
 	if (data !== 'MANAGER') {
 		return (
-			<div className="h-[100vh]">
+			<div className="min-h-[100vh]">
 				<WorkerScreen />
 			</div>
 		);
@@ -25,7 +25,7 @@ const SalaryPage: NextPage = () => {
 	const { data, isLoading } = useUser();
 
 	return (
-		<div className="h-[100vh] mx-auto relative w-full">
+		<div className="min-h-[100vh] mx-auto relative w-full">
 			{!isLoading && (
 				<Admin data={data.role} type="detail">
 					<ManagerScreen />

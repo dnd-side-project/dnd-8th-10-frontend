@@ -35,8 +35,14 @@ function WorkList({ month, day, userName, currentUser }: Props) {
 				{userName.length > 0 ? (
 					userName
 						.sort((a, b) => {
-							const aTime = parseInt(a.workTime.split('~')[1].replace(':', ''), 10);
-							const bTime = parseInt(b.workTime.split('~')[1].replace(':', ''), 10);
+							let aTime = parseInt(a.workTime.split('~')[1].replace(':', ''), 10);
+							let bTime = parseInt(b.workTime.split('~')[1].replace(':', ''), 10);
+							if (aTime >= 2400) {
+								aTime -= 2400;
+							}
+							if (bTime >= 2400) {
+								bTime -= 2400;
+							}
 							return aTime - bTime;
 						})
 						.map((item, index) => (

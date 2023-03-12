@@ -168,7 +168,6 @@ export const viewTimeFormat = (time: Time) => {
 const fixTime = (time: string) => {
 	const [hour, minute] = time.split(':').map(Number);
 	if (hour === 24) {
-		// hour가 24인 경우, 00으로 변경
 		return new Date(`2023-01-01T00:${minute.toString().padStart(2, '0')}`);
 	}
 	return new Date(`2023-01-01T${time}`);
@@ -184,7 +183,14 @@ export const workTimeDuplication = (workTime: string, workingTime: string[]) => 
 		const minTime = fixTime(workingStart);
 		const maxTime = fixTime(workingEnd);
 
-		const innerTime = minTime < workEndTime && maxTime > workStartTime;
+		let innerTime = false;
+
+		if (minTime < maxTime) {
+			innerTime = minTime <= workEndTime && maxTime >= workStartTime;
+		} else {
+			innerTime =
+				minTime <= workEndTime || maxTime >= workStartTime || (workStartTime >= minTime && workEndTime <= maxTime);
+		}
 
 		if (innerTime) {
 			return true;
