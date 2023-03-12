@@ -21,10 +21,10 @@ function Bar({
 }: Props) {
 	const className = () => {
 		if (mode === 'wide') {
-			return 'fixed max-w-[42rem] mx-auto inset-x-0 bottom-0';
+			return 'fixed max-w-[50rem] mx-auto inset-x-0 bottom-0';
 		}
 		if (mode === 'wide2') {
-			return 'h-[8rem] fixed max-w-[42rem] mx-auto inset-x-0 bottom-0 pt-[1.9rem] pb-[3.9rem]';
+			return 'h-[8rem] fixed max-w-[50rem] mx-auto inset-x-0 bottom-0 pt-[1.9rem] pb-[3.9rem]';
 		}
 		return 'rounded-[0.8rem] w-full';
 	};
