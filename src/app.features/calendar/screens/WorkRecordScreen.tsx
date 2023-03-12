@@ -53,9 +53,17 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 	const modifyBtn = async () => {
 		const workTimeData = getWorkTimeString(startTime, endTime);
 		const [start, end] = workTimeData.split('~');
-		const startSplit = Number(start.split(':')[0]) * 60 + Number(start.split(':')[1]);
-		const endSplit = Number(end.split(':')[0]) * 60 + Number(end.split(':')[1]);
-		const timeDiff = Number(Math.abs((startSplit - endSplit) / 60));
+		const [startHour, startMinute] = start.split(':').map(Number);
+		let endHour = end.split(':').map(Number)[0];
+		const endMinute = end.split(':').map(Number)[1];
+		// 24시 이후 시간 처리
+		if (endHour < startHour || (endHour === startHour && endMinute < startMinute)) {
+			endHour += 24;
+		}
+
+		const startSplit = startHour * 60 + startMinute;
+		const endSplit = endHour * 60 + endMinute;
+		const timeDiff = Math.abs((startSplit - endSplit) / 60);
 		// 출근 시간 겹칠때
 		if (workTimeDuplication(workTimeData, workingTime)) {
 			DupleOpenModal();
