@@ -36,3 +36,8 @@ export const deleteUser = async () => {
 	const res = await client.delete('/api/user');
 	return res;
 };
+
+export const getUserPost = async () => {
+	const res = await client.get('/api/myPost');
+	return res;
+};

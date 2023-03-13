@@ -14,6 +14,7 @@ import Badge from 'src/app.components/app.base/Button/Badge';
 import useModal from 'src/app.modules/hooks/useModal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import Modal from 'src/app.components/Modal/Modal';
+import Link from 'next/link';
 import { IUser } from '../types';
 
 interface Props {
@@ -52,7 +53,7 @@ function MyPageScreen({ user, logoutHandler }: Props) {
 				<div className="py-[2.4rem]">
 					<ul className=" space-y-[2rem]">
 						<li className=" border-solid border-b-[0.1rem] pb-[2rem] border-g3 w-full flex flex-col space-y-[0.2rem] text-subhead2 text-g9">
-							내가 쓴글
+							<Link href={SERVICE_URL.mypost}>내가 쓴글</Link>
 						</li>
 						<li className=" border-solid border-b-[0.1rem] pb-[2rem] border-g3 w-full flex flex-col space-y-[0.2rem] text-subhead2 text-g9">
 							문의하기
