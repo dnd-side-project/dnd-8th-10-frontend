@@ -8,6 +8,7 @@ import StoreIcon from 'src/app.modules/assets/mypage/store.svg';
 import CallingIcon from 'src/app.modules/assets/mypage/calling.svg';
 import { getSplittedWorkPlaceString } from 'src/app.modules/util/getSplittedWorkPlaceString';
 import { IUser } from '../types';
+import { getFormmatedWorkTime } from '../utils/getFormattedWorkTime';
 
 interface IStore {
 	storeLocation: '경기도 수원시 영통구 영통동 1008-1';
@@ -23,7 +24,7 @@ function MyStoreScreen({ store }: Props) {
 	return (
 		<>
 			<Header title={store?.storeName?.split(' ')[1] ?? ''} />
-			<main className="h-[100vh] pt-[7.6rem] text-g9">
+			<main className="h-fit min-h-[100vh] pt-[7.6rem] text-g9">
 				<InfoBox className="flex justify-start items-start space-x-[0.8rem] mb-[1.6rem]">
 					<StoreIcon className="w-[2.4rem] h-[2.4rem]" />
 					<div className="flex flex-col space-y-[0.8rem]">
@@ -35,7 +36,7 @@ function MyStoreScreen({ store }: Props) {
 				<div className="py-[2.4rem] space-y-[2.4rem]">
 					<div className="space-y-[0.8rem]">
 						<span className=" text-g6 text-subhead1">점장</span>
-						<ul className="space-y-[1.6rem] ">
+						<ul className="space-y-[2.4rem] ">
 							{store?.userList
 								?.filter((item) => item.role === 'MANAGER')
 								.map((item, index) => (
@@ -45,10 +46,10 @@ function MyStoreScreen({ store }: Props) {
 											<div className="flex flex-col space-y-[0.4rem]">
 												<span className="text-subhead2">{item.userName}</span>
 												<ul className="gap-[0.8rem] flex flex-wrap">
-													{item.workTime.split(',').map((time, idx) => (
+													{item.workTime.split(',').map((partTime, idx) => (
 														<li key={`time-${idx}`}>
 															<Badge size="small" color="warmGray">
-																<span className="text-body1">{time}</span>
+																<span className="text-body1">{getFormmatedWorkTime(partTime)}</span>
 															</Badge>
 														</li>
 													))}
@@ -68,7 +69,7 @@ function MyStoreScreen({ store }: Props) {
 					</div>
 					<div className="space-y-[0.8rem]">
 						<span className=" text-g6 text-subhead1">알바생</span>
-						<ul className="space-y-[1.6rem] ">
+						<ul className="space-y-[2.4rem] ">
 							{store?.userList
 								?.filter((item) => item.role === 'WORKER')
 								.map((item, index) => (
@@ -78,10 +79,10 @@ function MyStoreScreen({ store }: Props) {
 											<div className="flex flex-col space-y-[0.4rem]">
 												<span className="text-subhead2">{item.userName}</span>
 												<ul className="gap-[0.8rem] flex flex-wrap">
-													{item.workTime.split(',').map((time, idx) => (
+													{item.workTime.split(',').map((partTime, idx) => (
 														<li key={`time-${idx}`}>
 															<Badge size="small" color="warmGray">
-																<span className="text-body1">{time}</span>
+																<span className="text-body1">{getFormmatedWorkTime(partTime)}</span>
 															</Badge>
 														</li>
 													))}

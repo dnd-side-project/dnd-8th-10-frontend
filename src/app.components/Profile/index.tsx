@@ -1,4 +1,5 @@
 import { start } from 'repl';
+import { getFormmatedWorkTime } from 'src/app.features/mypage/utils/getFormattedWorkTime';
 import Badge from '../app.base/Button/Badge';
 import ProfileImage from '../ProfileImage';
 
@@ -8,16 +9,7 @@ interface Props {
 	workTime: string;
 	kakaoEmail: string;
 }
-const getFormmatedWorkTime = (partTime: string) => {
-	const day = partTime[0];
-	const [startTime, endTime] = partTime.slice(2, -1).split('~');
-	const [startTimeHour, startTimeMinute] = startTime.split(':');
-	const [endTimeHour, endTimeMinute] = endTime.split(':');
-	const getMeridem = (hour: string) => (+hour < 12 || +hour >= 24 ? '오전' : '오후');
-	return `${day}(${getMeridem(startTimeHour)} ${+startTimeHour % 12}:${startTimeMinute} - ${getMeridem(endTimeHour)}${
-		+endTimeHour % 12
-	}:${endTimeMinute})`;
-};
+
 function Profile({ userProfileCode, userName, workTime, kakaoEmail }: Props) {
 	return (
 		<div className="flex  items-start space-x-[1.2rem]">
