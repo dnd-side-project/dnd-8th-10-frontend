@@ -9,8 +9,6 @@ import Profile from 'src/app.components/Profile';
 import { useRouter } from 'next/router';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import Navigation from 'src/app.components/Navigation';
-import Tap from 'src/app.components/app.base/Button/Tap';
-import Badge from 'src/app.components/app.base/Button/Badge';
 import useModal from 'src/app.modules/hooks/useModal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import Modal from 'src/app.components/Modal/Modal';
