@@ -9,14 +9,15 @@ import { IUser } from '../types';
 
 interface Props {
 	user: IUser;
+	delelteUserMutate: any; // TODO:any 없애기
 }
 
-function ProfileSettingScreen({ user }: Props) {
+function ProfileSettingScreen({ user, delelteUserMutate }: Props) {
 	const router = useRouter();
 	return (
 		<>
 			<Header title="회원정보 수정" />
-			<main className="h-[100vh] pt-[7.6rem] text-g9">
+			<main className="h-[100vh] pt-[7.6rem] text-g9 relative">
 				<ul className="space-y-[2rem]">
 					<li className="flex items-center  justify-between border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
 						<span className="text-subhead2">이름</span>
@@ -63,6 +64,13 @@ function ProfileSettingScreen({ user }: Props) {
 						</button>
 					</li>
 				</ul>
+				<div className="absolute bottom-[2rem] right-0">
+					<Badge color="white" size="large">
+						<button onClick={() => delelteUserMutate()} className="text-g9 text-subhead2 px-[0.6rem]">
+							탈퇴하기
+						</button>
+					</Badge>
+				</div>
 			</main>
 		</>
 	);

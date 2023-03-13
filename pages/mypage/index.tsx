@@ -8,6 +8,7 @@ import { COOKIE_KEY } from 'src/app.modules/constants/Cookie';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { removeCookie } from 'src/app.modules/cookie';
 import useUser from 'src/app.modules/hooks/user/useUser';
+import { deleteAllCookie, routeToLoginPage } from 'src/app.modules/util/logout';
 
 function Mypage() {
 	const router = useRouter();
@@ -20,13 +21,8 @@ function Mypage() {
 
 		const res = await logout();
 		console.log(res);
-		// TODO: 반복문화 시키기
-		document.cookie = `${COOKIE_KEY.ACCESS_TOKEN}=; max-age=-1 ;path=/;`;
-		document.cookie = `${COOKIE_KEY.REFRESH_TOKEN}=; max-age=-1 ;path=/;`;
-		document.cookie = `${COOKIE_KEY.USER}=; max-age=-1 ;path=/;`;
-		document.cookie = `${COOKIE_KEY.STORE}=; max-age=-1 ;path=/;`;
-
-		window.location.href = SERVICE_URL.login;
+		deleteAllCookie();
+		routeToLoginPage();
 	};
 	return <MyPageScreen user={data ?? localUser} logoutHandler={logoutHandler} />;
 }

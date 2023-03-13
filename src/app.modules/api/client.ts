@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { COOKIE_KEY } from '../constants/Cookie';
 import { SERVICE_URL } from '../constants/ServiceUrl';
 import { getCookie, setCookie } from '../cookie';
+import { deleteAllCookie, routeToLoginPage } from '../util/logout';
 
 export type MutateTpye<T> = UseMutateFunction<AxiosResponse<any, any>, unknown, T, unknown>;
 
@@ -49,7 +50,8 @@ client.interceptors.response.use(
 
 				return client(originalRequest);
 			} catch (refreshError) {
-				window.location.href = SERVICE_URL.login;
+				deleteAllCookie();
+				routeToLoginPage();
 				return Promise.reject(refreshError);
 			}
 		}
