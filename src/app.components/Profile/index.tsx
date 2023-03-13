@@ -27,7 +27,7 @@ function Profile({ userProfileCode, userName, workTime, kakaoEmail }: Props) {
 					<span className="text-g10 text-subhead4">{userName}님</span>
 					<span className="text-g7 text-body2">{kakaoEmail}</span>
 				</div>
-				<div className="flex flex-nowrap gap-[0.8rem]  overflow-x-scroll  w-[calc(100vw-9.2rem]  touch-pan-x max-w-[calc(50rem-9.2rem)] scrollbar-hidden ">
+				<div className="absolute flex gap-[0.8rem]  overflow-x-scroll   touch-pan-x w-[calc(100vw-9.2rem)] max-w-[calc(50rem-9.2rem)] scrollbar-hidden ">
 					{workTime.split(',').map((partTime, index) => (
 						<Badge key={index} color="warmGray" size="small">
 							<span className="text-body1 whitespace-nowrap">{getFormmatedWorkTime(partTime)}</span>

@@ -9,6 +9,7 @@ export const deleteAllCookie = () => {
 	document.cookie = `${COOKIE_KEY.STORE}=; max-age=-1 ;path=/;`;
 };
 export const routeToLoginPage = () => {
+	console.log('로그아웃');
 	setTimeout(() => {
 		window.location.href = SERVICE_URL.login;
 	}, 250);
