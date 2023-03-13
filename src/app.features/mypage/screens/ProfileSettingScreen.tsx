@@ -5,6 +5,9 @@ import Header from 'src/app.components/Header';
 import XIcon from 'src/app.modules/assets/mypage/x.svg';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import EditIcon from 'src/app.modules/assets/edit.svg';
+import useModal from 'src/app.modules/hooks/useModal';
+import Overlay from 'src/app.components/Modal/Overlay';
+import Modal from 'src/app.components/Modal/Modal';
 import { IUser } from '../types';
 import { getFormmatedWorkTime } from '../utils/getFormattedWorkTime';
 
@@ -15,6 +18,7 @@ interface Props {
 
 function ProfileSettingScreen({ user, delelteUserMutate }: Props) {
 	const router = useRouter();
+	const { isModalOpen, closeModal, openModal } = useModal();
 	return (
 		<>
 			<Header title="회원정보 수정" />
@@ -67,12 +71,27 @@ function ProfileSettingScreen({ user, delelteUserMutate }: Props) {
 				</ul>
 				<div className="absolute bottom-[2rem] right-0">
 					<Badge color="white" size="large">
-						<button onClick={() => delelteUserMutate()} className="text-g9 text-subhead2 px-[0.6rem]">
+						<button onClick={openModal} className="text-g9 text-subhead2 px-[0.6rem]">
 							탈퇴하기
 						</button>
 					</Badge>
 				</div>
 			</main>
+			{isModalOpen && (
+				<Overlay
+					overlayClickFn={() => {
+						closeModal();
+					}}
+				>
+					<Modal
+						title="정말 탈퇴하시는 건가요?"
+						yesFn={() => delelteUserMutate()}
+						yesTitle="탈퇴"
+						noFn={closeModal}
+						noTitle="아니오"
+					/>
+				</Overlay>
+			)}
 		</>
 	);
 }
