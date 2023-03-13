@@ -44,7 +44,7 @@ function SetPhoneNumScreen() {
 					onChange={phoneNumberHandler}
 					resetHandler={resetPhoneNumberHandler}
 					mode="default"
-					placeholder="010-0000-0000"
+					placeholder="01012345678"
 					type="tel"
 				/>
 			</div>

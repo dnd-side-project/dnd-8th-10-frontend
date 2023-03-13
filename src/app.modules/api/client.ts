@@ -1,6 +1,7 @@
 import { UseMutateFunction } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
 import { COOKIE_KEY } from '../constants/Cookie';
+import { SERVICE_URL } from '../constants/ServiceUrl';
 import { getCookie, setCookie } from '../cookie';
 
 export type MutateTpye<T> = UseMutateFunction<AxiosResponse<any, any>, unknown, T, unknown>;
@@ -48,6 +49,7 @@ client.interceptors.response.use(
 
 				return client(originalRequest);
 			} catch (refreshError) {
+				window.location.href = SERVICE_URL.login;
 				return Promise.reject(refreshError);
 			}
 		}
