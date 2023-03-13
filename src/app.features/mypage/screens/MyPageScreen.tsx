@@ -20,7 +20,7 @@ interface Props {
 // TODO: 프로필이미지 캐싱 필요
 function MyPageScreen({ user, logoutHandler }: Props) {
 	const router = useRouter();
-
+	console.log(user);
 	return (
 		<>
 			<header className="flex items-center justify-between bg-white  h-[5.6rem] px-[2rem] fixed w-full max-w-[50rem] -translate-x-[2rem] mx-auto ">
@@ -29,7 +29,7 @@ function MyPageScreen({ user, logoutHandler }: Props) {
 					<SettingIcon />
 				</button>
 			</header>
-			<main className="h-[100vh] pt-[7.2rem]">
+			<main className="h-[100vh] pt-[7.2rem] ">
 				<div className="pb-[1.6rem] space-y-[1.6rem]">
 					{user && <Profile {...user} />}
 					<InfoBox>

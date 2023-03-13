@@ -9,4 +9,5 @@ export interface IUser {
 	role: RoleType;
 	phoneNumber: string | null;
 	wage: number;
+	kakaoEmail: string;
 }
