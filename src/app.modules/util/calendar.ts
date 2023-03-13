@@ -57,17 +57,17 @@ export const formatTimeView = (time: string, type = 'reset') => {
 export const parseSetWorkTime = (workTime: string): IUser => {
 	const [meridiemLeft, hourLeft, minuteLeft] = formatTimeView(workTime, '')[0].split(' ');
 	const [meridiemRight, hourRight, minuteRight] = formatTimeView(workTime, '')[1].split(' ');
-	console.log();
+
 	return {
 		startTime: {
 			meridiem: meridiemLeft === '오전' ? 'am' : 'pm',
 			hour: hourLeft,
-			minute: minuteLeft === '00' ? '0' : minuteLeft,
+			minute: minuteLeft === '00' ? '0' : String(parseInt(minuteLeft, 10)),
 		},
 		endTime: {
 			meridiem: meridiemRight === '오전' ? 'am' : 'pm',
 			hour: hourRight,
-			minute: minuteRight === '00' ? '0' : minuteRight,
+			minute: minuteRight === '00' ? '0' : String(parseInt(minuteRight, 10)),
 		},
 	};
 };
@@ -138,52 +138,15 @@ export const WorkListTimeView = (time: string) => {
 	if (time === '12:00') {
 		return '오후 12:00';
 	}
+	if (hour === '24') {
+		return `오전 12:${minute}`;
+	}
 	if (hour >= '12') {
 		return `${hour}` === '12'
-			? `오전 ${hour}:${minute}`
-			: `오후 ${String(Number(hour) - 12).padStart(2, '0')}:${minute}`;
+			? `오후 ${parseInt(hour, 10)}:${minute}`
+			: `오후 ${String(parseInt(hour, 10) - 12)}:${minute}`;
 	}
-	return `오전 ${hour}:${minute}`;
-};
-
-export const getLastTime = (time: string[]) => {
-	return time.sort((a, b) => {
-		const [aHour, aMinute] = a.split(':').map(Number);
-		const [bHour, bMinute] = b.split(':').map(Number);
-		if (aHour < bHour) {
-			return 1;
-		}
-		if (aHour > bHour) {
-			return -1;
-		}
-		if (aMinute < bMinute) {
-			return 1;
-		}
-		if (aMinute > bMinute) {
-			return -1;
-		}
-		return 0;
-	})[0];
-};
-
-export const getFirstTime = (time: string[]) => {
-	return time.sort((a, b) => {
-		const [aHour, aMinute] = a.split(':').map(Number);
-		const [bHour, bMinute] = b.split(':').map(Number);
-		if (aHour < bHour) {
-			return -1;
-		}
-		if (aHour > bHour) {
-			return 1;
-		}
-		if (aMinute < bMinute) {
-			return -1;
-		}
-		if (aMinute > bMinute) {
-			return 1;
-		}
-		return 0;
-	})[0];
+	return `오전 ${parseInt(hour, 10)}:${minute}`;
 };
 
 export const viewTimeFormat = (time: Time) => {
@@ -197,21 +160,41 @@ export const viewTimeFormat = (time: Time) => {
 	if (time.meridiem === 'pm') {
 		merdiem = '오후';
 	}
-	const hour = time.hour.padStart(2, '0');
+	const { hour } = time;
 	const minute = time.minute ? `${time.minute.padStart(2, '0')}분` : '';
 	return `${merdiem} ${hour}시 ${minute}`;
 };
 
-export const workTimeDuplication = (workTime: string, startTime: string, endTime: string) => {
-	const [start, end] = workTime.split('~');
-	const minTime = new Date(`2023-01-01T${startTime}`);
-	const maxTime = new Date(`2023-01-01T${endTime}`);
-	const workStartTime = new Date(`2023-01-01T${start}`);
-	const workEndTime = new Date(`2023-01-01T${end}`);
-	if (start === startTime && end === endTime) {
-		return true;
+const fixTime = (time: string) => {
+	const [hour, minute] = time.split(':').map(Number);
+	if (hour === 24) {
+		return new Date(`2023-01-01T00:${minute.toString().padStart(2, '0')}`);
 	}
-	const innerTime = minTime <= workStartTime && maxTime >= workEndTime;
-	const outTime = minTime >= workStartTime && maxTime <= workEndTime;
-	return innerTime || outTime;
+	return new Date(`2023-01-01T${time}`);
+};
+
+export const workTimeDuplication = (workTime: string, workingTime: string[]) => {
+	const [start, end] = workTime.split('~');
+	const workStartTime = fixTime(start);
+	const workEndTime = fixTime(end);
+
+	for (let i = 0; i < workingTime.length; i += 1) {
+		const [workingStart, workingEnd] = workingTime[i].split('~');
+		const minTime = fixTime(workingStart);
+		const maxTime = fixTime(workingEnd);
+
+		let innerTime = false;
+
+		if (minTime < maxTime) {
+			innerTime = minTime <= workEndTime && maxTime >= workStartTime;
+		} else {
+			innerTime =
+				minTime <= workEndTime || maxTime >= workStartTime || (workStartTime >= minTime && workEndTime <= maxTime);
+		}
+
+		if (innerTime) {
+			return true;
+		}
+	}
+	return false;
 };

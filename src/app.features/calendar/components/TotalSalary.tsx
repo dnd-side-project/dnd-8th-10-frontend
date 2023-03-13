@@ -2,14 +2,18 @@ import { useEffect, useState } from 'react';
 
 interface props {
 	data: number | undefined;
-	wage?: number;
+	wage: number;
 }
 function TotalSalary({ data, wage }: props) {
-	const [totalSalary, setTotalSalary] = useState<number>();
+	const [totalSalary, setTotalSalary] = useState<number | null>();
 
 	useEffect(() => {
-		if (data) {
-			setTotalSalary(data * 9620);
+		if (data && wage) {
+			if (data < 0) {
+				setTotalSalary(null);
+			} else {
+				setTotalSalary(data * wage);
+			}
 		}
 	}, [data]);
 
