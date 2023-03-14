@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-function SmallPopup() {
+interface Props {
+	message: string;
+}
+function SmallPopup({ message }: Props) {
 	const [visible, setVisible] = useState(true);
 
 	useEffect(() => {
@@ -14,8 +17,8 @@ function SmallPopup() {
 	return (
 		<>
 			{visible && (
-				<div className="bg-transparent-80% z-[103]  text-subhead2 grid place-content-center text-w  w-[28rem] h-[5.3rem] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%]">
-					<span>점검사항이 저장됐어요! 👀</span>
+				<div className="bg-transparent-80% z-[103]  text-subhead2 grid place-content-center text-w  w-[28rem] h-[5.3rem] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] rounded-[0.4rem]">
+					<span>{message}</span>
 				</div>
 			)}
 		</>

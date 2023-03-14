@@ -27,7 +27,7 @@ function GiftCard() {
 	});
 	return (
 		<>
-			{isPopupOpen && <SmallPopup />}
+			{isPopupOpen && <SmallPopup message="점검사항이 저장됐어요! 👀" />}
 			<GiftcardInventoryScreen
 				inventoryList={inventoryList}
 				editInventory={editInventory}

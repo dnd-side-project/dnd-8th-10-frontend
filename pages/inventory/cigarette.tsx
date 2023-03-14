@@ -6,7 +6,8 @@ import { getInventory, postCigarette, putInventory } from 'src/app.modules/api/i
 import useModal from 'src/app.modules/hooks/useModal';
 
 function CigaretteInventory() {
-	const { isModalOpen: isPopupOpen, openModal: openPopup, closeModal: closePopup } = useModal();
+	const { isModalOpen: isSavePopupOpen, openModal: openSavePopup, closeModal: closeSavePopup } = useModal();
+	const { isModalOpen: isAddPopupOpen, openModal: openAddPopup, closeModal: closeAddPopup } = useModal();
 	const { data: cigaretteList, refetch } = useQuery(['inventory', 'cigarette'], () => getInventory('CIGARETTE'), {
 		select: (res) => res.data.data,
 		onSuccess: (res) => console.log(res),
@@ -18,9 +19,9 @@ function CigaretteInventory() {
 	const { mutate: addCigarette, isLoading: addCigaretteLoading } = useMutation(postCigarette, {
 		onSuccess: (res) => {
 			refetch();
-			openPopup();
+			openAddPopup();
 			setTimeout(() => {
-				closePopup();
+				closeAddPopup();
 			}, 2500);
 		},
 		onError: (error) => alert('오류 발생.'),
@@ -28,9 +29,9 @@ function CigaretteInventory() {
 	const { mutate: editInventory, isLoading: editInventoryLoading } = useMutation(putInventory, {
 		onSuccess: (res) => {
 			refetch();
-			openPopup();
+			openSavePopup();
 			setTimeout(() => {
-				closePopup();
+				closeSavePopup();
 			}, 3000);
 		},
 		onError: (error) => alert('오류 발생.'),
@@ -38,7 +39,8 @@ function CigaretteInventory() {
 
 	return (
 		<>
-			{isPopupOpen && <SmallPopup />}
+			{isSavePopupOpen && <SmallPopup message="점검사항이 저장됐어요! 👀" />}
+			{isAddPopupOpen && <SmallPopup message="담배 항목이 추가되었어요! 👀" />}
 
 			<CigaretteInventoryScreen
 				inventoryList={cigaretteList}
