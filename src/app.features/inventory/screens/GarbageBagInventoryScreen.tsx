@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import Header from 'src/app.components/Header';
+import SmallPopup from 'src/app.components/Modal/SmallPopup';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { IInventoryList, PutInventoryBody } from 'src/app.modules/api/inventory';
 import useModal from 'src/app.modules/hooks/useModal';
@@ -18,6 +19,7 @@ interface Props {
 function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventoryLoading }: Props) {
 	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
 	const { isModalOpen, closeAnimationModal: closeModal, openModal } = useModal();
+
 	const submitInventoryRecord = (category: string) => {
 		if (editInventoryLoading) return;
 		const list = Object.keys(countHistory).map((inventoryName) => ({

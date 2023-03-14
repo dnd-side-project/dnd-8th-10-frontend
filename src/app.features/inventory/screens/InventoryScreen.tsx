@@ -42,9 +42,9 @@ function InventoryScreen({ inventoryHistory }: Props) {
 						<span className="text-g8 text-subhead1">점검하고자하는 시재를 선택하세요.</span>
 					</div>
 
-					<ul className="text-subhead1 flex justify-between max-w-[32rem] mr-auto">
+					<ul className="text-subhead1 flex justify-between space-x-[0.8rem] ">
 						{LINKS.map((item, index) => (
-							<li key={index} className="w-[10.1rem] h-[10.2rem] bg-g1 rounded-[0.8rem] grid place-content-center">
+							<li key={index} className="w-full h-[10.2rem] bg-g1 rounded-[0.8rem] grid place-content-center">
 								<Link href={item.url}>
 									<div className={`${item.imageRender}  flex flex-col justify-center items-center`}>
 										<span>{item.name}</span>

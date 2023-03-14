@@ -106,7 +106,8 @@ function CheckListScreen({
 	};
 	const [week, setWeek] = useState<number[]>(calcWeek());
 
-	const addTodoHandler = () => {
+	const addTodoHandler = (e: React.FormEvent) => {
+		e.preventDefault();
 		if (postChecklistLoading) return;
 		if (!newTodo.trim()) return;
 		const body = {
@@ -199,11 +200,14 @@ function CheckListScreen({
 		const [resYear, resMonth] = searchDate.split('-');
 		return `${+resYear}년 ${+resMonth}월`;
 	};
+	// TODO: mx-[-2rem] 속성없이 divider 꽉채우기
+	console.log(checklist);
 	return (
 		<>
 			<Header title="내 할일 점검" />
-			<main className="w-full h-[100vh] pt-[7.2rem] overflow-hidden">
-				<div className="space-y-[2rem] pb-[1.2rem]">
+
+			<main className=" mx-[-2rem] h-[100vh]  overflow-y-hidden">
+				<div className="space-y-[2rem] px-[2rem] pb-[1.2rem] top-[5.6rem] pt-[1.6rem] bg-w z-[100] sticky">
 					<span className="text-g10 text-subhead4">{getDateTitle()}</span>
 					<div className="text-g8 space-y-[1.6rem]">
 						<ul className="grid grid-cols-7 text-g10 text-center text-body1 ">
@@ -234,113 +238,117 @@ function CheckListScreen({
 						</ul>
 					</div>
 				</div>
-				<Divider classNames="fixed  w-full max-w-[50rem] z-[50]" />
 
-				{isChecklistFetched && isWorkDay ? (
-					<div className=" text-subhead2 space-y-[1.6rem] py-[2.4rem] relative h-[calc(100vh-20.6rem)] overflow-y-scroll scrollbar-hidden ">
-						<div className="w-full bg-white ">
-							<button
-								onClick={() => setAddTodoInputOpen(true)}
-								aria-hidden={addTodoInputOpen}
-								className="aria-hidden:hidden  flex items-center text-g7 space-x-[1rem]"
-							>
-								<AddTodoIcon />
-								<span>항목 추가하기</span>
-							</button>
-							{addTodoInputOpen && (
-								<div aria-hidden={!addTodoInputOpen} className="aria-hidden:hidden  flex items-center  space-x-[1rem]">
-									<div>
-										<AddTodoDecoIcon />
-									</div>
-									<input
-										type="text"
-										enterKeyHint="done"
-										name="addTodo"
-										value={newTodo}
-										autoComplete="off"
-										autoCapitalize="off"
-										onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
-										// eslint-disable-next-line jsx-a11y/no-autofocus
-										autoFocus
-										onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-											if (e.key === 'Enter') {
-												console.log('enter');
-												addTodoHandler();
-											}
-										}}
-										onBlur={() => setAddTodoInputOpen(false)}
-										className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
-									/>
-									<button type="button" onClick={cancelAddTodoHandler}>
-										<TrashIcon />
-									</button>
-								</div>
-							)}
-						</div>
-						<ul className=" text-g9 space-y-[1.6rem]  ">
-							{checklist?.map((todo, index) => (
-								<li key={todo.checkIdx ?? index} className="flex justify-between w-full ">
-									<div className="space-x-[1rem] flex items-center w-full">
+				<div className="overflow-y-scroll px-[2rem]  scrollbar-hidden mt-[5.6rem] relative  overflow-x-visible">
+					<Divider />
+					{isChecklistFetched && isWorkDay ? (
+						<div className=" text-subhead2 space-y-[1.6rem] pt-[2.4rem]  relative h-[100vh] ">
+							<div className="w-full bg-white ">
+								<button
+									onClick={() => setAddTodoInputOpen(true)}
+									aria-hidden={addTodoInputOpen}
+									className="aria-hidden:hidden  flex items-center text-g7 space-x-[1rem]"
+								>
+									<AddTodoIcon />
+									<span>항목 추가하기</span>
+								</button>
+								{addTodoInputOpen && (
+									<form
+										onSubmit={addTodoHandler}
+										aria-hidden={!addTodoInputOpen}
+										className="aria-hidden:hidden  flex items-center  space-x-[1rem]"
+									>
 										<div>
-											<input
-												id={`checkbox-${todo.checkIdx}`}
-												type="checkbox"
-												data-checkidx={todo.checkIdx}
-												data-content={todo.content}
-												defaultChecked={todo.status === 'Y'}
-												className="checklist-checkbox"
-												onChange={todoCheckStateHandler}
-											/>
-											<label htmlFor={`checkbox-${todo.checkIdx}`} />
+											<AddTodoDecoIcon />
 										</div>
-										<div
-											aria-hidden={editTodoInputOpenIdx === todo.checkIdx}
-											className="aria-hidden:hidden flex items-center justify-between w-full"
-										>
-											<span className="mb-[0.4rem]">{todo.content}</span>
-											<button onClick={() => setEditTodoInputOpenIdx(todo.checkIdx)}>
-												<SettingIcon />
-											</button>
-										</div>
-										{editTodoInputOpenIdx === todo.checkIdx && (
-											<div
-												aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
-												className="aria-hidden:hidden flex items-center w-full space-x-[1rem]"
-											>
+										<input
+											type="text"
+											enterKeyHint="done"
+											name="addTodo"
+											value={newTodo}
+											autoComplete="off"
+											autoCapitalize="off"
+											onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
+											// eslint-disable-next-line jsx-a11y/no-autofocus
+											autoFocus
+											onBlur={() => setAddTodoInputOpen(false)}
+											className="w-full  rounded-none outline-none border-b-[0.1rem] border-g6 text-g9"
+										/>
+										<button type="button" onClick={cancelAddTodoHandler}>
+											<TrashIcon />
+										</button>
+									</form>
+								)}
+							</div>
+							<ul className=" text-g9 space-y-[1.6rem] pb-[22.4rem] ">
+								{checklist?.map((todo, index) => (
+									<li key={todo.checkIdx ?? index} className="flex justify-between w-full ">
+										<div className="space-x-[1rem] flex items-center w-full">
+											<div>
 												<input
-													name="editTodo"
-													onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditContent(e.target.value)}
-													defaultValue={todo.content}
-													autoComplete="off"
-													autoCapitalize="off"
-													// eslint-disable-next-line jsx-a11y/no-autofocus
-													autoFocus
-													type="text"
-													enterKeyHint="done"
-													onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-														if (e.key === 'Enter') {
-															editTodoHandler(todo.status);
-														}
-													}}
-													onBlur={() => setEditTodoInputOpenIdx(null)}
-													className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
+													id={`checkbox-${todo.checkIdx}`}
+													type="checkbox"
+													data-checkidx={todo.checkIdx}
+													data-content={todo.content}
+													defaultChecked={todo.status === 'Y'}
+													className="checklist-checkbox"
+													onChange={todoCheckStateHandler}
 												/>
-												<button type="button" onClick={deleteTodoHandler}>
-													<TrashIcon />
+												<label htmlFor={`checkbox-${todo.checkIdx}`} />
+											</div>
+											<div
+												aria-hidden={editTodoInputOpenIdx === todo.checkIdx}
+												className="aria-hidden:hidden flex items-center justify-between w-full"
+											>
+												<span className="mb-[0.4rem]">{todo.content}</span>
+												<button onClick={() => setEditTodoInputOpenIdx(todo.checkIdx)}>
+													<SettingIcon />
 												</button>
 											</div>
-										)}
-									</div>
-								</li>
-							))}
-						</ul>
-					</div>
-				) : (
-					<EmptyGraphic className="mt-[7.2rem] mx-auto" />
-				)}
+											{editTodoInputOpenIdx === todo.checkIdx && (
+												<form
+													onSubmit={(e: React.FormEvent) => {
+														e.preventDefault();
+														editTodoHandler(todo.status);
+													}}
+													aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
+													className="aria-hidden:hidden flex items-center w-full space-x-[1rem]"
+												>
+													<input
+														name="editTodo"
+														onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditContent(e.target.value)}
+														defaultValue={todo.content}
+														autoComplete="off"
+														autoCapitalize="off"
+														// eslint-disable-next-line jsx-a11y/no-autofocus
+														autoFocus
+														type="text"
+														enterKeyHint="done"
+														onBlur={() => setEditTodoInputOpenIdx(null)}
+														className="w-full outline-none rounded-none border-b-[0.1rem] border-g6 text-g9"
+													/>
+													<button type="button" onClick={deleteTodoHandler}>
+														<TrashIcon />
+													</button>
+												</form>
+											)}
+										</div>
+									</li>
+								))}
+							</ul>
+						</div>
+					) : (
+						<EmptyGraphic className="mt-[7.2rem] mx-auto" />
+					)}
+				</div>
 			</main>
 		</>
 	);
 }
 
 export default CheckListScreen;
+/*
+
+
+
+*/

@@ -9,10 +9,13 @@ import TopModal from 'src/app.components/Modal/TopModal';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import InputInteractButton from 'src/app.components/Button/InputInteractButton';
 import useModal from 'src/app.modules/hooks/useModal';
+import Modal from 'src/app.components/Modal/Modal';
+import { useRouter } from 'next/router';
 import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryList';
 import useCountHistory from '../hooks/useCountHistory';
 import LastCheckModal from '../components/LastCheckModal';
+import NewCigaSaveModal from '../components/NewCigaSaveModal';
 
 const getInitialSound = (str: string) => {
 	const CHO_LIST = [
@@ -45,6 +48,7 @@ const getInitialSound = (str: string) => {
 };
 // TODO: 타입 한 파일에 정리해 두기
 // TODO: 담배 추가할때 같은 이름 담배있는지 체크
+// TODO: 마지막 요소 클릭 안됨
 type ChoType = '전체' | 'ㄱ' | 'ㄴ' | 'ㄷ' | 'ㄹ' | 'ㅁ' | 'ㅂ' | 'ㅅ' | 'ㅇ' | 'ㅈ' | 'ㅊ' | 'ㅋ' | 'ㅌ' | 'ㅍ' | 'ㅎ';
 
 interface Props {
@@ -69,7 +73,17 @@ function CountCigaretteScreen({
 	// TODO: 모달이름 바꾸기
 	const { isModalOpen: isSaveModalOpen, closeAnimationModal: closeSaveModal, openModal: openSaveModal } = useModal();
 	const { isModalOpen: isAddModalOpen, closeAnimationModal: closeAddModal, openModal: openAddModal } = useModal();
-
+	const {
+		isModalOpen: isBackAlertModalOpen,
+		closeModal: closeBackAlertModal,
+		openModal: openBackAlertModal,
+	} = useModal();
+	const router = useRouter();
+	const goBackHandler = () => {
+		if (Object.keys(countHistory).length) {
+			// openBackAlertModal();
+		}
+	};
 	const onSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value);
 	};
@@ -95,15 +109,14 @@ function CountCigaretteScreen({
 		editInventory(body);
 		openSaveModalHandler();
 	};
-	const submitNewCigarette = (e: React.FormEvent) => {
-		e.preventDefault();
+	const submitNewCigarette = () => {
 		console.log('new 담배');
 		if (addCigaretteLoading) return;
 		const body = {
 			inventoryName: newCiga,
 		};
 		addCigarette(body);
-		closeAddModal();
+		setNewCiga('');
 	};
 
 	const openAddModalHandler = () => {
@@ -120,7 +133,7 @@ function CountCigaretteScreen({
 	};
 	return (
 		<>
-			<Header title="담배">
+			<Header title="담배" onBack={goBackHandler}>
 				<button onClick={openAddModalHandler} className="text-primary text-subhead2">
 					항목추가
 				</button>
@@ -156,25 +169,28 @@ function CountCigaretteScreen({
 					<LastCheckModal closeModal={closeSaveModal} countHistory={countHistory} category="cigarette" />
 				)}
 				{isAddModalOpen && (
-					<Overlay overlayClickFn={closeAddModal}>
-						<TopModal>
-							<form onSubmit={submitNewCigarette} className="flex flex-col space-y-[1.2rem]">
-								<label className="text-g10 text-subhead3" htmlFor="newCigarette">
-									항목추가
-								</label>
-								<TextInput
-									id="newCigarette"
-									name="newCigarette"
-									value={newCiga}
-									onChange={newCigaHandler}
-									resetHandler={resetCigaHandler}
-									mode="default"
-									placeholder="새 담배 입력"
-								/>
-								<div aria-hidden className="h-[6rem]" />
-								<InputInteractButton type="submit" disabled={!newCiga.trim()} />
-							</form>
-						</TopModal>
+					<NewCigaSaveModal
+						closeModal={closeAddModal}
+						newCiga={newCiga}
+						onNewCigaChange={newCigaHandler}
+						onReset={resetCigaHandler}
+						onDone={submitNewCigarette}
+					/>
+				)}
+				{isBackAlertModalOpen && (
+					<Overlay
+						overlayClickFn={() => {
+							closeBackAlertModal();
+						}}
+					>
+						<Modal
+							title="시재점검을 종료하시는건가요?
+							점검 중인 내용이 저장되지 않습니다."
+							yesFn={() => router.back()}
+							yesTitle="종료"
+							noFn={closeBackAlertModal}
+							noTitle="아니오"
+						/>
 					</Overlay>
 				)}
 			</main>
