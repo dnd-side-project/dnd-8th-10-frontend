@@ -22,9 +22,9 @@ function Jsontest3() {
 }
 function LoginScreen() {
 	return (
-		<div className=" pt-[14vh]  h-[100vh] relative">
+		<div className="pt-[14vh] h-[100vh] relative">
 			<Jsontest3 />
-			<div className="space-y-[3.7rem] ">
+			<div>
 				<h1 className="text-title2 text-g9">
 					슬기로운 편의점 생활!
 					<br />

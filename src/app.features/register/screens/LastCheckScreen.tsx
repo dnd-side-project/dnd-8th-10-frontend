@@ -48,6 +48,17 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 				<h1 className="text-g10 text-title2">마지막으로 확인해주세요! 🧐</h1>
 				<ul className="space-y-[3rem]">
 					<li className="flex flex-col space-y-[0.4rem]">
+						<span className="text-g6 text-subhead2">역할</span>
+						<Badge size="small" color="warmGray">
+							<Link href={`${SERVICE_URL.register}?page=1&title=역할 수정`}>
+								<div className="flex items-center space-x-[0.4rem]">
+									<span className="text-body2">{role === 'MANAGER' ? '점장' : '알바생'}</span>
+									<EditIcon className="mt-[0.12rem]" />
+								</div>
+							</Link>
+						</Badge>
+					</li>
+					<li className="flex flex-col space-y-[0.4rem]">
 						<span className="text-g6 text-subhead2">지점 수정</span>
 						<Badge size="small" color="warmGray">
 							<Link href={`${SERVICE_URL.register}?page=2&title=지점 수정`}>

@@ -7,6 +7,7 @@ import TopModal from 'src/app.components/Modal/TopModal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import useModal from 'src/app.modules/hooks/useModal';
+import SetWorkTimeModal from 'src/app.components/Modal/SetWorkTimeModal';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore, { INIT_WORKTIME } from '../store';
 
@@ -62,7 +63,6 @@ function SetTimeScreen() {
 		setTime(updatedWorkTime);
 		setOpenModalFlag(null);
 		setWorkTimeOnModal(INIT_WORK_TIME);
-		closeModal();
 	};
 	const selectedDayHandler = (e: BaseSyntheticEvent) => {
 		setSelectedDay(e.target.value);
@@ -115,38 +115,33 @@ function SetTimeScreen() {
 							<h2 className="text-g6 text-body2">근무 시간</h2>
 							<OpenSetTimeModalButtons
 								openSetTimeModalHandler={openSetTimeModalHandler}
-								isStartTimeSet={Boolean(workTime[selectedDay]?.startTime)}
-								isEndTimeSet={Boolean(workTime[selectedDay]?.endTime)}
-								startTimeText={`${workTime[selectedDay]?.startTime?.meridiem === 'am' ? '오전' : '오후'} ${
-									workTime[selectedDay]?.startTime?.hour
-								} : ${workTime[selectedDay]?.startTime?.minute}`}
-								endTimeText={`${workTime[selectedDay]?.endTime?.meridiem === 'am' ? '오전' : '오후'} ${
-									workTime[selectedDay]?.endTime?.hour
-								} : ${workTime[selectedDay]?.endTime?.minute}`}
+								isStartTimeSet={Boolean(workTime?.[selectedDay]?.startTime)}
+								isEndTimeSet={Boolean(workTime?.[selectedDay]?.endTime)}
+								startTimeText={`${workTime?.[selectedDay]?.startTime?.meridiem === 'am' ? '오전' : '오후'} ${
+									workTime?.[selectedDay]?.startTime?.hour
+								} : ${Number(workTime?.[selectedDay]?.startTime?.minute) < 10 ? '0' : ''}${
+									workTime?.[selectedDay]?.startTime?.minute
+								}`}
+								endTimeText={`${workTime?.[selectedDay]?.endTime?.meridiem === 'am' ? '오전' : '오후'} ${
+									workTime?.[selectedDay]?.endTime?.hour
+								} : ${Number(workTime?.[selectedDay]?.endTime?.minute) < 10 ? '0' : ''}${
+									workTime?.[selectedDay]?.endTime?.minute
+								}`}
 								resetTimeHandler={resetTimeHandler}
-								day={selectedDay}
+								focusedType={openModalFlag}
 							/>
 						</div>
 					)}
 				</div>
 			</div>
 			{isModalOpen && (
-				<Overlay overlayClickFn={closeModal}>
-					<TopModal>
-						<div className="space-y-[2.4rem] flex flex-col items-center">
-							<span className="text-g10 text-subhead3">
-								언제 {openModalFlag === 'startTime' ? '출근' : '퇴근'}하시나요?
-							</span>
-							<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} />
-							<Bar
-								ClickFn={workTimeHandler}
-								disabled={!workTimeOnModal.hour || !workTimeOnModal.meridiem || !workTimeOnModal.minute}
-							>
-								완료
-							</Bar>
-						</div>
-					</TopModal>
-				</Overlay>
+				<SetWorkTimeModal
+					closeModal={closeAnimationModal}
+					onDone={workTimeHandler}
+					time={workTimeOnModal}
+					onTimeChange={timeOnModalHandler}
+					openModalFlag={openModalFlag}
+				/>
 			)}
 		</RegisterLayout>
 	);

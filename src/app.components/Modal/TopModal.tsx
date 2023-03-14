@@ -13,7 +13,7 @@ function TopModal({ children, bgColor = 'bg-w', isAnimating, setIsAnimating }: P
 			setIsAnimating(true);
 		}
 	}, []);
-
+	console.log(isAnimating, 'isAnimation');
 	return (
 		<div
 			role="dialog"

@@ -45,7 +45,7 @@ function SetPhoneNumScreen() {
 					resetHandler={resetPhoneNumberHandler}
 					mode="default"
 					placeholder="010-0000-0000"
-					type="tel"
+					type="text"
 				/>
 			</div>
 		</RegisterLayout>

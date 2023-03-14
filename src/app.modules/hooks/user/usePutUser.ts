@@ -1,9 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import useLocalUserStore from 'src/app.features/mypage/store/user';
 import { putUser } from 'src/app.modules/api/user';
 import { getCookie, setCookie } from 'src/app.modules/cookie';
 
 function usePutUser() {
+	const router = useRouter();
 	const { updateUser } = useLocalUserStore();
 	const { mutate: putUserMutate, isLoading } = useMutation(putUser, {
 		onSuccess: (res) => {
@@ -16,6 +18,7 @@ function usePutUser() {
 			document.cookie = `USER=${encodeURIComponent(JSON.stringify(updatedUser))};expires=${expires}`;
 			updateUser(updatedUser);
 			alert('회원정보 수정 완료');
+			router.back();
 		},
 		onError: (error) => alert('오류 발생.'),
 		onSettled: () => {
