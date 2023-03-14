@@ -272,7 +272,7 @@ function CheckListScreen({
 											// eslint-disable-next-line jsx-a11y/no-autofocus
 											autoFocus
 											onBlur={() => setAddTodoInputOpen(false)}
-											className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
+											className="w-full  rounded-none outline-none border-b-[0.1rem] border-g6 text-g9"
 										/>
 										<button type="button" onClick={cancelAddTodoHandler}>
 											<TrashIcon />
@@ -325,7 +325,7 @@ function CheckListScreen({
 														type="text"
 														enterKeyHint="done"
 														onBlur={() => setEditTodoInputOpenIdx(null)}
-														className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
+														className="w-full outline-none rounded-none border-b-[0.1rem] border-g6 text-g9"
 													/>
 													<button type="button" onClick={deleteTodoHandler}>
 														<TrashIcon />
