@@ -14,7 +14,7 @@ import DeleteIcon from 'src/app.modules/assets/delete.svg';
 import useModal from 'src/app.modules/hooks/useModal';
 import Modal from 'src/app.components/Modal/Modal';
 import { IUser } from '../types';
-import SetWorkTimeModal from '../components/SetWorkTimeModal';
+import SetWorkTimeModal from '../../../app.components/Modal/SetWorkTimeModal';
 // TODO: register랑 겹치는 부분 컴포넌트화
 // TODO: 설정한 시간이 유효한 값인지 확인
 interface Props {

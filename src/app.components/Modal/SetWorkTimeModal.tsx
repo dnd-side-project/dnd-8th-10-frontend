@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
 import { TimeType } from 'src/app.modules/types/workTime';
-import { WorkTimeOnModalType } from '../screens/WorkTimeSettingScreen';
+import { WorkTimeOnModalType } from '../../app.features/mypage/screens/WorkTimeSettingScreen';
 
 interface Props {
 	closeModal: () => void;
