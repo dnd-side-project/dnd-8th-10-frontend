@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import Bar from 'src/app.components/app.base/Button/Bar';
-import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
-import { TimeType } from 'src/app.modules/types/workTime';
-import { WorkTimeOnModalType } from '../../app.features/mypage/screens/WorkTimeSettingScreen';
+import TextInput from 'src/app.components/app.base/Input/TextInput';
+import InputInteractButton from 'src/app.components/Button/InputInteractButton';
 
 interface Props {
 	closeModal: () => void;
 	onDone: () => void;
-	time: WorkTimeOnModalType;
-	onTimeChange: (e: React.BaseSyntheticEvent) => void;
-	openModalFlag: TimeType | null;
+	newCiga: string;
+	onNewCigaChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onReset: () => void;
 }
 // TODO: 모달 대통합 이루기
-function SetWorkTimeModal({ closeModal, onDone, onTimeChange, time, openModalFlag }: Props) {
+function NewCigaSaveModal({ closeModal, onDone, newCiga, onNewCigaChange, onReset }: Props) {
 	const [isPop, setIsPop] = useState<boolean>();
 	useEffect(() => {
 		setIsPop(true);
@@ -40,22 +38,20 @@ function SetWorkTimeModal({ closeModal, onDone, onTimeChange, time, openModalFla
 					<div className="w-[5rem] h-[0.4rem] bg-g4 rounded-[1rem]" />
 				</div>
 				<div className="px-[2rem] pb-[2rem]">
-					<div className="space-y-[2.4rem] flex flex-col items-center">
-						<span className="text-g10 text-subhead3">
-							언제 {openModalFlag === 'startTime' ? '출근' : '퇴근'}하시나요?
-						</span>
-						<SetTimeButtons timeHandler={onTimeChange} time={time} />
-
-						<Bar
-							ClickFn={() => {
-								setIsPop(false);
-								onDone();
-
-								closeModal();
-							}}
-						>
-							완료
-						</Bar>
+					<div className="flex flex-col space-y-[1.2rem]">
+						<h2 className="text-g10 text-subhead3">항목추가</h2>
+						<TextInput
+							id="newCigarette"
+							name="newCigarette"
+							value={newCiga}
+							onChange={onNewCigaChange}
+							resetHandler={onReset}
+							mode="default"
+							placeholder="내용입력"
+							submitHandler={onDone}
+						/>
+						<div aria-hidden className="h-[6rem]" />
+						<InputInteractButton type="button" onClick={onDone} disabled={!newCiga.trim()} />
 					</div>
 				</div>
 			</div>
@@ -63,4 +59,4 @@ function SetWorkTimeModal({ closeModal, onDone, onTimeChange, time, openModalFla
 	);
 }
 
-export default SetWorkTimeModal;
+export default NewCigaSaveModal;

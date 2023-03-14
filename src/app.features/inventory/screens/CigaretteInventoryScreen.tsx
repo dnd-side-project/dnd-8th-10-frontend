@@ -13,6 +13,7 @@ import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryList';
 import useCountHistory from '../hooks/useCountHistory';
 import LastCheckModal from '../components/LastCheckModal';
+import NewCigaSaveModal from '../components/NewCigaSaveModal';
 
 const getInitialSound = (str: string) => {
 	const CHO_LIST = [
@@ -45,6 +46,7 @@ const getInitialSound = (str: string) => {
 };
 // TODO: 타입 한 파일에 정리해 두기
 // TODO: 담배 추가할때 같은 이름 담배있는지 체크
+// TODO: 마지막 요소 클릭 안됨
 type ChoType = '전체' | 'ㄱ' | 'ㄴ' | 'ㄷ' | 'ㄹ' | 'ㅁ' | 'ㅂ' | 'ㅅ' | 'ㅇ' | 'ㅈ' | 'ㅊ' | 'ㅋ' | 'ㅌ' | 'ㅍ' | 'ㅎ';
 
 interface Props {
@@ -95,15 +97,14 @@ function CountCigaretteScreen({
 		editInventory(body);
 		openSaveModalHandler();
 	};
-	const submitNewCigarette = (e: React.FormEvent) => {
-		e.preventDefault();
+	const submitNewCigarette = () => {
 		console.log('new 담배');
 		if (addCigaretteLoading) return;
 		const body = {
 			inventoryName: newCiga,
 		};
 		addCigarette(body);
-		closeAddModal();
+		setNewCiga('');
 	};
 
 	const openAddModalHandler = () => {
@@ -156,26 +157,13 @@ function CountCigaretteScreen({
 					<LastCheckModal closeModal={closeSaveModal} countHistory={countHistory} category="cigarette" />
 				)}
 				{isAddModalOpen && (
-					<Overlay overlayClickFn={closeAddModal}>
-						<TopModal>
-							<form onSubmit={submitNewCigarette} className="flex flex-col space-y-[1.2rem]">
-								<label className="text-g10 text-subhead3" htmlFor="newCigarette">
-									항목추가
-								</label>
-								<TextInput
-									id="newCigarette"
-									name="newCigarette"
-									value={newCiga}
-									onChange={newCigaHandler}
-									resetHandler={resetCigaHandler}
-									mode="default"
-									placeholder="새 담배 입력"
-								/>
-								<div aria-hidden className="h-[6rem]" />
-								<InputInteractButton type="submit" disabled={!newCiga.trim()} />
-							</form>
-						</TopModal>
-					</Overlay>
+					<NewCigaSaveModal
+						closeModal={closeAddModal}
+						newCiga={newCiga}
+						onNewCigaChange={newCigaHandler}
+						onReset={resetCigaHandler}
+						onDone={submitNewCigarette}
+					/>
 				)}
 			</main>
 		</>
