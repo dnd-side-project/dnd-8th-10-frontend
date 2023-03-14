@@ -27,7 +27,7 @@ function Badge({ color, size, children }: Props) {
 
 	return (
 		<div
-			className={`${getSize()} ${getBgColor()} ${getBorderStyle()} ${getTextColor()} w-fit rounded-[0.4rem] text-subhead1 text-center `}
+			className={`${getSize()} ${getBgColor()} ${getBorderStyle()} ${getTextColor()} w-fit rounded-[0.8rem] text-subhead1 text-center `}
 		>
 			{children}
 		</div>

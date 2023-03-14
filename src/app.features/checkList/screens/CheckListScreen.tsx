@@ -1,3 +1,4 @@
+/* eslint-disable react/no-this-in-sfc */
 import React, { useEffect, useState } from 'react';
 import Header from 'src/app.components/Header';
 import { PostCheckListBody, PutCheckListBody } from 'src/app.modules/api/checklist';
@@ -81,13 +82,16 @@ function CheckListScreen({
 	const [editTodoInputOpenIdx, setEditTodoInputOpenIdx] = useState<number | null>(null);
 	const [newTodo, setNewTodo] = useState<string>('');
 	const [selectedDateIdx, setSelectedDateIdx] = useState<number>(day === 6 ? 0 : day);
+	const [editContent, setEditContent] = useState<string>('');
 	const calcWeek = () => {
 		const { curMonthLastDate } = getCurMonthLastDayInfo(year, month);
 		const { prevMonthLastDate, prevMonthLastDay } = getPrevMonthLastDayInfo(year, month);
 		const DATE = date;
-		const DAY = day === 6 ? 0 : day; // 일요일 처리
+		const DAY = day; // 일요일 처리
 		const res = [];
+		console.log(DAY, day, 'DAy');
 		for (let i = 0; i < DAY; i += 1) {
+			console.log(i);
 			if (DATE - (DAY - i) <= 0) {
 				res.push(prevMonthLastDate - (prevMonthLastDay - i));
 			} else res.push(DATE - (DAY - i));
@@ -102,8 +106,7 @@ function CheckListScreen({
 	};
 	const [week, setWeek] = useState<number[]>(calcWeek());
 
-	const addTodoHandler = (e: React.FormEvent) => {
-		e.preventDefault();
+	const addTodoHandler = () => {
 		if (postChecklistLoading) return;
 		if (!newTodo.trim()) return;
 		const body = {
@@ -135,31 +138,23 @@ function CheckListScreen({
 		console.log(body);
 		putChecklist(body);
 	};
-	const editTodoHandler = (e: React.BaseSyntheticEvent) => {
-		e.preventDefault();
-		if (putChecklistLoading) return;
-		const {
-			target: {
-				editTodo: { value },
-				dataset: { status },
-			},
-		} = e;
-
+	const editTodoHandler = (status: 'N' | 'Y') => {
 		const body = {
 			checkIdx: editTodoInputOpenIdx as number,
-			content: value as string,
+			content: editContent as string,
 			status: status as 'N' | 'Y',
 		};
 		putChecklist(body);
 		// TODO: 엔터치고 이전 데이터 잠시 보이는 현상 해결하기
 		setEditTodoInputOpenIdx(null);
+		setEditContent('');
 	};
 	const deleteTodoHandler = () => {
 		if (deleteChecklistLoading) return;
 		deleteChecklist(editTodoInputOpenIdx as number);
 	};
 	const getSearchDateString = (weekIdx: number, selectedDate: number) => {
-		const todayWeekIdx = day === 6 ? 0 : day;
+		const todayWeekIdx = day;
 		let selectedMonth = month;
 		let selectedYear = year;
 		if (selectedDate < date && todayWeekIdx < weekIdx) {
@@ -239,7 +234,7 @@ function CheckListScreen({
 						</ul>
 					</div>
 				</div>
-				<Divider classNames="fixed  w-full max-w-[42rem] z-[50]" />
+				<Divider classNames="fixed  w-full max-w-[50rem] z-[50]" />
 
 				{isChecklistFetched && isWorkDay ? (
 					<div className=" text-subhead2 space-y-[1.6rem] py-[2.4rem] relative h-[calc(100vh-20.6rem)] overflow-y-scroll scrollbar-hidden ">
@@ -252,25 +247,35 @@ function CheckListScreen({
 								<AddTodoIcon />
 								<span>항목 추가하기</span>
 							</button>
-							<form
-								aria-hidden={!addTodoInputOpen}
-								onSubmit={addTodoHandler}
-								className="aria-hidden:hidden  flex items-center  space-x-[1rem]"
-							>
-								<div>
-									<AddTodoDecoIcon />
+							{addTodoInputOpen && (
+								<div aria-hidden={!addTodoInputOpen} className="aria-hidden:hidden  flex items-center  space-x-[1rem]">
+									<div>
+										<AddTodoDecoIcon />
+									</div>
+									<input
+										type="text"
+										enterKeyHint="done"
+										name="addTodo"
+										value={newTodo}
+										autoComplete="off"
+										autoCapitalize="off"
+										onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
+										// eslint-disable-next-line jsx-a11y/no-autofocus
+										autoFocus
+										onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+											if (e.key === 'Enter') {
+												console.log('enter');
+												addTodoHandler();
+											}
+										}}
+										onBlur={() => setAddTodoInputOpen(false)}
+										className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
+									/>
+									<button type="button" onClick={cancelAddTodoHandler}>
+										<TrashIcon />
+									</button>
 								</div>
-								<input
-									type="text"
-									name="newTodo"
-									value={newTodo}
-									onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
-									className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
-								/>
-								<button type="button" onClick={cancelAddTodoHandler}>
-									<TrashIcon />
-								</button>
-							</form>
+							)}
 						</div>
 						<ul className=" text-g9 space-y-[1.6rem]  ">
 							{checklist?.map((todo, index) => (
@@ -297,22 +302,34 @@ function CheckListScreen({
 												<SettingIcon />
 											</button>
 										</div>
-										<form
-											onSubmit={editTodoHandler}
-											aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
-											data-status={todo.status}
-											className="aria-hidden:hidden flex items-center w-full space-x-[1rem]"
-										>
-											<input
-												type="text"
-												name="editTodo"
-												defaultValue={todo.content}
-												className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
-											/>
-											<button type="button" onClick={deleteTodoHandler}>
-												<TrashIcon />
-											</button>
-										</form>
+										{editTodoInputOpenIdx === todo.checkIdx && (
+											<div
+												aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
+												className="aria-hidden:hidden flex items-center w-full space-x-[1rem]"
+											>
+												<input
+													name="editTodo"
+													onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditContent(e.target.value)}
+													defaultValue={todo.content}
+													autoComplete="off"
+													autoCapitalize="off"
+													// eslint-disable-next-line jsx-a11y/no-autofocus
+													autoFocus
+													type="text"
+													enterKeyHint="done"
+													onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+														if (e.key === 'Enter') {
+															editTodoHandler(todo.status);
+														}
+													}}
+													onBlur={() => setEditTodoInputOpenIdx(null)}
+													className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
+												/>
+												<button type="button" onClick={deleteTodoHandler}>
+													<TrashIcon />
+												</button>
+											</div>
+										)}
 									</div>
 								</li>
 							))}

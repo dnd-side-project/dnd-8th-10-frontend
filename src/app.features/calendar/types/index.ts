@@ -7,6 +7,7 @@ export interface IMakeCal {
 		month: number;
 		day: number[];
 	};
+	openModal: () => void;
 }
 
 export interface ISalaryData {
@@ -49,5 +50,5 @@ export interface ISalaryDetail {
 export interface Time {
 	hour: string;
 	minute: string;
-	meridiem: 'am' | 'pm';
+	meridiem: 'am' | 'pm' | null;
 }

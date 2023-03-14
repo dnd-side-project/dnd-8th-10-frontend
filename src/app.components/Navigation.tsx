@@ -9,7 +9,7 @@ import Link from 'next/link';
 function Navigation() {
 	const router = useRouter();
 	return (
-		<footer className="bg-w flex items-center h-[5.6rem] fixed bottom-0 max-w-[42rem] -translate-x-[2rem] mx-auto w-full border-solid border-t-[0.05rem] border-g3">
+		<footer className="bg-w flex items-center h-[5.6rem] fixed bottom-0 max-w-[50rem] -translate-x-[2rem] mx-auto w-full border-solid border-t-[0.05rem] border-g3">
 			<nav className="flex w-full">
 				<ul className="flex justify-between mx-[3rem] w-full">
 					<li>
@@ -30,8 +30,10 @@ function Navigation() {
 					</li>
 					<li>
 						<Link href={SERVICE_URL.board} className="flex flex-col items-center">
-							<BoardIcon stroke={`${router.pathname === '' ? '#66666E' : '#E8E8EB'}`} />
-							<div className={`${router.pathname === '' ? 'text-[#66666E]' : 'text-[#E8E8EB]'}`}>게시판</div>
+							<BoardIcon stroke={`${router.pathname === `${SERVICE_URL.board}` ? '#66666E' : '#E8E8EB'}`} />
+							<div className={`${router.pathname === `${SERVICE_URL.board}` ? 'text-[#66666E]' : 'text-[#E8E8EB]'}`}>
+								게시판
+							</div>
 						</Link>
 					</li>
 					<li>

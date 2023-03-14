@@ -21,7 +21,7 @@ const ViewPage: NextPage = () => {
 	const { id } = router.query;
 	const queryClient = useQueryClient();
 	// 게시글 보기
-	const { boardViewData } = useBoardView(id);
+	const { boardViewData, boardViewReftch } = useBoardView(id);
 
 	// 게시물 확인 버튼 클릭
 	const { mutate: ViewCheckMutate } = useMutation(postViewCheck, {
@@ -71,7 +71,7 @@ const ViewPage: NextPage = () => {
 	// 게시글 삭제
 	const { mutate: DelMutate } = useMutation(boardDelete, {
 		onSuccess: (res) => {
-			console.log(res);
+			console.log('게시글 삭제');
 			router.back();
 		},
 		onError: (error) => console.log(error),
@@ -80,7 +80,7 @@ const ViewPage: NextPage = () => {
 	const { data: userData, isLoading: LoadingData } = useUser();
 
 	return (
-		<div className="h-[100vh]">
+		<div className="h-[100vh] overflow-y-hidden">
 			<BoardViewScreen
 				userData={userData}
 				boardCheckPerson={boardCheckPerson}

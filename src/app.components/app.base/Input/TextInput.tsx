@@ -6,13 +6,15 @@ interface Props {
 	id?: string;
 	value: string;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 	resetHandler?: () => void;
 	submitHandler?: () => void;
 	placeholder: string;
-	mode: 'default' | 'small' | 'wide';
+	mode: 'default' | 'small' | 'wide'; // TODO: 모드 없애기
 	name?: string;
 	onFocus?: () => void;
 	onBlur?: () => void;
+	type?: 'text' | 'tel' | 'number'; // TODO: 늘리기
 }
 function TextInput({
 	id,
@@ -25,6 +27,8 @@ function TextInput({
 	name,
 	onFocus,
 	onBlur,
+	onKeyDown,
+	type = 'text',
 }: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const onSubmit = (e: React.FormEvent) => {
@@ -36,7 +40,7 @@ function TextInput({
 		submitHandler();
 	};
 	const getPadding = () => {
-		if (mode === 'wide') return 'p-[2rem] h-[6rem] min-h-[6rem] ';
+		if (mode === 'wide') return 'px-[3.2rem] h-[6rem] min-h-[6rem] ';
 		if (mode === 'default') return 'p-[1.2rem] py-[1.4rem] h-[4.8rem] min-h-[4.8rem]';
 		return 'px-[1.2rem] py-[0.8rem] h-[3.6rem] min-h-[3.6rem]';
 	};
@@ -49,12 +53,13 @@ function TextInput({
 				value={value}
 				onChange={onChange}
 				placeholder={placeholder}
-				type="text"
+				type={type}
 				className={`w-full ${
 					mode !== 'wide' ? 'rounded-[0.8rem]' : ''
 				} bg-[#F8F8FA] ${getPadding()} text-body2   placeholder:text-g7 text-g9   outline-none`}
 				onBlur={onBlur}
 				onFocus={onFocus}
+				onKeyDown={onKeyDown}
 			/>
 			{Boolean(value) && mode === 'default' && (
 				<button onClick={resetHandler} type="reset" className="absolute right-[1.6rem] top-1/2 -translate-y-1/2">

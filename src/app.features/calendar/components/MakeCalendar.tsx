@@ -1,16 +1,13 @@
 import React from 'react';
 import { transIdx } from 'src/app.modules/util/calendar';
-import useModalStore from 'src/app.modules/store/modal';
 import Calendar from 'src/app.components/app.base/Button/Calendar';
 import useStore from '../store';
 import { IMakeCal } from '../types';
 
-function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCal) {
+function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, openModal }: IMakeCal) {
 	const { toDay, clickDay, modalCalData } = useStore();
-	const { modalIsOpen } = useModalStore();
 	const { month, day } = schedule;
 	const days = [];
-
 	const makeDay = (week: number) => {
 		const result = [];
 		// 첫 주
@@ -34,7 +31,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 						<button
 							type="button"
 							onClick={() => {
-								modalIsOpen();
+								openModal();
 								modalCalData(idx, workDay);
 							}}
 							className="cursor-pointer text-g10 first:text-g7 last:text-g7"
@@ -58,7 +55,7 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule }: IMakeCa
 						<button
 							type="button"
 							onClick={() => {
-								modalIsOpen();
+								openModal();
 								modalCalData(idx, workDay);
 							}}
 							className="cursor-pointer text-g10 first:text-g7 last:text-g7"

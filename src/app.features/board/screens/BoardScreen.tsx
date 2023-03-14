@@ -11,7 +11,7 @@ import BoardPreview from '../components/BoardPreview';
 function BoardScreen() {
 	const router = useRouter();
 	return (
-		<div>
+		<div className="">
 			<header className="w-full h-[5.6rem] flex items-center justify-between">
 				<span className="text-g10 text-subhead4 ml-[0.1rem]">편의점 게시판</span>
 				<button type="button" onClick={() => router.push(SERVICE_URL.boardSearch)}>
@@ -23,10 +23,10 @@ function BoardScreen() {
 			<div className="my-[2.4rem]">
 				<BoardCategorySlider />
 			</div>
-			<div className="pb-[5.6rem]">
+			<div className="mb-[5.6rem]">
 				<BoardPreview />
 			</div>
-			<div className="flex justify-end max-w-[42rem] -translate-x-[4rem] w-full fixed bottom-0 mb-[8.1rem] pointer-events-none">
+			<div className="flex justify-end max-w-[50rem] -translate-x-[4rem] w-full fixed bottom-0 mb-[8.1rem] pointer-events-none">
 				<button className="cursor-pointer pointer-events-auto" onClick={() => router.push(SERVICE_URL.boardWrite)}>
 					<WriteIcon />
 				</button>

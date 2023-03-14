@@ -9,7 +9,7 @@ import CtlIcon from 'src/app.modules/assets/calendar/control.svg';
 import EmptySalary from 'src/app.modules/assets/calendar/emptySalary.svg';
 import ArrowRight from 'src/app.modules/assets/arrowRight.svg';
 import ProfileImage from 'src/app.components/ProfileImage';
-import useModalStore from 'src/app.modules/store/modal';
+import useModal from 'src/app.modules/hooks/useModal';
 import useStore from '../store';
 import { ISalaryList } from '../types';
 import Keypad from '../components/Modal/Keypad';
@@ -18,7 +18,7 @@ import { getSalaryList } from '../api';
 function ManagerScreen() {
 	// 점장 급여 페이지
 	const { year, month, modalCalData, toDay } = useStore();
-	const { isModalOpen, modalIsOpen } = useModalStore();
+	const { isModalOpen, openModal, closeAnimationModal } = useModal();
 	const router = useRouter();
 	const [UserData, setUserData] = useState<ISalaryList[]>([]);
 	const [manageData, setManageData] = useState<ISalaryList[]>([]);
@@ -49,12 +49,12 @@ function ManagerScreen() {
 				<>
 					<div className="pb-[5.6rem]">
 						<Header title="" />
-						<div className="pointer-events-none h-[5.6rem] max-w-[42rem] -translate-x-[2rem] fixed z-50 flex mx-auto w-full items-center justify-center">
+						<div className="pointer-events-none h-[5.6rem] max-w-[50rem] -translate-x-[2rem] fixed z-50 flex mx-auto w-full items-center justify-center">
 							<button
 								type="button"
 								className="flex items-center pointer-events-auto"
 								onClick={() => {
-									modalIsOpen();
+									openModal();
 									modalCalData('keypad');
 								}}
 							>
@@ -68,7 +68,11 @@ function ManagerScreen() {
 
 					<div>
 						{manageData[0]?.totalSalary > 0 && (
-							<div className="pb-[0.6rem]">
+							<div
+								role="presentation"
+								className="pb-[0.6rem]"
+								onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${manageData[0]?.userCode}`)}
+							>
 								<div className="mt-[1.6rem] mb-[1.2rem]">
 									<span className="text-subhead4 text-g9">점장</span>
 								</div>
@@ -79,7 +83,7 @@ function ManagerScreen() {
 											<span className="text-subhead3 text-g10">{manageData[0]?.userName}</span>
 										</div>
 									</div>
-									<div className="flex">
+									<div className="flex items-center">
 										<div className="flex flex-col justify-center items-end">
 											<span className="text-subhead3 text-primary ">
 												{manageData[0]?.totalSalary
@@ -92,12 +96,7 @@ function ManagerScreen() {
 												시간당 {manageData[0]?.wage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
 											</span>
 										</div>
-										<button
-											type="button"
-											onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${manageData[0]?.userCode}`)}
-										>
-											<ArrowRight />
-										</button>
+										<ArrowRight />
 									</div>
 								</div>
 							</div>
@@ -110,6 +109,8 @@ function ManagerScreen() {
 								</div>
 								{UserData.map((info, index) => (
 									<div
+										role="presentation"
+										onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${info.userCode}`)}
 										key={index}
 										className="flex justify-between items-center py-[2.4rem] bg-g1 rounded-[0.8rem] px-[1.6rem] mb-[0.8rem]"
 									>
@@ -119,7 +120,7 @@ function ManagerScreen() {
 												<span className="text-subhead3 text-g10">{info.userName}</span>
 											</div>
 										</div>
-										<div className="flex">
+										<div className="flex items-center">
 											<div className="flex flex-col justify-center items-end">
 												<span className="text-subhead3 text-primary ">
 													{info.totalSalary
@@ -133,12 +134,7 @@ function ManagerScreen() {
 												</span>
 											</div>
 
-											<button
-												type="button"
-												onClick={() => router.push(`${SERVICE_URL.calendarSalaryDetail}/${info.userCode}`)}
-											>
-												<ArrowRight />
-											</button>
+											<ArrowRight />
 										</div>
 									</div>
 								))}
@@ -157,7 +153,7 @@ function ManagerScreen() {
 				</>
 			)}
 			{isModalOpen && (
-				<Overlay>
+				<Overlay overlayClickFn={() => closeAnimationModal()}>
 					<TopModal bgColor="bg-g1">
 						<Keypad year={year} month={month} />
 					</TopModal>

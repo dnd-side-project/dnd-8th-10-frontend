@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import useModalStore from 'src/app.modules/store/modal';
 import { crossDate } from 'src/app.modules/util/calendar';
 import { getWorkList } from '../api';
 import useStore from '../store';
@@ -9,10 +8,10 @@ import WorkList from './Modal/WorkList';
 
 interface Props {
 	currentUser: string;
+	closeModal: () => void;
 }
-function ModalWrap({ currentUser }: Props) {
+function ModalWrap({ currentUser, closeModal }: Props) {
 	const { toDay, workDay, year, month } = useStore();
-	const { modalIsClose } = useModalStore();
 	const { clickDay } = useStore();
 	const [clickYear, clickMonth, day] = clickDay.split('.');
 	const { clickDayData, toDayData } = crossDate(clickDay, toDay);
@@ -21,7 +20,7 @@ function ModalWrap({ currentUser }: Props) {
 	useEffect(() => {
 		return () => {
 			setUserName([]);
-			modalIsClose();
+			closeModal();
 		};
 	}, [clickDay]);
 
@@ -30,7 +29,7 @@ function ModalWrap({ currentUser }: Props) {
 		if (clickDayData <= toDayData && userName.length === 0) {
 			const data = getWorkList({ year: clickYear, month: clickMonth, day });
 			data.then((res) => {
-				console.log(res);
+				// console.log(res);
 				setUserName(res.data.data);
 			});
 		}

@@ -4,12 +4,13 @@ import Header from 'src/app.components/Header';
 import Overlay from 'src/app.components/Modal/Overlay';
 import TopModal from 'src/app.components/Modal/TopModal';
 import CtlIcon from 'src/app.modules/assets/calendar/controlW.svg';
-import useModalStore from 'src/app.modules/store/modal';
 import SettingIcon from 'src/app.modules/assets/calendar/salary/setting.svg';
 import MoneyIcon from 'src/app.modules/assets/calendar/salary/money.svg';
 import InfoIcon from 'src/app.modules/assets/calendar/salary/info.svg';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { useRouter } from 'next/router';
+import useModal from 'src/app.modules/hooks/useModal';
+import useUser from 'src/app.modules/hooks/user/useUser';
 import { getSalary } from '../api';
 import Keypad from '../components/Modal/Keypad';
 import SalaryDetail from '../components/SalaryDetail';
@@ -20,32 +21,29 @@ import { ISalaryData } from '../types';
 function WorkerScreen() {
 	// 직원 급여 페이지
 	const { year, month, modalCalData } = useStore();
-	const { isModalOpen, modalIsOpen } = useModalStore();
+	const { isModalOpen, openModal, closeAnimationModal } = useModal();
+
 	const [salaryData, setSalaryData] = useState<ISalaryData[]>([]);
 	const [workHour, setWorkHour] = useState<number>();
 	const router = useRouter();
+	const { data: userData, isLoading: userLoading } = useUser();
 	const { data, isLoading, refetch } = useQuery(
 		['salary'],
 		() => getSalary({ year: String(year), month: String(month + 1) }),
 		{
 			onSuccess: (res) => {
 				setSalaryData(res.data.data);
+				const workHourFilter = res.data.data.reduce(
+					(acc: number, current: { workHour: number }) => acc + current.workHour,
+					-1
+				);
+				setWorkHour(workHourFilter);
 			},
 			onError: (error) => {
 				console.log(error);
 			},
-			retry: false,
-			refetchOnMount: false,
-			refetchOnReconnect: false,
-			refetchOnWindowFocus: false,
 		}
 	);
-
-	useEffect(() => {
-		const workHourFilter = salaryData.reduce((acc: number, current: { workHour: number }) => acc + current.workHour, 0);
-		setWorkHour(workHourFilter);
-	}, [salaryData]);
-
 	useEffect(() => {
 		refetch();
 	}, [year, month]);
@@ -62,7 +60,7 @@ function WorkerScreen() {
 									type="button"
 									className="flex items-center pointer-events-auto"
 									onClick={() => {
-										modalIsOpen();
+										openModal();
 										modalCalData('keypad');
 									}}
 								>
@@ -84,7 +82,7 @@ function WorkerScreen() {
 							<span className="text-subhead3 text-w ml-[0.4rem]">이번달 급여</span>
 						</div>
 						<div className="pb-[1rem]">
-							<TotalSalary data={workHour} />
+							<TotalSalary data={workHour} wage={userData.wage} />
 						</div>
 						<div className="mx-[0.2rem] pb-[2rem]">
 							<div className="flex items-center">
@@ -106,7 +104,7 @@ function WorkerScreen() {
 			)}
 			{isModalOpen && (
 				<>
-					<Overlay>
+					<Overlay overlayClickFn={() => closeAnimationModal()}>
 						<TopModal bgColor="bg-g1">
 							<Keypad year={year} month={month} />
 						</TopModal>

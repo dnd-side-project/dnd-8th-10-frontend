@@ -23,7 +23,7 @@ interface Props {
 function HomeScreen({ grayData, WorkMutate, todayWork, userData, boardNoticeData }: Props) {
 	return (
 		<div className="bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem] py-[5.6rem]">
-			<MainPoster />
+			<MainPoster userName={userData?.userName ?? ''} />
 			<BoardPreview boardNoticeData={boardNoticeData} />
 			<WorkStatus grayData={grayData} WorkMutate={WorkMutate} todayWork={todayWork} userName={userData?.userName} />
 			<Shortcut />

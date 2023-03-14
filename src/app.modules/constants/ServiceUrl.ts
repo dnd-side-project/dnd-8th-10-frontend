@@ -10,6 +10,7 @@ export const SERVICE_URL = {
 	inventoryCard: '/inventory/gift-card',
 	inventoryBag: '/inventory/garbage-bag',
 	mypage: '/mypage',
+	mypost: '/mypage/post',
 	profileSetting: '/mypage/setting',
 	editWorkTime: '/mypage/setting/work-time',
 	editPhoneNumber: '/mypage/setting/phone',

@@ -15,7 +15,7 @@ function RegisterLayout({ curPage, children, canGoNext }: Props) {
 	const nextHandler = () => {
 		router.push(`${SERVICE_URL.register}?page=${curPage + 1}`);
 	};
-
+	// TODO: text input submit 할때마다 다음 페이지로 옮기기
 	return (
 		<>
 			<Header title={(router?.query?.title as string) ?? ''} />
@@ -33,7 +33,7 @@ function RegisterLayout({ curPage, children, canGoNext }: Props) {
 				<button
 					disabled={!canGoNext}
 					onClick={nextHandler}
-					className="disabled:bg-g1 disabled:text-g4 pt-[1.9rem] pb-[4.3rem] text-white text-subhead4 h-[8rem] text-center bg-primary fixed max-w-[42rem] mx-auto inset-x-0 bottom-0"
+					className="disabled:bg-g1 disabled:text-g4 pt-[1.9rem] pb-[4.3rem] text-white text-subhead4 h-[8rem] text-center bg-primary fixed max-w-[50rem] mx-auto inset-x-0 bottom-0"
 				>
 					다음으로
 				</button>

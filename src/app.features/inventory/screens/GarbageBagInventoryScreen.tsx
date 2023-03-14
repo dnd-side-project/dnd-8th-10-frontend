@@ -3,7 +3,7 @@ import Bar from 'src/app.components/app.base/Button/Bar';
 import Header from 'src/app.components/Header';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { IInventoryList, PutInventoryBody } from 'src/app.modules/api/inventory';
-import useModalStore from 'src/app.modules/store/modal';
+import useModal from 'src/app.modules/hooks/useModal';
 import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryList';
 import LastCheckModal from '../components/LastCheckModal';
@@ -17,7 +17,7 @@ interface Props {
 
 function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventoryLoading }: Props) {
 	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
-	const { isModalOpen, modalIsOpen, modalIsClose } = useModalStore();
+	const { isModalOpen, closeAnimationModal: closeModal, openModal } = useModal();
 	const submitInventoryRecord = (category: string) => {
 		if (editInventoryLoading) return;
 		const list = Object.keys(countHistory).map((inventoryName) => ({
@@ -27,7 +27,6 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 		const body = { category, list };
 		console.log(body);
 		editInventory(body);
-		modalIsClose();
 	};
 	const [filter, setFilter] = useState<'일반 쓰레기' | '음식물 쓰레기'>('일반 쓰레기');
 	const filterHandler = (e: React.BaseSyntheticEvent) => {
@@ -52,19 +51,19 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 					/>
 				)}
 				<div
-					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient   z-50 aria-hidden:hidden"
+					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient "
 					aria-hidden={isModalOpen}
 				>
 					<Bar
 						ClickFn={() => {
 							submitInventoryRecord('garbagebag');
-							modalIsOpen();
+							openModal();
 						}}
 					>
-						점검사항 확인
+						점검사항 저장
 					</Bar>
 				</div>
-				{isModalOpen && <LastCheckModal countHistory={countHistory} category="garbagebag" />}
+				{isModalOpen && <LastCheckModal closeModal={closeModal} countHistory={countHistory} category="garbagebag" />}
 			</main>
 		</>
 	);

@@ -27,7 +27,7 @@ function SearchInput({
 		inputRef.current.blur();
 	};
 	return (
-		<form onSubmit={onSubmit} className="relative">
+		<form onSubmit={onSubmit} role="search" className="relative w-full h-[4.8rem] rounded-[0.8rem] bg-[#F8F8FA]">
 			{!isSearched && <SearchIcon className="absolute left-[1.2rem] top-1/2 -translate-y-1/2" />}
 			<input
 				ref={inputRef}
@@ -38,9 +38,10 @@ function SearchInput({
 				onFocus={onFocus}
 				onBlur={onBlur}
 				readOnly={isSearched}
-				className={`w-full h-[4.8rem] rounded-[0.8rem] bg-[#F8F8FA] ${
+				autoCapitalize="off"
+				className={`w-full  rounded-[0.8rem]  ${
 					isSearched ? 'pl-[1.2rem]' : 'pl-[4.4rem]'
-				} text-body2   placeholder:text-g7 text-g9  pr-[1.2rem] py-[1.4rem] outline-none`}
+				} text-body2 bg-[#F8F8FA]  placeholder:text-g7 text-g9  pr-[1.2rem] py-[1.4rem] outline-none`}
 			/>
 			{searchTerm && (
 				<button onClick={resetSearchTerm} type="reset" className="absolute right-[1.6rem] top-1/2 -translate-y-1/2">
