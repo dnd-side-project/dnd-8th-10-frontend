@@ -125,8 +125,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 		]);
 		setWorkTime(Object.fromEntries(tmp));
 	}, [user]);
-	const [isAnimating, setIsAnimating] = useState(false);
-	console.log(isAnimating);
+
 	return (
 		<>
 			<Header title="근무시간 수정">
@@ -162,11 +161,16 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 								isEndTimeSet={Boolean(workTime?.[selectedDay]?.endTime)}
 								startTimeText={`${workTime?.[selectedDay]?.startTime?.meridiem === 'am' ? '오전' : '오후'} ${
 									workTime?.[selectedDay]?.startTime?.hour
-								} : ${workTime?.[selectedDay]?.startTime?.minute}`}
+								} : ${Number(workTime?.[selectedDay]?.startTime?.minute) < 10 ? '0' : ''}${
+									workTime?.[selectedDay]?.startTime?.minute
+								}`}
 								endTimeText={`${workTime?.[selectedDay]?.endTime?.meridiem === 'am' ? '오전' : '오후'} ${
 									workTime?.[selectedDay]?.endTime?.hour
-								} : ${workTime?.[selectedDay]?.endTime?.minute}`}
+								} : ${Number(workTime?.[selectedDay]?.endTime?.minute) < 10 ? '0' : ''}${
+									workTime?.[selectedDay]?.endTime?.minute
+								}`}
 								resetTimeHandler={resetTimeHandler}
+								focusedType={openModalFlag}
 							/>
 						</div>
 					)}
@@ -183,6 +187,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 					onDone={workTimeHandler}
 					time={workTimeOnModal}
 					onTimeChange={timeOnModalHandler}
+					openModalFlag={openModalFlag}
 				/>
 			)}
 			{isDeleteModalOpen && (

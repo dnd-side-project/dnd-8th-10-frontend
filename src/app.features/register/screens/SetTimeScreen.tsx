@@ -125,6 +125,7 @@ function SetTimeScreen() {
 								} : ${workTime[selectedDay]?.endTime?.minute}`}
 								resetTimeHandler={resetTimeHandler}
 								day={selectedDay}
+								focusedType={openModalFlag}
 							/>
 						</div>
 					)}

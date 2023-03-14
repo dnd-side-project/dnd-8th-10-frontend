@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
-import Overlay from 'src/app.components/Modal/Overlay';
-import TopModal from 'src/app.components/Modal/TopModal';
+import { TimeType } from 'src/app.modules/types/workTime';
 import { WorkTimeOnModalType } from '../screens/WorkTimeSettingScreen';
 
 interface Props {
@@ -10,8 +9,9 @@ interface Props {
 	onDone: () => void;
 	time: WorkTimeOnModalType;
 	onTimeChange: (e: React.BaseSyntheticEvent) => void;
+	openModalFlag: TimeType | null;
 }
-function SetWorkTimeModal({ closeModal, onDone, onTimeChange, time }: Props) {
+function SetWorkTimeModal({ closeModal, onDone, onTimeChange, time, openModalFlag }: Props) {
 	const [isPop, setIsPop] = useState<boolean>();
 	useEffect(() => {
 		setIsPop(true);
@@ -30,8 +30,7 @@ function SetWorkTimeModal({ closeModal, onDone, onTimeChange, time }: Props) {
 				`}
 			/>
 			<div
-				role="dialog"
-				aria-modal="true"
+				aria-modal
 				className={`bg-w rounded-t-[1.6rem] z-[102] fixed bottom-0 max-w-[50rem] -translate-x-[2rem] mx-auto w-full transition-transform duration-500 ease-in-out ${
 					isPop ? 'transform translate-y-0' : 'transform translate-y-full'
 				}`}
@@ -40,21 +39,22 @@ function SetWorkTimeModal({ closeModal, onDone, onTimeChange, time }: Props) {
 					<div className="w-[5rem] h-[0.4rem] bg-g4 rounded-[1rem]" />
 				</div>
 				<div className="px-[2rem] pb-[2rem]">
-					<div>
-						<div className="space-y-[2.4rem]">
-							<SetTimeButtons timeHandler={onTimeChange} time={time} />
+					<div className="space-y-[2.4rem] flex flex-col items-center">
+						<span className="text-g10 text-subhead3">
+							언제 {openModalFlag === 'startTime' ? '출근' : '퇴근'}하시나요?
+						</span>
+						<SetTimeButtons timeHandler={onTimeChange} time={time} />
 
-							<Bar
-								ClickFn={() => {
-									setIsPop(false);
-									onDone();
+						<Bar
+							ClickFn={() => {
+								setIsPop(false);
+								onDone();
 
-									closeModal();
-								}}
-							>
-								완료
-							</Bar>
-						</div>
+								closeModal();
+							}}
+						>
+							완료
+						</Bar>
 					</div>
 				</div>
 			</div>
