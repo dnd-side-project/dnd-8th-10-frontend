@@ -32,7 +32,7 @@ function CigaretteInventory() {
 			openSavePopup();
 			setTimeout(() => {
 				closeSavePopup();
-			}, 3000);
+			}, 2500);
 		},
 		onError: (error) => alert('오류 발생.'),
 	});

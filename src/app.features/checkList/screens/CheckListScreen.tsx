@@ -106,7 +106,8 @@ function CheckListScreen({
 	};
 	const [week, setWeek] = useState<number[]>(calcWeek());
 
-	const addTodoHandler = () => {
+	const addTodoHandler = (e: React.FocusEvent) => {
+		e.preventDefault();
 		if (postChecklistLoading) return;
 		if (!newTodo.trim()) return;
 		const body = {
@@ -237,7 +238,7 @@ function CheckListScreen({
 				<Divider classNames="fixed  w-full max-w-[50rem] z-[50]" />
 
 				{isChecklistFetched && isWorkDay ? (
-					<div className=" text-subhead2 space-y-[1.6rem] py-[2.4rem] relative h-[calc(100vh-20.6rem)] overflow-y-scroll scrollbar-hidden ">
+					<div className=" text-subhead2 space-y-[1.6rem] py-[3.6rem] relative h-[calc(100vh-20.6rem)] overflow-y-scroll scrollbar-hidden ">
 						<div className="w-full bg-white ">
 							<button
 								onClick={() => setAddTodoInputOpen(true)}
@@ -248,7 +249,11 @@ function CheckListScreen({
 								<span>항목 추가하기</span>
 							</button>
 							{addTodoInputOpen && (
-								<div aria-hidden={!addTodoInputOpen} className="aria-hidden:hidden  flex items-center  space-x-[1rem]">
+								<form
+									onSubmit={addTodoHandler}
+									aria-hidden={!addTodoInputOpen}
+									className="aria-hidden:hidden  flex items-center  space-x-[1rem]"
+								>
 									<div>
 										<AddTodoDecoIcon />
 									</div>
@@ -262,19 +267,13 @@ function CheckListScreen({
 										onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
 										// eslint-disable-next-line jsx-a11y/no-autofocus
 										autoFocus
-										onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-											if (e.key === 'Enter') {
-												console.log('enter');
-												addTodoHandler();
-											}
-										}}
 										onBlur={() => setAddTodoInputOpen(false)}
 										className="w-full outline-none border-b-[0.1rem] border-g6 text-g9"
 									/>
 									<button type="button" onClick={cancelAddTodoHandler}>
 										<TrashIcon />
 									</button>
-								</div>
+								</form>
 							)}
 						</div>
 						<ul className=" text-g9 space-y-[1.6rem]  ">

@@ -9,6 +9,8 @@ import TopModal from 'src/app.components/Modal/TopModal';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import InputInteractButton from 'src/app.components/Button/InputInteractButton';
 import useModal from 'src/app.modules/hooks/useModal';
+import Modal from 'src/app.components/Modal/Modal';
+import { useRouter } from 'next/router';
 import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryList';
 import useCountHistory from '../hooks/useCountHistory';
@@ -71,7 +73,17 @@ function CountCigaretteScreen({
 	// TODO: 모달이름 바꾸기
 	const { isModalOpen: isSaveModalOpen, closeAnimationModal: closeSaveModal, openModal: openSaveModal } = useModal();
 	const { isModalOpen: isAddModalOpen, closeAnimationModal: closeAddModal, openModal: openAddModal } = useModal();
-
+	const {
+		isModalOpen: isBackAlertModalOpen,
+		closeModal: closeBackAlertModal,
+		openModal: openBackAlertModal,
+	} = useModal();
+	const router = useRouter();
+	const goBackHandler = () => {
+		if (Object.keys(countHistory).length) {
+			// openBackAlertModal();
+		}
+	};
 	const onSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value);
 	};
@@ -121,7 +133,7 @@ function CountCigaretteScreen({
 	};
 	return (
 		<>
-			<Header title="담배">
+			<Header title="담배" onBack={goBackHandler}>
 				<button onClick={openAddModalHandler} className="text-primary text-subhead2">
 					항목추가
 				</button>
@@ -164,6 +176,22 @@ function CountCigaretteScreen({
 						onReset={resetCigaHandler}
 						onDone={submitNewCigarette}
 					/>
+				)}
+				{isBackAlertModalOpen && (
+					<Overlay
+						overlayClickFn={() => {
+							closeBackAlertModal();
+						}}
+					>
+						<Modal
+							title="시재점검을 종료하시는건가요?
+							점검 중인 내용이 저장되지 않습니다."
+							yesFn={() => router.back()}
+							yesTitle="종료"
+							noFn={closeBackAlertModal}
+							noTitle="아니오"
+						/>
+					</Overlay>
 				)}
 			</main>
 		</>
