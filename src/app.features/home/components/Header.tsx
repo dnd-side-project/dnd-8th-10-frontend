@@ -18,7 +18,7 @@ function Header({ workPlace, hasNotice }: Props) {
 				<GpsIcon />
 				<span className="ml-[0.2rem] text-body1 text-g6">{workPlace}</span>
 			</div>
-			<button className="relative" type="button" onClick={() => router.push(SERVICE_URL.alarm)}>
+			<button className="relative" type="button" onClick={() => router.push(SERVICE_URL.notice)}>
 				<AlarmIcon />
 				{hasNotice && <div className="w-[0.6rem] h-[0.6rem] bg-secondary rounded-[50%] absolute right-0 top-0" />}
 			</button>

@@ -55,7 +55,7 @@ const Home: NextPage = () => {
 	});
 
 	// 알림있는지 확인
-	const { data: hasAlarm } = useQuery(['notice'], getAlarmNotice, {
+	const { data: hasNotice } = useQuery(['notice'], getAlarmNotice, {
 		select: (res) => res.data,
 		onSuccess: (res) => {
 			// console.log(res);
@@ -83,7 +83,7 @@ const Home: NextPage = () => {
 		<>
 			{!isLoading && (
 				<>
-					<Header workPlace={data?.workPlace ?? ''} hasNotice={false} />
+					<Header workPlace={data?.workPlace ?? ''} hasNotice={hasNotice} />
 					<main className="h-[100vh] bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem]">
 						<HomeScreen
 							grayData={grayData}

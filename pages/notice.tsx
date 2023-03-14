@@ -5,22 +5,18 @@ import { boardCheckCategory } from 'src/app.features/board/api';
 import AlarmScreen from 'src/app.features/home/screens/AlarmScreen';
 import { getAlarmList } from 'src/app.modules/api/alram';
 
-const Alarm: NextPage = () => {
+const Notice: NextPage = () => {
 	// 알림있는지 확인
-	const { data: hasAlarm } = useQuery(['notice', 'list'], getAlarmList, {
-		select: (res) => res.data,
+	const { data } = useQuery(['notice', 'list'], getAlarmList, {
+		select: (res) => res.data.data,
 		onSuccess: (res) => {
-			// console.log(res);
+			console.log(res);
 		},
 		onError: (error) => {
 			console.log(error);
 		},
 	});
-	return (
-		<>
-			<AlarmScreen AlarmData={AlarmData} />
-		</>
-	);
+	return <AlarmScreen AlarmData={data ?? []} />;
 };
 
-export default Alarm;
+export default Notice;

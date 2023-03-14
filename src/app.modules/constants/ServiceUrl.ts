@@ -1,6 +1,6 @@
 export const SERVICE_URL = {
 	home: '/',
-	alarm: '/alarm',
+	notice: '/notice',
 	register: '/register',
 	login: '/login',
 	checklist: '/checklist',
