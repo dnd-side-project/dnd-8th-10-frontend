@@ -167,7 +167,8 @@ function BoardViewScreen({
 			// selection?.addRange(newRange);
 			return;
 		} */
-		if (e.keyCode === 50 && e.shiftKey) {
+		// @입력
+		if (e.key === '@') {
 			if (storeFecthDisabled) {
 				console.log('골뱅이');
 				setStoreFetchDisabled(false);
@@ -262,7 +263,7 @@ function BoardViewScreen({
 	//	if (mentionRef?.current === null) return;
 	// mentionRef.current.innerHTML = newComments.join();
 	// }, [newComments]);
-	console.log(userData);
+
 	return (
 		<>
 			{mode !== 'edit' ? (
