@@ -314,37 +314,39 @@ function BoardViewScreen({
 					<footer
 						className={`${
 							commentInputMode === 'wide' ? '' : 'px-[2rem] py-[1.2rem]'
-						} absolute w-full z-[150] flex items-center bg-w  -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0  h-[6rem] max-h-[6rem] border-solid border-t-[0.05rem] border-g3`}
+						} absolute w-full z-[150] flex items-center bg-w   -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0   h-fit border-solid border-t-[0.05rem] border-g3`}
 					>
-						<div
-							role="textbox"
-							className={`relative w-full bg-g1  h-full ${
-								commentInputMode === 'wide'
-									? 'pl-[2rem] pr-[5.2rem] py-[2rem]'
-									: 'rounded-[0.8rem] px-[1.2rem] py-[0.8rem]'
-							} `}
-						>
-							<p
-								// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-								tabIndex={0}
-								ref={commentRef}
-								onKeyDown={commentKeyboardHandler}
-								contentEditable
-								onInput={newCommentHandler}
-								onMouseDown={() => {
-									const $comment = commentRef.current;
-									if ($comment === null) return;
-									if ($comment.innerText === PLACEHOLDER) {
-										$comment.innerHTML = '';
-										$comment.style.color = '#66666E';
-										$comment.style.fontWeight = '500';
-									}
+						<div className={`relative w-full bg-g1 ${commentInputMode === 'small' ? 'rounded-[0.8rem]' : ''} `}>
+							<div
+								role="textbox"
+								className={` ${
+									commentInputMode === 'wide'
+										? 'flex items-center pl-[2rem] pr-[5.2rem] my-[1rem] min-h-[4rem] max-h-[8rem]  '
+										: 'rounded-[0.8rem] px-[1.2rem] py-[0.8rem] h-[3.6rem]  '
+								}   scrollbar-hidden overflow-y-scroll `}
+							>
+								<p
+									// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+									tabIndex={0}
+									ref={commentRef}
+									onKeyDown={commentKeyboardHandler}
+									contentEditable
+									onInput={newCommentHandler}
+									onMouseDown={() => {
+										const $comment = commentRef.current;
+										if ($comment === null) return;
+										if ($comment.innerText === PLACEHOLDER) {
+											$comment.innerHTML = '';
+											$comment.style.color = '#66666E';
+											$comment.style.fontWeight = '500';
+										}
 
-									setCommentInputMode('wide');
-									$comment.focus();
-								}}
-								className=" text-[1.4rem] leading-[2rem]  text-g9 w-full  outline-none"
-							/>
+										setCommentInputMode('wide');
+										$comment.focus();
+									}}
+									className=" text-[1.4rem] leading-[2rem]  text-g9 w-full  outline-none"
+								/>
+							</div>
 							{commentInputMode === 'wide' && (
 								<button
 									type="submit"
