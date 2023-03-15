@@ -41,6 +41,9 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 	} as WorkTimeOnModalType;
 	const [workTimeOnModal, setWorkTimeOnModal] = useState<WorkTimeOnModalType>(INIT_WORK_TIME);
 	const selectedDayHandler = (e: React.BaseSyntheticEvent) => {
+		if (openModalFlag != null) {
+			setOpenModalFlag(null);
+		}
 		setSelectedDay(e.target.value);
 	};
 

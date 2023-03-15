@@ -65,6 +65,9 @@ function SetTimeScreen() {
 		setWorkTimeOnModal(INIT_WORK_TIME);
 	};
 	const selectedDayHandler = (e: BaseSyntheticEvent) => {
+		if (openModalFlag != null) {
+			setOpenModalFlag(null);
+		}
 		setSelectedDay(e.target.value);
 	};
 	const resetTimeHandler = (flag: TimeType) => {
