@@ -141,10 +141,12 @@ function BoardViewScreen({
 	};
 
 	const newCommentSubmitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
 		const { postId } = boardViewData;
 		// const content = newComments.join().trim();
 		if (!postId) return;
 		if (commentRef?.current === null) return;
+		if (!commentRef.current.innerText.trim()) return;
 		const mentionUserCodesBody = Array.from(new Set(mentionUserCodes));
 		const body = { postId, content: commentRef.current.innerHTML as string, userCode: mentionUserCodesBody };
 		console.log(body, 'post comment body');
@@ -232,9 +234,17 @@ function BoardViewScreen({
 			$comment.innerHTML = PLACEHOLDER;
 			$comment.style.color = '#9E9EA9';
 		}
-		const handleCommentFocusOut = (e: FocusEvent) => {
-			const relatedTarget: any = e?.relatedTarget;
-			if (relatedTarget?.name === 'submitComment') return; // 댓글 전송 버튼을 누른 경우
+		const handleCommentFocusOut = (e: any) => {
+			const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+			if (isSafari) {
+				const selection: any = window.getSelection();
+				if (selection === null) return;
+				if (selection?.anchorNode?.id === 'newComment') return; //  댓글 전송 버튼 경우 처리 ,사파리의 경우
+			} else {
+				const relatedTarget: any = e?.relatedTarget;
+				if (relatedTarget?.name === 'submitComment') return; // 댓글 전송 버튼을 누른 경우
+			}
+
 			if ($comment.innerText.length === 0 || $comment.innerText === '\n') {
 				// 두번째 조건은 사파리 대응
 				$comment.innerHTML = PLACEHOLDER;
@@ -244,9 +254,9 @@ function BoardViewScreen({
 
 			setCommentInputMode('small');
 		};
-		$comment.addEventListener('focusout', handleCommentFocusOut);
+		$commentWrapper.addEventListener('focusout', handleCommentFocusOut);
 		// eslint-disable-next-line consistent-return
-		return () => $comment.removeEventListener('focusout', handleCommentFocusOut);
+		return () => $commentWrapper.removeEventListener('focusout', handleCommentFocusOut);
 	}, []);
 	return (
 		<>
@@ -332,6 +342,7 @@ function BoardViewScreen({
 								}   scrollbar-hidden overflow-y-scroll flex`}
 							>
 								<p
+									id="newComment"
 									ref={commentRef}
 									onKeyDown={commentKeyboardHandler}
 									contentEditable
