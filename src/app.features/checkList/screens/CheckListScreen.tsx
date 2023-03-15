@@ -239,7 +239,7 @@ function CheckListScreen({
 					</div>
 				</div>
 
-				<div className="overflow-y-scroll px-[2rem]  scrollbar-hidden mt-[5.6rem] relative  overflow-x-visible">
+				<div className="overflow-y-scroll overflow-x-hidden px-[2rem]  scrollbar-hidden mt-[5.6rem] relative">
 					<Divider />
 					{isChecklistFetched && isWorkDay ? (
 						<div className=" text-subhead2 space-y-[1.6rem] pt-[2.4rem]  relative h-[100vh] ">
