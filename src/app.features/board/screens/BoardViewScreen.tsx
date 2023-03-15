@@ -66,7 +66,7 @@ function BoardViewScreen({
 	} = useModal();
 	const {
 		isModalOpen: isMentionModalOpen,
-		closeAnimationModal: closeMentiondModal,
+		closeAnimationModal: closeMentionModal,
 		openModal: openMentionModal,
 	} = useModal();
 	const { isModalOpen: isOptionModalOpen, closeModal: closeOptionModal, openModal: openOptionModal } = useModal();
@@ -111,9 +111,11 @@ function BoardViewScreen({
 				storeRefetch();
 			}
 			openMentionModal();
-		} else if (isMentionModalOpen) {
-			closeMentiondModal();
 		}
+		/* 
+		else if (isMentionModalOpen) {
+			closeMentiondModal();
+		} */
 		// 방향키 입력
 		if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') return;
 		const selection: any = window.getSelection();
@@ -209,7 +211,6 @@ function BoardViewScreen({
 			selection.removeAllRanges();
 			selection.addRange(range);
 			setCommentInputMode('wide');
-			closeMentiondModal();
 		}
 	};
 
@@ -221,7 +222,7 @@ function BoardViewScreen({
 		const $comment = commentRef.current;
 		const $commentWrapper = commentWrapRef.current;
 		if ($comment === null || $commentWrapper === null) return;
-		if ($comment.innerText.length === 0) {
+		if ($comment.innerText.trim().length === 0) {
 			$comment.innerHTML = PLACEHOLDER;
 			$comment.style.color = '#9E9EA9';
 		}
@@ -324,7 +325,7 @@ function BoardViewScreen({
 						ref={commentWrapRef}
 						className={`${
 							commentInputMode === 'wide' ? '' : 'px-[2rem] py-[1.2rem]'
-						} absolute w-full z-[200] flex items-center bg-w   -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0   h-fit border-solid border-t-[0.05rem] border-g3`}
+						} absolute w-full z-[100] flex items-center bg-w   -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0   h-fit border-solid border-t-[0.05rem] border-g3`}
 					>
 						<div className={`relative w-full bg-g1 ${commentInputMode === 'wide' ? '' : 'rounded-[0.8rem]'} `}>
 							<div
@@ -423,7 +424,11 @@ function BoardViewScreen({
 						</Overlay>
 					)}
 					{isMentionModalOpen && mentionUserList()?.length && (
-						<MentionModal userList={mentionUserList()} onMetionUserClick={mentionUserHandler} />
+						<MentionModal
+							userList={mentionUserList()}
+							onMetionUserClick={mentionUserHandler}
+							closeModal={closeMentionModal}
+						/>
 					)}
 				</div>
 			) : (
