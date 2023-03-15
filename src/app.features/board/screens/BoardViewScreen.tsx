@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 import { useRouter } from 'next/router';
-import React, { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BoardModal from 'src/app.components/Modal/BoardModal';
 import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
@@ -15,7 +15,7 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import SendCommentIcon from 'src/app.modules/assets/sendComment.svg';
 import CommentSettingIcon from '../../../app.modules/assets/board/ellipsis.svg';
 import BoardContentView from '../components/boardView/BoardContentView';
-import { IBoardCheckPerson, IBoardViewData, IComment } from '../types';
+import { IBoardCheckPerson, IBoardViewData } from '../types';
 import { formatDate } from '../utils';
 import { DeleteCommentParam, PostCommentBody, PutCommentBody } from '../api/viewResponse';
 import BoardViewHeader from '../components/boardView/Header';
@@ -101,76 +101,10 @@ function BoardViewScreen({
 	}; // React.ChangeEvent<HTMLDivElement>
 	const commentKeyboardHandler = (e: React.KeyboardEvent<HTMLParagraphElement>) => {
 		// TODO: 멘션 로직 분리
-
-		// metion 기능 최초실행시 fetch On
-
-		// console.log(e.target.innerHTML, window?.getSelection());
-		// const selection = window.getSelection();
-		// const newRange = document.createRange();
-
-		// newRange.selectNodeContents(commentRef.current);
-		// console.log(newRange);
-		// newRange.collapse(false);
-		// console.log(newRange.endContainer);
-		// newRange.setEnd(end);
-		// selection?.removeAllRanges();
-		// selection?.addRange(newRange);
-		if (commentRef?.current === null) return;
-		const selection: any = window.getSelection();
-		if (selection === null) return;
-
-		if (selection.baseNode.parentNode.tagName === 'WS-MENTION') {
-			console.log(selection.baseNode);
-			const range = selection.getRangeAt(0);
-			const previousNode = range.startContainer.textContent;
-			console.log(previousNode, 'fasgawe');
-			const newNode = document.createTextNode(previousNode);
-			commentRef.current.replaceChild(newNode, selection.baseNode.parentNode);
-			// const newRange = document.createRange();
-			// newRange.selectNodeContents(commentRef.current);
-
-			// newRange.collapse(false);
-			// console.log(newRange.endContainer);
-			// newRange.setEnd(end);
-			// selection?.removeAllRanges();
-			// selection?.addRange(newRange);
-			// commentRef.current.removeChild(selection.baseNode.parentNode);
-		}
-		/* if (e.keyCode === 8) {
-			// 지우기
-			if (commentRef?.current === null) return;
-			const selection: any = window.getSelection();
-			if (selection === null) return;
-
-			if (selection.baseNode.parentNode.tagName === 'WS-MENTION') {
-				console.log(selection.baseNode);
-				commentRef.current.replaceChild(selection.baseNode, selection.baseNode.parentNode);
-				const newRange = document.createRange();
-				newRange.selectNodeContents(commentRef.current);
-
-				newRange.collapse(false);
-				// console.log(newRange.endContainer);
-				// newRange.setEnd(end);
-				selection?.removeAllRanges();
-				selection?.addRange(newRange);
-				// commentRef.current.removeChild(selection.baseNode.parentNode);
-			}
-			// const selection = window.getSelection();
-			// const newRange = document.createRange();
-
-			// newRange.selectNodeContents(commentRef.current);
-			// console.log(newRange);
-			/// newRange.collapse(false);
-			// console.log(newRange.startContainer);
-			// newRange.setEnd(end);
-			// selection?.removeAllRanges();
-			// selection?.addRange(newRange);
-			return;
-		} */
 		// @입력
 		if (e.key === '@') {
 			if (storeFecthDisabled) {
-				console.log('골뱅이');
+				// metion 기능 최초실행시 fetch On
 				setStoreFetchDisabled(false);
 
 				storeRefetch();
@@ -178,6 +112,30 @@ function BoardViewScreen({
 			openMentionModal();
 		} else if (isMentionModalOpen) {
 			closeMentiondModal();
+		}
+		// 방향키 입력
+		if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') return;
+		const selection: any = window.getSelection();
+		if (selection === null) return;
+		const comment = commentRef.current;
+		if (comment === null) return;
+
+		// 멘션 수정 시도
+		if (selection.baseNode.parentNode.tagName === 'WS-MENTION') {
+			// delete 키 입력
+			if (e.keyCode === 8 || e.key === 'Backspace') {
+				const $space = document.createTextNode('\u00A0');
+				comment.replaceChild($space, selection.baseNode.parentNode);
+				const range = document.createRange();
+				range.setStart($space, 1);
+				range.setEnd($space, 1);
+				selection.removeAllRanges();
+				selection.addRange(range);
+			} else {
+				// 멘션 영역 내부 키보드 입력
+				// 멘션 삭제 처리
+				comment.removeChild(selection.baseNode.parentNode);
+			}
 		}
 	};
 
@@ -224,7 +182,7 @@ function BoardViewScreen({
 		if (commentRef?.current === null) return;
 		const userNameString = `@${userName}`;
 		setMentionUserCodes((prev) => [...prev, userCode]);
-		const newMention = `<ws-mention class="mention-text" data-index=${mentionUserCodes.length}>${userNameString}</ws-mention>`;
+		const newMention = `<ws-mention class="mention-text" contenteditable="false" data-index=${mentionUserCodes.length}>${userNameString}</ws-mention>`;
 		const selection = window.getSelection();
 		if (selection === null) return;
 
@@ -233,11 +191,11 @@ function BoardViewScreen({
 		if (mentionNode === null) return;
 		const range = selection.getRangeAt(0);
 		const previousNode = range.startContainer;
-		console.log(previousNode?.toString().slice(-1) === '@', previousNode.textContent);
-		if (previousNode?.textContent?.slice(-1) === '@') {
-			range.setStart(previousNode, previousNode.textContent.length - 1);
-			range.setEnd(previousNode, previousNode.textContent.length);
-			document.execCommand('delete', false);
+		if (previousNode?.textContent?.[range.startOffset - 1] === '@') {
+			range.setStart(previousNode, range.startOffset - 1);
+			range.setEnd(previousNode, range.startOffset + 1);
+			console.log(range);
+			range.deleteContents();
 		}
 		range.insertNode(mentionNode);
 		range.setStartAfter(mentionNode);
