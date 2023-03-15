@@ -25,6 +25,7 @@ import MentionModal from '../components/boardView/modal/MentionModal';
 interface Props {
 	userData: {
 		userName: string;
+		userCode: number;
 	};
 	boardViewData: IBoardViewData;
 	boardCheckPerson: IBoardCheckPerson[];
@@ -261,7 +262,7 @@ function BoardViewScreen({
 	//	if (mentionRef?.current === null) return;
 	// mentionRef.current.innerHTML = newComments.join();
 	// }, [newComments]);
-
+	console.log(userData);
 	return (
 		<>
 			{mode !== 'edit' ? (
@@ -310,10 +311,12 @@ function BoardViewScreen({
 														</div>
 													</div>
 													<button
+														aria-hidden={boardViewData.userCode !== userData.userCode}
 														onClick={() => {
 															setFocusComment({ commentId, content });
 															openOptionModal();
 														}}
+														className="aria-hidden:hidden"
 													>
 														<CommentSettingIcon />
 													</button>
