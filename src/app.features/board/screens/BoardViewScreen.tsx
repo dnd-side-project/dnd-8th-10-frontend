@@ -329,6 +329,18 @@ function BoardViewScreen({
 						<div className={`relative w-full bg-g1 ${commentInputMode === 'wide' ? '' : 'rounded-[0.8rem]'} `}>
 							<div
 								role="textbox"
+								onMouseDown={() => {
+									const $comment = commentRef.current;
+									if ($comment === null) return;
+									if ($comment.innerText === PLACEHOLDER) {
+										$comment.innerHTML = '';
+										$comment.style.color = '#66666E';
+										$comment.style.fontWeight = '500';
+									}
+
+									setCommentInputMode('wide');
+									$comment.focus();
+								}}
 								className={` ${
 									commentInputMode === 'wide'
 										? 'pl-[2rem] pr-[5.2rem] my-[1rem] min-h-[4rem] max-h-[8rem]  '
@@ -339,19 +351,7 @@ function BoardViewScreen({
 									id="newComment"
 									ref={commentRef}
 									onKeyDown={commentKeyboardHandler}
-									contentEditable
-									onMouseDown={() => {
-										const $comment = commentRef.current;
-										if ($comment === null) return;
-										if ($comment.innerText === PLACEHOLDER) {
-											$comment.innerHTML = '';
-											$comment.style.color = '#66666E';
-											$comment.style.fontWeight = '500';
-										}
-
-										setCommentInputMode('wide');
-										$comment.focus();
-									}}
+									contentEditable={commentInputMode === 'wide'}
 									className=" text-[1.4rem] leading-[2rem] my-auto  text-g9 w-fit  outline-none"
 								/>
 							</div>
