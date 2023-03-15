@@ -39,8 +39,9 @@ function PhoneSettingScreen({ user, putUser, isLoading }: Props) {
 					onChange={phoneNumberHandler}
 					resetHandler={resetPhoneNumberHandler}
 					mode="default"
-					placeholder="010-0000-0000"
+					placeholder="01012345678"
 					submitHandler={submitHandler}
+					type="tel"
 				/>
 				<InputInteractButton disabled={false} onClick={submitHandler} />
 			</main>
