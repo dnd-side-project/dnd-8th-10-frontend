@@ -70,7 +70,7 @@ function BoardViewScreen({
 		openModal: openMentionModal,
 	} = useModal();
 	const { isModalOpen: isOptionModalOpen, closeModal: closeOptionModal, openModal: openOptionModal } = useModal();
-
+	const PLACEHOLDER = '댓글을 입력해 주세요';
 	const router = useRouter();
 	type SoryByType = 'earliest' | 'latest';
 	type FocusCommentType = {
@@ -147,14 +147,19 @@ function BoardViewScreen({
 		const { postId } = boardViewData;
 		// const content = newComments.join().trim();
 		if (!postId) return;
-		if (commentRef?.current === null) return;
-		if (!commentRef.current.innerText.trim()) return;
+		const $comment = commentRef.current;
+		if ($comment === null) return;
+		if (!$comment.innerText.trim()) return;
 		const mentionUserCodesBody = Array.from(new Set(mentionUserCodes));
-		const body = { postId, content: commentRef.current.innerHTML as string, userCode: mentionUserCodesBody };
+		const body = { postId, content: $comment.innerHTML as string, userCode: mentionUserCodesBody };
 		console.log(body, 'post comment body');
 		PostCommentMutate(body);
 
 		setMentionUserCodes([]);
+		$comment.innerHTML = PLACEHOLDER;
+		$comment.style.color = '#9E9EA9';
+		$comment.style.fontWeight = '400';
+		setCommentInputMode('small');
 	};
 	const deleteCommentHandler = (commentId: number) => {
 		console.log('삭제', commentId);
@@ -216,7 +221,7 @@ function BoardViewScreen({
 
 	// TODO: 필터 적용하기
 	const mentionUserList = () => storeInfo?.userList;
-	const PLACEHOLDER = '댓글을 입력해 주세요';
+
 	const commentWrapRef = useRef<HTMLDivElement>(null);
 	useEffect(() => {
 		const $comment = commentRef.current;
