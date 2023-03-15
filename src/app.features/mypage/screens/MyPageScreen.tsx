@@ -31,7 +31,7 @@ function MyPageScreen({ user, logoutHandler }: Props) {
 					<SettingIcon />
 				</button>
 			</header>
-			<main className="h-[100vh] pt-[7.2rem]  ">
+			<main className="min-h-[100vh] h-fit  pt-[7.2rem]  ">
 				<div className="pb-[1.6rem] space-y-[1.6rem]">
 					{user && <Profile {...user} />}
 					<InfoBox>
