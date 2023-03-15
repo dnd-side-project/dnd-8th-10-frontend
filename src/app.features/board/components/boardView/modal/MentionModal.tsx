@@ -18,6 +18,7 @@ function MentionModal({ userList, onMetionUserClick }: Props) {
 							<button
 								onClick={(e) => onMetionUserClick(userCode, userName)}
 								className="flex items-center space-x-[0.8rem]"
+								name="mention"
 							>
 								<ProfileImage userProfileCode={userProfileCode} size="xs" />
 								<span className="text-subhead2 text-g9">{userName}</span>
