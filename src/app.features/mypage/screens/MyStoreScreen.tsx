@@ -58,6 +58,7 @@ function MyStoreScreen({ store }: Props) {
 										</div>
 										<a
 											href={`tel:${item.phoneNumber}`}
+											target="_parent"
 											aria-disabled={!item.phoneNumber}
 											className="  p-[0.8rem] bg-g4 aria-disabled:bg-g1 rounded-[0.8rem]"
 										>
