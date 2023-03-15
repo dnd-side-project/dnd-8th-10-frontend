@@ -321,9 +321,9 @@ function BoardViewScreen({
 								role="textbox"
 								className={` ${
 									commentInputMode === 'wide'
-										? 'flex items-center pl-[2rem] pr-[5.2rem] my-[1rem] min-h-[4rem] max-h-[8rem]  '
+										? 'pl-[2rem] pr-[5.2rem] my-[1rem] min-h-[4rem] max-h-[8rem]  '
 										: 'rounded-[0.8rem] px-[1.2rem] py-[0.8rem] h-[3.6rem]  '
-								}   scrollbar-hidden overflow-y-scroll `}
+								}   scrollbar-hidden overflow-y-scroll flex`}
 							>
 								<p
 									// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
@@ -344,7 +344,7 @@ function BoardViewScreen({
 										setCommentInputMode('wide');
 										$comment.focus();
 									}}
-									className=" text-[1.4rem] leading-[2rem]  text-g9 w-full  outline-none"
+									className=" text-[1.4rem] leading-[2rem] my-auto  text-g9 w-full  outline-none"
 								/>
 							</div>
 							{commentInputMode === 'wide' && (
