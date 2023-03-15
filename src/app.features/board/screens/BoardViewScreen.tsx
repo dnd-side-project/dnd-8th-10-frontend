@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
 import BoardModal from 'src/app.components/Modal/BoardModal';
 import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
@@ -141,7 +141,6 @@ function BoardViewScreen({
 	};
 
 	const newCommentSubmitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.stopPropagation();
 		const { postId } = boardViewData;
 		// const content = newComments.join().trim();
 		if (!postId) return;
@@ -224,15 +223,18 @@ function BoardViewScreen({
 	// mentionRef.current.innerHTML = newComments.join();
 	// }, [newComments]);
 	const PLACEHOLDER = '댓글을 입력해 주세요';
+	const commentWrapRef = useRef<HTMLDivElement>(null);
 	useEffect(() => {
 		const $comment = commentRef.current;
-		if ($comment === null) return;
+		const $commentWrapper = commentWrapRef.current;
+		if ($comment === null || $commentWrapper === null) return;
 		if ($comment.innerText.length === 0) {
 			$comment.innerHTML = PLACEHOLDER;
 			$comment.style.color = '#9E9EA9';
 		}
-		const handleCommentFocusOut = () => {
-			console.log($comment.innerText.length, $comment.innerText.toString());
+		const handleCommentFocusOut = (e: FocusEvent) => {
+			const relatedTarget: any = e?.relatedTarget;
+			if (relatedTarget?.name === 'submitComment') return; // 댓글 전송 버튼을 누른 경우
 			if ($comment.innerText.length === 0 || $comment.innerText === '\n') {
 				// 두번째 조건은 사파리 대응
 				$comment.innerHTML = PLACEHOLDER;
@@ -281,38 +283,41 @@ function BoardViewScreen({
 							</div>
 							<ul className="space-y-[1.6rem]">
 								{boardViewData &&
-									sortedCommentList().map(({ commentId, content, userProfileCode, userName, createdDate, role }) => (
-										<li key={commentId} className="flex space-x-[0.8rem]">
-											<ProfileImage userProfileCode={userProfileCode} size="sm" />
-											<div className="w-full">
-												<div className="flex justify-between  items-center ">
-													<div className="flex space-x-[0.4rem]">
-														<span className="text-subhead1 text-g9">{userName}</span>
-														<div className="text-body1 flex space-x-[0.4rem] text-g6">
-															<span>{role === 'MANAGER' ? '점장' : '알바생'}</span>
-															<span>{formatDate(createdDate)}</span>
+									sortedCommentList().map(
+										({ commentId, content, userCode, userProfileCode, userName, createdDate, role }) => (
+											<li key={commentId} className="flex space-x-[0.8rem]">
+												<ProfileImage userProfileCode={userProfileCode} size="sm" />
+												<div className="w-full">
+													<div className="flex justify-between  items-center ">
+														<div className="flex space-x-[0.4rem]">
+															<span className="text-subhead1 text-g9">{userName}</span>
+															<div className="text-body1 flex space-x-[0.4rem] text-g6">
+																<span>{role === 'MANAGER' ? '점장' : '알바생'}</span>
+																<span>{formatDate(createdDate)}</span>
+															</div>
 														</div>
+														<button
+															aria-hidden={userCode !== userData?.userCode}
+															onClick={() => {
+																setFocusComment({ commentId, content });
+																openOptionModal();
+															}}
+															className="aria-hidden:hidden"
+														>
+															<CommentSettingIcon />
+														</button>
 													</div>
-													<button
-														aria-hidden={boardViewData?.userCode !== userData?.userCode}
-														onClick={() => {
-															setFocusComment({ commentId, content });
-															openOptionModal();
-														}}
-														className="aria-hidden:hidden"
-													>
-														<CommentSettingIcon />
-													</button>
+													{/* eslint-disable-next-line react/no-danger */}
+													<p dangerouslySetInnerHTML={{ __html: content }} className="text-body2 text-g9" />
 												</div>
-												{/* eslint-disable-next-line react/no-danger */}
-												<p dangerouslySetInnerHTML={{ __html: content }} className="text-body2 text-g9" />
-											</div>
-										</li>
-									))}
+											</li>
+										)
+									)}
 							</ul>
 						</section>
 					</main>
 					<footer
+						ref={commentWrapRef}
 						className={`${
 							commentInputMode === 'wide' ? '' : 'px-[2rem] py-[1.2rem]'
 						} absolute w-full z-[100] flex items-center bg-w   -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0   h-fit border-solid border-t-[0.05rem] border-g3`}
@@ -320,7 +325,6 @@ function BoardViewScreen({
 						<div className={`relative w-full bg-g1 ${commentInputMode === 'wide' ? '' : 'rounded-[0.8rem]'} `}>
 							<div
 								role="textbox"
-								onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
 								className={` ${
 									commentInputMode === 'wide'
 										? 'pl-[2rem] pr-[5.2rem] my-[1rem] min-h-[4rem] max-h-[8rem]  '
@@ -331,7 +335,7 @@ function BoardViewScreen({
 									ref={commentRef}
 									onKeyDown={commentKeyboardHandler}
 									contentEditable
-									onMouseDown={() => {
+									onFocus={() => {
 										const $comment = commentRef.current;
 										if ($comment === null) return;
 										if ($comment.innerText === PLACEHOLDER) {
@@ -349,6 +353,7 @@ function BoardViewScreen({
 							{commentInputMode === 'wide' && (
 								<button
 									type="button"
+									name="submitComment"
 									onClick={newCommentSubmitHandler}
 									className="absolute right-[1.6rem] top-1/2 -translate-y-1/2"
 								>
