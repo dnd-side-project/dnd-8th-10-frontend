@@ -121,7 +121,7 @@ function BoardViewScreen({
 		if (comment === null) return;
 
 		// 멘션 수정 시도
-		if (selection.baseNode.parentNode.tagName === 'WS-MENTION') {
+		if (selection?.baseNode?.parentNode?.tagName === 'WS-MENTION') {
 			// delete 키 입력
 			if (e.keyCode === 8 || e.key === 'Backspace') {
 				const $space = document.createTextNode('\u00A0');
@@ -138,6 +138,7 @@ function BoardViewScreen({
 			}
 		}
 	};
+	const newCommentHandler = (e: React.FormEvent<HTMLParagraphElement>) => {};
 
 	const newCommentSubmitHandler = () => {
 		const { postId } = boardViewData;
@@ -196,18 +197,18 @@ function BoardViewScreen({
 			range.setEnd(previousNode, range.startOffset + 1);
 			console.log(range);
 			range.deleteContents();
+			range.insertNode(mentionNode);
+			range.setStartAfter(mentionNode);
+			range.setEndAfter(mentionNode);
+			const space = document.createTextNode('\u00A0'); // unicode for non-breaking space
+			range.insertNode(space);
+			range.setStartAfter(space);
+			range.setEndAfter(space);
+			selection.removeAllRanges();
+			selection.addRange(range);
+			setCommentInputMode('wide');
+			closeMentiondModal();
 		}
-		range.insertNode(mentionNode);
-		range.setStartAfter(mentionNode);
-		range.setEndAfter(mentionNode);
-		const space = document.createTextNode('\u00A0'); // unicode for non-breaking space
-		range.insertNode(space);
-		range.setStartAfter(space);
-		range.setEndAfter(space);
-		selection.removeAllRanges();
-		selection.addRange(range);
-		setCommentInputMode('wide');
-		closeMentiondModal();
 	};
 
 	// TODO: 필터 적용하기
@@ -221,7 +222,28 @@ function BoardViewScreen({
 	//	if (mentionRef?.current === null) return;
 	// mentionRef.current.innerHTML = newComments.join();
 	// }, [newComments]);
+	const PLACEHOLDER = '댓글을 입력해 주세요';
+	useEffect(() => {
+		const $comment = commentRef.current;
+		if ($comment === null) return;
+		if ($comment.innerText.length === 0) {
+			$comment.innerHTML = PLACEHOLDER;
+			$comment.style.color = '#9E9EA9';
+		}
+		const handleCommentFocusOut = () => {
+			console.log($comment.innerText.length, $comment.innerText.toString());
+			if ($comment.innerText.length === 0 || $comment.innerText === '\n') {
+				$comment.innerHTML = PLACEHOLDER;
+				$comment.style.color = '#9E9EA9';
+				$comment.style.fontWeight = '400';
+			}
 
+			setCommentInputMode('small');
+		};
+		$comment.addEventListener('focusout', handleCommentFocusOut);
+		// eslint-disable-next-line consistent-return
+		return () => $comment.removeEventListener('focusout', handleCommentFocusOut);
+	}, []);
 	return (
 		<>
 			{mode !== 'edit' ? (
@@ -270,7 +292,7 @@ function BoardViewScreen({
 														</div>
 													</div>
 													<button
-														aria-hidden={boardViewData.userCode !== userData.userCode}
+														aria-hidden={boardViewData?.userCode !== userData?.userCode}
 														onClick={() => {
 															setFocusComment({ commentId, content });
 															openOptionModal();
@@ -289,17 +311,28 @@ function BoardViewScreen({
 						</section>
 					</main>
 					<footer
-						className={` absolute w-full z-[150] flex items-center bg-[#F8F8FA]  -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0  min-h-[5.6rem] h-fit border-solid border-t-[0.05rem] border-g3`}
+						className={` absolute w-full z-[150] flex items-center bg-[#F8F8FA]  -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0  h-[6rem] max-h-[6rem] border-solid border-t-[0.05rem] border-g3`}
 					>
-						<div role="textbox" className="relative w-full   h-full px-[2rem]">
+						<div role="textbox" className="relative w-full   h-full pl-[2rem] pr-[5.2rem] py-[2rem]">
 							<p
+								// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+								tabIndex={0}
 								ref={commentRef}
 								onKeyDown={commentKeyboardHandler}
 								contentEditable
-								onFocus={() => setCommentInputMode('wide')}
-								onBlur={() => setCommentInputMode('small')}
-								placeholder="댓글을 입력해주세요"
-								className=" text-body2   placeholder:text-g7 text-g9 w-full  outline-none"
+								onInput={newCommentHandler}
+								onFocus={() => {
+									const $comment = commentRef.current;
+									if ($comment === null) return;
+									if ($comment.innerText === PLACEHOLDER) {
+										$comment.innerHTML = '';
+										$comment.style.color = '#66666E';
+										$comment.style.fontWeight = '500';
+									}
+									$comment.focus();
+									setCommentInputMode('wide');
+								}}
+								className=" text-[1.4rem] leading-[2rem]  text-g9 w-full  outline-none"
 							/>
 							<button
 								type="submit"
