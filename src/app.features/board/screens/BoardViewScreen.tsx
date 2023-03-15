@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 import { useRouter } from 'next/router';
@@ -138,9 +139,9 @@ function BoardViewScreen({
 			}
 		}
 	};
-	const newCommentHandler = (e: React.FormEvent<HTMLParagraphElement>) => {};
 
-	const newCommentSubmitHandler = () => {
+	const newCommentSubmitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
 		const { postId } = boardViewData;
 		// const content = newComments.join().trim();
 		if (!postId) return;
@@ -314,11 +315,12 @@ function BoardViewScreen({
 					<footer
 						className={`${
 							commentInputMode === 'wide' ? '' : 'px-[2rem] py-[1.2rem]'
-						} absolute w-full z-[150] flex items-center bg-w   -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0   h-fit border-solid border-t-[0.05rem] border-g3`}
+						} absolute w-full z-[100] flex items-center bg-w   -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0   h-fit border-solid border-t-[0.05rem] border-g3`}
 					>
-						<div className={`relative w-full bg-g1 ${commentInputMode === 'small' ? 'rounded-[0.8rem]' : ''} `}>
+						<div className={`relative w-full bg-g1 ${commentInputMode === 'wide' ? '' : 'rounded-[0.8rem]'} `}>
 							<div
 								role="textbox"
+								onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
 								className={` ${
 									commentInputMode === 'wide'
 										? 'pl-[2rem] pr-[5.2rem] my-[1rem] min-h-[4rem] max-h-[8rem]  '
@@ -326,12 +328,9 @@ function BoardViewScreen({
 								}   scrollbar-hidden overflow-y-scroll flex`}
 							>
 								<p
-									// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-									tabIndex={0}
 									ref={commentRef}
 									onKeyDown={commentKeyboardHandler}
 									contentEditable
-									onInput={newCommentHandler}
 									onMouseDown={() => {
 										const $comment = commentRef.current;
 										if ($comment === null) return;
@@ -344,12 +343,12 @@ function BoardViewScreen({
 										setCommentInputMode('wide');
 										$comment.focus();
 									}}
-									className=" text-[1.4rem] leading-[2rem] my-auto  text-g9 w-full  outline-none"
+									className=" text-[1.4rem] leading-[2rem] my-auto  text-g9 w-fit  outline-none"
 								/>
 							</div>
 							{commentInputMode === 'wide' && (
 								<button
-									type="submit"
+									type="button"
 									onClick={newCommentSubmitHandler}
 									className="absolute right-[1.6rem] top-1/2 -translate-y-1/2"
 								>
