@@ -12,6 +12,7 @@ function Layout({ children }: Props) {
 			console.log(vh, 'vh');
 			document.documentElement.style.setProperty('--vh', `${vh}px`);
 		};
+		setProperty();
 		window.addEventListener('resize', setProperty);
 		return () => window.removeEventListener('resize', setProperty);
 	}, []);
