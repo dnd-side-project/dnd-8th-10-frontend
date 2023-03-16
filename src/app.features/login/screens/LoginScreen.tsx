@@ -22,7 +22,7 @@ function Jsontest3() {
 }
 function LoginScreen() {
 	return (
-		<div className=" h-[100vh] overflow-y-hidden  relative">
+		<div className=" h-[100vh] scrollbar-hidden overflow-y-hidden  relative">
 			<div className="sticky top-[16vh]">
 				<h1 className="text-title2 text-g9">
 					슬기로운 편의점 생활!
