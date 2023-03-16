@@ -59,7 +59,7 @@ function SetRoleScreen({ userName }: Props) {
 	return (
 		<RegisterLayout curPage={1} canGoNext={role !== null}>
 			<div className="space-y-[11.4rem] flex flex-col items-center ">
-				<h1 className="text-g10 text-title2 w-full text-start">
+				<h1 className="text-g10 sticky top-0 text-title2 w-full text-start">
 					안녕하세요, {userName}님
 					<br />
 					어떤일을 하고 계신가요?
