@@ -136,8 +136,8 @@ function CountCigaretteScreen({
 				</button>
 			</Header>
 
-			<main className="space-y-[1.6rem]  bg-w wrap overflow-y-scroll  scrollbar-hidden text-g9 relative overflow-hidden">
-				<div className="space-y-[1.2rem] sticky top-0 pt-[7.2rem] bg-w z-[50]">
+			<main className="  bg-w wrap overflow-y-scroll  scrollbar-hidden text-g9 relative overflow-hidden">
+				<div className="space-y-[1.2rem] sticky top-0 pt-[7.2rem]  pb-[1.6rem] bg-w z-[50]">
 					<SearchInput
 						searchTerm={searchTerm}
 						onSearchTermChange={onSearchTermChange}

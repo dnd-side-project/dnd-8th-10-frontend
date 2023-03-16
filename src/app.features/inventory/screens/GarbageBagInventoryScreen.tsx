@@ -38,8 +38,8 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 		<>
 			<Header title="쓰레기봉투" />
 
-			<main className="space-y-[1.6rem]  wrap overflow-y-scroll  scrollbar-hidden  text-g9 relative overflow-hidden">
-				<div className="sticky top-0  pt-[7.2rem] bg-w">
+			<main className=" wrap overflow-y-scroll  scrollbar-hidden  text-g9 relative overflow-hidden">
+				<div className="sticky w-full pb-[1.6rem] top-0 z-[50] pt-[7.2rem] bg-w">
 					<FilterButtons
 						filterHandler={filterHandler}
 						selectedFilter={filter}
