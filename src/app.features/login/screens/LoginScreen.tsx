@@ -18,13 +18,12 @@ function Jsontest3() {
 			animationData: loginJson,
 		});
 	}, []);
-	return <div id="container3" className="w-full absolute top-[25vh] " />;
+	return <div id="container3" className="w-full " />;
 }
 function LoginScreen() {
 	return (
-		<div className="pt-[10vh] h-[100vh] relative">
-			<Jsontest3 />
-			<div>
+		<div className=" h-[100vh]  relative">
+			<div className="sticky top-[18vh]">
 				<h1 className="text-title2 text-g9">
 					슬기로운 편의점 생활!
 					<br />
@@ -32,6 +31,7 @@ function LoginScreen() {
 					<br />
 					일하러 가볼까요?
 				</h1>
+				<Jsontest3 />
 			</div>
 			<div className="fixed w-full max-w-[50rem] px-[2rem] -translate-x-[2rem] bottom-[2rem]">
 				<Bar bgColor="bg-[#FAE64D]">
