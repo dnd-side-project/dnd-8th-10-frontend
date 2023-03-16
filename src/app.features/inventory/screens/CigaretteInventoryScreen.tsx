@@ -5,9 +5,6 @@ import { MutateTpye } from 'src/app.modules/api/client';
 import { IInventoryList, PostCigaretteBody, PutInventoryBody } from 'src/app.modules/api/inventory';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import Overlay from 'src/app.components/Modal/Overlay';
-import TopModal from 'src/app.components/Modal/TopModal';
-import TextInput from 'src/app.components/app.base/Input/TextInput';
-import InputInteractButton from 'src/app.components/Button/InputInteractButton';
 import useModal from 'src/app.modules/hooks/useModal';
 import Modal from 'src/app.components/Modal/Modal';
 import { useRouter } from 'next/router';
@@ -160,7 +157,7 @@ function CountCigaretteScreen({
 					/>
 				)}
 				<div
-					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient  "
+					className="absolute bottom-[2rem]  w-full save-shadow  rounded-[0.8rem]  "
 					aria-hidden={isSaveModalOpen || isAddModalOpen}
 				>
 					<Bar ClickFn={() => submitInventoryRecord('cigarette')}>점검사항 저장</Bar>

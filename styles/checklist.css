@@ -26,5 +26,10 @@ input.checklist-checkbox + label::after {
 }
 
 .fill-linear-gradient {
-   background:linear-gradient(rgba(255, 255, 255, 0),rgba(255, 255, 255,70.31%))
+   background:linear-gradient(to bottom,rgba(255, 255, 255, 0),rgba(255, 255, 255,70.31%))
+}
+.save-shadow {
+    -webkit-box-shadow: -6px 44px 8px 41px rgba(255, 255, 255,70.31%);
+    -moz-box-shadow: -6px 44px 8px 41px rgba(255, 255, 255,70.31%);
+    box-shadow: -6px 44px 8px 41px rgba(255, 255, 255,70.31%);
 }
