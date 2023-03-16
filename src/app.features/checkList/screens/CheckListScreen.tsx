@@ -206,8 +206,8 @@ function CheckListScreen({
 		<>
 			<Header title="내 할일 점검" />
 
-			<main className="wrap mx-[-2rem]  overflow-y-hidden">
-				<div className="space-y-[2rem] px-[2rem] pb-[1.2rem] top-[5.6rem] pt-[1.6rem] bg-w z-[100] sticky">
+			<main className="wrap overflow-y-scroll scrollbar-hidden mx-[-2rem] pt-[7.2rem] ">
+				<div className="space-y-[2rem] px-[2rem] pb-[1.2rem]  bg-w ">
 					<span className="text-g10 text-subhead4">{getDateTitle()}</span>
 					<div className="text-g8 space-y-[1.6rem]">
 						<ul className="grid grid-cols-7 text-g10 text-center text-body1 ">
@@ -239,10 +239,10 @@ function CheckListScreen({
 					</div>
 				</div>
 
-				<div className="overflow-y-scroll overflow-x-hidden px-[2rem]  scrollbar-hidden mt-[5.6rem] relative">
+				<div className=" overflow-x-hidden px-[2rem]    relative">
 					<Divider />
 					{isChecklistFetched && isWorkDay ? (
-						<div className=" text-subhead2 space-y-[1.6rem] pt-[2.4rem]  relative h-[100vh] ">
+						<div className=" text-subhead2 space-y-[1.6rem] py-[2.4rem]  relative ">
 							<div className="w-full bg-white ">
 								<button
 									onClick={() => setAddTodoInputOpen(true)}
@@ -280,7 +280,7 @@ function CheckListScreen({
 									</form>
 								)}
 							</div>
-							<ul className=" text-g9 space-y-[1.6rem] pb-[22.4rem] ">
+							<ul className=" text-g9 space-y-[1.6rem]  ">
 								{checklist?.map((todo, index) => (
 									<li key={todo.checkIdx ?? index} className="flex justify-between w-full ">
 										<div className="space-x-[1rem] flex items-center w-full">
