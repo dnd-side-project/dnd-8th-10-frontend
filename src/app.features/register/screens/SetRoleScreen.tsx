@@ -57,15 +57,13 @@ function SetRoleScreen({ userName }: Props) {
 	// TODO: 화면크기별로 버튼 간격 대응하기
 	// TODO: 역할선택버튼 간격 최대 1.2 rem 으로
 	return (
-		<RegisterLayout curPage={1} canGoNext={role !== null}>
-			<div className="space-y-[11.4rem] flex flex-col items-center ">
-				<h1 className="text-g10 text-title2 w-full text-start">
-					안녕하세요, {userName}님
-					<br />
-					어떤일을 하고 계신가요?
-				</h1>
-
-				<div className="fixed flex  justify-between mx-auto  max-w-[32rem] w-[calc(100vw-4rem)] top-[20vh] ">
+		<RegisterLayout
+			curPage={1}
+			canGoNext={role !== null}
+			guideMessage={`안녕하세요, ${userName}님\n어떤일을 하고 계신가요?`}
+		>
+			<div className="flex flex-col items-center ">
+				<div className="fixed flex  justify-between mx-auto  max-w-[32rem] w-[calc(100vw-4rem)] top-[35vh] ">
 					<button
 						type="button"
 						onClick={() => roleHandler('WORKER')}

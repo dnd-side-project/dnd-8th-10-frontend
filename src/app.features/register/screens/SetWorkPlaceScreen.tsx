@@ -77,10 +77,9 @@ function SetWorkPlaceScreen() {
 	}, [isLoaded, searchTerm]);
 
 	return (
-		<RegisterLayout curPage={2} canGoNext={workPlace !== null}>
+		<RegisterLayout curPage={2} canGoNext={workPlace !== null} guideMessage="어떤 지점에서 일하고 계신가요?">
 			<div className="space-y-[2.4rem] ">
 				<div className="space-y-[1.6rem]">
-					<h1 className="text-g10 text-title2">어떤 지점에서 일하고 계신가요?</h1>
 					<SearchInput
 						searchTerm={searchTerm ?? workPlace ?? ''}
 						onSearchTermChange={searchTermHandler}

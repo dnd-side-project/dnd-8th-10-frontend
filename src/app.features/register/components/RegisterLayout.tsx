@@ -9,8 +9,9 @@ interface Props {
 	curPage: number;
 	children: React.ReactNode;
 	canGoNext: boolean;
+	guideMessage: string;
 }
-function RegisterLayout({ curPage, children, canGoNext }: Props) {
+function RegisterLayout({ curPage, children, canGoNext, guideMessage }: Props) {
 	const router = useRouter();
 	const nextHandler = () => {
 		router.push(`${SERVICE_URL.register}?page=${curPage + 1}`);
@@ -22,9 +23,16 @@ function RegisterLayout({ curPage, children, canGoNext }: Props) {
 			{!router?.query?.title && <Progress curPage={curPage} />}
 			<main
 				className={` ${
-					router?.query?.title ? 'pt-[7.2rem]' : 'pt-[9rem]'
-				}  text-g9   sticky top-0  h-[100vh] overflow-x-visible   overflow-y-hidden`}
+					router?.query?.title ? 'pt-[11.6rem]' : 'pt-[13.8rem]'
+				}  text-g9 relative  h-screen overflow-x-visible   overflow-y-hidden`}
 			>
+				<h1
+					className={`fixed whitespace-pre-wrap ${
+						router?.query?.title ? 'top-[7.2rem]' : 'top-[9rem]'
+					} text-g10 text-title2`}
+				>
+					{guideMessage}
+				</h1>
 				{children}
 			</main>
 			{router?.query?.title ? (

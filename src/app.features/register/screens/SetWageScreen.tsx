@@ -20,16 +20,13 @@ function SetWageScreen() {
 	};
 
 	return (
-		<RegisterLayout curPage={5} canGoNext={Boolean(wage)}>
-			<div className="space-y-[3.8rem]">
-				<div className="space-y-[0.8rem] flex flex-col items-start">
-					<h1 className="text-g10 text-title2">
-						거의 다 왔어요!
-						<br />
-						일하시는 편의점의 시급을 알려주세요
-					</h1>
-					<span className="text-g8 text-subhead1">시급을 기준으로 급여를 계산해드려요!</span>
-				</div>
+		<RegisterLayout
+			curPage={5}
+			canGoNext={Boolean(wage)}
+			guideMessage={`거의 다 왔어요!\n일하시는 편의점의 시급을 알려주세요`}
+		>
+			<div className="space-y-[2.4rem] pt-[1rem]">
+				<span className="text-g8 text-subhead1 flex flex-col items-start">시급을 기준으로 급여를 계산해드려요!</span>
 
 				<TextInput
 					value={`${wage ?? ''}`}
