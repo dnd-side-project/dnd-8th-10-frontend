@@ -37,15 +37,7 @@ function BoardPreviewSlider() {
 				<h2 className="text-subhead4 text-g9">최신 공지/전달 사항</h2>
 			</div>
 			<div className="mb-[1.6rem] w-[calc(100%+4rem)] -translate-x-[2rem]">
-				<Swiper
-					pagination={{
-						clickable: true,
-					}}
-					slidesPerView="auto"
-					spaceBetween={8}
-					slidesOffsetBefore={16}
-					slidesOffsetAfter={16}
-				>
+				<Swiper slidesPerView="auto" spaceBetween={8} slidesOffsetBefore={16} slidesOffsetAfter={16}>
 					{BoardPreviewData.map((post, index) => (
 						<SwiperSlide key={index} style={{ width: '225px' }}>
 							<div role="presentation" onClick={() => router.push(`${SERVICE_URL.boardView}/${post.postId}`)}>

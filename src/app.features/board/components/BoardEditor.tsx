@@ -26,7 +26,6 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 	const [content, setContent] = useState<string>('');
 	const [imageFiles, setImageFiles] = useState<File[]>([]);
 	const [previewUrls, setPreviewUrls] = useState<string[]>([]);
-	const [imgData, setImgData] = useState([]);
 
 	const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
 	const handleContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => setContent(event.target.value);
@@ -35,13 +34,12 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 		event.preventDefault();
 		if (id && boardViewData) {
 			// 게시글 수정
-			BoardMutate({ postId: Number(id), title, content, category: categoryMapEng[selectedCategory] });
-			// 이미지
 			const formData = new FormData();
 			for (let i = 0; i < imageFiles.length; i += 1) {
 				formData.append('files', imageFiles[i]);
 			}
 			BoardWriteImgMutate({ postId: Number(id), FormData: formData });
+			BoardMutate({ postId: Number(id), title, content, category: categoryMapEng[selectedCategory] });
 		} else {
 			// 게시글 작성
 			BoardMutate({ title, content, category: categoryMapEng[selectedCategory] });
@@ -50,8 +48,9 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 	const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.files) {
 			// 전송할 파일
-			setImageFiles(Array.from(event.target.files));
-			setImgFormData(Array.from(event.target.files));
+			const sendFile = Array.from(event.target.files);
+			setImageFiles((state) => [...state, ...sendFile]);
+			setImgFormData(sendFile);
 
 			// 미리보기
 			const imageUrls: string[] = [];
@@ -140,6 +139,7 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 						id="title"
 						name="title"
 						value={title}
+						placeholder="제목"
 						onChange={handleTitleChange}
 					/>
 				</div>
@@ -149,6 +149,7 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 						id="content"
 						name="content"
 						value={content}
+						placeholder="내용을 입력하세요."
 						onChange={handleContentChange}
 						style={{ resize: 'none' }}
 					/>

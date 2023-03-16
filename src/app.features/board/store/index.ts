@@ -11,7 +11,11 @@ const useStore = create<IStore>((set) => ({
 	selectedCategory: '전체',
 	imgData: [],
 	setSelectedCategory: (category) => set(() => ({ selectedCategory: category })),
-	setImgFormData: (img) => set(() => ({ imgData: img })),
+	setImgFormData: (img) =>
+		set((state) => ({
+			...state,
+			imgData: [...state.imgData, ...img],
+		})),
 }));
 
 export default useStore;
