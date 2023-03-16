@@ -9,6 +9,10 @@ html{
 body{
   background-color: #F8F8FA;
   border-style:solid !important;
+  min-height: 100vh;
+  @supports (-webkit-appearance:none) and (stroke-color: transparent) {
+  min-height: -webkit-fill-available;
+}
 }
 
 * {
