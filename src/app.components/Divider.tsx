@@ -5,7 +5,7 @@ interface Props {
 }
 function Divider({ classNames }: Props) {
 	return (
-		<div className={`bg-g1 w-[calc(100%+4rem)] -translate-x-[2rem] max-w-[50rem] h-[1.2rem] ${classNames ?? ''}`} />
+		<div className={`bg-g1 w-[calc(100%+4rem)] -translate-x-[2rem]  max-w-[50rem] h-[1.2rem]  ${classNames ?? ''}`} />
 	);
 }
 

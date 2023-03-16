@@ -24,16 +24,16 @@ function MyStoreScreen({ store }: Props) {
 	return (
 		<>
 			<Header title={store?.storeName?.split(' ')[1] ?? ''} />
-			<main className="wrap pt-[7.6rem] text-g9">
-				<InfoBox className="flex justify-start items-start space-x-[0.8rem] mb-[1.6rem]">
+			<main className="wrap overflow-y-scroll mx-[-2rem] scrollbar-hidden overflow-x-hidden pt-[7.6rem] text-g9">
+				<InfoBox className="flex  mx-[2rem] justify-start items-start space-x-[0.8rem] mb-[1.6rem]">
 					<StoreIcon className="w-[2.4rem] h-[2.4rem]" />
 					<div className="flex flex-col space-y-[0.8rem]">
 						<span className="text-subhead3 ">{getSplittedWorkPlaceString(store?.storeName ?? '')}</span>
 						<span className="text-body1">{store?.storeLocation ?? ''}</span>
 					</div>
 				</InfoBox>
-				<Divider />
-				<div className="py-[2.4rem] space-y-[2.4rem]">
+				<Divider classNames="" />
+				<div className="py-[2.4rem] mx-[2rem] space-y-[2.4rem]">
 					<div className="space-y-[0.8rem]">
 						<span className=" text-g6 text-subhead1">점장</span>
 						<ul className="space-y-[2.4rem] ">

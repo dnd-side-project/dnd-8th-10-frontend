@@ -23,12 +23,12 @@ function CompleteSettingScreent({ userName, role, workPlace }: Props) {
 		initUser();
 	};
 	return (
-		<div className="wrap flex flex-col items-center relative h-[100vh] ">
+		<div className="wrap h-fit flex flex-col items-center relative  ">
 			{role === 'MANAGER' && <img alt="" src="/images/register/effect_manager.gif" className="inset-0 fixed mx-auto" />}
 			{role === 'WORKER' && <img alt="" src="/images/register/effect_worker.gif" className="inset-0 fixed mx-auto" />}
 			<h1 className="absolute top-[13rem] text-g10 text-title2">프로필이 완성되었어요!</h1>
 			<IdCard role={role ?? clientRole} userName={userName} workPlace={workPlace ?? (clientWorkPlace as string)} />
-			<div className="flex flex-col gap-[0.8rem] absolute bottom-[2rem] w-full items-center">
+			<div className="flex flex-col gap-[0.8rem] mt-[2rem] absolute bottom-[2rem] w-full items-center">
 				<span className="text-g8 text-subhead1">개인정보 수정은 마이페이지에서 가능해요!</span>
 				<Bar ClickFn={startHandler} bgColor="bg-g10" titleColor="text-w">
 					시작하기
