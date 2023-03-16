@@ -23,7 +23,7 @@ function CompleteSettingScreent({ userName, role, workPlace }: Props) {
 		initUser();
 	};
 	return (
-		<div className="flex flex-col items-center relative h-[100vh] ">
+		<div className="wrap flex flex-col items-center relative h-[100vh] ">
 			{role === 'MANAGER' && <img alt="" src="/images/register/effect_manager.gif" className="inset-0 fixed mx-auto" />}
 			{role === 'WORKER' && <img alt="" src="/images/register/effect_worker.gif" className="inset-0 fixed mx-auto" />}
 			<h1 className="absolute top-[13rem] text-g10 text-title2">프로필이 완성되었어요!</h1>

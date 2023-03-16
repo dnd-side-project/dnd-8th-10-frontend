@@ -23,7 +23,7 @@ function SetPhoneNumScreen() {
 	// TODO: 전화번호 포맷 유효하면 넘어가게 수정하기
 	return (
 		<RegisterLayout curPage={4} canGoNext guideMessage="전화번호를 알려주세요">
-			<div className="space-y-[2.4rem]">
+			<div className="space-y-[2.4rem] pt-[1rem]">
 				<div className=" flex flex-col items-start">
 					{!router?.query?.title && (
 						<button

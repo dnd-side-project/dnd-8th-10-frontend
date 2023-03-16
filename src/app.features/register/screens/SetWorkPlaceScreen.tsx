@@ -78,7 +78,7 @@ function SetWorkPlaceScreen() {
 
 	return (
 		<RegisterLayout curPage={2} canGoNext={workPlace !== null} guideMessage="어떤 지점에서 일하고 계신가요?">
-			<div className="space-y-[2.4rem] ">
+			<div className="space-y-[2.4rem] pt-[1.6rem]">
 				<div className="space-y-[1.6rem]">
 					<SearchInput
 						searchTerm={searchTerm ?? workPlace ?? ''}

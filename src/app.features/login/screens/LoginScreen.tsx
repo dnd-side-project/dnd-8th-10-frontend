@@ -22,7 +22,7 @@ function Jsontest3() {
 }
 function LoginScreen() {
 	return (
-		<div className="h-screen  relative">
+		<div className="wrap  relative">
 			<div className="sticky top-[12vh]">
 				<h1 className="text-title2 text-g9">
 					슬기로운 편의점 생활!
@@ -33,7 +33,7 @@ function LoginScreen() {
 				</h1>
 				<Jsontest3 />
 			</div>
-			<div className="fixed w-full max-w-[50rem] px-[2rem] -translate-x-[2rem] bottom-[2rem]">
+			<div className="absolute w-full  bottom-[2rem]">
 				<Bar bgColor="bg-[#FAE64D]">
 					<a
 						href={KAKAO_OAUTH2_URL}

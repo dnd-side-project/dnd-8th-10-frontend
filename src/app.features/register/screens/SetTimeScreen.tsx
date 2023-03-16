@@ -97,7 +97,7 @@ function SetTimeScreen() {
 			guideMessage="일하는 요일별 근무시간을 알려주세요"
 		>
 			{/* TODO: 다음으로 넘어가는 조건 다시 지정 (더 자세하게) */}
-			<div className="space-y-[3.2rem] ">
+			<div className="space-y-[3.2rem] pt-[2.4rem] ">
 				<div className="flex flex-col space-y-[3.2rem]">
 					<div className="space-y-[0.8rem] w-full">
 						<h2 className="text-g6 text-body2">근무요일(복수선택 가능)</h2>

@@ -23,16 +23,10 @@ function RegisterLayout({ curPage, children, canGoNext, guideMessage }: Props) {
 			{!router?.query?.title && <Progress curPage={curPage} />}
 			<main
 				className={` ${
-					router?.query?.title ? 'pt-[11.6rem]' : 'pt-[13.8rem]'
+					router?.query?.title ? 'pt-[7.2rem]' : 'pt-[9rem]'
 				} wrap text-g9 relative  overflow-x-visible   overflow-y-hidden`}
 			>
-				<h1
-					className={`fixed whitespace-pre-wrap ${
-						router?.query?.title ? 'top-[7.2rem]' : 'top-[9rem]'
-					} text-g10 text-title2`}
-				>
-					{guideMessage}
-				</h1>
+				<h1 className={` whitespace-pre-wrap  text-g10 text-title2`}>{guideMessage}</h1>
 				{children}
 			</main>
 			{router?.query?.title ? (
