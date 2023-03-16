@@ -22,7 +22,7 @@ function ProfileSettingScreen({ user, delelteUserMutate }: Props) {
 	return (
 		<>
 			<Header title="회원정보 수정" />
-			<main className="h-[100vh] pt-[7.6rem] text-g9 relative">
+			<main className="wrap pt-[7.6rem] text-g9 relative">
 				<ul className="space-y-[2rem]">
 					<li className="flex items-center  justify-between border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
 						<span className="text-subhead2">이름</span>

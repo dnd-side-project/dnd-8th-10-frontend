@@ -206,7 +206,7 @@ function CheckListScreen({
 		<>
 			<Header title="내 할일 점검" />
 
-			<main className=" mx-[-2rem] h-[100vh]  overflow-y-hidden">
+			<main className="wrap mx-[-2rem]  overflow-y-hidden">
 				<div className="space-y-[2rem] px-[2rem] pb-[1.2rem] top-[5.6rem] pt-[1.6rem] bg-w z-[100] sticky">
 					<span className="text-g10 text-subhead4">{getDateTitle()}</span>
 					<div className="text-g8 space-y-[1.6rem]">

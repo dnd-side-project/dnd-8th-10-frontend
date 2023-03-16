@@ -24,7 +24,7 @@ function MyStoreScreen({ store }: Props) {
 	return (
 		<>
 			<Header title={store?.storeName?.split(' ')[1] ?? ''} />
-			<main className="h-fit min-h-[100vh] pt-[7.6rem] text-g9">
+			<main className="wrap pt-[7.6rem] text-g9">
 				<InfoBox className="flex justify-start items-start space-x-[0.8rem] mb-[1.6rem]">
 					<StoreIcon className="w-[2.4rem] h-[2.4rem]" />
 					<div className="flex flex-col space-y-[0.8rem]">

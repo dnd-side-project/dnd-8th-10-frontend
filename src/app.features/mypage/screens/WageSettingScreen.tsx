@@ -39,7 +39,7 @@ function WageSettingScreen({ user, putUser, isLoading }: Props) {
 	return (
 		<>
 			<Header title="시급 수정" />
-			<main className="h-[100vh] pt-[7.2rem] space-y-[0.8rem]">
+			<main className="wrap pt-[7.2rem] space-y-[0.8rem]">
 				<h2 className="text-g6 text-subhead1">시급입력</h2>
 				<TextInput
 					value={wage ?? ''}

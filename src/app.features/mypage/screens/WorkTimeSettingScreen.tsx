@@ -136,7 +136,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 					<DeleteIcon />
 				</button>
 			</Header>
-			<main className="h-[100vh] pt-[7.2rem] relative">
+			<main className="wrap pt-[7.2rem] relative">
 				<div className="flex flex-col space-y-[3.2rem]">
 					<div className="space-y-[0.8rem] w-full">
 						<h2 className="text-g6 text-subhead1">근무요일 (복수선택 가능) </h2>
