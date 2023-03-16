@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 interface Props {
@@ -6,6 +6,14 @@ interface Props {
 }
 
 function Layout({ children }: Props) {
+	useEffect(() => {
+		const setProperty = () => {
+			const vh = window.innerHeight * 0.001;
+			document.documentElement.style.setProperty('--vh', `${vh}rem`);
+		};
+		window.addEventListener('resize', setProperty);
+		return () => window.removeEventListener('resize', setProperty);
+	}, []);
 	return (
 		<div id="app" className="max-w-[50rem] mx-auto px-[2rem] bg-w">
 			{children}
