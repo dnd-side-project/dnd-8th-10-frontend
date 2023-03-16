@@ -63,7 +63,7 @@ function SetRoleScreen({ userName }: Props) {
 			guideMessage={`안녕하세요, ${userName}님\n어떤일을 하고 계신가요?`}
 		>
 			<div className="flex flex-col items-center ">
-				<div className="fixed flex  justify-between mx-auto  max-w-[32rem] w-[calc(100vw-4rem)] top-[35vh] ">
+				<div className="absolute flex  justify-between mx-auto top-[38%] max-w-[32rem] w-[calc(100vw-4rem)]  ">
 					<button
 						type="button"
 						onClick={() => roleHandler('WORKER')}

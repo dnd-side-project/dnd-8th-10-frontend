@@ -23,7 +23,7 @@ function InventoryHistoryScreen({ inventoryHistory, filterHandler, filter }: Pro
 		<>
 			<Header title="전체 시재 기록" />
 
-			<main className="pt-[7.2rem] space-y-[1.6rem]  text-subhead1 h-[100vh] text-g9 relative overflow-hidden">
+			<main className="pt-[7.2rem] space-y-[1.6rem]  text-subhead1 wrap text-g9 relative overflow-hidden">
 				<FilterButtons filterHandler={filterHandler} selectedFilter={filter} filters={Object.keys(mappedFilter)} />
 				<div className=" pb-[1.6rem] h-[calc(100%-6rem)] overflow-y-scroll scrollbar-hidden">
 					<ul className="space-y-[0.8rem] ">

@@ -38,7 +38,7 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 		<>
 			<Header title="쓰레기봉투" />
 
-			<main className="space-y-[1.6rem]  pt-[7.2rem] h-[100vh] text-g9 relative overflow-hidden">
+			<main className="space-y-[1.6rem] wrap  pt-[7.2rem] h-[100vh] text-g9 relative overflow-hidden">
 				<FilterButtons
 					filterHandler={filterHandler}
 					selectedFilter={filter}
