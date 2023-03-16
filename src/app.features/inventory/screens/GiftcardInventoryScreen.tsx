@@ -29,7 +29,8 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 		<>
 			<Header title="문화 상품권" />
 
-			<main className="  pt-[7.2rem] wrap text-g9 relative overflow-hidden">
+			<main className="space-y-[1.6rem] wrap overflow-y-scroll  scrollbar-hidden  text-g9 relative overflow-hidden">
+				<div className="mt-[7.2rem]" />
 				{inventoryList && (
 					<InventoryList
 						inventoryList={inventoryList}
@@ -38,7 +39,7 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 					/>
 				)}
 				<div
-					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient   "
+					className="fixed bottom-[2rem]  w-screen -translate-x-[2rem] max-w-[50rem] px-[2rem] ciga-save-shadow  rounded-[0.8rem]  "
 					aria-hidden={isModalOpen}
 				>
 					<Bar

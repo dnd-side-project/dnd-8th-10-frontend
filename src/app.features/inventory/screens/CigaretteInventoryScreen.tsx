@@ -136,8 +136,8 @@ function CountCigaretteScreen({
 				</button>
 			</Header>
 
-			<main className="space-y-[1.6rem] pt-[7.2rem]  wrap text-g9 relative overflow-hidden">
-				<div className="space-y-[1.2rem]">
+			<main className="space-y-[1.6rem]  bg-w wrap overflow-y-scroll  scrollbar-hidden text-g9 relative overflow-hidden">
+				<div className="space-y-[1.2rem] sticky top-0 pt-[7.2rem] bg-w z-[50]">
 					<SearchInput
 						searchTerm={searchTerm}
 						onSearchTermChange={onSearchTermChange}
@@ -146,6 +146,7 @@ function CountCigaretteScreen({
 					/>
 					<FilterButtons filterHandler={searchChoHandler} selectedFilter={searchCho} filters={CHO_BUTTONS} />
 				</div>
+
 				{inventoryList && (
 					<InventoryList
 						inventoryList={(searchCho === '전체'
@@ -156,12 +157,14 @@ function CountCigaretteScreen({
 						changeDiffHandler={changeDiffHandler}
 					/>
 				)}
+
 				<div
-					className="absolute bottom-[2rem]  w-full save-shadow  rounded-[0.8rem]  "
+					className="fixed bottom-[2rem]  w-screen -translate-x-[2rem] max-w-[50rem] px-[2rem] ciga-save-shadow  rounded-[0.8rem]  "
 					aria-hidden={isSaveModalOpen || isAddModalOpen}
 				>
 					<Bar ClickFn={() => submitInventoryRecord('cigarette')}>점검사항 저장</Bar>
 				</div>
+
 				{isSaveModalOpen && (
 					<LastCheckModal closeModal={closeSaveModal} countHistory={countHistory} category="cigarette" />
 				)}

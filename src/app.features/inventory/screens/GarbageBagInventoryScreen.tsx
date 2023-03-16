@@ -38,12 +38,14 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 		<>
 			<Header title="쓰레기봉투" />
 
-			<main className="space-y-[1.6rem] wrap  pt-[7.2rem] h-[100vh] text-g9 relative overflow-hidden">
-				<FilterButtons
-					filterHandler={filterHandler}
-					selectedFilter={filter}
-					filters={['일반 쓰레기', '음식물 쓰레기']}
-				/>
+			<main className="space-y-[1.6rem]  wrap overflow-y-scroll  scrollbar-hidden  text-g9 relative overflow-hidden">
+				<div className="sticky top-0  pt-[7.2rem] bg-w">
+					<FilterButtons
+						filterHandler={filterHandler}
+						selectedFilter={filter}
+						filters={['일반 쓰레기', '음식물 쓰레기']}
+					/>
+				</div>
 
 				{inventoryList && (
 					<InventoryList
@@ -53,7 +55,7 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 					/>
 				)}
 				<div
-					className="absolute bottom-0 pb-[2rem] pt-[8.8rem]  w-full fill-linear-gradient "
+					className="fixed bottom-[2rem]  w-screen -translate-x-[2rem] max-w-[50rem] px-[2rem] ciga-save-shadow  rounded-[0.8rem]  "
 					aria-hidden={isModalOpen}
 				>
 					<Bar

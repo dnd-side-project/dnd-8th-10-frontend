@@ -13,7 +13,7 @@ function InventoryList({ inventoryList, countHistory, changeDiffHandler }: Props
 	/* TODO: 임시로 리스트 padding-bottom값 넣어둠 수정 필요 */
 
 	return (
-		<ul className="text-subhead-long2 fill-linear-gradient space-y-[3.2rem] h-full pb-[30rem] overflow-y-scroll  scrollbar-hidden">
+		<ul className="text-subhead-long2  space-y-[3.2rem] h-fit">
 			{inventoryList.map(({ inventoryName, inventoryCount }, index) => {
 				const diff = countHistory[inventoryName] ?? inventoryCount;
 				// eslint-disable-next-line no-nested-ternary
@@ -47,6 +47,7 @@ function InventoryList({ inventoryList, countHistory, changeDiffHandler }: Props
 					</li>
 				);
 			})}
+			<div aria-hidden className="w-full h-[6rem]" />
 		</ul>
 	);
 }
