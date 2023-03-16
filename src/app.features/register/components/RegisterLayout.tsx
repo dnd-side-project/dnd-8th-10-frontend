@@ -24,7 +24,7 @@ function RegisterLayout({ curPage, children, canGoNext, guideMessage }: Props) {
 			<main
 				className={` ${
 					router?.query?.title ? 'pt-[11.6rem]' : 'pt-[13.8rem]'
-				}  text-g9 relative  h-screen overflow-x-visible   overflow-y-hidden`}
+				} wrap text-g9 relative  overflow-x-visible   overflow-y-hidden`}
 			>
 				<h1
 					className={`fixed whitespace-pre-wrap ${

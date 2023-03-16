@@ -9,8 +9,11 @@ html{
 body{
   background-color: #F8F8FA;
   border-style:solid !important;
-  min-height: 100vh;
-  min-height: calc(var(--vh, 1vh) * 100);
+  
+}
+.wrap{
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
 }
 
 * {

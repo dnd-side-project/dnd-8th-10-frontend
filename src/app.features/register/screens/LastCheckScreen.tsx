@@ -44,7 +44,7 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 	return (
 		<>
 			<Header title="" />
-			<main className="h-[100vh] pt-[9rem] space-y-[1.6rem] relative">
+			<main className="h-full pt-[9rem] space-y-[1.6rem] relative">
 				<h1 className="text-g10 text-title2">마지막으로 확인해주세요! 🧐</h1>
 				<ul className="space-y-[3rem]">
 					<li className="flex flex-col space-y-[0.4rem]">
