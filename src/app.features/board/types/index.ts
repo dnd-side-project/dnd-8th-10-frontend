@@ -20,6 +20,7 @@ export interface IComment {
 	role: RoleType;
 	userProfileCode: number;
 	userName: string;
+	userCode: number;
 }
 
 export interface IBoardViewData {
