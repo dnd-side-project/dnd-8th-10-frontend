@@ -8,8 +8,8 @@ interface Props {
 function Layout({ children }: Props) {
 	useEffect(() => {
 		const setProperty = () => {
-			const vh = window.innerHeight * 0.001;
-			document.documentElement.style.setProperty('--vh', `${vh}rem`);
+			const vh = window.innerHeight * 0.01;
+			document.documentElement.style.setProperty('--vh', `${vh}px`);
 		};
 		window.addEventListener('resize', setProperty);
 		return () => window.removeEventListener('resize', setProperty);
