@@ -125,7 +125,7 @@ function BoardEditor({ id, UserData, boardViewData, BoardMutate, BoardWriteImgMu
 					</div>
 				</header>
 				<BoardCategorySlider main={false} manager={UserData?.role === 'MANAGER'} />
-				<div className="my-[1.2rem]">
+				<div className="mt-[1.2rem] mb-[0.8rem]">
 					<BoardImageUploadSlider
 						onImageChange={handleImageChange}
 						previewUrls={previewUrls}
