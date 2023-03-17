@@ -104,6 +104,7 @@ function BoardViewScreen({
 		// TODO: 멘션 로직 분리
 		// @입력
 		if (e.key === '@') {
+			alert('멘션버튼 눌림');
 			if (storeFecthDisabled) {
 				// metion 기능 최초실행시 fetch On
 				setStoreFetchDisabled(false);
