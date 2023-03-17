@@ -279,7 +279,11 @@ function BoardViewScreen({
 				<div className="wrap">
 					<BoardViewHeader isMyPost={isMyPost} DelMutate={DelMutate} postId={boardViewData?.postId ?? null} />
 					<main className=" pt-[1.6rem] h-[calc(100vh-5.6rem)] pb-[6rem] overflow-y-scroll scrollbar-hidden">
-						<BoardContentView boardViewData={boardViewData} viewCheckHandler={viewCheckHandler} />
+						<BoardContentView
+							boardViewData={boardViewData}
+							viewCheckHandler={viewCheckHandler}
+							openWhoCheckedModal={openWhoCheckedModal}
+						/>
 						<section className="py-[1.8rem]   space-y-[1.6rem]   ">
 							<div className="flex items-center space-x-[0.4rem]">
 								{[
@@ -297,14 +301,6 @@ function BoardViewScreen({
 										{display}
 									</button>
 								))}
-								<button
-									onClick={() => {
-										openWhoCheckedModal();
-									}}
-									className="aria-pressed:text-g9 text-g6 text-subhead1"
-								>
-									체크한사람확인 임시 버튼
-								</button>
 							</div>
 							<ul className="space-y-[1.6rem]">
 								{boardViewData &&

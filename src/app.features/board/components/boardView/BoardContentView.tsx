@@ -11,9 +11,10 @@ import { boardImgLoad } from '../../api';
 interface Props {
 	boardViewData: IBoardViewData;
 	viewCheckHandler: () => void;
+	openWhoCheckedModal: () => void;
 }
 
-function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
+function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal }: Props) {
 	const { isImgModalOpen, imgModalIsOpen } = useImgModal();
 	const [imgData, setImgData] = useState([]);
 	useEffect(() => {
@@ -72,6 +73,10 @@ function BoardContentView({ boardViewData, viewCheckHandler }: Props) {
 					<div className="flex items-center text-body-long2 text-g6 pb-[1.2rem] border-solid border-b-[0.05rem] space-x-[0.8rem] border-b-g3">
 						<button
 							onClick={viewCheckHandler}
+							onContextMenu={(e) => {
+								e.preventDefault();
+								openWhoCheckedModal();
+							}}
 							className={`flex items-center  justify-center space-x-[0.4rem] bg-g1 px-[0.8rem] py-[0.5rem] rounded-[0.4rem] ${
 								boardViewData?.check ? 'text-primary' : ''
 							}`}
