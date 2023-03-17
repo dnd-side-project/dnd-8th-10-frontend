@@ -103,8 +103,8 @@ function BoardViewScreen({
 	const commentKeyboardHandler = (e: React.KeyboardEvent<HTMLParagraphElement>) => {
 		// TODO: 멘션 로직 분리
 		// @입력
-		if (e.key === '@') {
-			alert('멘션버튼 눌림');
+		if (e.key === '@' || (e.code === 'Key2' && e.shiftKey)) {
+			alert(`멘션버튼 눌림 ${e.key}`);
 			if (storeFecthDisabled) {
 				// metion 기능 최초실행시 fetch On
 				setStoreFetchDisabled(false);
