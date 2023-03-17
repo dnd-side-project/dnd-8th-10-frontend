@@ -47,7 +47,7 @@ const Home: NextPage = () => {
 	const { data: todayWork } = useQuery(['todayWork'], () => getToDay(getDayOfWeek(toDay)), {
 		select: (res) => res.data,
 		onSuccess: (res) => {
-			// console.log(res);
+			console.log(res);
 		},
 		onError: (error) => {
 			console.log(error);
