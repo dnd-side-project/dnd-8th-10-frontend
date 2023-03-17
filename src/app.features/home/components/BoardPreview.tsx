@@ -17,7 +17,7 @@ function BoardPreview({ boardNoticeData }: Props) {
 		<div
 			role="presentation"
 			onClick={() => router.push(`${SERVICE_URL.boardView}/${boardNoticeData?.postId}`)}
-			className="flex items-center justify-between rounded-[1.2rem] px-[1.6rem] py-[1rem] shadow-blue"
+			className="h-[4.8rem] bg-w flex items-center justify-between rounded-[1.2rem] px-[1.6rem] py-[1rem] shadow-blue"
 		>
 			<div className="flex items-center">
 				<Badge color="secondary" size="small">

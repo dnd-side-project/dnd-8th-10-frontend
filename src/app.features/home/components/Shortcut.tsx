@@ -6,10 +6,10 @@ import CheckIcon from '../../../../public/images/home/check.svg';
 
 function Shortcut() {
 	return (
-		<div className="flex mb-[3.2rem] text-subhead2 text-g9">
+		<div className="flex mb-[3.2rem] text-subhead2 text-g9 bg-w">
 			<Link
 				href={SERVICE_URL.inventory}
-				className="flex flex-col justify-center items-center shadow-blue w-full mr-[1.6rem] py-[2.5rem] rounded-[0.8rem]"
+				className="flex flex-col justify-center items-center shadow-blue w-full h-[15.4rem] mr-[1.6rem] py-[2.5rem] rounded-[0.8rem]"
 			>
 				<InvenIcon />
 				<span>시재점검</span>

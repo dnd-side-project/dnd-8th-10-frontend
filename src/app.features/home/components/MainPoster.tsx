@@ -1,36 +1,20 @@
-import React, { useEffect } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import lottie from 'lottie-web';
-import mainJson from 'public/lottie/main.json';
+import React from 'react';
+import MainIcon from '../../../../public/images/home/main.svg';
 
-function MainIcon() {
-	useEffect(() => {
-		const container = document.querySelector('#containerMain');
-		if (!container) return;
-		lottie.loadAnimation({
-			container,
-			renderer: 'svg',
-			loop: true,
-			autoplay: true,
-			animationData: mainJson,
-		});
-	}, []);
-	return <div id="containerMain" />;
-}
 interface Props {
 	userName: string;
 }
 function MainPoster({ userName }: Props) {
 	return (
 		<div className="h-[23.8rem] relative mb-[2.4rem]">
-			<div className="pl-[1rem] pt-[4.8rem] absolute">
-				<span className="text-g9 text-[2rem]">
+			<div className="pt-[6.1rem] absolute">
+				<span className="text-g9 text-[2rem] font-medium">
 					반가워요 🖐️ <br />
-					일잘러 <span className="text-primary">{userName}님</span> <br />
+					일잘러 <span className="text-primary text-title2">{userName}님</span> <br />
 					오늘도 화이팅!
 				</span>
 			</div>
-			<div className="absolute bottom-0 right-[-10px]">
+			<div className="absolute bottom-0 right-0">
 				<MainIcon />
 			</div>
 		</div>
