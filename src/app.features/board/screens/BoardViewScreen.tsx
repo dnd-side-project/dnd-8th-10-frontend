@@ -103,16 +103,7 @@ function BoardViewScreen({
 	const commentKeyboardHandler = (e: React.KeyboardEvent<HTMLParagraphElement>) => {
 		// TODO: 멘션 로직 분리
 		// @입력
-		if (e.key === '@' || (e.code === 'Key2' && e.shiftKey)) {
-			alert(`멘션버튼 눌림 ${e.key}`);
-			if (storeFecthDisabled) {
-				// metion 기능 최초실행시 fetch On
-				setStoreFetchDisabled(false);
 
-				storeRefetch();
-			}
-			openMentionModal();
-		}
 		/* 
 		else if (isMentionModalOpen) {
 			closeMentiondModal();
@@ -142,7 +133,20 @@ function BoardViewScreen({
 			}
 		}
 	};
+	const newCommentHandler = (e: React.FormEvent<HTMLParagraphElement>) => {
+		const $comment = commentRef.current;
+		if ($comment === null) return;
+		if ($comment.innerText.slice(-1) === '@') {
+			alert(`멘션버튼 눌림`);
+			if (storeFecthDisabled) {
+				// metion 기능 최초실행시 fetch On
+				setStoreFetchDisabled(false);
 
+				storeRefetch();
+			}
+			openMentionModal();
+		}
+	};
 	const newCommentSubmitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation();
 		const { postId } = boardViewData;
@@ -357,6 +361,7 @@ function BoardViewScreen({
 								<p
 									id="newComment"
 									ref={commentRef}
+									onInput={newCommentHandler}
 									onKeyDown={commentKeyboardHandler}
 									contentEditable={commentInputMode === 'wide'}
 									className=" text-[1.4rem] leading-[2rem] my-auto  text-g9 w-fit  outline-none"
