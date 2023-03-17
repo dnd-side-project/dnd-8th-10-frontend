@@ -330,7 +330,7 @@ function BoardViewScreen({
 						ref={commentWrapRef}
 						className={`${
 							commentInputMode === 'wide' ? '' : 'px-[2rem] py-[1.2rem]'
-						} absolute w-full z-[100] flex items-center bg-w   -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0   h-fit border-solid border-t-[0.05rem] border-g3`}
+						} fixed w-full z-[100] flex items-center bg-w   -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0   h-fit border-solid border-t-[0.05rem] border-g3`}
 					>
 						<div className={`relative w-full bg-g1 ${commentInputMode === 'wide' ? '' : 'rounded-[0.8rem]'} `}>
 							<div
