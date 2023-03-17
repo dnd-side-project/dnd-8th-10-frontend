@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
@@ -154,7 +155,10 @@ function BoardViewScreen({
 		if (!postId) return;
 		const $comment = commentRef.current;
 		if ($comment === null) return;
-		if (!$comment.innerText.trim()) return;
+		if (!$comment.innerText.trim()) {
+			$comment.focus();
+			return;
+		}
 		const mentionUserCodesBody = Array.from(new Set(mentionUserCodes));
 		const body = { postId, content: $comment.innerHTML as string, userCode: mentionUserCodesBody };
 		console.log(body, 'post comment body');
@@ -239,34 +243,36 @@ function BoardViewScreen({
 		const handleCommentFocusOut = (e: any) => {
 			const relatedTarget: any = e?.relatedTarget;
 			const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
 			if (isSafari) {
 				const selection: any = window.getSelection();
 				if (selection === null) return;
 				if (selection?.anchorNode?.id === 'newComment') return; //  댓글 전송 버튼 경우 처리 ,사파리의 경우
 			} else if (relatedTarget?.name === 'submitComment') return; // 댓글 전송 버튼을 누른 경우,사파리 제외
-
 			if (e?.target?.name === 'submitComment') return; // 댓글input 안 멘션 영역 누른 경우
 			if (relatedTarget?.name === 'mention') return; // 멘션 모달에 멘션버튼 누른 경우
-			if (e?.target?.id === 'newComment' && e.target.innerText.trim().length) {
+			if (e?.target?.id === 'newComment' && $comment.innerText.length) {
 				$comment.focus();
 				return;
 			} // 그냥 댓글 인풋 영역 누른 경우
-
 			if ($comment.innerText.length === 0 || $comment.innerText === '\n') {
 				// 두번째 조건은 사파리 대응
 
 				$comment.innerHTML = PLACEHOLDER;
 				$comment.style.color = '#9E9EA9';
 				$comment.style.fontWeight = '400';
+				setCommentInputMode('small');
 			}
-
-			setCommentInputMode('small');
 		};
-		$commentWrapper.addEventListener('focusout', handleCommentFocusOut);
+		$comment.addEventListener('focusout', handleCommentFocusOut);
 		// eslint-disable-next-line consistent-return
-		return () => $commentWrapper.removeEventListener('focusout', handleCommentFocusOut);
+		return () => $comment.removeEventListener('focusout', handleCommentFocusOut);
 	}, []);
+	useEffect(() => {
+		if (commentInputMode === 'wide') {
+			const $comment = commentRef.current;
+			$comment?.focus();
+		}
+	}, [commentInputMode]);
 	return (
 		<>
 			{mode !== 'edit' ? (
@@ -341,22 +347,23 @@ function BoardViewScreen({
 							commentInputMode === 'wide' ? '' : 'px-[2rem] py-[1.2rem]'
 						} fixed w-full z-[100] flex items-center bg-w   -translate-x-[2rem] max-w-[50rem] mx-auto bottom-0   h-fit border-solid border-t-[0.05rem] border-g3`}
 					>
-						<div className={`relative w-full bg-g1 ${commentInputMode === 'wide' ? '' : 'rounded-[0.8rem]'} `}>
+						<div
+							onMouseDown={() => {
+								const $comment = commentRef.current;
+								if ($comment === null) return;
+								if ($comment.innerText === PLACEHOLDER) {
+									$comment.innerHTML = '';
+									$comment.style.color = '#66666E';
+									$comment.style.fontWeight = '500';
+								}
+
+								setCommentInputMode('wide');
+							}}
+							className={`relative w-full bg-g1 ${commentInputMode === 'wide' ? '' : 'rounded-[0.8rem]'} `}
+						>
 							<div
 								role="textbox"
-								onMouseDown={() => {
-									const $comment = commentRef.current;
-									if ($comment === null) return;
-									if ($comment.innerText === PLACEHOLDER) {
-										$comment.innerHTML = '';
-										$comment.style.color = '#66666E';
-										$comment.style.fontWeight = '500';
-									}
-
-									setCommentInputMode('wide');
-									$comment.focus();
-								}}
-								className={` ${
+								className={`w-full ${
 									commentInputMode === 'wide'
 										? 'pl-[2rem] pr-[5.2rem] my-[1rem] min-h-[4rem] max-h-[8rem]  '
 										: 'rounded-[0.8rem] px-[1.2rem] py-[0.8rem] h-[3.6rem]  '
@@ -368,7 +375,7 @@ function BoardViewScreen({
 									onInput={newCommentHandler}
 									onKeyDown={commentKeyboardHandler}
 									contentEditable={commentInputMode === 'wide'}
-									className=" text-[1.4rem] leading-[2rem] my-auto  text-g9 w-fit  outline-none"
+									className=" text-[1.4rem] leading-[2rem] my-auto  text-g9 w-full  outline-none"
 								/>
 							</div>
 							{commentInputMode === 'wide' && (
