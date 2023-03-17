@@ -55,7 +55,7 @@ function WorkerScreen() {
 					<div className="w-[calc(100%+4rem)] px-[2rem]  -translate-x-[2rem] text-w bg-primary">
 						<div className="pb-[5.6rem] mb-[1.6rem]">
 							<Header title="" mode="white" />
-							<div className="pointer-events-none h-[5.6rem] max-w-[50rem] -translate-x-[2rem] fixed z-50 flex mx-auto w-full items-center justify-center">
+							<div className="pointer-events-none h-[5.6rem] max-w-[50rem] -translate-x-[2rem] fixed z-[101] flex mx-auto w-full items-center justify-center">
 								<button
 									type="button"
 									className="flex items-center pointer-events-auto"
