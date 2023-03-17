@@ -137,7 +137,6 @@ function BoardViewScreen({
 		const $comment = commentRef.current;
 		if ($comment === null) return;
 		if ($comment.innerText.slice(-1) === '@') {
-			alert(`멘션버튼 눌림`);
 			if (storeFecthDisabled) {
 				// metion 기능 최초실행시 fetch On
 				setStoreFetchDisabled(false);
@@ -145,6 +144,7 @@ function BoardViewScreen({
 				storeRefetch();
 			}
 			openMentionModal();
+			$comment.focus();
 		}
 	};
 	const newCommentSubmitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
