@@ -10,8 +10,6 @@ function EasterEgg() {
 		'최저시급은 티끌모아 티끌',
 		'최저시급모아 태산',
 		'올해 최저시급은 9620원 이래요',
-		'과연 내년 최저시급은 얼마나 오를까요',
-		'임금체불 신고는 고용노동부 ***-***',
 	];
 	useEffect(() => {
 		const handleResize = () => {
@@ -32,7 +30,7 @@ function EasterEgg() {
 		<>
 			{showDiv && (
 				<div className="relative">
-					<div className="flex absolute right-0 bottom-0 mb-[4rem] mr-[2rem]">
+					<div className="flex absolute right-0 bottom-0 mb-[4rem]">
 						<div className="h-[3.6rem] px-[1.6rem] py-[0.8rem] bg-[#F4F5FF] rounded-[2rem] flex justify-center items-center">
 							<span className="text-subhead2 text-[#BDC0D3]">{eggContent[eggContentIndex]}</span>
 						</div>

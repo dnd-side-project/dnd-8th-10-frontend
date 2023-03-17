@@ -72,7 +72,7 @@ function WorkStatus({ grayData, WorkMutate, todayWork, userName }: Props) {
 			onClick={() => commute()}
 			className={`${
 				workStatus ? 'bg-primary' : 'bg-w'
-			} cursor-pointer h-[11.3rem] my-[1.6rem] p-[2rem] flex justify-between items-center rounded-[0.8rem] shadow-gray`}
+			} cursor-pointer h-[11.3rem] my-[1.6rem] p-[2rem] flex justify-between items-center rounded-[0.8rem] shadow-blue `}
 		>
 			<div className="h-[7.3rem] flex flex-col justify-between">
 				<div>

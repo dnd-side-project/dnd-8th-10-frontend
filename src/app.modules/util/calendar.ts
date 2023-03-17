@@ -7,7 +7,8 @@ export const transIdx = (year: number, month: number, day: number) => {
 };
 
 export const getDayOfWeek = (data: string) => {
-	const dayOfWeek = WEEK_ENG[new Date(data).getDay()];
+	const [y, m, d] = data.split('.').map(Number);
+	const dayOfWeek = WEEK_ENG[new Date(y, m, d, 0, 0, 0).getDay()];
 	return dayOfWeek;
 };
 
