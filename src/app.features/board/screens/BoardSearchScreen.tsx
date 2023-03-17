@@ -9,18 +9,16 @@ import useModal from 'src/app.modules/hooks/useModal';
 import BackIcon from '../../../app.modules/assets/back.svg';
 import BoardPreview from '../components/BoardPreview';
 import { boardSearch } from '../api/search';
-import useStore from '../store';
 
 function BoardSearchScreen() {
 	const router = useRouter();
 	const { isModalOpen, openModal, closeModal } = useModal();
-
-	const { setSelectedCategory } = useStore();
 	const [searchContent, setEearchContent] = useState('');
-	const { data: searchData, refetch: searchRefetch } = useQuery(['boardSearch'], () => boardSearch(searchContent), {
+	const [searchData, setSearchData] = useState([]);
+	const { data, refetch: searchRefetch } = useQuery(['boardSearch'], () => boardSearch(searchContent), {
 		select: (res) => res.data.data,
 		onSuccess: (res) => {
-			// console.log(res);
+			setSearchData(res);
 		},
 		onError: (error) => {
 			console.log(error);
@@ -55,11 +53,18 @@ function BoardSearchScreen() {
 								value={searchContent}
 								className="w-full bg-g1 placeholder:text-g7 placeholder:text-body2 text-subhead2 text-g9 ml-[0.8rem] focus:outline-none"
 								placeholder="제목, 글 종류, 작성자 검색"
+								enterKeyHint="done"
 							/>
 						</form>
 					</div>
 					{searchContent.length > 1 && (
-						<button type="button" onClick={() => setEearchContent('')}>
+						<button
+							type="button"
+							onClick={() => {
+								setEearchContent('');
+								setSearchData([]);
+							}}
+						>
 							<DelIcon />
 						</button>
 					)}

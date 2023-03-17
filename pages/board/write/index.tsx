@@ -14,7 +14,7 @@ const WritePage: NextPage = () => {
 	// 게시글 이미지 작성
 	const { mutate: BoardWriteImgMutate } = useMutation(boardWriteImg, {
 		onSuccess: (res) => {
-			// console.log(res);
+			console.log(res);
 		},
 		onError: (error) => console.log(error),
 	});
@@ -23,12 +23,16 @@ const WritePage: NextPage = () => {
 	const { mutate: BoardWriteMutate } = useMutation(boardWrite, {
 		onSuccess: (res) => {
 			// 게시글 작성 성공해서 postId 받으면 이미지도 업로드.
-			const postId = +res.data.data.postId;
-			const formData = new FormData();
-			for (let i = 0; i < imgData.length; i += 1) {
-				formData.append('files', imgData[i]);
+			if (imgData.length > 0) {
+				const postId = +res.data.data.postId;
+				if (postId) {
+					const formData = new FormData();
+					for (let i = 0; i < imgData.length; i += 1) {
+						formData.append('files', imgData[i]);
+					}
+					BoardWriteImgMutate({ postId, FormData: formData });
+				}
 			}
-			BoardWriteImgMutate({ postId, FormData: formData });
 			router.back();
 		},
 
