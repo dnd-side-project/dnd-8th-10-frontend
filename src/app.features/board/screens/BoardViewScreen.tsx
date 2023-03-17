@@ -239,6 +239,7 @@ function BoardViewScreen({
 		const handleCommentFocusOut = (e: any) => {
 			const relatedTarget: any = e?.relatedTarget;
 			const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
 			if (isSafari) {
 				const selection: any = window.getSelection();
 				if (selection === null) return;
@@ -247,7 +248,10 @@ function BoardViewScreen({
 
 			if (e?.target?.name === 'submitComment') return; // 댓글input 안 멘션 영역 누른 경우
 			if (relatedTarget?.name === 'mention') return; // 멘션 모달에 멘션버튼 누른 경우
-			if (e?.target?.id === 'newComment' && e.target.innerText.trim().length) return; // 그냥 댓글 인풋 영역 누른 경우
+			if (e?.target?.id === 'newComment' && e.target.innerText.trim().length) {
+				$comment.focus();
+				return;
+			} // 그냥 댓글 인풋 영역 누른 경우
 
 			if ($comment.innerText.length === 0 || $comment.innerText === '\n') {
 				// 두번째 조건은 사파리 대응
