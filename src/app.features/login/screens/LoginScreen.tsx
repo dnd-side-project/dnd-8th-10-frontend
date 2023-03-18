@@ -22,7 +22,7 @@ function Jsontest3() {
 }
 function LoginScreen() {
 	return (
-		<div className="wrap  relative">
+		<div className="h-full relative">
 			<div className="pt-[12vh]">
 				<h1 className="text-title2 text-g9">
 					슬기로운 편의점 생활!

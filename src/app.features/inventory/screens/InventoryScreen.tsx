@@ -34,7 +34,7 @@ function InventoryScreen({ inventoryHistory }: Props) {
 		<>
 			<Header title="시재 점검" />
 
-			<main className="pt-[7.2rem] h-full wrap overflow-y-scroll mx-[-2rem] overflow-x-visible scrollbar-hidden  text-g9 ">
+			<main className="pt-[7.2rem]  mx-[-2rem] overflow-x-visible   text-g9 ">
 				<section className=" pt-[1.6rem] mx-[2rem] pb-[2.4rem] space-y-[1.2rem]">
 					<div className="flex items-center justify-start space-x-[0.8rem]">
 						<h1 className="text-subhead4 ">시재 항목</h1>

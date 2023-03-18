@@ -79,7 +79,7 @@ function SetWorkPlaceScreen() {
 	return (
 		<RegisterLayout curPage={2} canGoNext={workPlace !== null} guideMessage="어떤 지점에서 일하고 계신가요?">
 			<div className="space-y-[2.4rem] pt-[1.6rem]">
-				<div className="space-y-[1.6rem]">
+				<div className="space-y-[1.6rem] sticky top-0">
 					<SearchInput
 						searchTerm={searchTerm ?? workPlace ?? ''}
 						onSearchTermChange={searchTermHandler}
@@ -92,7 +92,7 @@ function SetWorkPlaceScreen() {
 				</div>
 
 				{workPlace === null && (
-					<ul className="space-y-[1.6rem] h-[100vh] pb-[32rem] overflow-x-scroll scrollbar-hidden">
+					<ul className="space-y-[1.6rem] pb-[12rem]">
 						{searchResults?.map((store, idx) => (
 							<li key={idx}>
 								<button
