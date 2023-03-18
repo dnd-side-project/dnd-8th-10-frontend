@@ -10,7 +10,7 @@ function MyPostScreen({ posts }: Props) {
 	return (
 		<>
 			<Header title="내가 쓴 글" />
-			<main className="pt-[7.2rem] wrap overflow-y-scroll scrollbar-hidden">
+			<main className="pt-[7.2rem] ">
 				<BoardPreview searchData={posts} search />
 			</main>
 		</>

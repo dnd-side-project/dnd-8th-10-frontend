@@ -32,7 +32,7 @@ function PhoneSettingScreen({ user, putUser, isLoading }: Props) {
 	return (
 		<>
 			<Header title="전화번호 수정" />
-			<main className="wrap pt-[7.2rem] space-y-[0.8rem]">
+			<main className="pt-[7.2rem] space-y-[0.8rem]">
 				<h2 className="text-g6 text-subhead1">개인 연락처</h2>
 				<TextInput
 					value={phoneNumber ?? ''}

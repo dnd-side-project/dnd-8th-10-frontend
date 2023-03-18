@@ -44,9 +44,9 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 	return (
 		<>
 			<Header title="" />
-			<main className="h-full wrap pt-[9rem] space-y-[1.6rem] relative">
+			<main className="h-full  pt-[9rem] space-y-[1.6rem] relative">
 				<h1 className="text-g10 text-title2">마지막으로 확인해주세요! 🧐</h1>
-				<ul className="space-y-[3rem]">
+				<ul className="space-y-[3rem] pb-[9rem]">
 					<li className="flex flex-col space-y-[0.4rem]">
 						<span className="text-g6 text-subhead2">역할</span>
 						<Badge size="small" color="warmGray">
@@ -114,7 +114,7 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 						</Badge>
 					</li>
 				</ul>
-				<div className="absolute bottom-[2rem] w-full">
+				<div className="fixed max-w-[50rem] translate-x-[-2rem] px-[2rem] bottom-[2rem] w-full">
 					<Bar ClickFn={submitHandler}>확인</Bar>
 				</div>
 			</main>

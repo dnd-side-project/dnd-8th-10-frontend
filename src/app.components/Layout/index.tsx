@@ -17,7 +17,7 @@ function Layout({ children }: Props) {
 		return () => window.removeEventListener('resize', setProperty);
 	}, []);
 	return (
-		<div id="app" className="max-w-[50rem] mx-auto px-[2rem] bg-w">
+		<div id="app" className="app-wrap max-w-[50rem] mx-auto px-[2rem] bg-w">
 			{children}
 		</div>
 	);

@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import ActiveWorkerSvg from 'src/app.modules/assets/register/active_worker.svg';
-import ActiveManagerSvg from 'src/app.modules/assets/register/active_manager.svg';
 import InActiveWorkerSvg from 'src/app.modules/assets/register/inactive_worker.svg';
 import InActiveManagerSvg from 'src/app.modules/assets/register/inactive_manager.svg';
 import { RoleType } from 'src/app.modules/api/user';
@@ -62,7 +60,7 @@ function SetRoleScreen({ userName }: Props) {
 			canGoNext={role !== null}
 			guideMessage={`안녕하세요, ${userName}님\n어떤일을 하고 계신가요?`}
 		>
-			<div className="flex flex-col items-center ">
+			<div className=" flex flex-col items-center ">
 				<div className="absolute flex  justify-between mx-auto top-[38%] max-w-[32rem] w-[calc(100vw-4rem)]  ">
 					<button
 						type="button"

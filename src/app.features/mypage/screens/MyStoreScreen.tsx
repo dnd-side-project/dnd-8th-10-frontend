@@ -24,7 +24,7 @@ function MyStoreScreen({ store }: Props) {
 	return (
 		<>
 			<Header title={store?.storeName?.split(' ')[1] ?? ''} />
-			<main className="wrap overflow-y-scroll mx-[-2rem] scrollbar-hidden overflow-x-hidden pt-[7.6rem] text-g9">
+			<main className=" mx-[-2rem] overflow-x-hidden pt-[7.6rem] text-g9">
 				<InfoBox className="flex  mx-[2rem] justify-start items-start space-x-[0.8rem] mb-[2rem]">
 					<StoreIcon className="w-[2.4rem] h-[2.4rem]" />
 					<div className="flex flex-col space-y-[0.8rem]">
