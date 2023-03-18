@@ -9,7 +9,6 @@ function Layout({ children }: Props) {
 	useEffect(() => {
 		const setProperty = () => {
 			const vh = window.innerHeight * 0.01;
-			console.log(vh, 'vh');
 			document.documentElement.style.setProperty('--vh', `${vh}px`);
 		};
 		setProperty();
