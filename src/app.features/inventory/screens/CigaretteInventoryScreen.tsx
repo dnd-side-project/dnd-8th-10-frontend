@@ -55,6 +55,7 @@ interface Props {
 	editInventory: MutateTpye<PutInventoryBody>;
 	editInventoryLoading: boolean;
 }
+// TODO: 담배 시재 추가 중복이름 막기
 function CountCigaretteScreen({
 	inventoryList,
 	addCigarette,
