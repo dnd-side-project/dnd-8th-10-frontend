@@ -78,7 +78,7 @@ function CountCigaretteScreen({
 	const router = useRouter();
 	const goBackHandler = () => {
 		if (Object.keys(countHistory).length) {
-			// openBackAlertModal();
+			openBackAlertModal();
 		}
 	};
 	const onSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,23 +177,24 @@ function CountCigaretteScreen({
 						onDone={submitNewCigarette}
 					/>
 				)}
-				{isBackAlertModalOpen && (
-					<Overlay
-						overlayClickFn={() => {
-							closeBackAlertModal();
-						}}
-					>
-						<Modal
-							title="시재점검을 종료하시는건가요?
-							점검 중인 내용이 저장되지 않습니다."
-							yesFn={() => router.back()}
-							yesTitle="종료"
-							noFn={closeBackAlertModal}
-							noTitle="아니오"
-						/>
-					</Overlay>
-				)}
 			</main>
+			{isBackAlertModalOpen && (
+				<Overlay
+					overlayClickFn={() => {
+						closeBackAlertModal();
+					}}
+				>
+					<Modal
+						iconView
+						title="시재점검을 종료하시는건가요?"
+						subTitle="점검 중인 내용이 저장되지 않습니다"
+						yesFn={() => router.back()}
+						yesTitle="종료"
+						noFn={closeBackAlertModal}
+						noTitle="아니오"
+					/>
+				</Overlay>
+			)}
 		</>
 	);
 }
