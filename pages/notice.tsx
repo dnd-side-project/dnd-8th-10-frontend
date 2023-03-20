@@ -10,7 +10,7 @@ const Notice: NextPage = () => {
 	const { data } = useQuery(['notice', 'list'], getAlarmList, {
 		select: (res) => res.data.data,
 		onSuccess: (res) => {
-			console.log(res);
+			console.log(res, '노티스 데이터');
 		},
 		onError: (error) => {
 			console.log(error);
