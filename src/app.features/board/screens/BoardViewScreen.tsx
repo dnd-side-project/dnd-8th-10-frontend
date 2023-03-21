@@ -278,7 +278,7 @@ function BoardViewScreen({
 			{mode !== 'edit' ? (
 				<div>
 					<BoardViewHeader isMyPost={isMyPost} DelMutate={DelMutate} postId={boardViewData?.postId ?? null} />
-					<main className=" pt-[1.6rem] h-[calc(100vh-5.6rem)] pb-[6rem] overflow-y-scroll scrollbar-hidden">
+					<main className=" pt-[7.2rem] h-full pb-[6rem] ">
 						<BoardContentView
 							boardViewData={boardViewData}
 							viewCheckHandler={viewCheckHandler}

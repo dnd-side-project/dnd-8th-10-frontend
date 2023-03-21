@@ -3,7 +3,7 @@ import React from 'react';
 import Header from 'src/app.components/Header';
 import { categoryMapKr, formatDate } from 'src/app.features/board/utils';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
-import TotalColorIcon from '../../../app.modules/assets/board/category/color/total.svg';
+import { RoleType } from 'src/app.modules/api/user';
 import NoticeColorIcon from '../../../app.modules/assets/board/category/color/notice.svg';
 import PersonalNoticeColorIcon from '../../../app.modules/assets/board/category/color/personalNotice.svg';
 import EducationColorIcon from '../../../app.modules/assets/board/category/color/education.svg';
@@ -14,7 +14,9 @@ import MentioinIcon from '../../../app.modules/assets/board/category/color/menti
 interface Props {
 	AlarmData: [
 		{
-			userName: string;
+			writerName: string;
+			writerRole: RoleType;
+			type: string; // TODO:temp
 			postId: number;
 			title: string;
 			category: string; // TODO: mapping
@@ -43,10 +45,19 @@ function AlarmScreen({ AlarmData }: Props) {
 				return <MentioinIcon />;
 		}
 	};
+	const getNoticeTypeMessage = (type: string) => {
+		if (type === 'post') {
+			return ' 글이 등록되었습니다.';
+		}
+		if (type === 'mention') {
+			return '님이 나를 언급하였습니다.';
+		}
+		return '님이 댓글을 달았습니다.';
+	};
 	return (
 		<>
 			<Header title="알림" />
-			<main className="min-h-[100vh]">
+			<main className="h-full">
 				<ul className="pt-[5.6rem]">
 					{AlarmData.reverse().map((post, index) => (
 						<li
@@ -65,8 +76,8 @@ function AlarmScreen({ AlarmData }: Props) {
 							<div>
 								<div className="mb-[0.8rem]">
 									<span className="text-subhead2 text-g9">
-										{categoryMapKr[post.category] ?? post.category}{' '}
-										{categoryMapKr[post.category] ? ' 글이 등록되었습니다.' : '님이 나를 언급하였습니다.'}
+										{categoryMapKr[post.category] ?? post.category}
+										{getNoticeTypeMessage(post.type)}
 									</span>
 								</div>
 								<div className="mb-[0.4rem]">
@@ -80,7 +91,8 @@ function AlarmScreen({ AlarmData }: Props) {
 								<div className="flex justify-between">
 									<div className="text-body1">
 										<span className="text-g6">
-											{post.userName} {post.role === 'MANAGER' ? '점장' : '알바생'} {formatDate(post.createDate)}
+											{post.writerName} {post.writerRole === 'MANAGER' ? '점장' : '알바생'}{' '}
+											{formatDate(post.createDate)}
 										</span>
 									</div>
 								</div>

@@ -9,6 +9,7 @@ html{
 body{
   background-color: #F8F8FA;
   border-style:solid !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
   
 }
 .app-wrap::-webkit-scrollbar {
@@ -42,7 +43,16 @@ input[type=number]::-webkit-out-spin-button {
 	-moz-appearance:none;
 	appearance:none;
 }
+input[type="search"] {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
 
 .time-set-button-border{
   border:0.1rem solid #4382FF;
+}
+
+.check-emoji-touch{
+  -webkit-touch-callout:none;
+  user-select: none;
+  -webkit-user-select:none;
 }
