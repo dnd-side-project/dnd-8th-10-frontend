@@ -23,9 +23,11 @@ function SearchInput({
 	const inputRef = useRef<HTMLInputElement>(null);
 	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		if (!inputRef?.current) return;
-		inputRef.current.blur();
+		const $input = inputRef?.current;
+		if ($input === null) return;
+		$input.blur();
 	};
+
 	return (
 		<form onSubmit={onSubmit} role="search" className="relative w-full h-[4.8rem] rounded-[0.8rem] bg-[#F8F8FA]">
 			{!isSearched && <SearchIcon className="absolute left-[1.2rem] top-1/2 -translate-y-1/2" />}

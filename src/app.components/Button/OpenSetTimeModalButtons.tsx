@@ -27,7 +27,7 @@ function OpenSetTimeModalButtons({
 		<div className="flex items-center space-x-[0.8rem] justify-between">
 			<div
 				className={`  bg-g1
-				 w-full h-[4.8rem] rounded-[0.8rem]  text-body2 text-start  relative flex items-center`}
+				 w-full h-[4.8rem] rounded-[0.8rem]  text-body2  text-start  relative flex items-center`}
 			>
 				<button
 					onClick={() => openSetTimeModalHandler('startTime')}
@@ -38,7 +38,7 @@ function OpenSetTimeModalButtons({
 				>
 					{!isStartTimeSet ? (
 						<span
-							className={`absolute h-full ${
+							className={`absolute h-full  ${
 								focusedType === 'startTime'
 									? 'text-primary top-[1.3rem]  left-[1.1rem]'
 									: 'text-g7 top-[1.4rem]  left-[1.2rem]'

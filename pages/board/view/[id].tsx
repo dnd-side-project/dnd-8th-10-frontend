@@ -80,18 +80,16 @@ const ViewPage: NextPage = () => {
 	const { data: userData, isLoading: LoadingData } = useUser();
 
 	return (
-		<div className="h-[100vh] overflow-y-hidden">
-			<BoardViewScreen
-				userData={userData}
-				boardCheckPerson={boardCheckPerson}
-				boardViewData={boardViewData}
-				DelMutate={DelMutate}
-				ViewCheckMutate={ViewCheckMutate}
-				PostCommentMutate={PostCommentMutate}
-				DeleteCommentMutate={DeleteCommentMutate}
-				PutCommentMutate={PutCommentMutate}
-			/>
-		</div>
+		<BoardViewScreen
+			userData={userData}
+			boardCheckPerson={boardCheckPerson}
+			boardViewData={boardViewData}
+			DelMutate={DelMutate}
+			ViewCheckMutate={ViewCheckMutate}
+			PostCommentMutate={PostCommentMutate}
+			DeleteCommentMutate={DeleteCommentMutate}
+			PutCommentMutate={PutCommentMutate}
+		/>
 	);
 };
 
