@@ -14,8 +14,11 @@ function Layout({ children }: Props) {
 		window.addEventListener('resize', setProperty);
 		return () => window.removeEventListener('resize', setProperty);
 	}, []);
+	const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+		e.preventDefault();
+	};
 	return (
-		<div id="app" className="app-wrap max-w-[50rem] mx-auto px-[2rem] bg-w">
+		<div id="app" onTouchStart={handleTouchStart} className="app-wrap max-w-[50rem] mx-auto px-[2rem] bg-w">
 			{children}
 		</div>
 	);
