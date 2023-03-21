@@ -26,8 +26,9 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 		}
 	}, [boardViewData]);
 	const touchTimeoutRef = useRef<any>(null);
-	const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
 	const handleTouchStart = (e: any) => {
+		const isIOS = /iPad|iPhone|iPod/.test(navigator?.userAgent);
 		if (!isIOS) return;
 		touchTimeoutRef.current = setTimeout(() => {
 			openWhoCheckedModal();
@@ -35,6 +36,7 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 	};
 
 	const handleTouchEnd = (e: any) => {
+		const isIOS = /iPad|iPhone|iPod/.test(navigator?.userAgent);
 		if (!isIOS) return;
 		clearTimeout(touchTimeoutRef.current);
 	};
