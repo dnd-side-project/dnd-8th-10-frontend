@@ -8,6 +8,7 @@ import Modal from 'src/app.components/Modal/Modal';
 import BoardModal from 'src/app.components/Modal/BoardModal';
 import { MutateTpye } from 'src/app.modules/api/client';
 import useModal from 'src/app.modules/hooks/useModal';
+import Header from 'src/app.components/Header';
 
 interface Props {
 	DelMutate: MutateTpye<number>;
@@ -15,7 +16,7 @@ interface Props {
 	isMyPost: boolean;
 }
 
-function Header({ postId, DelMutate, isMyPost }: Props) {
+function BoardViewHeader({ postId, DelMutate, isMyPost }: Props) {
 	const { isModalOpen, closeModal, openModal } = useModal();
 	const router = useRouter();
 	const [delModalView, setDelModalView] = useState<boolean>(false);
@@ -27,16 +28,14 @@ function Header({ postId, DelMutate, isMyPost }: Props) {
 
 	return (
 		<>
-			<header className="w-full h-[5.6rem] flex items-center justify-between ">
-				<button type="button" onClick={() => router.back()}>
-					<BackIcon stroke="#66666E" />
-				</button>
+			<Header title="">
 				{isMyPost && (
 					<button type="button" onClick={openModal}>
 						<MoreIcon />
 					</button>
 				)}
-			</header>
+			</Header>
+
 			{isModalOpen && (
 				<Overlay overlayClickFn={closeModal}>
 					{delModalView ? (
@@ -65,4 +64,4 @@ function Header({ postId, DelMutate, isMyPost }: Props) {
 	);
 }
 
-export default Header;
+export default BoardViewHeader;
