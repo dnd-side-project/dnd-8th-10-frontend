@@ -29,6 +29,7 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 
 	const handleTouchStart = (e: React.TouchEvent<HTMLButtonElement>) => {
 		e.preventDefault();
+		e.stopPropagation();
 		const isIOS = /iPad|iPhone|iPod/.test(navigator?.userAgent);
 		if (!isIOS) return;
 		touchTimeoutRef.current = setTimeout(() => {
@@ -38,6 +39,7 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 
 	const handleTouchEnd = (e: React.TouchEvent<HTMLButtonElement>) => {
 		e.preventDefault();
+		e.stopPropagation();
 		const isIOS = /iPad|iPhone|iPod/.test(navigator?.userAgent);
 		if (!isIOS) return;
 		clearTimeout(touchTimeoutRef.current);
