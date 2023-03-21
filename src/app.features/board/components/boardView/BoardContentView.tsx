@@ -98,6 +98,7 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 							onClick={viewCheckHandler}
 							onContextMenu={(e) => {
 								e.preventDefault();
+								e.stopPropagation();
 								openWhoCheckedModal();
 							}}
 							onTouchStart={handleTouchStart}
