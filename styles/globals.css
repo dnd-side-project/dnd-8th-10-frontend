@@ -9,7 +9,7 @@ html{
 body{
   background-color: #F8F8FA;
   border-style:solid !important;
-
+ 
   
 }
 .app-wrap::-webkit-scrollbar {
@@ -49,4 +49,10 @@ input[type="search"] {
 
 .time-set-button-border{
   border:0.1rem solid #4382FF;
+}
+
+.check-emoji-touch{
+  -webkit-touch-callout:none;
+  user-select: none;
+  -webkit-user-select:none;
 }

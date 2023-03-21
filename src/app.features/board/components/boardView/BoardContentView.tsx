@@ -104,7 +104,7 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 							onTouchStart={handleTouchStart}
 							onTouchMove={handleTouchMove}
 							onTouchEnd={handleTouchEnd}
-							className={`flex items-center   justify-center space-x-[0.4rem] bg-g1 px-[0.8rem] py-[0.5rem] rounded-[0.4rem]  ${
+							className={`check-emoji-touch flex items-center   justify-center space-x-[0.4rem] bg-g1 px-[0.8rem] py-[0.5rem] rounded-[0.4rem]  ${
 								boardViewData?.check ? 'text-primary' : ''
 							}`}
 						>
