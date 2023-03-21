@@ -42,6 +42,7 @@ function SetTimeScreen() {
 			[name]: newValue,
 		});
 	};
+	const [isAlertPop, setIsAlertPop] = useState<boolean>(false);
 	const workTimeHandler = () => {
 		const { meridiem, hour, minute } = workTimeOnModal;
 		if (!meridiem || !hour || !minute) return;
@@ -105,7 +106,19 @@ function SetTimeScreen() {
 										name="day"
 										value={item}
 										item={mappedDay[item as DayType]}
-										onClick={selectedDayHandler}
+										onClick={(e) => {
+											// 하나만 입력되어 있으면
+											if (
+												selectedDay !== undefined &&
+												workTime?.[selectedDay] &&
+												Object.keys(workTime?.[selectedDay]).length === 1
+											) {
+												console.log(workTime?.[selectedDay]);
+												setIsAlertPop(true);
+												return;
+											}
+											selectedDayHandler(e);
+										}}
 										state={selectedDay === item ? 'focus' : `${workTime[item as DayType] ? 'selected' : 'default'}`}
 									/>
 								</li>
@@ -115,23 +128,30 @@ function SetTimeScreen() {
 					{selectedDay && (
 						<div className="space-y-[0.8rem]">
 							<h2 className="text-g6 text-body2">근무 시간</h2>
-							<OpenSetTimeModalButtons
-								openSetTimeModalHandler={openSetTimeModalHandler}
-								isStartTimeSet={Boolean(workTime?.[selectedDay]?.startTime)}
-								isEndTimeSet={Boolean(workTime?.[selectedDay]?.endTime)}
-								startTimeText={`${workTime?.[selectedDay]?.startTime?.meridiem === 'am' ? '오전' : '오후'} ${
-									workTime?.[selectedDay]?.startTime?.hour
-								} : ${Number(workTime?.[selectedDay]?.startTime?.minute) < 10 ? '0' : ''}${
-									workTime?.[selectedDay]?.startTime?.minute
-								}`}
-								endTimeText={`${workTime?.[selectedDay]?.endTime?.meridiem === 'am' ? '오전' : '오후'} ${
-									workTime?.[selectedDay]?.endTime?.hour
-								} : ${Number(workTime?.[selectedDay]?.endTime?.minute) < 10 ? '0' : ''}${
-									workTime?.[selectedDay]?.endTime?.minute
-								}`}
-								resetTimeHandler={resetTimeHandler}
-								focusedType={openModalFlag}
-							/>
+							<div>
+								<OpenSetTimeModalButtons
+									openSetTimeModalHandler={openSetTimeModalHandler}
+									isStartTimeSet={Boolean(workTime?.[selectedDay]?.startTime)}
+									isEndTimeSet={Boolean(workTime?.[selectedDay]?.endTime)}
+									startTimeText={`${workTime?.[selectedDay]?.startTime?.meridiem === 'am' ? '오전' : '오후'} ${
+										workTime?.[selectedDay]?.startTime?.hour
+									} : ${Number(workTime?.[selectedDay]?.startTime?.minute) < 10 ? '0' : ''}${
+										workTime?.[selectedDay]?.startTime?.minute
+									}`}
+									endTimeText={`${workTime?.[selectedDay]?.endTime?.meridiem === 'am' ? '오전' : '오후'} ${
+										workTime?.[selectedDay]?.endTime?.hour
+									} : ${Number(workTime?.[selectedDay]?.endTime?.minute) < 10 ? '0' : ''}${
+										workTime?.[selectedDay]?.endTime?.minute
+									}`}
+									resetTimeHandler={resetTimeHandler}
+									focusedType={openModalFlag}
+								/>
+								{isAlertPop && (
+									<span className="text-secondary text-[1rem] leading-[1.8rem] -tracking-[0.06rem] ">
+										출근과 퇴근시간을 모두 입력해주세요.
+									</span>
+								)}
+							</div>
 						</div>
 					)}
 				</div>

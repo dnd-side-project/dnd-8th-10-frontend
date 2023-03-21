@@ -23,8 +23,15 @@ function SearchInput({
 	const inputRef = useRef<HTMLInputElement>(null);
 	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		if (!inputRef?.current) return;
-		inputRef.current.blur();
+		const $input = inputRef?.current;
+		if ($input === null) return;
+		$input.blur();
+	};
+
+	const handleClick = () => {
+		const $input = inputRef?.current;
+		if ($input === null) return;
+		$input.focus();
 	};
 	return (
 		<form onSubmit={onSubmit} role="search" className="relative w-full h-[4.8rem] rounded-[0.8rem] bg-[#F8F8FA]">
@@ -33,6 +40,7 @@ function SearchInput({
 				ref={inputRef}
 				value={searchTerm}
 				onChange={onSearchTermChange}
+				onClick={handleClick}
 				placeholder={placeholder}
 				type="search"
 				onFocus={onFocus}

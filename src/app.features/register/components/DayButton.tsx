@@ -28,7 +28,7 @@ function Calendar({ value, item, onClick, state, name }: Props) {
 			name={name}
 			value={value}
 			onClick={onClick}
-			className={`w-[3.4rem] text-subhead2 h-[3.4rem]  rounded-[0.8rem]   ${getBgColor()}  ${getBorderStyle()} ${getTextColor()} `}
+			className={`w-[3.4rem] text-subhead2 h-[3.4rem]  rounded-[0.8rem] leading-none   ${getBgColor()}  ${getBorderStyle()} ${getTextColor()} `}
 		>
 			{item}
 		</button>
