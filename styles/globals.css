@@ -9,6 +9,7 @@ html{
 body{
   background-color: #F8F8FA;
   border-style:solid !important;
+  touch-action: none;
   
 }
 .app-wrap::-webkit-scrollbar {
