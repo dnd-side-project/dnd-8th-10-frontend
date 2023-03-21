@@ -28,11 +28,6 @@ function SearchInput({
 		$input.blur();
 	};
 
-	const handleClick = () => {
-		const $input = inputRef?.current;
-		if ($input === null) return;
-		$input.focus();
-	};
 	return (
 		<form onSubmit={onSubmit} role="search" className="relative w-full h-[4.8rem] rounded-[0.8rem] bg-[#F8F8FA]">
 			{!isSearched && <SearchIcon className="absolute left-[1.2rem] top-1/2 -translate-y-1/2" />}
@@ -40,7 +35,6 @@ function SearchInput({
 				ref={inputRef}
 				value={searchTerm}
 				onChange={onSearchTermChange}
-				onClick={handleClick}
 				placeholder={placeholder}
 				type="search"
 				onFocus={onFocus}
