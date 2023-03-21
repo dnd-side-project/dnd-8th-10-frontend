@@ -24,18 +24,18 @@ function RegisterLayout({ curPage, children, canGoNext, guideMessage }: Props) {
 			<main className={` ${router?.query?.title ? 'pt-[7.2rem]' : 'pt-[9rem]'} h-full text-g9 relative  `}>
 				<h1 className={` whitespace-pre-wrap  text-g10 text-title2 sticky top-0`}>{guideMessage}</h1>
 				{children}
+				{router?.query?.title ? (
+					<InputInteractButton disabled={!canGoNext} onClick={() => router.push(`${SERVICE_URL.register}?page=6`)} />
+				) : (
+					<button
+						disabled={!canGoNext}
+						onClick={nextHandler}
+						className="disabled:bg-g1 disabled:text-g4 pt-[1.9rem] pb-[4.3rem] text-white text-subhead4 h-[8rem] text-center bg-primary fixed max-w-[50rem] mx-auto inset-x-0 bottom-0"
+					>
+						다음으로
+					</button>
+				)}
 			</main>
-			{router?.query?.title ? (
-				<InputInteractButton disabled={!canGoNext} onClick={() => router.push(`${SERVICE_URL.register}?page=6`)} />
-			) : (
-				<button
-					disabled={!canGoNext}
-					onClick={nextHandler}
-					className="disabled:bg-g1 disabled:text-g4 pt-[1.9rem] pb-[4.3rem] text-white text-subhead4 h-[8rem] text-center bg-primary fixed max-w-[50rem] mx-auto inset-x-0 bottom-0"
-				>
-					다음으로
-				</button>
-			)}
 		</>
 	);
 }
