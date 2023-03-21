@@ -77,7 +77,7 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 								e.preventDefault();
 								openWhoCheckedModal();
 							}}
-							onTouchEnd={(e) => {
+							onTouchStart={(e) => {
 								e.preventDefault();
 								openWhoCheckedModal();
 							}}
