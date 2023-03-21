@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import CheckIcon from 'src/app.modules/assets/board/check.svg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { IBoardViewData } from '../../types';
@@ -25,7 +25,22 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 			});
 		}
 	}, [boardViewData]);
+	const touchTimeoutRef = useRef<any>(null);
+	const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+	const handleTouchStart = (e: any) => {
+		if (!isIOS) return;
+		if (touchTimeoutRef?.current === null) return;
+		touchTimeoutRef.current = setTimeout(() => {
+			openWhoCheckedModal();
+		}, 800);
+	};
 
+	const handleTouchEnd = (e: any) => {
+		if (!isIOS) return;
+		clearTimeout(touchTimeoutRef.current);
+	};
+
+	openWhoCheckedModal();
 	return (
 		<section>
 			{boardViewData && (
@@ -77,10 +92,8 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 								e.preventDefault();
 								openWhoCheckedModal();
 							}}
-							onTouchStart={(e) => {
-								e.preventDefault();
-								openWhoCheckedModal();
-							}}
+							onTouchStart={handleTouchStart}
+							onTouchEnd={handleTouchEnd}
 							className={`flex items-center  justify-center space-x-[0.4rem] bg-g1 px-[0.8rem] py-[0.5rem] rounded-[0.4rem] ${
 								boardViewData?.check ? 'text-primary' : ''
 							}`}
