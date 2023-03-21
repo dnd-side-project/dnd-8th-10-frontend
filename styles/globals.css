@@ -9,7 +9,7 @@ html{
 body{
   background-color: #F8F8FA;
   border-style:solid !important;
- 
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
   
 }
 .app-wrap::-webkit-scrollbar {
