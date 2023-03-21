@@ -14,11 +14,11 @@ function Layout({ children }: Props) {
 		window.addEventListener('resize', setProperty);
 		return () => window.removeEventListener('resize', setProperty);
 	}, []);
-	const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+	const handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
 		e.preventDefault();
 	};
 	return (
-		<div id="app" onTouchStart={handleTouchStart} className="app-wrap max-w-[50rem] mx-auto px-[2rem] bg-w">
+		<div id="app" onContextMenu={handleContextMenu} className="app-wrap max-w-[50rem] mx-auto px-[2rem] bg-w">
 			{children}
 		</div>
 	);
