@@ -40,7 +40,6 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 		clearTimeout(touchTimeoutRef.current);
 	};
 
-	openWhoCheckedModal();
 	return (
 		<section>
 			{boardViewData && (
