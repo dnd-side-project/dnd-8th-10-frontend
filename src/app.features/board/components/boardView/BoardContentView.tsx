@@ -27,16 +27,16 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 	}, [boardViewData]);
 	const touchTimeoutRef = useRef<any>(null);
 
-	const handleTouchStart = (e: any) => {
+	const handleTouchStart = (e: React.TouchEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		const isIOS = /iPad|iPhone|iPod/.test(navigator?.userAgent);
 		if (!isIOS) return;
 		touchTimeoutRef.current = setTimeout(() => {
 			openWhoCheckedModal();
-		}, 800);
+		}, 500);
 	};
 
-	const handleTouchEnd = (e: any) => {
+	const handleTouchEnd = (e: React.TouchEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		const isIOS = /iPad|iPhone|iPod/.test(navigator?.userAgent);
 		if (!isIOS) return;
@@ -96,12 +96,12 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 							}}
 							onTouchStart={handleTouchStart}
 							onTouchEnd={handleTouchEnd}
-							className={`flex items-center  justify-center space-x-[0.4rem] bg-g1 px-[0.8rem] py-[0.5rem] rounded-[0.4rem] ${
+							className={`flex items-center   justify-center space-x-[0.4rem] bg-g1 px-[0.8rem] py-[0.5rem] rounded-[0.4rem]  ${
 								boardViewData?.check ? 'text-primary' : ''
 							}`}
 						>
 							<CheckIcon stroke={boardViewData?.check ? '#4382FF' : '#B2B2BC'} />
-							<span className="leading-[100%]">{boardViewData.checkCount}</span>
+							<span className="leading-none">{boardViewData.checkCount}</span>
 						</button>
 						<div>조회 {boardViewData.viewCount}</div>
 					</div>
