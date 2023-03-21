@@ -44,6 +44,10 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 		if (!isIOS) return;
 		clearTimeout(touchTimeoutRef.current);
 	};
+	const handleTouchMove = (e: React.TouchEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		e.stopPropagation();
+	};
 
 	return (
 		<section>
@@ -97,6 +101,7 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 								openWhoCheckedModal();
 							}}
 							onTouchStart={handleTouchStart}
+							onTouchMove={handleTouchMove}
 							onTouchEnd={handleTouchEnd}
 							className={`flex items-center   justify-center space-x-[0.4rem] bg-g1 px-[0.8rem] py-[0.5rem] rounded-[0.4rem]  ${
 								boardViewData?.check ? 'text-primary' : ''
