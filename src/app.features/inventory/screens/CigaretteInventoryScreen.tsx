@@ -9,7 +9,7 @@ import useModal from 'src/app.modules/hooks/useModal';
 import Modal from 'src/app.components/Modal/Modal';
 import { useRouter } from 'next/router';
 import FilterButtons from '../components/FilterButtons';
-import InventoryList from '../components/InventoryList';
+import InventoryList from '../components/InventoryListCopy';
 import useCountHistory from '../hooks/useCountHistory';
 import LastCheckModal from '../components/LastCheckModal';
 import NewCigaSaveModal from '../components/NewCigaSaveModal';
@@ -54,14 +54,17 @@ interface Props {
 	addCigaretteLoading: boolean;
 	editInventory: MutateTpye<PutInventoryBody>;
 	editInventoryLoading: boolean;
+	deleteInventoryMutate: MutateTpye<number>;
 }
 // TODO: 담배 시재 추가 중복이름 막기
+// TODO: 담배 시재 하고 나면 뒤로가기 버튼 눌렀을때 경고 모달 안뜨게 하기
 function CountCigaretteScreen({
 	inventoryList,
 	addCigarette,
 	addCigaretteLoading,
 	editInventory,
 	editInventoryLoading,
+	deleteInventoryMutate,
 }: Props) {
 	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
 	const CHO_BUTTONS = ['전체', 'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
@@ -129,6 +132,9 @@ function CountCigaretteScreen({
 	const resetCigaHandler = () => {
 		setNewCiga('');
 	};
+	const deletleInventoryHandler = (inventoryIdx: number) => {
+		deleteInventoryMutate(inventoryIdx);
+	};
 	return (
 		<>
 			<Header title="담배" onBack={goBackHandler}>
@@ -156,6 +162,7 @@ function CountCigaretteScreen({
 						).filter((inventory) => inventory.inventoryName.includes(searchTerm))}
 						countHistory={countHistory}
 						changeDiffHandler={changeDiffHandler}
+						onInventoryDelete={deletleInventoryHandler}
 					/>
 				)}
 

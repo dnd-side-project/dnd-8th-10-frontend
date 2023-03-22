@@ -35,6 +35,12 @@ export const putInventory = async (body: PutInventoryBody) => {
 	return res;
 };
 
+// 시재 삭제 (for 담배 시재)
+export const deleteInventory = async (inventoryIdx: number) => {
+	const res = await client.delete(`/api/inventory?inventoryIdx=${inventoryIdx}`);
+	return res;
+};
+
 export interface IInventoryHistory {
 	userName: string;
 	workDay: string; // 2월14일

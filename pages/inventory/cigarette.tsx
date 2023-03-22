@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import React from 'react';
 import SmallPopup from 'src/app.components/Modal/SmallPopup';
 import CigaretteInventoryScreen from 'src/app.features/inventory/screens/CigaretteInventoryScreen';
-import { getInventory, postCigarette, putInventory } from 'src/app.modules/api/inventory';
+import { deleteInventory, getInventory, postCigarette, putInventory } from 'src/app.modules/api/inventory';
 import useModal from 'src/app.modules/hooks/useModal';
 
 function CigaretteInventory() {
@@ -36,7 +36,12 @@ function CigaretteInventory() {
 		},
 		onError: (error) => alert('오류 발생.'),
 	});
-
+	const { mutate: deleteInventoryMutate, isLoading: deleteInventoryLoading } = useMutation(deleteInventory, {
+		onSuccess: (res) => {
+			refetch();
+		},
+		onError: (error) => alert('오류 발생.'),
+	});
 	return (
 		<>
 			{isSavePopupOpen && <SmallPopup message="점검사항이 저장됐어요! 👀" />}
@@ -48,6 +53,7 @@ function CigaretteInventory() {
 				addCigaretteLoading={addCigaretteLoading}
 				editInventory={editInventory}
 				editInventoryLoading={editInventoryLoading}
+				deleteInventoryMutate={deleteInventoryMutate}
 			/>
 		</>
 	);
