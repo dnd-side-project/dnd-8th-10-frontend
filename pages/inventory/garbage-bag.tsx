@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import React from 'react';
 import SmallPopup from 'src/app.components/Modal/SmallPopup';
 import GarbageBagInventoryScreen from 'src/app.features/inventory/screens/GarbageBagInventoryScreen';
-import { getInventory, putInventory } from 'src/app.modules/api/inventory';
+import { getInventory, getIsWorkTime, putInventory } from 'src/app.modules/api/inventory';
 import useModal from 'src/app.modules/hooks/useModal';
 
 function GarbageBaInventory() {
@@ -10,6 +10,14 @@ function GarbageBaInventory() {
 	const { data: inventoryList, refetch } = useQuery(['inventory', 'garbageBag'], () => getInventory('GARBAGEBAG'), {
 		select: (res) => res.data.data,
 		onSuccess: (res) => console.log(res),
+		onError: (error) => {
+			console.log(error);
+		},
+	});
+	// 200 or 404
+	const { status: workTimeStatus } = useQuery(['inventory', 'isWorkTime'], getIsWorkTime, {
+		select: (res) => res,
+		onSuccess: (res) => console.log(res, 'isWorkTime'),
 		onError: (error) => {
 			console.log(error);
 		},
@@ -31,6 +39,7 @@ function GarbageBaInventory() {
 		<>
 			{isPopupOpen && <SmallPopup message="점검사항이 저장됐어요! 👀" />}
 			<GarbageBagInventoryScreen
+				workTimeStatus={workTimeStatus}
 				inventoryList={inventoryList}
 				editInventory={editInventory}
 				editInventoryLoading={editInventoryLoading}

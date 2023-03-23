@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import Header from 'src/app.components/Header';
 import Modal from 'src/app.components/Modal/Modal';
@@ -15,8 +15,9 @@ interface Props {
 	inventoryList: IInventoryList[];
 	editInventory: MutateTpye<PutInventoryBody>;
 	editInventoryLoading: boolean;
+	workTimeStatus: string;
 }
-function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLoading }: Props) {
+function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLoading, workTimeStatus }: Props) {
 	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
 	const { isModalOpen, closeAnimationModal: closeModal, openModal } = useModal();
 	const [isSaveBtnClicked, setIsSaveBtnClicked] = useState(false);
@@ -25,9 +26,14 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 		closeModal: closeBackAlertModal,
 		openModal: openBackAlertModal,
 	} = useModal();
+	const {
+		isModalOpen: isNotWorkTimeModalOpen,
+		closeModal: closeNotWorkTimeModal,
+		openModal: openNotWorkTimeModal,
+	} = useModal();
 	const router = useRouter();
 	const goBackHandler = () => {
-		if (Object.keys(countHistory).length && !isSaveBtnClicked) {
+		if (Object.keys(countHistory).length && workTimeStatus !== 'error' && !isSaveBtnClicked) {
 			openBackAlertModal();
 		} else router.back();
 	};
@@ -41,6 +47,10 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 		editInventory(body);
 		setIsSaveBtnClicked(true);
 	};
+	useEffect(() => {
+		if (workTimeStatus === undefined) return;
+		if (workTimeStatus === 'error') openNotWorkTimeModal();
+	}, [workTimeStatus]);
 	return (
 		<>
 			<Header title="문화 상품권" onBack={goBackHandler} />
@@ -83,6 +93,23 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 						yesTitle="종료"
 						noFn={closeBackAlertModal}
 						noTitle="아니오"
+					/>
+				</Overlay>
+			)}
+			{isNotWorkTimeModalOpen && (
+				<Overlay
+					overlayClickFn={() => {
+						closeNotWorkTimeModal();
+					}}
+				>
+					<Modal
+						iconView
+						title="근무시간이 아닙니다."
+						subTitle="점검 중인 내용이저장되지 않습니다."
+						yesFn={() => router.back()}
+						yesTitle="종료"
+						noFn={closeNotWorkTimeModal}
+						noTitle="확인"
 					/>
 				</Overlay>
 			)}

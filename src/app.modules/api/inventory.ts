@@ -62,3 +62,9 @@ export const getInventoryRecordToday = async () => {
 	const res = await client.get(`/api/inventory/record/today`);
 	return res;
 };
+
+// 시재 관리 가능한 시간대인지 확인
+export const getIsWorkTime = async () => {
+	const res = await client.get(`/api/inventory/workTime`);
+	return res;
+};

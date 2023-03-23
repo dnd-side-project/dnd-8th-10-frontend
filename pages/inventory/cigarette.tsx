@@ -2,7 +2,13 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import React from 'react';
 import SmallPopup from 'src/app.components/Modal/SmallPopup';
 import CigaretteInventoryScreen from 'src/app.features/inventory/screens/CigaretteInventoryScreen';
-import { deleteInventory, getInventory, postCigarette, putInventory } from 'src/app.modules/api/inventory';
+import {
+	deleteInventory,
+	getInventory,
+	getIsWorkTime,
+	postCigarette,
+	putInventory,
+} from 'src/app.modules/api/inventory';
 import useModal from 'src/app.modules/hooks/useModal';
 
 function CigaretteInventory() {
@@ -11,6 +17,14 @@ function CigaretteInventory() {
 	const { data: cigaretteList, refetch } = useQuery(['inventory', 'cigarette'], () => getInventory('CIGARETTE'), {
 		select: (res) => res.data.data,
 		onSuccess: (res) => console.log(res),
+		onError: (error) => {
+			console.log(error);
+		},
+	});
+	// 200 or 404
+	const { status: workTimeStatus } = useQuery(['inventory', 'isWorkTime'], getIsWorkTime, {
+		select: (res) => res,
+		onSuccess: (res) => console.log(res, 'isWorkTime'),
 		onError: (error) => {
 			console.log(error);
 		},
@@ -48,6 +62,7 @@ function CigaretteInventory() {
 			{isAddPopupOpen && <SmallPopup message="담배 항목이 추가되었어요! 👀" />}
 
 			<CigaretteInventoryScreen
+				workTimeStatus={workTimeStatus}
 				inventoryList={cigaretteList}
 				addCigarette={addCigarette}
 				addCigaretteLoading={addCigaretteLoading}

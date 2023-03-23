@@ -55,6 +55,7 @@ interface Props {
 	editInventory: MutateTpye<PutInventoryBody>;
 	editInventoryLoading: boolean;
 	deleteInventoryMutate: MutateTpye<number>;
+	workTimeStatus: string;
 }
 // TODO: 담배 시재 추가 중복이름 막기
 // TODO: 담배 시재 하고 나면 뒤로가기 버튼 눌렀을때 경고 모달 안뜨게 하기
@@ -65,6 +66,7 @@ function CountCigaretteScreen({
 	editInventory,
 	editInventoryLoading,
 	deleteInventoryMutate,
+	workTimeStatus,
 }: Props) {
 	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
 	const CHO_BUTTONS = ['전체', 'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
@@ -80,9 +82,14 @@ function CountCigaretteScreen({
 		closeModal: closeBackAlertModal,
 		openModal: openBackAlertModal,
 	} = useModal();
+	const {
+		isModalOpen: isNotWorkTimeModalOpen,
+		closeModal: closeNotWorkTimeModal,
+		openModal: openNotWorkTimeModal,
+	} = useModal();
 	const router = useRouter();
 	const goBackHandler = () => {
-		if (Object.keys(countHistory).length && !isSaveBtnClicked) {
+		if (Object.keys(countHistory).length && workTimeStatus !== 'error' && !isSaveBtnClicked) {
 			openBackAlertModal();
 		} else router.back();
 	};
@@ -137,6 +144,10 @@ function CountCigaretteScreen({
 	const deletleInventoryHandler = (inventoryIdx: number) => {
 		deleteInventoryMutate(inventoryIdx);
 	};
+	useEffect(() => {
+		if (workTimeStatus === undefined) return;
+		if (workTimeStatus === 'error') openNotWorkTimeModal();
+	}, [workTimeStatus]);
 	return (
 		<>
 			<Header title="담배" onBack={goBackHandler}>
@@ -202,6 +213,23 @@ function CountCigaretteScreen({
 						yesTitle="종료"
 						noFn={closeBackAlertModal}
 						noTitle="아니오"
+					/>
+				</Overlay>
+			)}
+			{isNotWorkTimeModalOpen && (
+				<Overlay
+					overlayClickFn={() => {
+						closeNotWorkTimeModal();
+					}}
+				>
+					<Modal
+						iconView
+						title="근무시간이 아닙니다."
+						subTitle="점검 중인 내용이저장되지 않습니다."
+						yesFn={() => router.back()}
+						yesTitle="종료"
+						noFn={closeNotWorkTimeModal}
+						noTitle="확인"
 					/>
 				</Overlay>
 			)}
