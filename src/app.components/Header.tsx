@@ -1,6 +1,6 @@
 import React from 'react';
 import BackIcon from 'src/app.modules/assets/back.svg';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 interface Props {
 	title: string;
@@ -20,8 +20,9 @@ function Header({ title, mode, children, onBack }: Props) {
 				onClick={() => {
 					if (onBack) {
 						onBack();
+					} else {
+						router.back();
 					}
-					router.back();
 				}}
 				className="absolute left-[2rem] top-1/2 -translate-y-1/2"
 			>

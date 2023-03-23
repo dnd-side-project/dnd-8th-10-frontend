@@ -46,7 +46,10 @@ function MyStoreScreen({ store }: Props) {
 											<div className="flex space-x-[0.8rem]">
 												<ProfileImage userProfileCode={item.userProfileCode} size="lg" />
 												<div className="flex flex-col space-y-[0.4rem]">
-													<span className="text-subhead2">{item.userName}</span>
+													<div className="space-x-[0.6rem]">
+														<span className="text-subhead2">{item.userName}</span>
+														<span className="text-body2 text-g6">{item.email}</span>
+													</div>
 													<ul className="gap-[0.8rem] flex flex-wrap">
 														{item.workTime.split(',').map((partTime, idx) => (
 															<li key={`time-${idx}`}>
@@ -80,7 +83,10 @@ function MyStoreScreen({ store }: Props) {
 											<div className="flex space-x-[0.8rem]">
 												<ProfileImage userProfileCode={item.userProfileCode} size="lg" />
 												<div className="flex flex-col space-y-[0.4rem]">
-													<span className="text-subhead2">{item.userName}</span>
+													<div className="space-x-[0.6rem]">
+														<span className="text-subhead2">{item.userName}</span>
+														<span className="text-body2 text-g6">{item.email}</span>
+													</div>
 													<ul className="gap-[0.8rem] flex flex-wrap">
 														{item.workTime.split(',').map((partTime, idx) => (
 															<li key={`time-${idx}`}>

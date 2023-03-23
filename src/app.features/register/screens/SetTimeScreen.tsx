@@ -83,6 +83,7 @@ function SetTimeScreen() {
 		if (!selectedDay) return;
 		setOpenModalFlag(flag);
 		openModal();
+		setIsAlertPop(false);
 		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as TimeType] ?? INIT_WORK_TIME;
 		setWorkTimeOnModal(newWorkTimeOnModal);
 	};
@@ -145,6 +146,8 @@ function SetTimeScreen() {
 									}`}
 									resetTimeHandler={resetTimeHandler}
 									focusedType={openModalFlag}
+									day={selectedDay}
+									isAlertPop={isAlertPop}
 								/>
 								{isAlertPop && (
 									<span className="text-secondary text-[1rem] leading-[1.8rem] -tracking-[0.06rem] ">
@@ -158,7 +161,10 @@ function SetTimeScreen() {
 			</div>
 			{isModalOpen && (
 				<SetWorkTimeModal
-					closeModal={closeAnimationModal}
+					closeModal={() => {
+						setOpenModalFlag(null);
+						closeAnimationModal();
+					}}
 					onDone={workTimeHandler}
 					time={workTimeOnModal}
 					onTimeChange={timeOnModalHandler}

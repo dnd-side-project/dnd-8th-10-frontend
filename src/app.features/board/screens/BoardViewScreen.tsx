@@ -450,7 +450,15 @@ function BoardViewScreen({
 					)}
 				</div>
 			) : (
-				<CommentEditScreen commentEditHandler={putCommentHandler} prevComment={focusComment?.content as string} />
+				<CommentEditScreen
+					commentEditHandler={putCommentHandler}
+					prevComment={(() => {
+						const htmlString = focusComment?.content as string;
+						const div = document.createElement('div');
+						div.innerHTML = htmlString;
+						return div.innerText;
+					})()}
+				/>
 			)}
 		</>
 	);
