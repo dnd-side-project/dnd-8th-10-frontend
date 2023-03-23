@@ -10,6 +10,8 @@ import TrashIcon from 'src/app.modules/assets/checklist/trash.svg';
 import AddTodoDecoIcon from 'src/app.modules/assets/checklist/addInputDeco.svg';
 import { formatDate } from 'src/app.modules/util/formatDate';
 import Divider from 'src/app.components/Divider';
+import { getCookie } from 'src/app.modules/cookie';
+import { COOKIE_KEY } from 'src/app.modules/constants/Cookie';
 import { ICheckList } from '../\btypes';
 
 const getKoreaToday = () => {
@@ -200,8 +202,9 @@ function CheckListScreen({
 		const [resYear, resMonth] = searchDate.split('-');
 		return `${+resYear}년 ${+resMonth}월`;
 	};
+	//	document.cookie = `${COOKIE_KEY.ACCESS_TOKEN}=; max-age=-1 ;path=/;`;
 	// TODO: mx-[-2rem] 속성없이 divider 꽉채우기
-	console.log(checklist);
+	console.log(checklist, getCookie(COOKIE_KEY.IS_NEWBIE));
 	return (
 		<>
 			<Header title="내 할일 점검" />

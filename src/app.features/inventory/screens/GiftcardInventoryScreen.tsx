@@ -19,6 +19,7 @@ interface Props {
 function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLoading }: Props) {
 	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
 	const { isModalOpen, closeAnimationModal: closeModal, openModal } = useModal();
+	const [isSaveBtnClicked, setIsSaveBtnClicked] = useState(false);
 	const {
 		isModalOpen: isBackAlertModalOpen,
 		closeModal: closeBackAlertModal,
@@ -26,9 +27,9 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 	} = useModal();
 	const router = useRouter();
 	const goBackHandler = () => {
-		if (Object.keys(countHistory).length) {
+		if (Object.keys(countHistory).length && !isSaveBtnClicked) {
 			openBackAlertModal();
-		}
+		} else router.back();
 	};
 	const submitInventoryRecord = (category: string) => {
 		if (editInventoryLoading) return;
@@ -38,6 +39,7 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 		}));
 		const body = { category, list };
 		editInventory(body);
+		setIsSaveBtnClicked(true);
 	};
 	return (
 		<>

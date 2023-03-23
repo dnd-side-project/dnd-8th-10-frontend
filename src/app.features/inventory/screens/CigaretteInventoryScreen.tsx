@@ -71,6 +71,7 @@ function CountCigaretteScreen({
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [searchCho, setSearchCho] = useState<ChoType>('전체');
 	const [newCiga, setNewCiga] = useState<string>('');
+	const [isSaveBtnClicked, setIsSaveBtnClicked] = useState(false);
 	// TODO: 모달이름 바꾸기
 	const { isModalOpen: isSaveModalOpen, closeAnimationModal: closeSaveModal, openModal: openSaveModal } = useModal();
 	const { isModalOpen: isAddModalOpen, closeAnimationModal: closeAddModal, openModal: openAddModal } = useModal();
@@ -81,9 +82,9 @@ function CountCigaretteScreen({
 	} = useModal();
 	const router = useRouter();
 	const goBackHandler = () => {
-		if (Object.keys(countHistory).length) {
+		if (Object.keys(countHistory).length && !isSaveBtnClicked) {
 			openBackAlertModal();
-		}
+		} else router.back();
 	};
 	const onSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value);
@@ -109,6 +110,7 @@ function CountCigaretteScreen({
 		const body = { category, list };
 		editInventory(body);
 		openSaveModalHandler();
+		setIsSaveBtnClicked(true);
 	};
 	const submitNewCigarette = () => {
 		console.log('new 담배');

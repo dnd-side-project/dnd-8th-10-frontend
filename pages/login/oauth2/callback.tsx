@@ -27,7 +27,7 @@ const Login: NextPage = () => {
 				if (accessToken && refreshToken) {
 					document.cookie = `${COOKIE_KEY.ACCESS_TOKEN}=${accessToken}; max-age=${3600 * 24 * 7}; Path=/;`;
 					document.cookie = `${COOKIE_KEY.REFRESH_TOKEN}=${refreshToken}; max-age=${3600 * 24 * 7}; Path=/;`;
-
+					document.cookie = `${COOKIE_KEY.IS_NEWBIE}=${true}; max-age=${3600 * 24 * 7}; Path=/;`;
 					client.defaults.headers.Authorization = `Bearer ${accessToken}`;
 				}
 				// 필수정보를 입력하지 않은 경우면 register. 아니면 home으로 이동

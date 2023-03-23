@@ -116,7 +116,7 @@ function InventoryList({ inventoryList, countHistory, changeDiffHandler, onInven
 		return () => document.removeEventListener('mouseup', handleMouseUp);
 	}, []);
 	return (
-		<ul className="text-subhead-long2 w-full overflow-x-hidden h-fit">
+		<ul className="text-subhead-long2 w-full pb-[1.6rem] overflow-x-hidden h-fit">
 			{inventoryList.map((inventory, index) => (
 				<InventoryItem
 					key={inventory.inventoryIdx}

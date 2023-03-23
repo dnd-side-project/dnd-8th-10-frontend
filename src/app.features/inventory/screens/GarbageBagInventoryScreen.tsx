@@ -27,11 +27,12 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 		closeModal: closeBackAlertModal,
 		openModal: openBackAlertModal,
 	} = useModal();
+	const [isSaveBtnClicked, setIsSaveBtnClicked] = useState(false);
 	const router = useRouter();
 	const goBackHandler = () => {
-		if (Object.keys(countHistory).length) {
+		if (Object.keys(countHistory).length && !isSaveBtnClicked) {
 			openBackAlertModal();
-		}
+		} else router.back();
 	};
 	const submitInventoryRecord = (category: string) => {
 		if (editInventoryLoading) return;
@@ -42,6 +43,7 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 		const body = { category, list };
 		console.log(body);
 		editInventory(body);
+		setIsSaveBtnClicked(true);
 	};
 	const [filter, setFilter] = useState<'일반 쓰레기' | '음식물 쓰레기'>('일반 쓰레기');
 	const filterHandler = (e: React.BaseSyntheticEvent) => {
