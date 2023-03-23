@@ -24,7 +24,7 @@ function CommentEditScreen({ commentEditHandler, prevComment }: Props) {
 						name="editComment"
 						defaultValue={prevComment}
 						onChange={changeHandler}
-						className="w-full h-[13.4rem] resize-none bg-g1 rounded-[0.8rem] p-[1.2rem] text-g9 text-subhead2"
+						className="w-full h-[13.4rem] outline-none resize-none bg-g1 rounded-[0.8rem] p-[1.2rem] text-g9 text-subhead2"
 					/>
 				</form>
 			</main>
