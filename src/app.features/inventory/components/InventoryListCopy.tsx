@@ -29,13 +29,13 @@ function InventoryItem({
 	const [mousePosition, setMousePosition] = useState(null);
 
 	const handleMouseDown = (event: any) => {
-		if (event.target.name === 'button') return;
+		console.log('mouse down');
 		setMouseDraggble();
 		setMousePosition(event.clientX);
 	};
 
 	const handleMouseMove = (event: any) => {
-		if (event.target.name === 'button') return;
+		console.log('mouse move');
 		if (!isDragging) {
 			return;
 		}
@@ -49,6 +49,24 @@ function InventoryItem({
 		setLeft(newLeft);
 		setMousePosition(event.clientX);
 	};
+	const handleTouchDown = (event: any) => {
+		setMouseDraggble();
+		setMousePosition(event.touches[0].clientX);
+	};
+
+	const handleTouchMove = (event: any) => {
+		if (!isDragging) {
+			return;
+		}
+		if (mousePosition === null) return;
+		const dx = event.touches[0].clientX - mousePosition;
+		let newLeft = left + dx;
+		if (newLeft < -82) newLeft = -82;
+		if (newLeft > 0) newLeft = 0;
+		setLeft(newLeft);
+		setMousePosition(event.touches[0].clientX);
+	};
+
 	const inventoryDeleteHandler = () => {
 		onInventoryDelete(inventoryIdx);
 	};
@@ -57,6 +75,8 @@ function InventoryItem({
 		<li
 			onMouseDown={handleMouseDown}
 			onMouseMove={handleMouseMove}
+			onTouchStart={handleTouchDown}
+			onTouchMove={handleTouchMove}
 			style={{ left: `${left}px`, cursor: 'move' }}
 			className="flex w-[calc(100%+8.2rem)] items-center min-h-[4.4rem] h-[4.4rem] relative justify-between "
 		>
