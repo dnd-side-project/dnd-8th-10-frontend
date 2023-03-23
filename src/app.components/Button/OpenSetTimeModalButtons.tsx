@@ -11,6 +11,7 @@ interface Props {
 	endTimeText: string;
 	resetTimeHandler: (flag: TimeType) => void;
 	day?: DayType;
+	isAlertPop?: boolean;
 }
 function OpenSetTimeModalButtons({
 	openSetTimeModalHandler,
@@ -21,6 +22,7 @@ function OpenSetTimeModalButtons({
 	resetTimeHandler,
 	focusedType,
 	day,
+	isAlertPop,
 }: Props) {
 	console.log('asdfasdfadfaas', focusedType);
 	return (
@@ -33,14 +35,14 @@ function OpenSetTimeModalButtons({
 					onClick={() => openSetTimeModalHandler('startTime')}
 					name="setStartTime"
 					className={`w-full h-full rounded-[0.8rem] relative text-start ${
-						focusedType === 'startTime' ? 'box-border time-set-button-border ' : ''
-					} `}
+						focusedType === 'startTime' ? 'box-border border-[0.1rem] border-solid  border-primary text-primary' : ''
+					}  ${isAlertPop ? ' box-border border-[0.1rem] border-solid  border-secondary' : ''} `}
 				>
 					{!isStartTimeSet ? (
 						<span
 							className={`absolute h-full  ${
-								focusedType === 'startTime'
-									? 'text-primary top-[1.3rem]  left-[1.1rem]'
+								focusedType === 'startTime' || isAlertPop
+									? ' top-[1.3rem]  left-[1.1rem]'
 									: 'text-g7 top-[1.4rem]  left-[1.2rem]'
 							}`}
 						>
@@ -49,7 +51,9 @@ function OpenSetTimeModalButtons({
 					) : (
 						<span
 							className={`absolute h-full ${
-								focusedType === 'startTime' ? 'text-primary top-[1.3rem]  left-[1.1rem]' : 'top-[1.4rem]  left-[1.2rem]'
+								focusedType === 'startTime' || isAlertPop
+									? ' top-[1.3rem]  left-[1.1rem]'
+									: 'top-[1.4rem]  left-[1.2rem]'
 							}`}
 						>
 							{startTimeText}
@@ -74,15 +78,15 @@ function OpenSetTimeModalButtons({
 				<button
 					onClick={() => openSetTimeModalHandler('endTime')}
 					name="setEndTime"
-					className={`w-full rounded-[0.8rem]  h-full text-start relative ${
-						focusedType === 'endTime' ? 'time-set-button-border box-border' : ''
-					}`}
+					className={`w-full h-full rounded-[0.8rem] relative text-start ${
+						focusedType === 'endTime' ? 'box-border border-[0.1rem] border-solid  border-primary text-primary' : ''
+					}  ${isAlertPop ? ' box-border border-[0.1rem] border-solid  border-secondary' : ''} `}
 				>
 					{!isEndTimeSet ? (
 						<span
 							className={`absolute h-full  ${
-								focusedType === 'endTime'
-									? 'text-primary top-[1.3rem]  left-[1.1rem]'
+								focusedType === 'endTime' || isAlertPop
+									? ' top-[1.3rem]  left-[1.1rem]'
 									: 'text-g7 top-[1.4rem]  left-[1.2rem]'
 							}`}
 						>
@@ -91,7 +95,7 @@ function OpenSetTimeModalButtons({
 					) : (
 						<span
 							className={`absolute h-full  ${
-								focusedType === 'endTime' ? 'text-primary top-[1.3rem]  left-[1.1rem]' : 'top-[1.4rem]  left-[1.2rem]'
+								focusedType === 'endTime' || isAlertPop ? ' top-[1.3rem]  left-[1.1rem]' : 'top-[1.4rem]  left-[1.2rem]'
 							}`}
 						>
 							{endTimeText}

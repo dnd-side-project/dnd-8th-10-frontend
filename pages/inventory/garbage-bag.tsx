@@ -15,6 +15,7 @@ function GarbageBaInventory() {
 		},
 	});
 	// 200 or 404
+	// TODO: 최적화 필요
 	const { status: workTimeStatus } = useQuery(['inventory', 'isWorkTime'], getIsWorkTime, {
 		select: (res) => res,
 		onSuccess: (res) => console.log(res, 'isWorkTime'),
