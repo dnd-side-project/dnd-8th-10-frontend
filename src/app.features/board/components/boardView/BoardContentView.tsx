@@ -64,12 +64,13 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 					<div className="flex w-[calc(100%+4rem)] -translate-x-[2rem] mb-[0.8rem]">
 						<Swiper
 							slidesPerView="auto"
+							centeredSlides={!(imgData.length > 1)}
 							spaceBetween={imgData.length > 1 ? 8 : 0}
 							slidesOffsetBefore={imgData.length > 1 ? 20 : 0}
 							slidesOffsetAfter={imgData.length > 1 ? 15 : 0}
 						>
 							{imgData.map((_, index) => (
-								<SwiperSlide key={index} style={{ width: '320px' }}>
+								<SwiperSlide key={index} style={{ width: '89%' }}>
 									<button
 										type="button"
 										onClick={() => {
@@ -77,7 +78,7 @@ function BoardContentView({ boardViewData, viewCheckHandler, openWhoCheckedModal
 										}}
 									>
 										<img
-											className="rounded-[0.8rem] w-[32rem] h-[20rem] object-cover"
+											className="rounded-[0.8rem] w-screen h-[20rem] object-cover"
 											src={`data:image/png;base64,${imgData[index]}`}
 											alt={String(index)}
 										/>
