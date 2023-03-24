@@ -61,7 +61,7 @@ function SetRoleScreen({ userName }: Props) {
 			guideMessage={`안녕하세요, ${userName}님\n어떤일을 하고 계신가요?`}
 		>
 			<div className=" flex flex-col items-center ">
-				<div className="absolute flex  justify-between mx-auto top-[38%] max-w-[32rem] w-[calc(100vw-4rem)]  ">
+				<div className="absolute grid grid-cols-2   gap-[1.6rem] mx-auto top-[38%]  max-w-[32rem] w-[calc(100vw-4rem)]  ">
 					<button
 						type="button"
 						onClick={() => roleHandler('WORKER')}
@@ -69,7 +69,7 @@ function SetRoleScreen({ userName }: Props) {
 						value="WORKER"
 						className="aria-pressed:text-g9 aria-pressed:text-subhead4 text-g7 text-body3 flex flex-col items-center space-y-[0.8rem]"
 					>
-						<div className="shadow-gray  rounded-[0.8rem] max-w-[15.2rem]">
+						<div className="shadow-gray  rounded-[0.8rem] w-full   max-w-[15.2rem]">
 							{role === 'WORKER' ? <Jsontest1 /> : <InActiveWorkerSvg />}
 						</div>
 						<span>알바생</span>
@@ -81,7 +81,7 @@ function SetRoleScreen({ userName }: Props) {
 						value="MANAGER"
 						className="aria-pressed:text-g9 aria-pressed:text-subhead4 text-g7 text-body3 flex flex-col items-center space-y-[0.8rem]"
 					>
-						<div className="shadow-gray rounded-[0.8rem]  max-w-[15.2rem]">
+						<div className="shadow-gray rounded-[0.8rem] w-full  max-w-[15.2rem]">
 							{role === 'MANAGER' ? <Jsontest2 /> : <InActiveManagerSvg />}
 						</div>
 						<span>점장</span>
