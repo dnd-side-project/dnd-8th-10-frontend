@@ -4,7 +4,7 @@ import BoardScreen from 'src/app.features/board/screens/BoardScreen';
 
 const BoardPage: NextPage = () => {
 	return (
-		<div className="min-h-[100vh]">
+		<div>
 			<BoardScreen />
 			<Navigation />
 		</div>
