@@ -4,7 +4,7 @@ import { formatTimeView, WorkListTimeView } from 'src/app.modules/util/calendar'
 import { ISalaryProps } from '../types';
 
 function SalaryDetail({ data }: ISalaryProps) {
-	function convertWorkHour(workTime: number) {
+	const convertWorkHour = (workTime: number) => {
 		const hour = Math.floor(workTime);
 		const minute = Math.round((workTime - hour) * 60);
 		if (minute === 0) {
@@ -14,7 +14,7 @@ function SalaryDetail({ data }: ISalaryProps) {
 			return `${minute}분`;
 		}
 		return `${hour}시간 ${minute}분`;
-	}
+	};
 
 	return (
 		<div>

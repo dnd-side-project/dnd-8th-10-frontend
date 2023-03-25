@@ -12,20 +12,16 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, openModal
 		const result = [];
 		// 첫 주
 		if (week === 1) {
-			const prevLastDate = Number(new Date(year, monthView, 0).getDate());
-
+			// 주는 7일이니 7번씩 순회
 			for (let i = 1; i <= 7; i += 1) {
-				// 저번 달 날짜
+				// 현재 첫 달의 요일 만큼 공백 채우기
 				if (i <= firstDay) {
-					const now = prevLastDate - firstDay + i;
-					// 이전 달 예시 날짜
-					result.push(<div key={now} className="w-[3rem] h-[3rem]" />);
-				}
-				// 현재 달 날짜
-				else {
+					result.push(<div key={i} className="w-[3rem] h-[3rem]" />);
+				} else {
+					// 1주차 달력 채우기 (빈칸 만큼 빼줘야 1부터 시작)
 					const now = i - firstDay;
-					// 첫주 날짜
 					const idx = transIdx(year, monthView, now);
+					// 금일이 일하는 날인지 확인
 					const workDay = day.includes(now) && monthView === month;
 					result.push(
 						<button
@@ -43,12 +39,12 @@ function MakeCalendar({ year, monthView, firstDay, lastDate, schedule, openModal
 				}
 			}
 		} else {
+			// 2주차 부터 달력 채우기
 			const startDate = (week - 1) * 7;
 			for (let i = startDate; i <= week * 7 - 1; i += 1) {
 				// 현재 달 날짜
 				if (i - firstDay < lastDate) {
 					const now = i - firstDay + 1;
-					// 2주~4주차 날짜
 					const idx = transIdx(year, monthView, now);
 					const workDay = day.includes(now) && monthView === month;
 					result.push(
