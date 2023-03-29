@@ -1,4 +1,4 @@
-import { IUser, RoleType } from '../types/user';
+import { IUser } from '../types/user';
 import client from './client';
 
 export const getUser = async () => {
