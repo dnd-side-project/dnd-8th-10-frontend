@@ -6,7 +6,7 @@ import InfoBox from 'src/app.components/InfoBox';
 import ProfileImage from 'src/app.components/ProfileImage';
 import StoreIcon from 'src/app.modules/assets/mypage/store.svg';
 import CallingIcon from 'src/app.modules/assets/mypage/calling.svg';
-import { getSplittedWorkPlaceString } from 'src/app.modules/util/getBrandByBranchString ';
+import { getBrandByBranchString } from 'src/app.modules/util/getBrandByBranchString';
 import { IUser } from 'src/app.modules/types/user';
 import { getFormmatedWorkTime } from '../utils/getFormattedWorkTime';
 
@@ -28,7 +28,7 @@ function MyStoreScreen({ store }: Props) {
 				<InfoBox className="flex  mx-[2rem] justify-start items-start space-x-[0.8rem] mb-[2rem]">
 					<StoreIcon className="w-[2.4rem] h-[2.4rem]" />
 					<div className="flex flex-col space-y-[0.8rem]">
-						<span className="text-subhead3 ">{getSplittedWorkPlaceString(store?.storeName ?? '')}</span>
+						<span className="text-subhead3 ">{getBrandByBranchString(store?.storeName ?? '')}</span>
 						<span className="text-body1">{store?.storeLocation ?? ''}</span>
 					</div>
 				</InfoBox>

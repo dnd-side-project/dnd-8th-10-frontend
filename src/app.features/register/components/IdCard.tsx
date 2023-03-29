@@ -2,7 +2,7 @@ import React from 'react';
 import ManagerCardGraphic from 'src/app.modules/assets/register/completeManager.svg';
 import WorkerCardGraphic from 'src/app.modules/assets/register/completeWorker.svg';
 import { RoleType } from 'src/app.modules/types/user';
-import { getBrandByBranchString } from 'src/app.modules/util/getBrandByBranchString ';
+import { getBrandByBranchString } from 'src/app.modules/util/getBrandByBranchString';
 
 interface Props {
 	userName: string;
