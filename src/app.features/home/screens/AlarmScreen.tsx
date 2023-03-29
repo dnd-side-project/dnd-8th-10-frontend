@@ -3,7 +3,7 @@ import React from 'react';
 import Header from 'src/app.components/Header';
 import { categoryMapKr, formatDate } from 'src/app.features/board/utils';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
-import { RoleType } from 'src/app.modules/api/user';
+import { RoleType } from 'src/app.modules/types/user';
 import NoticeColorIcon from '../../../app.modules/assets/board/category/color/notice.svg';
 import PersonalNoticeColorIcon from '../../../app.modules/assets/board/category/color/personalNotice.svg';
 import EducationColorIcon from '../../../app.modules/assets/board/category/color/education.svg';
