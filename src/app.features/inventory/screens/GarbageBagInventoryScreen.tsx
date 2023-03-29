@@ -4,18 +4,18 @@ import Bar from 'src/app.components/app.base/Button/Bar';
 import Header from 'src/app.components/Header';
 import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
-import SmallPopup from 'src/app.components/Modal/SmallPopup';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { IInventoryList, PutInventoryBody } from 'src/app.modules/api/inventory';
+import { PutInventoryBodyType } from 'src/app.modules/api/inventory';
 import useModal from 'src/app.modules/hooks/useModal';
 import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryList';
 import LastCheckModal from '../components/LastCheckModal';
 import useCountHistory from '../hooks/useCountHistory';
+import { IInventory } from '../types';
 
 interface Props {
-	inventoryList: IInventoryList[];
-	editInventory: MutateTpye<PutInventoryBody>;
+	inventoryList: IInventory[];
+	editInventory: MutateTpye<PutInventoryBodyType>;
 	editInventoryLoading: boolean;
 	workTimeStatus: string;
 }
@@ -40,8 +40,7 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 			openBackAlertModal();
 		} else router.back();
 	};
-	const submitInventoryRecord = (category: string) => {
-		if (editInventoryLoading) return;
+	const submitInventoryRecord = (category: IInventory['category']) => {
 		const list = Object.keys(countHistory).map((inventoryName) => ({
 			inventoryName,
 			diff: countHistory[inventoryName],
@@ -85,7 +84,7 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, editInventory
 				>
 					<Bar
 						ClickFn={() => {
-							submitInventoryRecord('garbagebag');
+							submitInventoryRecord('GARBAGEBAG');
 							openModal();
 						}}
 					>

@@ -5,11 +5,12 @@ import Divider from 'src/app.components/Divider';
 import Header from 'src/app.components/Header';
 import InfoBox from 'src/app.components/InfoBox';
 import ProfileImage from 'src/app.components/ProfileImage';
-import { IInventoryHistory } from 'src/app.modules/api/inventory';
+
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import { InventoryHistoryType } from '../types';
 
 interface Props {
-	inventoryHistory: IInventoryHistory[];
+	inventoryHistory: InventoryHistoryType[];
 }
 function InventoryScreen({ inventoryHistory }: Props) {
 	const LINKS = [

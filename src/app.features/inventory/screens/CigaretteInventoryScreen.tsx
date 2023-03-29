@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react';
 import Header from 'src/app.components/Header';
 import SearchInput from 'src/app.components/app.base/Input/SearchInput';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { IInventoryList, PostCigaretteBody, PutInventoryBody } from 'src/app.modules/api/inventory';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import Overlay from 'src/app.components/Modal/Overlay';
 import useModal from 'src/app.modules/hooks/useModal';
 import Modal from 'src/app.components/Modal/Modal';
 import { useRouter } from 'next/router';
+import { PostCigaretteBodyType, PutInventoryBodyType } from 'src/app.modules/api/inventory';
 import FilterButtons from '../components/FilterButtons';
 import InventoryList from '../components/InventoryListCopy';
 import useCountHistory from '../hooks/useCountHistory';
 import LastCheckModal from '../components/LastCheckModal';
 import NewCigaSaveModal from '../components/NewCigaSaveModal';
+import { IInventory } from '../types';
 
 const getInitialSound = (str: string) => {
 	const CHO_LIST = [
@@ -49,10 +50,10 @@ const getInitialSound = (str: string) => {
 type ChoType = '전체' | 'ㄱ' | 'ㄴ' | 'ㄷ' | 'ㄹ' | 'ㅁ' | 'ㅂ' | 'ㅅ' | 'ㅇ' | 'ㅈ' | 'ㅊ' | 'ㅋ' | 'ㅌ' | 'ㅍ' | 'ㅎ';
 
 interface Props {
-	inventoryList: IInventoryList[];
-	addCigarette: MutateTpye<PostCigaretteBody>;
+	inventoryList: IInventory[];
+	addCigarette: MutateTpye<PostCigaretteBodyType>;
 	addCigaretteLoading: boolean;
-	editInventory: MutateTpye<PutInventoryBody>;
+	editInventory: MutateTpye<PutInventoryBodyType>;
 	editInventoryLoading: boolean;
 	deleteInventoryMutate: MutateTpye<number>;
 	workTimeStatus: string;
@@ -108,8 +109,7 @@ function CountCigaretteScreen({
 		}
 		openSaveModal();
 	};
-	const submitInventoryRecord = (category: string) => {
-		if (editInventoryLoading) return;
+	const submitInventoryRecord = (category: IInventory['category']) => {
 		const list = Object.keys(countHistory).map((inventoryName) => ({
 			inventoryName,
 			diff: countHistory[inventoryName],
@@ -183,7 +183,7 @@ function CountCigaretteScreen({
 					className="fixed bottom-[2rem]  w-screen -translate-x-[2rem] max-w-[50rem] px-[2rem] ciga-save-shadow  rounded-[0.8rem]  "
 					aria-hidden={isSaveModalOpen || isAddModalOpen}
 				>
-					<Bar ClickFn={() => submitInventoryRecord('cigarette')}>점검사항 저장</Bar>
+					<Bar ClickFn={() => submitInventoryRecord('CIGARETTE')}>점검사항 저장</Bar>
 				</div>
 
 				{isSaveModalOpen && (

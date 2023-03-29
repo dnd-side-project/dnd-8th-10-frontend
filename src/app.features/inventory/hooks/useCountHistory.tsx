@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { IInventoryList } from 'src/app.modules/api/inventory';
-import { CountHistoryType } from '../types';
+import { CountHistoryType, IInventory } from '../types';
 
-function useCountHistory(inventoryList: IInventoryList[]) {
+function useCountHistory(inventoryList: IInventory[]) {
 	const [countHistory, setCountHistory] = useState<CountHistoryType>({});
 	const changeDiffHandler = (action: 'decrease' | 'increase', inventoryName: string, inventoryDiff: number) => {
 		setCountHistory({

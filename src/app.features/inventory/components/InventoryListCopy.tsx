@@ -1,12 +1,11 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useEffect, useState } from 'react';
-import { IInventoryList } from 'src/app.modules/api/inventory';
 import PlusIcon from 'src/app.modules/assets/checklist/addCircle.svg';
 import MinusIcon from 'src/app.modules/assets/checklist/minusCircle.svg';
-import { CountHistoryType } from '../types';
+import { CountHistoryType, IInventory } from '../types';
 
 interface TempProps {
-	inventory: IInventoryList;
+	inventory: IInventory;
 	countHistory: CountHistoryType;
 	changeDiffHandler: (action: 'increase' | 'decrease', inventoryName: string, inventoryCount: number) => void;
 	onInventoryDelete: (inventoryIdx: number) => void;
@@ -120,7 +119,7 @@ function InventoryItem({
 	);
 }
 interface Props {
-	inventoryList: IInventoryList[];
+	inventoryList: IInventory[];
 	countHistory: CountHistoryType;
 	changeDiffHandler: (action: 'increase' | 'decrease', inventoryName: string, inventoryCount: number) => void;
 	onInventoryDelete: (inventoryIdx: number) => void;
