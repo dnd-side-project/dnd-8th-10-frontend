@@ -38,5 +38,5 @@ export interface IBoardViewData {
 	viewCount: number;
 	check: boolean;
 }
-// TODO: 이름바꾸기
+
 export type WhoCheckPostType = Pick<IUser, 'userProfileCode' | 'userName' | 'email'> & { userCode: number };
