@@ -1,5 +1,4 @@
-import { RoleType } from 'src/app.modules/api/user';
-
+export type RoleType = 'WORKER' | 'MANAGER';
 export interface IUser {
 	userName: string;
 	userProfileCode: number;
@@ -8,6 +7,6 @@ export interface IUser {
 	workTime: string; // '월(01:00~03:00),일(01:00~03:00)'
 	role: RoleType;
 	phoneNumber: string | null;
-	wage: number;
-	kakaoEmail: string;
+	wage: string;
+	email: string;
 }

@@ -7,19 +7,20 @@ import Overlay from 'src/app.components/Modal/Overlay';
 import TopModal from 'src/app.components/Modal/TopModal';
 import DayButton from 'src/app.features/register/components/DayButton';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { MutateUserBody } from 'src/app.modules/api/user';
-import { dayMap, dayMapReverse, DayType, TimeType, WorkTimeType } from 'src/app.modules/types/workTime';
+import { mappedDay, dayMapReverse, DayType, TimeType, WorkTimeType } from 'src/app.modules/types/workTime';
 import { getUserWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import DeleteIcon from 'src/app.modules/assets/delete.svg';
 import useModal from 'src/app.modules/hooks/useModal';
 import Modal from 'src/app.components/Modal/Modal';
-import { IUser } from '../types';
+import { MutateUserBodyType } from 'src/app.modules/api/user';
+import { IUser } from 'src/app.modules/types/user';
 import SetWorkTimeModal from '../../../app.components/Modal/SetWorkTimeModal';
+
 // TODO: register랑 겹치는 부분 컴포넌트화
 // TODO: 설정한 시간이 유효한 값인지 확인
 interface Props {
 	user: IUser;
-	putUser: MutateTpye<MutateUserBody>;
+	putUser: MutateTpye<MutateUserBodyType>;
 	isLoading: boolean;
 }
 export type WorkTimeOnModalType = {
@@ -40,6 +41,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 		minute: null,
 	} as WorkTimeOnModalType;
 	const [workTimeOnModal, setWorkTimeOnModal] = useState<WorkTimeOnModalType>(INIT_WORK_TIME);
+	const [isAlertPop, setIsAlertPop] = useState<boolean>(false);
 	const selectedDayHandler = (e: React.BaseSyntheticEvent) => {
 		if (openModalFlag != null) {
 			setOpenModalFlag(null);
@@ -48,11 +50,11 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 	};
 
 	const openSetTimeModalHandler = (flag: TimeType) => {
+		if (!selectedDay) return;
 		setOpenModalFlag(flag);
 		openModal();
-		if (!selectedDay) return;
+		setIsAlertPop(false);
 		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as TimeType] ?? INIT_WORK_TIME;
-		if (!newWorkTimeOnModal) return;
 		setWorkTimeOnModal(newWorkTimeOnModal);
 	};
 	const resetTimeHandler = (flag: TimeType) => {
@@ -70,7 +72,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 	};
 	const submitHandler = () => {
 		if (isLoading) return;
-		if (workTime === null) return;
+		if (!workTime) return;
 		const body = {
 			...user,
 			workTime: getUserWorkTimeString(workTime),
@@ -142,14 +144,26 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 						<h2 className="text-g6 text-subhead1">근무요일 (복수선택 가능) </h2>
 						<ul className="grid  grid-cols-7 max-w-[31rem] ml-[0.5rem] ">
 							{/* TODO: 간격 화면 크기별로 대응 */}
-							{['6', '0', '1', '2', '3', '4', '5'].map((day, index) => (
+							{['6', '0', '1', '2', '3', '4', '5'].map((item, index) => (
 								<li key={index} className="mx-auto">
 									<DayButton
 										name="day"
-										value={day}
-										item={dayMap.get(day) as string}
-										onClick={selectedDayHandler}
-										state={selectedDay === day ? 'focus' : `${workTime?.[day as DayType] ? 'selected' : 'default'}`}
+										value={item}
+										item={mappedDay[item as DayType]}
+										onClick={(e) => {
+											// 하나만 입력되어 있으면
+											if (
+												selectedDay !== undefined &&
+												workTime?.[selectedDay] &&
+												Object.keys(workTime?.[selectedDay]).length === 1
+											) {
+												console.log(workTime?.[selectedDay]);
+												setIsAlertPop(true);
+												return;
+											}
+											selectedDayHandler(e);
+										}}
+										state={selectedDay === item ? 'focus' : `${workTime?.[item as DayType] ? 'selected' : 'default'}`}
 									/>
 								</li>
 							))}
@@ -174,7 +188,14 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 								}`}
 								resetTimeHandler={resetTimeHandler}
 								focusedType={openModalFlag}
+								day={selectedDay}
+								isAlertPop={isAlertPop}
 							/>
+							{isAlertPop && (
+								<span className="text-secondary text-[1rem] leading-[1.8rem] -tracking-[0.06rem] ">
+									출근과 퇴근시간을 모두 입력해주세요.
+								</span>
+							)}
 						</div>
 					)}
 				</div>
@@ -186,7 +207,10 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 			</main>
 			{isModalOpen && (
 				<SetWorkTimeModal
-					closeModal={closeAnimationModal}
+					closeModal={() => {
+						setOpenModalFlag(null);
+						closeAnimationModal();
+					}}
 					onDone={workTimeHandler}
 					time={workTimeOnModal}
 					onTimeChange={timeOnModalHandler}

@@ -42,7 +42,7 @@ const WritePage: NextPage = () => {
 	return (
 		<>
 			{!useLoading && (
-				<div className="h-[100vh] mx-auto relative w-full">
+				<div className="h-full mx-auto relative w-full">
 					<BoardWriteScreen
 						UserData={data}
 						BoardWriteMutate={BoardWriteMutate}

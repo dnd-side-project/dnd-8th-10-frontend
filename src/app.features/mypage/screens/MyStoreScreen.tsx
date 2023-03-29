@@ -7,12 +7,12 @@ import ProfileImage from 'src/app.components/ProfileImage';
 import StoreIcon from 'src/app.modules/assets/mypage/store.svg';
 import CallingIcon from 'src/app.modules/assets/mypage/calling.svg';
 import { getSplittedWorkPlaceString } from 'src/app.modules/util/getSplittedWorkPlaceString';
-import { IUser } from '../types';
+import { IUser } from 'src/app.modules/types/user';
 import { getFormmatedWorkTime } from '../utils/getFormattedWorkTime';
 
 interface IStore {
-	storeLocation: '경기도 수원시 영통구 영통동 1008-1';
-	storeName: 'GS25 영통럭키점';
+	storeLocation: string;
+	storeName: string;
 	userList: IUser[];
 }
 
@@ -46,7 +46,10 @@ function MyStoreScreen({ store }: Props) {
 											<div className="flex space-x-[0.8rem]">
 												<ProfileImage userProfileCode={item.userProfileCode} size="lg" />
 												<div className="flex flex-col space-y-[0.4rem]">
-													<span className="text-subhead2">{item.userName}</span>
+													<div className="space-x-[0.6rem]">
+														<span className="text-subhead2">{item.userName}</span>
+														<span className="text-body2 text-g6">{item.email}</span>
+													</div>
 													<ul className="gap-[0.8rem] flex flex-wrap">
 														{item.workTime.split(',').map((partTime, idx) => (
 															<li key={`time-${idx}`}>
@@ -80,7 +83,10 @@ function MyStoreScreen({ store }: Props) {
 											<div className="flex space-x-[0.8rem]">
 												<ProfileImage userProfileCode={item.userProfileCode} size="lg" />
 												<div className="flex flex-col space-y-[0.4rem]">
-													<span className="text-subhead2">{item.userName}</span>
+													<div className="space-x-[0.6rem]">
+														<span className="text-subhead2">{item.userName}</span>
+														<span className="text-body2 text-g6">{item.email}</span>
+													</div>
 													<ul className="gap-[0.8rem] flex flex-wrap">
 														{item.workTime.split(',').map((partTime, idx) => (
 															<li key={`time-${idx}`}>

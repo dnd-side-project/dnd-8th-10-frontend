@@ -17,16 +17,27 @@ function ImageModal({ imgData }: { imgData: string[] }) {
 				</button>
 			</header>
 			<div>
-				<Swiper initialSlide={modalIndex} slidesPerView={1} centeredSlides pagination modules={[Pagination]}>
-					{imgData.map((_, index) => (
-						<SwiperSlide key={index}>
-							<div className="w-full min-h-[100vh] z-0 flex justify-center items-center">
-								<img className="w-full" src={`data:image/png;base64,${imgData[index]}`} alt={String(index)} />
-							</div>
-						</SwiperSlide>
-					))}
+				<Swiper
+					initialSlide={modalIndex}
+					slidesPerView={1}
+					centeredSlides
+					modules={[Pagination]}
+					pagination={{
+						el: '.swiper-pagination',
+					}}
+				>
+					<div>
+						{imgData.map((_, index) => (
+							<SwiperSlide key={index}>
+								<div className="w-full h-[100vh] z-0 flex justify-center items-center">
+									<img className="w-full" src={`data:image/png;base64,${imgData[index]}`} alt={String(index)} />
+								</div>
+							</SwiperSlide>
+						))}
+					</div>
 				</Swiper>
 			</div>
+			<div className="swiper-pagination" />
 		</div>
 	);
 }

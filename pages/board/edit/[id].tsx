@@ -34,7 +34,7 @@ const EditPage: NextPage = () => {
 	return (
 		<>
 			{!boardViewLoading && !useLoading && (
-				<div className="h-[100vh] mx-auto relative w-full">
+				<div className="h-full mx-auto relative w-full">
 					<BoardEditScreen
 						id={id}
 						UserData={data}

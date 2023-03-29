@@ -7,7 +7,7 @@ const CalendarPage: NextPage = () => {
 	const { data } = useUser();
 
 	return (
-		<div className="h-[100vh]">
+		<div>
 			<CalendarScreen currentUser={data?.userName} />
 			<Navigation />
 		</div>

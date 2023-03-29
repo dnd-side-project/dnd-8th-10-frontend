@@ -3,12 +3,12 @@ import TextInput from 'src/app.components/app.base/Input/TextInput';
 import InputInteractButton from 'src/app.components/Button/InputInteractButton';
 import Header from 'src/app.components/Header';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { MutateUserBody } from 'src/app.modules/api/user';
-import { IUser } from '../types';
+import { MutateUserBodyType } from 'src/app.modules/api/user';
+import { IUser } from 'src/app.modules/types/user';
 
 interface Props {
 	user: IUser;
-	putUser: MutateTpye<MutateUserBody>;
+	putUser: MutateTpye<MutateUserBodyType>;
 	isLoading: boolean;
 }
 function PhoneSettingScreen({ user, putUser, isLoading }: Props) {

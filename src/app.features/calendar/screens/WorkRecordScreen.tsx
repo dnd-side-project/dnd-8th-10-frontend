@@ -193,7 +193,7 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 
 	return (
 		<>
-			<div className="h-[100vh] flex flex-col justify-between">
+			<div className="h-full flex flex-col justify-between">
 				<div>
 					<div className="pb-[5.6rem]">
 						{title === 'add' ? (

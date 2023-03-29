@@ -1,0 +1,155 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import React, { useEffect, useState } from 'react';
+import PlusIcon from 'src/app.modules/assets/checklist/addCircle.svg';
+import MinusIcon from 'src/app.modules/assets/checklist/minusCircle.svg';
+import { CountHistoryType, IInventory } from '../types';
+
+interface TempProps {
+	inventory: IInventory;
+	countHistory: CountHistoryType;
+	changeDiffHandler: (action: 'increase' | 'decrease', inventoryName: string, inventoryCount: number) => void;
+	onInventoryDelete: (inventoryIdx: number) => void;
+	setMouseDraggble: () => void;
+	isDragging: boolean;
+}
+function InventoryItem({
+	inventory: { inventoryName, inventoryIdx, inventoryCount },
+	changeDiffHandler,
+	onInventoryDelete,
+	countHistory,
+	isDragging,
+	setMouseDraggble,
+}: TempProps) {
+	const diff = countHistory[inventoryName] ?? inventoryCount;
+	// eslint-disable-next-line no-nested-ternary
+	const diffTextColor = diff !== 0 ? (diff < 0 ? 'text-secondary' : 'text-primary') : '';
+	const [left, setLeft] = useState<number>(0);
+
+	const [mousePosition, setMousePosition] = useState(null);
+
+	const handleMouseDown = (event: any) => {
+		console.log('mouse down');
+		setMouseDraggble();
+		setMousePosition(event.clientX);
+	};
+
+	const handleMouseMove = (event: any) => {
+		console.log('mouse move');
+		if (!isDragging) {
+			return;
+		}
+		if (mousePosition === null) return;
+
+		const dx = event.clientX - mousePosition;
+
+		let newLeft = left + dx;
+		if (newLeft < -82) newLeft = -82;
+		if (newLeft > 0) newLeft = 0;
+		setLeft(newLeft);
+		setMousePosition(event.clientX);
+	};
+	const handleTouchDown = (event: any) => {
+		setMouseDraggble();
+		setMousePosition(event.touches[0].clientX);
+	};
+
+	const handleTouchMove = (event: any) => {
+		if (!isDragging) {
+			return;
+		}
+		if (mousePosition === null) return;
+		const dx = event.touches[0].clientX - mousePosition;
+		let newLeft = left + dx;
+		if (newLeft < -82) newLeft = -82;
+		if (newLeft > 0) newLeft = 0;
+		setLeft(newLeft);
+		setMousePosition(event.touches[0].clientX);
+	};
+
+	const inventoryDeleteHandler = () => {
+		onInventoryDelete(inventoryIdx);
+	};
+	return (
+		// eslint-disable-next-line jsx-a11y/click-events-have-key-events
+		<li
+			onMouseDown={handleMouseDown}
+			onMouseMove={handleMouseMove}
+			onTouchStart={handleTouchDown}
+			onTouchMove={handleTouchMove}
+			style={{ left: `${left}px`, cursor: 'move' }}
+			className="flex w-[calc(100%+8.2rem)] items-center min-h-[4.4rem] h-[4.4rem] relative justify-between "
+		>
+			<span>{inventoryName}</span>
+			<div className="flex  items-center space-x-[1.6rem]">
+				<div className="flex  relative min-w-[8.6rem] w-[8.6rem] justify-between">
+					<button
+						name="increase"
+						data-name={inventoryName}
+						data-diff={inventoryCount}
+						onClick={() => changeDiffHandler('increase', inventoryName, inventoryCount)}
+					>
+						<PlusIcon />
+					</button>
+					<span className={`${diffTextColor}`}>
+						{diff > 0 && '+'}
+						{diff}
+					</span>
+
+					<button
+						name="decrease"
+						data-name={inventoryName}
+						data-diff={inventoryCount}
+						onClick={() => changeDiffHandler('decrease', inventoryName, inventoryCount)}
+					>
+						<MinusIcon />
+					</button>
+				</div>
+				<button
+					name="delete"
+					onClick={(e) => {
+						e.stopPropagation();
+						inventoryDeleteHandler();
+					}}
+					className="h-[4.4rem] min-h-[4.4rem] bg-secondary min-w-[6.6rem] text-w text-subhead2"
+				>
+					삭제
+				</button>
+			</div>
+		</li>
+	);
+}
+interface Props {
+	inventoryList: IInventory[];
+	countHistory: CountHistoryType;
+	changeDiffHandler: (action: 'increase' | 'decrease', inventoryName: string, inventoryCount: number) => void;
+	onInventoryDelete: (inventoryIdx: number) => void;
+}
+
+function InventoryList({ inventoryList, countHistory, changeDiffHandler, onInventoryDelete }: Props) {
+	const [isDragging, setIsDragging] = useState(false);
+	const handleMouseUp = () => {
+		setIsDragging(false);
+	};
+	useEffect(() => {
+		document.addEventListener('mouseup', handleMouseUp);
+		return () => document.removeEventListener('mouseup', handleMouseUp);
+	}, []);
+	return (
+		<ul className="text-subhead-long2 w-full pb-[1.6rem] overflow-x-hidden h-fit">
+			{inventoryList.map((inventory, index) => (
+				<InventoryItem
+					key={inventory.inventoryIdx}
+					inventory={inventory}
+					countHistory={countHistory}
+					changeDiffHandler={changeDiffHandler}
+					setMouseDraggble={() => setIsDragging(true)}
+					isDragging={isDragging}
+					onInventoryDelete={onInventoryDelete}
+				/>
+			))}
+			<div aria-hidden className="w-full h-[6rem]" />
+		</ul>
+	);
+}
+
+export default InventoryList;

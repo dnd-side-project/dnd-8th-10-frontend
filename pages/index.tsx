@@ -82,7 +82,7 @@ const Home: NextPage = () => {
 	return (
 		<>
 			{!isLoading && (
-				<>
+				<div>
 					<Header workPlace={data?.workPlace ?? ''} hasNotice={hasNotice} />
 					<main className="h-[100vh] bg-[#FCFCFF] w-[calc(100%+4rem)] px-[2rem] -translate-x-[2rem]">
 						<HomeScreen
@@ -95,7 +95,7 @@ const Home: NextPage = () => {
 					</main>
 					<EasterEgg />
 					<Navigation />
-				</>
+				</div>
 			)}
 		</>
 	);

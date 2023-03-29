@@ -1,10 +1,9 @@
-.swiper-pagination{
+.swiper-pagination {
+    position: absolute;
+    bottom: 0px;
+    margin-bottom: 15px;
+    text-align:left;
     --swiper-pagination-color: white;
---swiper-pagination-left: auto;
---swiper-pagination-right: 8px;
---swiper-pagination-bottom: 20px;
---swiper-pagination-top: auto;
---swiper-pagination-bullet-inactive-color: #878793;
---swiper-pagination-bullet-inactive-opacity: 0.2;
---swiper-pagination-bullet-opacity: 1;
+    --swiper-pagination-bullet-inactive-color: #878793;
+    --swiper-pagination-bullet-inactive-opacity: 0.2;
 }

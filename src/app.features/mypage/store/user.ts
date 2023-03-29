@@ -1,7 +1,7 @@
 import { getCookie } from 'src/app.modules/cookie';
+import { IUser } from 'src/app.modules/types/user';
 
 import create from 'zustand';
-import { IUser } from '../types';
 
 interface IState {
 	localUser: IUser | null;
@@ -19,7 +19,7 @@ const useLocalUserStore = create<IState>((set) => ({
 			if (!cookieUser) return { localUser: emptyUser };
 			return { localUser: cookieUser };
 		}),
-	updateUser: (updatedLocalUser: IUser) =>
+	updateUser: (updatedLocalUser) =>
 		set({
 			localUser: updatedLocalUser,
 		}),
