@@ -6,7 +6,7 @@ import InfoBox from 'src/app.components/InfoBox';
 import ProfileImage from 'src/app.components/ProfileImage';
 import StoreIcon from 'src/app.modules/assets/mypage/store.svg';
 import CallingIcon from 'src/app.modules/assets/mypage/calling.svg';
-import { getSplittedWorkPlaceString } from 'src/app.modules/util/getSplittedWorkPlaceString';
+import { getSplittedWorkPlaceString } from 'src/app.modules/util/getBrandByBranchString ';
 import { IUser } from 'src/app.modules/types/user';
 import { getFormmatedWorkTime } from '../utils/getFormattedWorkTime';
 

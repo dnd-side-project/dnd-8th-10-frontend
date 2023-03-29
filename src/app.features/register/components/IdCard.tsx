@@ -2,7 +2,7 @@ import React from 'react';
 import ManagerCardGraphic from 'src/app.modules/assets/register/completeManager.svg';
 import WorkerCardGraphic from 'src/app.modules/assets/register/completeWorker.svg';
 import { RoleType } from 'src/app.modules/types/user';
-import { getSplittedWorkPlaceString } from 'src/app.modules/util/getSplittedWorkPlaceString';
+import { getBrandByBranchString } from 'src/app.modules/util/getBrandByBranchString ';
 
 interface Props {
 	userName: string;
@@ -21,7 +21,7 @@ function IdCard({ userName, workPlace, role }: Props) {
 					{role === 'WORKER' && '알바생'}
 				</span>
 				<span className="mt-[0.4rem] mb-[0.8rem] text-subhead4 text-g10">{userName}</span>
-				<span className="text-g8 text-subhead1">{getSplittedWorkPlaceString(workPlace ?? '')}</span>
+				<span className="text-g8 text-subhead1">{getBrandByBranchString(workPlace ?? '')}</span>
 			</div>
 		</div>
 	);
