@@ -9,7 +9,7 @@ import {
 	postComment,
 	postViewCheck,
 	putComment,
-} from 'src/app.features/board/api/viewResponse';
+} from 'src/app.features/board/api/comment';
 import BoardViewScreen from 'src/app.features/board/screens/BoardViewScreen';
 import { IComment } from 'src/app.features/board/types';
 import { getCookie } from 'src/app.modules/cookie';
