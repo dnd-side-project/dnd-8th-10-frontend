@@ -3,19 +3,17 @@ import React, { useEffect, useState } from 'react';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import InputInteractButton from 'src/app.components/Button/InputInteractButton';
 import Header from 'src/app.components/Header';
-import { pauseBtnAnim, runningBtnAnim } from 'src/app.features/register/utils/contolBtnAnim';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { MutateUserBody } from 'src/app.modules/api/user';
+import { MutateUserBodyType } from 'src/app.modules/api/user';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { IUser } from '../types';
 
 interface Props {
 	user: IUser;
-	putUser: MutateTpye<MutateUserBody>;
+	putUser: MutateTpye<MutateUserBodyType>;
 	isLoading: boolean;
 }
 function WageSettingScreen({ user, putUser, isLoading }: Props) {
-	const router = useRouter();
 	const [wage, setWage] = useState<string>(`${user?.wage ?? ''}`);
 	const submitHandler = () => {
 		if (isLoading) return;

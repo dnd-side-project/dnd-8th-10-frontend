@@ -2,16 +2,16 @@ import React from 'react';
 import Badge from 'src/app.components/app.base/Button/Badge';
 import Header from 'src/app.components/Header';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { MutateUserBody } from 'src/app.modules/api/user';
 import { getUserWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import EditIcon from 'src/app.modules/assets/edit.svg';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import Link from 'next/link';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import { MutateUserBodyType } from 'src/app.modules/api/user';
 import useRegisterUserStore from '../store';
 
 interface Props {
-	postUserMutate: MutateTpye<MutateUserBody>;
+	postUserMutate: MutateTpye<MutateUserBodyType>;
 	isLoading: boolean;
 }
 // TODO: 시급형식 맞춰주기 (,추가)

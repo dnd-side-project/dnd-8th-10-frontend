@@ -7,19 +7,19 @@ import Overlay from 'src/app.components/Modal/Overlay';
 import TopModal from 'src/app.components/Modal/TopModal';
 import DayButton from 'src/app.features/register/components/DayButton';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { MutateUserBody } from 'src/app.modules/api/user';
 import { mappedDay, dayMapReverse, DayType, TimeType, WorkTimeType } from 'src/app.modules/types/workTime';
 import { getUserWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import DeleteIcon from 'src/app.modules/assets/delete.svg';
 import useModal from 'src/app.modules/hooks/useModal';
 import Modal from 'src/app.components/Modal/Modal';
+import { MutateUserBodyType } from 'src/app.modules/api/user';
 import { IUser } from '../types';
 import SetWorkTimeModal from '../../../app.components/Modal/SetWorkTimeModal';
 // TODO: register랑 겹치는 부분 컴포넌트화
 // TODO: 설정한 시간이 유효한 값인지 확인
 interface Props {
 	user: IUser;
-	putUser: MutateTpye<MutateUserBody>;
+	putUser: MutateTpye<MutateUserBodyType>;
 	isLoading: boolean;
 }
 export type WorkTimeOnModalType = {

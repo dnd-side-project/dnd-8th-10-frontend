@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import InActiveWorkerSvg from 'src/app.modules/assets/register/inactive_worker.svg';
 import InActiveManagerSvg from 'src/app.modules/assets/register/inactive_manager.svg';
-import { RoleType } from 'src/app.modules/api/user';
 import workerJson from 'public/lottie/worker.json';
 import managerJson from 'public/lottie/manager.json';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import lottie from 'lottie-web';
+import { RoleType } from 'src/app.modules/types/user';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
 

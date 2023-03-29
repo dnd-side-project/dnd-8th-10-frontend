@@ -1,3 +1,4 @@
+import { IUser, RoleType } from '../types/user';
 import client from './client';
 
 export const getUser = async () => {
@@ -11,23 +12,19 @@ export const getStoreInfo = async () => {
 };
 
 // TODO: api 나오면 맞게 수정
-export type RoleType = 'WORKER' | 'MANAGER';
-export interface MutateUserBody {
-	role: RoleType;
-	workPlace: string;
-	workLocation: string;
-	workTime: string; // "월(17:00~21:00),화(17:00~21:00)"
-	phoneNumber: string | null; // "010-0000-0000"
-	wage: number;
-}
 
-export const postUser = async (body: MutateUserBody) => {
+export type MutateUserBodyType = Pick<
+	IUser,
+	'role' | 'workPlace' | 'workLocation' | 'workTime' | 'phoneNumber' | 'wage'
+>;
+
+export const postUser = async (body: MutateUserBodyType) => {
 	// TODO: client 헤더 설정 전체에 하기
 	const res = await client.post(`/api/user/signup`, { ...body });
 	return res;
 };
 
-export const putUser = async (body: MutateUserBody) => {
+export const putUser = async (body: MutateUserBodyType) => {
 	const res = await client.put('/api/user/update', { ...body });
 	return res;
 };
