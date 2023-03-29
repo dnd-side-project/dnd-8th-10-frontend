@@ -44,7 +44,7 @@ interface Props {
 
 function SetRoleScreen({ userName }: Props) {
 	const {
-		user: { role },
+		userForm: { role },
 		setRole,
 	} = useRegisterUserStore();
 
@@ -57,7 +57,7 @@ function SetRoleScreen({ userName }: Props) {
 	return (
 		<RegisterLayout
 			curPage={1}
-			canGoNext={role !== null}
+			canGoNext={Boolean(role)}
 			guideMessage={`안녕하세요, ${userName}님\n어떤일을 하고 계신가요?`}
 		>
 			<div className=" flex flex-col items-center ">

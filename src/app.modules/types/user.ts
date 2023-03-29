@@ -7,6 +7,6 @@ export interface IUser {
 	workTime: string; // '월(01:00~03:00),일(01:00~03:00)'
 	role: RoleType;
 	phoneNumber: string | null;
-	wage: number;
+	wage: string;
 	email: string;
 }

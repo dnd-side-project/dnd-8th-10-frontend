@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Bar from 'src/app.components/app.base/Button/Bar';
-import { RoleType } from 'src/app.modules/api/user';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import { RoleType } from 'src/app.modules/types/user';
 import IdCard from '../components/IdCard';
 import useRegisterUserStore from '../store';
 
@@ -15,12 +15,12 @@ interface Props {
 function CompleteSettingScreent({ userName, role, workPlace }: Props) {
 	const router = useRouter();
 	const {
-		user: { role: clientRole, workPlace: clientWorkPlace },
-		initUser,
+		userForm: { role: clientRole, workPlace: clientWorkPlace },
+		initUserForm,
 	} = useRegisterUserStore();
 	const startHandler = () => {
 		router.push(SERVICE_URL.home);
-		initUser();
+		initUserForm();
 	};
 	return (
 		<div className=" h-full flex flex-col items-center relative  ">
