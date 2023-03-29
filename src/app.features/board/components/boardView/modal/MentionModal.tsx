@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import TopModal from 'src/app.components/Modal/TopModal';
 import ProfileImage from 'src/app.components/ProfileImage';
-import { IBoardCheckPerson } from 'src/app.features/board/types';
+import { IComment, WhoCheckPostType } from 'src/app.features/board/types';
 
 interface Props {
-	userList: IBoardCheckPerson[]; // TODO: any 삭제
-	onMetionUserClick: (userCode: string, userName: string) => void;
+	userList: WhoCheckPostType[];
+	onMetionUserClick: (userCode: IComment['userCode'], userName: IComment['userName']) => void;
 	closeModal: () => void;
 }
 
@@ -22,7 +22,7 @@ function MentionModal({ userList, onMetionUserClick, closeModal }: Props) {
 			}`}
 		>
 			<ul className="space-y-[1.6rem] pb-[6rem]">
-				{userList?.map(({ userProfileCode, userCode, email, userName }: IBoardCheckPerson) => (
+				{userList?.map(({ userProfileCode, userCode, email, userName }: WhoCheckPostType) => (
 					<li className="flex items-center space-x-[0.8rem]" key={userCode}>
 						<button
 							onClick={(e) => {

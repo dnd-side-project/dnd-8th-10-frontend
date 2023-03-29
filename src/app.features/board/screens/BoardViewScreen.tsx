@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 import { useRouter } from 'next/router';
-import React, { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BoardModal from 'src/app.components/Modal/BoardModal';
 import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
@@ -17,9 +17,9 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import SendCommentIcon from 'src/app.modules/assets/sendComment.svg';
 import CommentSettingIcon from '../../../app.modules/assets/board/ellipsis.svg';
 import BoardContentView from '../components/boardView/BoardContentView';
-import { IBoardCheckPerson, IBoardViewData } from '../types';
+import { WhoCheckPostType, IBoardViewData, IComment } from '../types';
 import { formatDate } from '../utils';
-import { DeleteCommentParam, PostCommentBody, PutCommentBody } from '../api/viewResponse';
+import { DeleteCommentParamType, PostCommentBodyType, PutCommentBodyType } from '../api/comment';
 import BoardViewHeader from '../components/boardView/Header';
 import CommentEditScreen from './CommentEditScreen';
 import MentionModal from '../components/boardView/modal/MentionModal';
@@ -30,12 +30,12 @@ interface Props {
 		userCode: number;
 	};
 	boardViewData: IBoardViewData;
-	boardCheckPerson: IBoardCheckPerson[];
+	boardCheckPerson: WhoCheckPostType[];
 	DelMutate: MutateTpye<number>;
 	ViewCheckMutate: MutateTpye<number>;
-	PostCommentMutate: MutateTpye<PostCommentBody>;
-	DeleteCommentMutate: MutateTpye<DeleteCommentParam>;
-	PutCommentMutate: MutateTpye<PutCommentBody>;
+	PostCommentMutate: MutateTpye<PostCommentBodyType>;
+	DeleteCommentMutate: MutateTpye<DeleteCommentParamType>;
+	PutCommentMutate: MutateTpye<PutCommentBodyType>;
 }
 // TODO: 게시물 확인 버튼 api 연동(0)
 // TODO: 백엔드 boardViewData에 해당 게시물을 체크했는지에 대한 필드 추가 됬는지 확인하기 (0)
@@ -78,14 +78,14 @@ function BoardViewScreen({
 		commentId: number;
 		content: string;
 	};
-	// console.log(boardViewData);
+	console.log(boardViewData);
 	const commentRef = useRef<HTMLDivElement>(null);
 	const [commentSortBy, setCommentSortBy] = useState<SoryByType>('earliest');
 	const [commentInputMode, setCommentInputMode] = useState<'small' | 'wide'>('small');
 	const [focusComment, setFocusComment] = useState<FocusCommentType | null>(null);
 	const [isMyPost, setIsMyPost] = useState<boolean>(false);
 	const [storeFecthDisabled, setStoreFetchDisabled] = useState<boolean>(true);
-	const [mentionUserCodes, setMentionUserCodes] = useState<string[]>([]);
+	const [mentionUserCodes, setMentionUserCodes] = useState<IComment['userCode'][]>([]);
 	const { data: storeInfo, refetch: storeRefetch } = useStore(true);
 	const commentSortHandler = (sortBy: SoryByType) => {
 		setCommentSortBy(sortBy);
@@ -197,7 +197,7 @@ function BoardViewScreen({
 		}
 	}, [boardViewData, userData]);
 	// 멘션할 유저 선택함
-	const mentionUserHandler = (userCode: string, userName: string) => {
+	const mentionUserHandler = (userCode: IComment['userCode'], userName: IComment['userName']) => {
 		if (commentRef?.current === null) return;
 		const userNameString = `@${userName}`;
 		setMentionUserCodes((prev) => [...prev, userCode]);

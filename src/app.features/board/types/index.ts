@@ -1,4 +1,4 @@
-import { RoleType } from 'src/app.modules/types/user';
+import { IUser } from 'src/app.modules/types/user';
 
 export interface PostDatas {
 	postId: number;
@@ -17,9 +17,9 @@ export interface IComment {
 	content: string;
 	createdDate: string; // '2023-03-02T10:47:26';
 	modifiedDate: string; // '2023-03-02T10:47:26';
-	role: RoleType;
-	userProfileCode: number;
-	userName: string;
+	role: IUser['role'];
+	userProfileCode: IUser['userProfileCode'];
+	userName: IUser['userName'];
 	userCode: number;
 }
 
@@ -39,9 +39,4 @@ export interface IBoardViewData {
 	check: boolean;
 }
 // TODO: 이름바꾸기
-export interface IBoardCheckPerson {
-	userProfileCode: number;
-	userName: string;
-	email: string;
-	userCode: string;
-}
+export type WhoCheckPostType = Pick<IUser, 'userProfileCode' | 'userName' | 'email'> & { userCode: number };
