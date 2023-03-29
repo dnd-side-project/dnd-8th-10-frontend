@@ -5,15 +5,16 @@ import Header from 'src/app.components/Header';
 import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { IInventoryList, PutInventoryBody } from 'src/app.modules/api/inventory';
+import { PutInventoryBodyType } from 'src/app.modules/api/inventory';
 import useModal from 'src/app.modules/hooks/useModal';
 import InventoryList from '../components/InventoryList';
 import LastCheckModal from '../components/LastCheckModal';
 import useCountHistory from '../hooks/useCountHistory';
+import { IInventory } from '../types';
 
 interface Props {
-	inventoryList: IInventoryList[];
-	editInventory: MutateTpye<PutInventoryBody>;
+	inventoryList: IInventory[];
+	editInventory: MutateTpye<PutInventoryBodyType>;
 	editInventoryLoading: boolean;
 	workTimeStatus: string;
 }

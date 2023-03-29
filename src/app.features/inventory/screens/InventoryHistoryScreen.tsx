@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Header from 'src/app.components/Header';
 import InfoBox from 'src/app.components/InfoBox';
 import ProfileImage from 'src/app.components/ProfileImage';
-import { IInventoryHistory } from 'src/app.modules/api/inventory';
 import FilterButtons from '../components/FilterButtons';
-import { InventoryType, mappedFilter } from '../types';
+import { InventoryHistoryType, InvetoryFilterType, mappedInventoryFilter } from '../types';
 
 interface Props {
-	inventoryHistory: IInventoryHistory[];
-	filter: InventoryType;
+	inventoryHistory: InventoryHistoryType[];
+	filter: InvetoryFilterType;
 	filterHandler: (e: React.BaseSyntheticEvent) => void;
 }
 
@@ -25,7 +24,11 @@ function InventoryHistoryScreen({ inventoryHistory, filterHandler, filter }: Pro
 
 			<main className="pb-[1.6rem] text-subhead1  text-g9 relative ">
 				<div className="sticky w-full pb-[1.6rem] top-0 z-[50] pt-[7.2rem] bg-w">
-					<FilterButtons filterHandler={filterHandler} selectedFilter={filter} filters={Object.keys(mappedFilter)} />
+					<FilterButtons
+						filterHandler={filterHandler}
+						selectedFilter={filter}
+						filters={Object.keys(mappedInventoryFilter)}
+					/>
 				</div>
 
 				<ul className="space-y-[0.8rem] ">

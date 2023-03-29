@@ -19,7 +19,7 @@ const useLocalUserStore = create<IState>((set) => ({
 			if (!cookieUser) return { localUser: emptyUser };
 			return { localUser: cookieUser };
 		}),
-	updateUser: (updatedLocalUser: IUser) =>
+	updateUser: (updatedLocalUser) =>
 		set({
 			localUser: updatedLocalUser,
 		}),
