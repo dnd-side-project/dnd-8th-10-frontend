@@ -5,8 +5,7 @@ import InputInteractButton from 'src/app.components/Button/InputInteractButton';
 import Header from 'src/app.components/Header';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { MutateUserBodyType } from 'src/app.modules/api/user';
-import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
-import { IUser } from '../types';
+import { IUser } from 'src/app.modules/types/user';
 
 interface Props {
 	user: IUser;
@@ -20,7 +19,7 @@ function WageSettingScreen({ user, putUser, isLoading }: Props) {
 		if (!wage) return;
 		const body = {
 			...user,
-			wage: +wage,
+			wage,
 		};
 
 		putUser(body);

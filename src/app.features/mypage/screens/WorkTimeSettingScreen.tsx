@@ -13,8 +13,9 @@ import DeleteIcon from 'src/app.modules/assets/delete.svg';
 import useModal from 'src/app.modules/hooks/useModal';
 import Modal from 'src/app.components/Modal/Modal';
 import { MutateUserBodyType } from 'src/app.modules/api/user';
-import { IUser } from '../types';
+import { IUser } from 'src/app.modules/types/user';
 import SetWorkTimeModal from '../../../app.components/Modal/SetWorkTimeModal';
+
 // TODO: register랑 겹치는 부분 컴포넌트화
 // TODO: 설정한 시간이 유효한 값인지 확인
 interface Props {
@@ -71,7 +72,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 	};
 	const submitHandler = () => {
 		if (isLoading) return;
-		if (workTime === null) return;
+		if (!workTime) return;
 		const body = {
 			...user,
 			workTime: getUserWorkTimeString(workTime),

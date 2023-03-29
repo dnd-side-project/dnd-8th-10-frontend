@@ -1,7 +1,7 @@
 import React from 'react';
-import { RoleType } from 'src/app.modules/api/user';
 import ManagerCardGraphic from 'src/app.modules/assets/register/completeManager.svg';
 import WorkerCardGraphic from 'src/app.modules/assets/register/completeWorker.svg';
+import { RoleType } from 'src/app.modules/types/user';
 import { getSplittedWorkPlaceString } from 'src/app.modules/util/getSplittedWorkPlaceString';
 
 interface Props {
