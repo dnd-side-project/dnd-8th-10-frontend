@@ -1,11 +1,10 @@
 import React from 'react';
-import { IInventoryList } from 'src/app.modules/api/inventory';
 import PlusIcon from 'src/app.modules/assets/checklist/addCircle.svg';
 import MinusIcon from 'src/app.modules/assets/checklist/minusCircle.svg';
-import { CountHistoryType } from '../types';
+import { CountHistoryType, IInventory } from '../types';
 
 interface Props {
-	inventoryList: IInventoryList[];
+	inventoryList: IInventory[];
 	countHistory: CountHistoryType;
 	changeDiffHandler: (action: 'increase' | 'decrease', inventoryName: string, inventoryCount: number) => void;
 }
