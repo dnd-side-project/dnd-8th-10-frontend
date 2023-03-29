@@ -13,7 +13,7 @@ import useModal from 'src/app.modules/hooks/useModal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import Modal from 'src/app.components/Modal/Modal';
 import Link from 'next/link';
-import { IUser } from '../types';
+import { IUser } from 'src/app.modules/types/user';
 
 interface Props {
 	user: IUser;

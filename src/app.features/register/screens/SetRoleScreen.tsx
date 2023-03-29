@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import InActiveWorkerSvg from 'src/app.modules/assets/register/inactive_worker.svg';
 import InActiveManagerSvg from 'src/app.modules/assets/register/inactive_manager.svg';
-import { RoleType } from 'src/app.modules/api/user';
 import workerJson from 'public/lottie/worker.json';
 import managerJson from 'public/lottie/manager.json';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import lottie from 'lottie-web';
+import { RoleType } from 'src/app.modules/types/user';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
 
@@ -44,7 +44,7 @@ interface Props {
 
 function SetRoleScreen({ userName }: Props) {
 	const {
-		user: { role },
+		userForm: { role },
 		setRole,
 	} = useRegisterUserStore();
 
@@ -57,7 +57,7 @@ function SetRoleScreen({ userName }: Props) {
 	return (
 		<RegisterLayout
 			curPage={1}
-			canGoNext={role !== null}
+			canGoNext={Boolean(role)}
 			guideMessage={`안녕하세요, ${userName}님\n어떤일을 하고 계신가요?`}
 		>
 			<div className=" flex flex-col items-center ">

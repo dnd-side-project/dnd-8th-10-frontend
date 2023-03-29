@@ -1,7 +1,7 @@
 import { getCookie } from 'src/app.modules/cookie';
+import { IUser } from 'src/app.modules/types/user';
 
 import create from 'zustand';
-import { IUser } from '../types';
 
 interface IState {
 	localUser: IUser | null;

@@ -7,12 +7,12 @@ import ProfileImage from 'src/app.components/ProfileImage';
 import StoreIcon from 'src/app.modules/assets/mypage/store.svg';
 import CallingIcon from 'src/app.modules/assets/mypage/calling.svg';
 import { getSplittedWorkPlaceString } from 'src/app.modules/util/getSplittedWorkPlaceString';
-import { IUser } from '../types';
+import { IUser } from 'src/app.modules/types/user';
 import { getFormmatedWorkTime } from '../utils/getFormattedWorkTime';
 
 interface IStore {
-	storeLocation: '경기도 수원시 영통구 영통동 1008-1';
-	storeName: 'GS25 영통럭키점';
+	storeLocation: string;
+	storeName: string;
 	userList: IUser[];
 }
 

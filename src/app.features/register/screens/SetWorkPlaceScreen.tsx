@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchInput from 'src/app.components/app.base/Input/SearchInput';
 import RoadBadgeSvg from 'src/app.modules/assets/register/roadBadge.svg';
 import RegisterLayout from '../components/RegisterLayout';
@@ -11,19 +11,21 @@ declare global {
 	}
 }
 
-type Store = {
-	place_name: string;
-	road_address_name: string;
-};
 function SetWorkPlaceScreen() {
 	const [searchTerm, setSearchTerm] = useState<string>();
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
-	const [searchResults, setSearchResults] = useState<Store[]>();
+	const [searchResults, setSearchResults] = useState<
+		{
+			place_name: string;
+			road_address_name: string;
+		}[]
+	>();
 	const {
-		user: { workPlace },
+		userForm: { workPlace },
 		setWorkPlace,
 		setWorkLocation,
 	} = useRegisterUserStore();
+	const IS_STORE_SELECTED = Boolean(workPlace?.trim());
 	const searchTermHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value);
 	};
@@ -34,13 +36,12 @@ function SetWorkPlaceScreen() {
 		setWorkLocation(location);
 	};
 	const resetSearchTerm = () => {
-		if (workPlace !== null) {
-			setWorkPlace(null);
-			setWorkLocation(null);
-		}
+		setWorkPlace('');
+		setWorkLocation('');
 		setSearchTerm('');
 		setSearchResults([]);
 	};
+
 	useEffect(() => {
 		const script = document.createElement('script');
 		script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET_SDK}&libraries=services&autoload=false`;
@@ -77,7 +78,7 @@ function SetWorkPlaceScreen() {
 	}, [isLoaded, searchTerm]);
 
 	return (
-		<RegisterLayout curPage={2} canGoNext={workPlace !== null} guideMessage="어떤 지점에서 일하고 계신가요?">
+		<RegisterLayout curPage={2} canGoNext={IS_STORE_SELECTED} guideMessage="어떤 지점에서 일하고 계신가요?">
 			<div className="space-y-[2.4rem] pt-[1.6rem]">
 				<div className="space-y-[1.6rem] sticky top-0">
 					<SearchInput
@@ -91,7 +92,7 @@ function SetWorkPlaceScreen() {
 					/>
 				</div>
 
-				{workPlace === null && (
+				{!IS_STORE_SELECTED && (
 					<ul className="space-y-[1.6rem] pb-[12rem]">
 						{searchResults?.map((store, idx) => (
 							<li key={idx}>

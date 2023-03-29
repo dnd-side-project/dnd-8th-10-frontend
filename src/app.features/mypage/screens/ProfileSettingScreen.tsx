@@ -8,7 +8,7 @@ import EditIcon from 'src/app.modules/assets/edit.svg';
 import useModal from 'src/app.modules/hooks/useModal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import Modal from 'src/app.components/Modal/Modal';
-import { IUser } from '../types';
+import { IUser } from 'src/app.modules/types/user';
 import { getFormmatedWorkTime } from '../utils/getFormattedWorkTime';
 
 interface Props {

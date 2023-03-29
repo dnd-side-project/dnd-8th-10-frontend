@@ -1,7 +1,7 @@
 import React, { BaseSyntheticEvent, useState } from 'react';
 import DayButton from 'src/app.features/register/components/DayButton';
 import OpenSetTimeModalButtons from 'src/app.components/Button/OpenSetTimeModalButtons';
-import { mappedDay, DayType, TimeType } from 'src/app.modules/types/workTime';
+import { mappedDay, DayType, TimeType, WorkTimeType } from 'src/app.modules/types/workTime';
 import useModal from 'src/app.modules/hooks/useModal';
 import SetWorkTimeModal from 'src/app.components/Modal/SetWorkTimeModal';
 import RegisterLayout from '../components/RegisterLayout';
@@ -20,7 +20,7 @@ export type WorkTimeOnModalType = {
 function SetTimeScreen() {
 	const [selectedDay, setSelectedDay] = useState<DayType>();
 	const {
-		user: { workTime },
+		userForm: { workTimeObj },
 		setTime,
 	} = useRegisterUserStore();
 
@@ -48,14 +48,14 @@ function SetTimeScreen() {
 		if (!meridiem || !hour || !minute) return;
 		if (!selectedDay) return;
 		const updatedWorkTime = {
-			...workTime,
+			...(workTimeObj ?? {}),
 			[selectedDay]: {
-				...workTime[selectedDay],
+				...workTimeObj?.[selectedDay],
 				[openModalFlag as TimeType]: {
 					...workTimeOnModal,
 				},
 			},
-		};
+		} as WorkTimeType;
 
 		setTime(updatedWorkTime);
 		setOpenModalFlag(null);
@@ -69,14 +69,14 @@ function SetTimeScreen() {
 	};
 	const resetTimeHandler = (flag: TimeType) => {
 		if (!selectedDay) return;
-		const temp = { ...workTime[selectedDay] };
+		const temp = { ...workTimeObj?.[selectedDay] };
 		delete temp[flag];
 		const updatedWorkTime = {
-			...workTime,
+			...workTimeObj,
 			[selectedDay]: {
 				...temp,
 			},
-		};
+		} as WorkTimeType;
 		setTime(updatedWorkTime);
 	};
 	const openSetTimeModalHandler = (flag: TimeType) => {
@@ -84,16 +84,12 @@ function SetTimeScreen() {
 		setOpenModalFlag(flag);
 		openModal();
 		setIsAlertPop(false);
-		const newWorkTimeOnModal = workTime?.[selectedDay]?.[flag as TimeType] ?? INIT_WORK_TIME;
+		const newWorkTimeOnModal = workTimeObj?.[selectedDay]?.[flag as TimeType] ?? INIT_WORK_TIME;
 		setWorkTimeOnModal(newWorkTimeOnModal);
 	};
 
 	return (
-		<RegisterLayout
-			curPage={3}
-			canGoNext={Boolean(workTime !== INIT_WORKTIME)}
-			guideMessage="일하는 요일별 근무시간을 알려주세요"
-		>
+		<RegisterLayout curPage={3} canGoNext={Boolean(workTimeObj)} guideMessage="일하는 요일별 근무시간을 알려주세요">
 			{/* TODO: 다음으로 넘어가는 조건 다시 지정 (더 자세하게) */}
 			<div className=" space-y-[3.2rem] mt-[2.4rem] ">
 				<div className="flex flex-col space-y-[3.2rem]">
@@ -111,16 +107,18 @@ function SetTimeScreen() {
 											// 하나만 입력되어 있으면
 											if (
 												selectedDay !== undefined &&
-												workTime?.[selectedDay] &&
-												Object.keys(workTime?.[selectedDay]).length === 1
+												workTimeObj?.[selectedDay] &&
+												Object.keys(workTimeObj?.[selectedDay]).length === 1
 											) {
-												console.log(workTime?.[selectedDay]);
+												console.log(workTimeObj?.[selectedDay]);
 												setIsAlertPop(true);
 												return;
 											}
 											selectedDayHandler(e);
 										}}
-										state={selectedDay === item ? 'focus' : `${workTime[item as DayType] ? 'selected' : 'default'}`}
+										state={
+											selectedDay === item ? 'focus' : `${workTimeObj?.[item as DayType] ? 'selected' : 'default'}`
+										}
 									/>
 								</li>
 							))}
@@ -132,17 +130,17 @@ function SetTimeScreen() {
 							<div>
 								<OpenSetTimeModalButtons
 									openSetTimeModalHandler={openSetTimeModalHandler}
-									isStartTimeSet={Boolean(workTime?.[selectedDay]?.startTime)}
-									isEndTimeSet={Boolean(workTime?.[selectedDay]?.endTime)}
-									startTimeText={`${workTime?.[selectedDay]?.startTime?.meridiem === 'am' ? '오전' : '오후'} ${
-										workTime?.[selectedDay]?.startTime?.hour
-									} : ${Number(workTime?.[selectedDay]?.startTime?.minute) < 10 ? '0' : ''}${
-										workTime?.[selectedDay]?.startTime?.minute
+									isStartTimeSet={Boolean(workTimeObj?.[selectedDay]?.startTime)}
+									isEndTimeSet={Boolean(workTimeObj?.[selectedDay]?.endTime)}
+									startTimeText={`${workTimeObj?.[selectedDay]?.startTime?.meridiem === 'am' ? '오전' : '오후'} ${
+										workTimeObj?.[selectedDay]?.startTime?.hour
+									} : ${Number(workTimeObj?.[selectedDay]?.startTime?.minute) < 10 ? '0' : ''}${
+										workTimeObj?.[selectedDay]?.startTime?.minute
 									}`}
-									endTimeText={`${workTime?.[selectedDay]?.endTime?.meridiem === 'am' ? '오전' : '오후'} ${
-										workTime?.[selectedDay]?.endTime?.hour
-									} : ${Number(workTime?.[selectedDay]?.endTime?.minute) < 10 ? '0' : ''}${
-										workTime?.[selectedDay]?.endTime?.minute
+									endTimeText={`${workTimeObj?.[selectedDay]?.endTime?.meridiem === 'am' ? '오전' : '오후'} ${
+										workTimeObj?.[selectedDay]?.endTime?.hour
+									} : ${Number(workTimeObj?.[selectedDay]?.endTime?.minute) < 10 ? '0' : ''}${
+										workTimeObj?.[selectedDay]?.endTime?.minute
 									}`}
 									resetTimeHandler={resetTimeHandler}
 									focusedType={openModalFlag}

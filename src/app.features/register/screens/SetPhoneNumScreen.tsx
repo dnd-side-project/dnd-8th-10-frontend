@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import RegisterLayout from '../components/RegisterLayout';
@@ -9,7 +9,7 @@ import useRegisterUserStore from '../store';
 // TODO: 전화번호 없이 등록 로직
 function SetPhoneNumScreen() {
 	const {
-		user: { phoneNumber },
+		userForm: { phoneNumber },
 		setPhoneNumber,
 	} = useRegisterUserStore();
 	const router = useRouter();

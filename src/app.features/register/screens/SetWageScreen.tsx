@@ -2,21 +2,20 @@ import React from 'react';
 import TextInput from 'src/app.components/app.base/Input/TextInput';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
-import { pauseBtnAnim, runningBtnAnim } from '../utils/contolBtnAnim';
 
 function SetWageScreen() {
 	const {
-		user: { wage },
+		userForm: { wage },
 		setWage,
 	} = useRegisterUserStore();
 	const wageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newWage = e.target.value;
 		if (!Number(newWage) && newWage !== '') return;
-		setWage(newWage === '' ? null : +newWage);
+		setWage(newWage);
 	};
 
 	const resetWageHandler = () => {
-		setWage(null);
+		setWage('');
 	};
 
 	return (

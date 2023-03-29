@@ -1,4 +1,4 @@
-import { RoleType } from 'src/app.modules/api/user';
+import { RoleType } from 'src/app.modules/types/user';
 
 export interface PostDatas {
 	postId: number;
