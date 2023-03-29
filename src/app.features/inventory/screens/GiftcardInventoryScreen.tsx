@@ -38,8 +38,7 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 			openBackAlertModal();
 		} else router.back();
 	};
-	const submitInventoryRecord = (category: string) => {
-		if (editInventoryLoading) return;
+	const submitInventoryRecord = (category: IInventory['category']) => {
 		const list = Object.keys(countHistory).map((inventoryName) => ({
 			inventoryName,
 			diff: countHistory[inventoryName],
@@ -71,7 +70,7 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, editInventoryLo
 				>
 					<Bar
 						ClickFn={() => {
-							submitInventoryRecord('giftcard');
+							submitInventoryRecord('GIFTCARD');
 							openModal();
 						}}
 					>
