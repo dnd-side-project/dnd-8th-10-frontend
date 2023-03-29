@@ -1,7 +1,6 @@
 /* eslint-disable react/no-this-in-sfc */
 import React, { useEffect, useState } from 'react';
 import Header from 'src/app.components/Header';
-import { PostCheckListBody, PutCheckListBody } from 'src/app.modules/api/checklist';
 import { MutateTpye } from 'src/app.modules/api/client';
 import SettingIcon from 'src/app.modules/assets/checklist/ellipsis.svg';
 import EmptyGraphic from 'src/app.modules/assets/checklist/emptyGraphic.svg';
@@ -12,6 +11,7 @@ import { formatDate } from 'src/app.modules/util/formatDate';
 import Divider from 'src/app.components/Divider';
 import { getCookie } from 'src/app.modules/cookie';
 import { COOKIE_KEY } from 'src/app.modules/constants/Cookie';
+import { PostCheckListBodyType, PutCheckListBodyType } from 'src/app.modules/api/checklist';
 import { ICheckList } from '../\btypes';
 
 const getKoreaToday = () => {
@@ -55,9 +55,9 @@ interface Props {
 	searchDate: string;
 	searchDateHandler: (searchDateString: string) => void;
 	checklist: ICheckList[];
-	postChecklist: MutateTpye<PostCheckListBody>;
+	postChecklist: MutateTpye<PostCheckListBodyType>;
 	postChecklistLoading: boolean;
-	putChecklist: MutateTpye<PutCheckListBody>;
+	putChecklist: MutateTpye<PutCheckListBodyType>;
 	putChecklistLoading: boolean;
 	deleteChecklist: MutateTpye<number>;
 	deleteChecklistLoading: boolean;
