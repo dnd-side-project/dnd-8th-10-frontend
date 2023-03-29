@@ -48,7 +48,7 @@ function SetRoleScreen({ userName }: Props) {
 		setRole,
 	} = useRegisterUserStore();
 
-	const roleHandler = (value: RoleType) => {
+	const roleHandler = (value: RoleType): void => {
 		setRole(value);
 	};
 

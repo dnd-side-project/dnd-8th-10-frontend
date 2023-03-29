@@ -32,7 +32,7 @@ function SetTimeScreen() {
 		minute: null,
 	} as WorkTimeOnModalType;
 	const [workTimeOnModal, setWorkTimeOnModal] = useState<WorkTimeOnModalType>(INIT_WORK_TIME);
-	const timeOnModalHandler = (e: React.BaseSyntheticEvent) => {
+	const timeOnModalHandler = (e: React.BaseSyntheticEvent): void => {
 		const {
 			target: { name, value },
 		} = e;
@@ -43,7 +43,7 @@ function SetTimeScreen() {
 		});
 	};
 	const [isAlertPop, setIsAlertPop] = useState<boolean>(false);
-	const workTimeHandler = () => {
+	const workTimeHandler = (): void => {
 		const { meridiem, hour, minute } = workTimeOnModal;
 		if (!meridiem || !hour || !minute) return;
 		if (!selectedDay) return;
@@ -61,13 +61,13 @@ function SetTimeScreen() {
 		setOpenModalFlag(null);
 		setWorkTimeOnModal(INIT_WORK_TIME);
 	};
-	const selectedDayHandler = (e: BaseSyntheticEvent) => {
+	const selectedDayHandler = (e: BaseSyntheticEvent): void => {
 		if (openModalFlag != null) {
 			setOpenModalFlag(null);
 		}
 		setSelectedDay(e.target.value);
 	};
-	const resetTimeHandler = (flag: TimeType) => {
+	const resetTimeHandler = (flag: TimeType): void => {
 		if (!selectedDay) return;
 		const temp = { ...workTimeObj?.[selectedDay] };
 		delete temp[flag];
@@ -79,7 +79,7 @@ function SetTimeScreen() {
 		} as WorkTimeType;
 		setTime(updatedWorkTime);
 	};
-	const openSetTimeModalHandler = (flag: TimeType) => {
+	const openSetTimeModalHandler = (flag: TimeType): void => {
 		if (!selectedDay) return;
 		setOpenModalFlag(flag);
 		openModal();

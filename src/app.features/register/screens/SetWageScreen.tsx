@@ -8,13 +8,13 @@ function SetWageScreen() {
 		userForm: { wage },
 		setWage,
 	} = useRegisterUserStore();
-	const wageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const wageHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		const newWage = e.target.value;
 		if (!Number(newWage) && newWage !== '') return;
 		setWage(newWage);
 	};
 
-	const resetWageHandler = () => {
+	const resetWageHandler = (): void => {
 		setWage('');
 	};
 

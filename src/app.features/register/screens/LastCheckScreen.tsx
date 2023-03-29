@@ -2,7 +2,7 @@ import React from 'react';
 import Badge from 'src/app.components/app.base/Button/Badge';
 import Header from 'src/app.components/Header';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { getUserWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
+import { getUserWeekWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import EditIcon from 'src/app.modules/assets/edit.svg';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import Link from 'next/link';
@@ -19,14 +19,14 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 	const {
 		userForm: { phoneNumber, role, workPlace, workTimeObj, workLocation, wage },
 	} = useRegisterUserStore();
-	const submitHandler = () => {
+	const submitHandler = (): void => {
 		console.log('제출');
 		if (isLoading) return;
 		if (!role || !workPlace || !workTimeObj || !workLocation || !wage) {
 			alert('필수 정보를 모두 입력해주세요.');
 			return;
 		}
-		const workTimeString = getUserWorkTimeString(workTimeObj);
+		const workTimeString = getUserWeekWorkTimeString(workTimeObj);
 
 		// TODO: 요일 입력 받기
 		const body = {
@@ -71,7 +71,7 @@ function LastCheckScreen({ postUserMutate, isLoading }: Props) {
 					<li className="flex flex-col space-y-[0.4rem]">
 						<span className="text-g6 text-subhead2">근무 일시</span>
 						{workTimeObj &&
-							getUserWorkTimeString(workTimeObj)
+							getUserWeekWorkTimeString(workTimeObj)
 								.split(',')
 								.map((time, idx) => (
 									<li key={`time-${idx}`}>

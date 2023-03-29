@@ -8,7 +8,7 @@ import TopModal from 'src/app.components/Modal/TopModal';
 import DayButton from 'src/app.features/register/components/DayButton';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { mappedDay, dayMapReverse, DayType, TimeType, WorkTimeType } from 'src/app.modules/types/workTime';
-import { getUserWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
+import { getUserWeekWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import DeleteIcon from 'src/app.modules/assets/delete.svg';
 import useModal from 'src/app.modules/hooks/useModal';
 import Modal from 'src/app.components/Modal/Modal';
@@ -75,7 +75,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 		if (!workTime) return;
 		const body = {
 			...user,
-			workTime: getUserWorkTimeString(workTime),
+			workTime: getUserWeekWorkTimeString(workTime),
 		};
 
 		putUser(body);

@@ -26,16 +26,16 @@ function SetWorkPlaceScreen() {
 		setWorkLocation,
 	} = useRegisterUserStore();
 	const IS_STORE_SELECTED = Boolean(workPlace?.trim());
-	const searchTermHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const searchTermHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		setSearchTerm(e.target.value);
 	};
-	const workPlaceHandler = (place: string, location: string) => {
+	const workPlaceHandler = (place: string, location: string): void => {
 		setSearchResults([]);
 		setSearchTerm(place);
 		setWorkPlace(place);
 		setWorkLocation(location);
 	};
-	const resetSearchTerm = () => {
+	const resetSearchTerm = (): void => {
 		setWorkPlace('');
 		setWorkLocation('');
 		setSearchTerm('');

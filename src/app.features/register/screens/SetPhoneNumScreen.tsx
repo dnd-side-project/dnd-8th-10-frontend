@@ -13,11 +13,11 @@ function SetPhoneNumScreen() {
 		setPhoneNumber,
 	} = useRegisterUserStore();
 	const router = useRouter();
-	const phoneNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const phoneNumberHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		setPhoneNumber(e.target.value);
 	};
 
-	const resetPhoneNumberHandler = () => {
+	const resetPhoneNumberHandler = (): void => {
 		setPhoneNumber('');
 	};
 	// TODO: 전화번호 포맷 유효하면 넘어가게 수정하기

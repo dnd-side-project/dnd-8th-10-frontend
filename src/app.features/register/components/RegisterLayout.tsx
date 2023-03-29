@@ -13,7 +13,7 @@ interface Props {
 }
 function RegisterLayout({ curPage, children, canGoNext, guideMessage }: Props) {
 	const router = useRouter();
-	const nextHandler = () => {
+	const nextHandler = (): void => {
 		router.push(`${SERVICE_URL.register}?page=${curPage + 1}`);
 	};
 	// TODO: text input submit 할때마다 다음 페이지로 옮기기
