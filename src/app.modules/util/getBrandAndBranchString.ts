@@ -3,7 +3,7 @@
  * @param workPlace 회원가입시 입력한 근무지 string ex) GS25 강남동원점.
  * @return GS25편의점/강남동원점
  */
-export const getBrandByBranchString = (workPlace: string): string => {
+export const getBrandAndBranchString = (workPlace: string): string => {
 	const [brand, branch] = workPlace.split(' ');
 	return `${brand}편의점/${branch}`;
 };
