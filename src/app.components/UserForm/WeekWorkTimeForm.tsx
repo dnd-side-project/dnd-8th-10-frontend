@@ -9,6 +9,7 @@ interface Props {
 	workTimeObj?: WeekWorkTimeType | null;
 	onWorkTimeChange: (workTimeObj: WeekWorkTimeType) => void;
 }
+// TODO: 출퇴근 시간 모두 기입해야 수정,등록하게 수정필요
 export function WeekWorkTimeForm({ workTimeObj, onWorkTimeChange }: Props) {
 	const DAY_NUM_LIST: DayNumType[] = ['6', '0', '1', '2', '3', '4', '5'];
 	const [isAlertPop, setIsAlertPop] = useState<boolean>(false);
@@ -18,6 +19,10 @@ export function WeekWorkTimeForm({ workTimeObj, onWorkTimeChange }: Props) {
 
 	// 요일 포커싱 핸들러
 	const focusedDayHandler = (e: BaseSyntheticEvent): void => {
+		if (focusedDay !== undefined && workTimeObj?.[focusedDay] && Object.keys(workTimeObj?.[focusedDay]).length === 1) {
+			setIsAlertPop(true);
+			return;
+		} // 출,퇴근 시간 모두 입력해야 다른 요일을 포커싱할수 있음.
 		setFocusedDay(e.target.value);
 	};
 
@@ -90,18 +95,7 @@ export function WeekWorkTimeForm({ workTimeObj, onWorkTimeChange }: Props) {
 								name="day"
 								value={item}
 								item={dayMap.get(item) ?? ''}
-								onClick={(e) => {
-									// 하나만 입력되어 있으면
-									if (
-										focusedDay !== undefined &&
-										workTimeObj?.[focusedDay] &&
-										Object.keys(workTimeObj?.[focusedDay]).length === 1
-									) {
-										setIsAlertPop(true);
-										return;
-									}
-									focusedDayHandler(e);
-								}}
+								onClick={focusedDayHandler}
 								state={focusedDay === item ? 'focus' : `${workTimeObj?.[item] ? 'selected' : 'default'}`}
 							/>
 						</li>

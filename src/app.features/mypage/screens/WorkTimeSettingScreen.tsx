@@ -17,7 +17,7 @@ interface Props {
 	putUser: MutateTpye<MutateUserBodyType>;
 	isLoading: boolean;
 }
-
+// TODO: 출퇴근 시간 모두 기입해야 수정,등록하게 수정필요
 function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 	const { isModalOpen: isDeleteModalOpen, openModal: openDeleteModal, closeModal: closeDeleteModal } = useModal();
 	const [workTimeObj, setWorkTimeObj] = useState<WeekWorkTimeType | null>(null);
