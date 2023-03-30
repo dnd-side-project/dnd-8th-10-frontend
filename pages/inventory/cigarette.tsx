@@ -10,8 +10,9 @@ import {
 	putInventory,
 } from 'src/app.modules/api/inventory';
 import useModal from 'src/app.modules/hooks/useModal';
+import { NextPage } from 'next';
 
-function CigaretteInventory() {
+const CigaretteInventory: NextPage = () => {
 	const { isModalOpen: isSavePopupOpen, openModal: openSavePopup, closeModal: closeSavePopup } = useModal();
 	const { isModalOpen: isAddPopupOpen, openModal: openAddPopup, closeModal: closeAddPopup } = useModal();
 	const { data: cigaretteList, refetch } = useQuery(['inventory', 'cigarette'], () => getInventory('CIGARETTE'), {
@@ -72,6 +73,6 @@ function CigaretteInventory() {
 			/>
 		</>
 	);
-}
+};
 
 export default CigaretteInventory;

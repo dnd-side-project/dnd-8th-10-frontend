@@ -4,8 +4,9 @@ import SmallPopup from 'src/app.components/Modal/SmallPopup';
 import GarbageBagInventoryScreen from 'src/app.features/inventory/screens/GarbageBagInventoryScreen';
 import { getInventory, getIsWorkTime, putInventory } from 'src/app.modules/api/inventory';
 import useModal from 'src/app.modules/hooks/useModal';
+import { NextPage } from 'next';
 
-function GarbageBaInventory() {
+const GarbageBaInventory: NextPage = () => {
 	const { isModalOpen: isPopupOpen, openModal: openPopup, closeModal: closePopup } = useModal();
 	const { data: inventoryList, refetch } = useQuery(['inventory', 'garbageBag'], () => getInventory('GARBAGEBAG'), {
 		select: (res) => res.data.data,
@@ -47,6 +48,6 @@ function GarbageBaInventory() {
 			/>
 		</>
 	);
-}
+};
 
 export default GarbageBaInventory;
