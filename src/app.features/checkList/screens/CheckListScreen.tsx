@@ -1,5 +1,5 @@
 /* eslint-disable react/no-this-in-sfc */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Header from 'src/app.components/Header';
 import { MutateTpye } from 'src/app.modules/api/client';
 import SettingIcon from 'src/app.modules/assets/checklist/ellipsis.svg';
@@ -15,6 +15,7 @@ import { PostCheckListBodyType, PutCheckListBodyType } from 'src/app.modules/api
 import { ICheckList } from '../\btypes';
 import { getWeekDateList } from '../utils/getWeekDateList';
 import { getKoreaTodayDateInfo } from '../utils/getKoreaTodayDateInfo';
+import NewbieGuide from '../components/NewbieGuide';
 
 interface Props {
 	isChecklistFetched: boolean;
@@ -187,23 +188,7 @@ function CheckListScreen({
 
 				<div className=" overflow-x-hidden px-[2rem]    relative">
 					<Divider />
-					{getCookie(COOKIE_KEY.IS_NEWBIE) && (
-						<div className="w-full bg-g1 rounded-[0.8rem]">
-							<div className="mx-auto space-y-[0.8rem]  mt-[2.4rem] p-[1.6rem] text-subhead2  text-g8">
-								<p className="text-start whitespace-pre-wrap">
-									{`내 할일 점검에서 잊지않게 업무를 체크해보세요!\n나의 업무에 맞게 항목을 수정, 삭제할 수 있습니다.`}
-								</p>
-								<button
-									onClick={() => {
-										document.cookie = `${COOKIE_KEY.IS_NEWBIE}=false; max-age=-1 ;path=/;`;
-									}}
-									className="text-primary w-full text-end"
-								>
-									닫기
-								</button>
-							</div>
-						</div>
-					)}
+					{getCookie(COOKIE_KEY.IS_NEWBIE) && <NewbieGuide />}
 
 					{isChecklistFetched && isWorkDay ? (
 						<div className=" text-subhead2 space-y-[1.6rem] py-[2.4rem]  relative ">
