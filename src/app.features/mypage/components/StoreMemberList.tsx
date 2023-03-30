@@ -13,7 +13,7 @@ function StoreMemberList({ userRole, memberList }: Props) {
 		<div className="space-y-[0.8rem]">
 			<span className=" text-g6 text-subhead1">{userRole === 'MANAGER' ? '점장' : '알바생'}</span>
 			<ul className="space-y-[2.4rem] ">
-				{memberList.map((item, index) => (
+				{memberList?.map((item, index) => (
 					<li key={index} className="flex items-start justify-between">
 						<div className="flex space-x-[0.8rem]">
 							<ProfileImage userProfileCode={item.userProfileCode} size="lg" />
