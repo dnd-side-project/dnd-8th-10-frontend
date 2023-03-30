@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Header from 'src/app.components/Header';
 import SearchInput from 'src/app.components/app.base/Input/SearchInput';
 import { MutateTpye } from 'src/app.modules/api/client';
-import Bar from 'src/app.components/app.base/Button/Bar';
 import Overlay from 'src/app.components/Modal/Overlay';
 import useModal from 'src/app.modules/hooks/useModal';
 import Modal from 'src/app.components/Modal/Modal';
 import { useRouter } from 'next/router';
 import { PostCigaretteBodyType, PutInventoryBodyType } from 'src/app.modules/api/inventory';
 import FilterButtons from '../components/FilterButtons';
-import InventoryList from '../components/InventoryListCopy';
+import CigaretteList from '../components/CigaretteList';
 import useCountHistory from '../hooks/useCountHistory';
-import LastCheckModal from '../components/LastCheckModal';
 import NewCigaSaveModal from '../components/NewCigaSaveModal';
 import { IInventory } from '../types';
+import InventoryCommonBottom from '../components/InventoryCommonFlow/InventoryCommonBottom';
+import { ChoType } from '../types/ciga';
 
-const getInitialSound = (str: string) => {
+// 담배의 초성추출
+const getInitialSound = (str: string): string => {
 	const CHO_LIST = [
 		'ㄱ',
 		'ㄲ',
@@ -45,16 +46,12 @@ const getInitialSound = (str: string) => {
 	return CHO_LIST[choseong];
 };
 // TODO: 타입 한 파일에 정리해 두기
-// TODO: 담배 추가할때 같은 이름 담배있는지 체크
-// TODO: 마지막 요소 클릭 안됨
-type ChoType = '전체' | 'ㄱ' | 'ㄴ' | 'ㄷ' | 'ㄹ' | 'ㅁ' | 'ㅂ' | 'ㅅ' | 'ㅇ' | 'ㅈ' | 'ㅊ' | 'ㅋ' | 'ㅌ' | 'ㅍ' | 'ㅎ';
 
 interface Props {
 	inventoryList: IInventory[];
 	addCigarette: MutateTpye<PostCigaretteBodyType>;
 	addCigaretteLoading: boolean;
 	editInventory: MutateTpye<PutInventoryBodyType>;
-	editInventoryLoading: boolean;
 	deleteInventoryMutate: MutateTpye<number>;
 	workTimeStatus: string;
 }
@@ -65,7 +62,6 @@ function CountCigaretteScreen({
 	addCigarette,
 	addCigaretteLoading,
 	editInventory,
-	editInventoryLoading,
 	deleteInventoryMutate,
 	workTimeStatus,
 }: Props) {
@@ -75,22 +71,16 @@ function CountCigaretteScreen({
 	const [searchCho, setSearchCho] = useState<ChoType>('전체');
 	const [newCiga, setNewCiga] = useState<string>('');
 	const [isSaveBtnClicked, setIsSaveBtnClicked] = useState(false);
-	// TODO: 모달이름 바꾸기
-	const { isModalOpen: isSaveModalOpen, closeAnimationModal: closeSaveModal, openModal: openSaveModal } = useModal();
 	const { isModalOpen: isAddModalOpen, closeAnimationModal: closeAddModal, openModal: openAddModal } = useModal();
 	const {
 		isModalOpen: isBackAlertModalOpen,
 		closeModal: closeBackAlertModal,
 		openModal: openBackAlertModal,
 	} = useModal();
-	const {
-		isModalOpen: isNotWorkTimeModalOpen,
-		closeModal: closeNotWorkTimeModal,
-		openModal: openNotWorkTimeModal,
-	} = useModal();
 	const router = useRouter();
 	const goBackHandler = () => {
-		if (Object.keys(countHistory).length && workTimeStatus !== 'error' && !isSaveBtnClicked) {
+		// Object.keys(countHistory).length &&
+		if (workTimeStatus !== 'error' && !isSaveBtnClicked) {
 			openBackAlertModal();
 		} else router.back();
 	};
@@ -103,24 +93,18 @@ function CountCigaretteScreen({
 	const clearSearchTerm = () => {
 		setSearchTerm('');
 	};
-	const openSaveModalHandler = () => {
-		if (isAddModalOpen) {
-			closeAddModal();
-		}
-		openSaveModal();
-	};
-	const submitInventoryRecord = (category: IInventory['category']) => {
+
+	const submitInventoryRecord = () => {
 		const list = Object.keys(countHistory).map((inventoryName) => ({
 			inventoryName,
 			diff: countHistory[inventoryName],
 		}));
+		const category: IInventory['category'] = 'GIFTCARD';
 		const body = { category, list };
 		editInventory(body);
-		openSaveModalHandler();
 		setIsSaveBtnClicked(true);
 	};
 	const submitNewCigarette = () => {
-		console.log('new 담배');
 		if (addCigaretteLoading) return;
 		const body = {
 			inventoryName: newCiga,
@@ -130,9 +114,6 @@ function CountCigaretteScreen({
 	};
 
 	const openAddModalHandler = () => {
-		if (isSaveModalOpen) {
-			closeSaveModal();
-		}
 		openAddModal();
 	};
 	const newCigaHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,10 +125,6 @@ function CountCigaretteScreen({
 	const deletleInventoryHandler = (inventoryIdx: number) => {
 		deleteInventoryMutate(inventoryIdx);
 	};
-	useEffect(() => {
-		if (workTimeStatus === undefined) return;
-		if (workTimeStatus === 'error') openNotWorkTimeModal();
-	}, [workTimeStatus]);
 	return (
 		<>
 			<Header title="담배" onBack={goBackHandler}>
@@ -168,7 +145,7 @@ function CountCigaretteScreen({
 				</div>
 
 				{inventoryList && (
-					<InventoryList
+					<CigaretteList
 						inventoryList={(searchCho === '전체'
 							? inventoryList
 							: inventoryList.filter((inventory) => getInitialSound(inventory.inventoryName) === searchCho)
@@ -179,16 +156,11 @@ function CountCigaretteScreen({
 					/>
 				)}
 
-				<div
-					className="fixed bottom-[2rem]  w-screen -translate-x-[2rem] max-w-[50rem] px-[2rem] ciga-save-shadow  rounded-[0.8rem]  "
-					aria-hidden={isSaveModalOpen || isAddModalOpen}
-				>
-					<Bar ClickFn={() => submitInventoryRecord('CIGARETTE')}>점검사항 저장</Bar>
-				</div>
-
-				{isSaveModalOpen && (
-					<LastCheckModal closeModal={closeSaveModal} countHistory={countHistory} category="cigarette" />
-				)}
+				<InventoryCommonBottom
+					countHistory={countHistory}
+					workTimeStatus={workTimeStatus}
+					onInventoryRecordSubmit={submitInventoryRecord}
+				/>
 				{isAddModalOpen && (
 					<NewCigaSaveModal
 						closeModal={closeAddModal}
@@ -213,23 +185,6 @@ function CountCigaretteScreen({
 						yesTitle="종료"
 						noFn={closeBackAlertModal}
 						noTitle="아니오"
-					/>
-				</Overlay>
-			)}
-			{isNotWorkTimeModalOpen && (
-				<Overlay
-					overlayClickFn={() => {
-						closeNotWorkTimeModal();
-					}}
-				>
-					<Modal
-						iconView
-						title="근무시간이 아닙니다."
-						subTitle="점검 중인 내용이저장되지 않습니다."
-						yesFn={() => router.back()}
-						yesTitle="종료"
-						noFn={closeNotWorkTimeModal}
-						noTitle="확인"
 					/>
 				</Overlay>
 			)}
