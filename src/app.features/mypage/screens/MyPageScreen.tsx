@@ -4,7 +4,7 @@ import InfoBox from 'src/app.components/InfoBox';
 import SettingIcon from 'src/app.modules/assets/mypage/setting.svg';
 import StoreIcon from 'src/app.modules/assets/mypage/store.svg';
 import LeftArrowIcon from 'src/app.modules/assets/mypage/arrowLeft.svg';
-import { getSplittedWorkPlaceString } from 'src/app.modules/util/getSplittedWorkPlaceString';
+import { getBrandAndBranchString } from 'src/app.modules/util/getBrandAndBranchString';
 import Profile from 'src/app.components/Profile';
 import { useRouter } from 'next/router';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
@@ -41,7 +41,7 @@ function MyPageScreen({ user, logoutHandler }: Props) {
 						>
 							<div className="flex items-center space-x-[0.8rem]">
 								<StoreIcon />
-								<span className="text-subhead1 text-g9">{getSplittedWorkPlaceString(user?.workPlace ?? '')}</span>
+								<span className="text-subhead1 text-g9">{getBrandAndBranchString(user?.workPlace ?? '')}</span>
 							</div>
 							<LeftArrowIcon />
 						</button>

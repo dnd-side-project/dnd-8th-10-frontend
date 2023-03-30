@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import Badge from 'src/app.components/app.base/Button/Badge';
 import Header from 'src/app.components/Header';
-import XIcon from 'src/app.modules/assets/mypage/x.svg';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import EditIcon from 'src/app.modules/assets/edit.svg';
 import useModal from 'src/app.modules/hooks/useModal';

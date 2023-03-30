@@ -26,22 +26,22 @@ function SetWorkPlaceScreen() {
 		setWorkLocation,
 	} = useRegisterUserStore();
 	const IS_STORE_SELECTED = Boolean(workPlace?.trim());
-	const searchTermHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const searchTermHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		setSearchTerm(e.target.value);
 	};
-	const workPlaceHandler = (place: string, location: string) => {
-		setSearchResults([]);
-		setSearchTerm(place);
+	const workPlaceHandler = (place: string, location: string): void => {
 		setWorkPlace(place);
 		setWorkLocation(location);
+		setSearchTerm(place);
+		setSearchResults([]);
 	};
-	const resetSearchTerm = () => {
+	const resetSearchTerm = (): void => {
 		setWorkPlace('');
 		setWorkLocation('');
 		setSearchTerm('');
 		setSearchResults([]);
 	};
-
+	// kakao map script 로드
 	useEffect(() => {
 		const script = document.createElement('script');
 		script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET_SDK}&libraries=services&autoload=false`;
@@ -49,7 +49,6 @@ function SetWorkPlaceScreen() {
 
 		const onLoadKakaoMap = () => {
 			setIsLoaded(true);
-			console.log('is loaded');
 		};
 		script.addEventListener('load', onLoadKakaoMap);
 

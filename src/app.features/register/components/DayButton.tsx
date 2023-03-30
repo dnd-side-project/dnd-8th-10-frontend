@@ -9,7 +9,6 @@ interface Props {
 }
 
 function Calendar({ value, item, onClick, state, name }: Props) {
-	console.log(state);
 	const getBorderStyle = () => {
 		return `${state === 'default' ? 'border-g3 border-[0.15rem]' : ''}`;
 	};

@@ -18,7 +18,7 @@ function CompleteSettingScreent({ userName, role, workPlace }: Props) {
 		userForm: { role: clientRole, workPlace: clientWorkPlace },
 		initUserForm,
 	} = useRegisterUserStore();
-	const startHandler = () => {
+	const startHandler = (): void => {
 		router.push(SERVICE_URL.home);
 		initUserForm();
 	};

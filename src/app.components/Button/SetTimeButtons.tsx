@@ -1,3 +1,4 @@
+import { WorkTimeOnModalType } from 'src/app.modules/types/workTime';
 import Chip from '../app.base/Button/Chip';
 
 interface Props {
@@ -13,15 +14,10 @@ interface Props {
 
     ()=>void 형태로 선언해도 됨.
     */
-	time: {
-		meridiem: 'am' | 'pm' | null;
-		hour: string | null;
-		minute: string | null;
-	};
+	time: WorkTimeOnModalType;
 }
 // TODO: 중복 코드 줄이기
 function SetTimeButtons({ timeHandler, time }: Props) {
-	console.log(time, 'time');
 	return (
 		<div className="w-full space-y-[2.4rem]   whitespace-nowrap">
 			<div className="w-full flex justify-between items-start">

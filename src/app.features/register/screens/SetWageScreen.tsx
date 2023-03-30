@@ -1,5 +1,5 @@
 import React from 'react';
-import TextInput from 'src/app.components/app.base/Input/TextInput';
+import WageForm from 'src/app.components/UserForm/WageForm';
 import RegisterLayout from '../components/RegisterLayout';
 import useRegisterUserStore from '../store';
 
@@ -8,15 +8,6 @@ function SetWageScreen() {
 		userForm: { wage },
 		setWage,
 	} = useRegisterUserStore();
-	const wageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const newWage = e.target.value;
-		if (!Number(newWage) && newWage !== '') return;
-		setWage(newWage);
-	};
-
-	const resetWageHandler = () => {
-		setWage('');
-	};
 
 	return (
 		<RegisterLayout
@@ -27,14 +18,7 @@ function SetWageScreen() {
 			<div className="space-y-[2.4rem] pt-[1rem]">
 				<span className="text-g8 text-subhead1 flex flex-col items-start">시급을 기준으로 급여를 계산해드려요!</span>
 
-				<TextInput
-					value={`${wage ?? ''}`}
-					onChange={wageHandler}
-					resetHandler={resetWageHandler}
-					mode="default"
-					placeholder="현재 최저임금은 9,620원입니다."
-					type="number"
-				/>
+				<WageForm wage={`${wage ?? ''}`} onWageChange={setWage} />
 			</div>
 		</RegisterLayout>
 	);

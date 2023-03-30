@@ -1,4 +1,4 @@
-export const getFormmatedWorkTime = (partTime: string) => {
+export const getFormmatedWorkTime = (partTime: string): string => {
 	const day = partTime[0];
 	const [startTime, endTime] = partTime.slice(2, -1).split('~');
 	const [startTimeHour, startTimeMinute] = startTime.split(':');
