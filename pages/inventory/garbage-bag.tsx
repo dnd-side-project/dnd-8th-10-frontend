@@ -25,7 +25,7 @@ const GarbageBaInventory: NextPage = () => {
 		},
 	});
 
-	const { mutate: editInventory, isLoading: editInventoryLoading } = useMutation(putInventory, {
+	const { mutate: editInventory } = useMutation(putInventory, {
 		onSuccess: (res) => {
 			console.log('반영완료');
 			refetch();
@@ -44,7 +44,6 @@ const GarbageBaInventory: NextPage = () => {
 				workTimeStatus={workTimeStatus}
 				inventoryList={inventoryList}
 				editInventory={editInventory}
-				editInventoryLoading={editInventoryLoading}
 			/>
 		</>
 	);

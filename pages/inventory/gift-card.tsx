@@ -25,7 +25,7 @@ const GiftCard: NextPage = () => {
 		},
 	});
 
-	const { mutate: editInventory, isLoading: editInventoryLoading } = useMutation(putInventory, {
+	const { mutate: editInventory } = useMutation(putInventory, {
 		onSuccess: (res) => {
 			refetch();
 			openPopup();
@@ -43,7 +43,6 @@ const GiftCard: NextPage = () => {
 				workTimeStatus={workTimeStatus}
 				inventoryList={inventoryList}
 				editInventory={editInventory}
-				editInventoryLoading={editInventoryLoading}
 			/>
 		</>
 	);

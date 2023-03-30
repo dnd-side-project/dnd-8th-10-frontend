@@ -22,7 +22,6 @@ interface Props {
 	workTimeStatus: string;
 }
 // TODO: 담배 시재 추가 중복이름 막기
-// TODO: 담배 시재 하고 나면 뒤로가기 버튼 눌렀을때 경고 모달 안뜨게 하기
 function CountCigaretteScreen({
 	inventoryList,
 	addCigarette,

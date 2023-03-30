@@ -41,7 +41,7 @@ const CigaretteInventory: NextPage = () => {
 		},
 		onError: (error) => alert('오류 발생.'),
 	});
-	const { mutate: editInventory, isLoading: editInventoryLoading } = useMutation(putInventory, {
+	const { mutate: editInventory } = useMutation(putInventory, {
 		onSuccess: (res) => {
 			refetch();
 			openSavePopup();
@@ -51,7 +51,7 @@ const CigaretteInventory: NextPage = () => {
 		},
 		onError: (error) => alert('오류 발생.'),
 	});
-	const { mutate: deleteInventoryMutate, isLoading: deleteInventoryLoading } = useMutation(deleteInventory, {
+	const { mutate: deleteInventoryMutate } = useMutation(deleteInventory, {
 		onSuccess: (res) => {
 			refetch();
 		},
@@ -68,7 +68,6 @@ const CigaretteInventory: NextPage = () => {
 				addCigarette={addCigarette}
 				addCigaretteLoading={addCigaretteLoading}
 				editInventory={editInventory}
-				editInventoryLoading={editInventoryLoading}
 				deleteInventoryMutate={deleteInventoryMutate}
 			/>
 		</>
