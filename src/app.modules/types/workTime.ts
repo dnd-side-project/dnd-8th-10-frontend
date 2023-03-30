@@ -21,7 +21,7 @@ export const dayMapReverse = new Map<DayTextType, DayNumType>([
 ]);
 
 export type WorkTimeInfoType = {
-	meridiem: 'am' | 'pm';
+	meridiem: 'am' | 'pm' | null; // TODO: null 타입 지우기
 	hour: string;
 	minute: string;
 };
