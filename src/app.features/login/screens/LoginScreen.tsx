@@ -19,7 +19,7 @@ function LoginJson() {
 			animationData: loginJson,
 		});
 	}, []);
-	return <div ref={containerRef} />;
+	return <div ref={containerRef} className="w-full" />;
 }
 
 function LoginScreen() {
