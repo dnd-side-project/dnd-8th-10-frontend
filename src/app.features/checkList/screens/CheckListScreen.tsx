@@ -5,7 +5,6 @@ import { MutateTpye } from 'src/app.modules/api/client';
 import SettingIcon from 'src/app.modules/assets/checklist/ellipsis.svg';
 import EmptyGraphic from 'src/app.modules/assets/checklist/emptyGraphic.svg';
 import AddTodoIcon from 'src/app.modules/assets/checklist/addTodo.svg';
-import TrashIcon from 'src/app.modules/assets/checklist/trash.svg';
 import AddTodoDecoIcon from 'src/app.modules/assets/checklist/addInputDeco.svg';
 import { formatDate } from 'src/app.modules/util/formatDate';
 import Divider from 'src/app.components/Divider';
@@ -16,6 +15,7 @@ import { ICheckList } from '../\btypes';
 import { getWeekDateList } from '../utils/getWeekDateList';
 import { getKoreaTodayDateInfo } from '../utils/getKoreaTodayDateInfo';
 import NewbieGuide from '../components/NewbieGuide';
+import TodoForm from '../components/TodoForm';
 
 interface Props {
 	isChecklistFetched: boolean;
@@ -50,11 +50,8 @@ function CheckListScreen({
 	const { year, month, date, day } = getKoreaTodayDateInfo();
 	const [addTodoInputOpen, setAddTodoInputOpen] = useState<boolean>(false);
 	const [editTodoInputOpenIdx, setEditTodoInputOpenIdx] = useState<number | null>(null);
-	const [newTodo, setNewTodo] = useState<string>('');
-	const [editContent, setEditContent] = useState<string>('');
 
-	const addTodoHandler = (e: React.FormEvent) => {
-		e.preventDefault();
+	const addTodoHandler = (newTodo: string) => {
 		if (postChecklistLoading) return;
 		if (!newTodo.trim()) return;
 		const body = {
@@ -64,10 +61,8 @@ function CheckListScreen({
 		};
 
 		postChecklist(body);
-		setNewTodo('');
 	};
 	const cancelAddTodoHandler = () => {
-		setNewTodo('');
 		setAddTodoInputOpen(false);
 	};
 	const todoCheckStateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,16 +81,15 @@ function CheckListScreen({
 		console.log(body);
 		putChecklist(body);
 	};
-	const editTodoHandler = (status: 'N' | 'Y') => {
+	const editTodoHandler = (content: string, status: ICheckList['status']) => {
 		const body = {
 			checkIdx: editTodoInputOpenIdx as number,
-			content: editContent as string,
-			status: status as 'N' | 'Y',
+			content,
+			status,
 		};
 		putChecklist(body);
 		// TODO: 엔터치고 이전 데이터 잠시 보이는 현상 해결하기
 		setEditTodoInputOpenIdx(null);
-		setEditContent('');
 	};
 	const deleteTodoHandler = () => {
 		if (deleteChecklistLoading) return;
@@ -202,31 +196,17 @@ function CheckListScreen({
 									<span>항목 추가하기</span>
 								</button>
 								{addTodoInputOpen && (
-									<form
-										onSubmit={addTodoHandler}
-										aria-hidden={!addTodoInputOpen}
-										className="aria-hidden:hidden  flex items-center  space-x-[1rem]"
-									>
+									<div className="flex items-center space-x-[1rem]">
 										<div>
 											<AddTodoDecoIcon />
 										</div>
-										<input
-											type="text"
-											enterKeyHint="done"
-											name="addTodo"
-											value={newTodo}
-											autoComplete="off"
-											autoCapitalize="off"
-											onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
-											// eslint-disable-next-line jsx-a11y/no-autofocus
-											autoFocus
+										<TodoForm
+											onSubmit={addTodoHandler}
+											isHidden={!addTodoInputOpen}
 											onBlur={() => setAddTodoInputOpen(false)}
-											className="w-full  rounded-none outline-none border-b-[0.1rem] border-g6 text-g9"
+											onTrashClick={cancelAddTodoHandler}
 										/>
-										<button type="button" onClick={cancelAddTodoHandler}>
-											<TrashIcon />
-										</button>
-									</form>
+									</div>
 								)}
 							</div>
 							<ul className=" text-g9 space-y-[1.6rem]  ">
@@ -255,31 +235,13 @@ function CheckListScreen({
 												</button>
 											</div>
 											{editTodoInputOpenIdx === todo.checkIdx && (
-												<form
-													onSubmit={(e: React.FormEvent) => {
-														e.preventDefault();
-														editTodoHandler(todo.status);
-													}}
-													aria-hidden={editTodoInputOpenIdx !== todo.checkIdx}
-													className="aria-hidden:hidden flex items-center w-full space-x-[1rem]"
-												>
-													<input
-														name="editTodo"
-														onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditContent(e.target.value)}
-														defaultValue={todo.content}
-														autoComplete="off"
-														autoCapitalize="off"
-														// eslint-disable-next-line jsx-a11y/no-autofocus
-														autoFocus
-														type="text"
-														enterKeyHint="done"
-														onBlur={() => setEditTodoInputOpenIdx(null)}
-														className="w-full outline-none rounded-none border-b-[0.1rem] border-g6 text-g9"
-													/>
-													<button type="button" onClick={deleteTodoHandler}>
-														<TrashIcon />
-													</button>
-												</form>
+												<TodoForm
+													onSubmit={(modTodo: string) => editTodoHandler(modTodo, todo.status)}
+													isHidden={editTodoInputOpenIdx !== todo.checkIdx}
+													onBlur={() => setEditTodoInputOpenIdx(null)}
+													onTrashClick={deleteTodoHandler}
+													defaultValue={todo.content}
+												/>
 											)}
 										</div>
 									</li>
