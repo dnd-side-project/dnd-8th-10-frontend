@@ -3,17 +3,15 @@ import React from 'react';
 import Header from 'src/app.components/Header';
 import { MutateTpye } from 'src/app.modules/api/client';
 import EmptyGraphic from 'src/app.modules/assets/checklist/emptyGraphic.svg';
-import { formatDate } from 'src/app.modules/util/formatDate';
 import Divider from 'src/app.components/Divider';
 import { getCookie } from 'src/app.modules/cookie';
 import { COOKIE_KEY } from 'src/app.modules/constants/Cookie';
 import { PostCheckListBodyType, PutCheckListBodyType } from 'src/app.modules/api/checklist';
 import { ICheckList } from '../types';
-import { getWeekDateList } from '../utils/getWeekDateList';
-import { getKoreaTodayDateInfo } from '../utils/getKoreaTodayDateInfo';
 import NewbieGuide from '../components/NewbieGuide';
 import AddTodo from '../components/AddTodo';
 import CheckList from '../components/CheckList';
+import WeekCalandar from '../components/WeekCalandar';
 
 interface Props {
 	isChecklistFetched: boolean;
@@ -45,8 +43,6 @@ function CheckListScreen({
 	isWorkDay,
 	isChecklistFetched,
 }: Props) {
-	const { year, month, date, day } = getKoreaTodayDateInfo();
-
 	const addTodoHandler = (newTodo: string) => {
 		if (postChecklistLoading) return;
 		if (!newTodo.trim()) return;
@@ -80,53 +76,11 @@ function CheckListScreen({
 	};
 	const deleteTodoHandler = (checkIdx: number) => {
 		if (deleteChecklistLoading) return;
-		console.log(checkIdx);
 		deleteChecklist(checkIdx);
 	};
-	const getSearchDateString = (weekIdx: number, selectedDate: number) => {
-		const todayWeekIdx = day;
-		let selectedMonth = month;
-		let selectedYear = year;
-		if (selectedDate < date && todayWeekIdx < weekIdx) {
-			// 다음달로 넘어가는 경우
-			if (month === 12) {
-				selectedMonth = 1;
-				selectedYear += 1;
-			} else {
-				selectedMonth += 1;
-			}
-		}
-		if (selectedDate > date && todayWeekIdx > weekIdx) {
-			// 이전달로 넘어가는 경우
-			if (month === 1) {
-				selectedMonth = 12;
-				selectedYear -= 1;
-			} else {
-				selectedMonth -= 1;
-			}
-		}
-		return formatDate(selectedYear, selectedMonth, selectedDate);
-	};
-	const setSearchDateHandler = (e: React.BaseSyntheticEvent) => {
-		const {
-			target: {
-				dataset: { weekidx },
-				value: selectedDate,
-			},
-		} = e;
-		getSearchDateString(weekidx, selectedDate);
-		searchDateHandler(getSearchDateString(weekidx, selectedDate));
-	};
-	const getButtonStyle = (weekIdx: number, selectedDate: number) => {
-		const todayStyle =
-			todayString === getSearchDateString(weekIdx, selectedDate) ? 'border-[0.15rem] border-primary' : '';
 
-		if (weekState && weekState[weekIdx]) return `bg-primarySub text-primary ${todayStyle}`;
-		return '';
-	};
-	const getDateTitle = () => {
-		const [resYear, resMonth] = searchDate.split('-');
-		return `${+resYear}년 ${+resMonth}월`;
+	const setSearchDateHandler = (formattedSearchDate: string): void => {
+		searchDateHandler(formattedSearchDate);
 	};
 
 	// TODO: mx-[-2rem] 속성없이 divider 꽉채우기
@@ -136,37 +90,12 @@ function CheckListScreen({
 			<Header title="내 할일 점검" />
 
 			<main className=" mx-[-2rem] pt-[7.2rem] ">
-				<div className="space-y-[2rem] px-[2rem] pb-[1.2rem]  bg-w ">
-					<span className="text-g10 text-subhead4">{getDateTitle()}</span>
-					<div className="text-g8 space-y-[1.6rem]">
-						<ul className="grid grid-cols-7 text-g10 text-center text-body1 ">
-							{['일', '월', '화', '수', '목', '금', '토'].map((w) => (
-								<li key={w} className="first:text-g7  last:text-g7">
-									{w}
-								</li>
-							))}
-						</ul>
-						<ul className="grid grid-cols-7 text-center text-body2 ">
-							{getWeekDateList().map((w, index) => (
-								<li key={index} className="first:text-g7 text-g10 last:text-g7">
-									<button
-										name="searchDate"
-										value={w}
-										data-weekidx={index}
-										onClick={setSearchDateHandler}
-										aria-pressed={+searchDate.split('-')[2] === +w}
-										className={`aria-pressed:bg-primary aria-pressed:text-w ${getButtonStyle(
-											index,
-											w
-										)}  w-[3.4rem] h-[3.4rem] rounded-[0.8rem]`}
-									>
-										{w}
-									</button>
-								</li>
-							))}
-						</ul>
-					</div>
-				</div>
+				<WeekCalandar
+					weekState={weekState}
+					searchDate={searchDate}
+					todayString={todayString}
+					onSearchDateChange={setSearchDateHandler}
+				/>
 
 				<div className=" overflow-x-hidden px-[2rem]    relative">
 					<Divider />
