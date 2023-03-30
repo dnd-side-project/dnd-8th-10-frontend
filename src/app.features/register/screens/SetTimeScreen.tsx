@@ -1,36 +1,36 @@
 import React, { BaseSyntheticEvent, useState } from 'react';
 import DayButton from 'src/app.features/register/components/DayButton';
 import OpenSetTimeModalButtons from 'src/app.components/Button/OpenSetTimeModalButtons';
-import { mappedDay, DayType, TimeType, WorkTimeType } from 'src/app.modules/types/workTime';
+import {
+	dayMap,
+	DayNumType,
+	WorkTimeInfoType,
+	CommuteType,
+	WeekWorkTimeType,
+	WorkTimeOnModalType,
+} from 'src/app.modules/types/workTime';
 import useModal from 'src/app.modules/hooks/useModal';
 import SetWorkTimeModal from 'src/app.components/Modal/SetWorkTimeModal';
 import RegisterLayout from '../components/RegisterLayout';
-import useRegisterUserStore, { INIT_WORKTIME } from '../store';
+import useRegisterUserStore from '../store';
 
 // TODO: 시간 유효성체크 (끝나는 시간이 시작하는 시간보다 빠른지)
 // TODO: 오전 0시 24시로 표기
-type Flag = TimeType | null;
 
-// TODO: 이름 바꾸기
-export type WorkTimeOnModalType = {
-	meridiem: 'am' | 'pm' | null;
-	hour: string | null;
-	minute: string | null;
-};
 function SetTimeScreen() {
-	const [selectedDay, setSelectedDay] = useState<DayType>();
+	const [selectedDay, setSelectedDay] = useState<DayNumType>();
 	const {
 		userForm: { workTimeObj },
 		setTime,
 	} = useRegisterUserStore();
 
-	const [openModalFlag, setOpenModalFlag] = useState<Flag>(null);
-	const { isModalOpen, closeAnimationModal, closeModal, openModal } = useModal();
+	const [openModalFlag, setOpenModalFlag] = useState<CommuteType | null>(null);
+	const { isModalOpen, closeAnimationModal, openModal } = useModal();
 	const INIT_WORK_TIME = {
 		meridiem: null,
 		hour: null,
 		minute: null,
-	} as WorkTimeOnModalType;
+	};
 	const [workTimeOnModal, setWorkTimeOnModal] = useState<WorkTimeOnModalType>(INIT_WORK_TIME);
 	const timeOnModalHandler = (e: React.BaseSyntheticEvent): void => {
 		const {
@@ -51,11 +51,11 @@ function SetTimeScreen() {
 			...(workTimeObj ?? {}),
 			[selectedDay]: {
 				...workTimeObj?.[selectedDay],
-				[openModalFlag as TimeType]: {
+				[openModalFlag as CommuteType]: {
 					...workTimeOnModal,
 				},
 			},
-		} as WorkTimeType;
+		} as WeekWorkTimeType;
 
 		setTime(updatedWorkTime);
 		setOpenModalFlag(null);
@@ -67,7 +67,7 @@ function SetTimeScreen() {
 		}
 		setSelectedDay(e.target.value);
 	};
-	const resetTimeHandler = (flag: TimeType): void => {
+	const resetTimeHandler = (flag: CommuteType): void => {
 		if (!selectedDay) return;
 		const temp = { ...workTimeObj?.[selectedDay] };
 		delete temp[flag];
@@ -76,18 +76,18 @@ function SetTimeScreen() {
 			[selectedDay]: {
 				...temp,
 			},
-		} as WorkTimeType;
+		} as WeekWorkTimeType;
 		setTime(updatedWorkTime);
 	};
-	const openSetTimeModalHandler = (flag: TimeType): void => {
+	const openSetTimeModalHandler = (flag: CommuteType): void => {
 		if (!selectedDay) return;
 		setOpenModalFlag(flag);
 		openModal();
 		setIsAlertPop(false);
-		const newWorkTimeOnModal = workTimeObj?.[selectedDay]?.[flag as TimeType] ?? INIT_WORK_TIME;
+		const newWorkTimeOnModal = workTimeObj?.[selectedDay]?.[flag] ?? INIT_WORK_TIME;
 		setWorkTimeOnModal(newWorkTimeOnModal);
 	};
-
+	const DAY_NUM_LIST: DayNumType[] = ['6', '0', '1', '2', '3', '4', '5'];
 	return (
 		<RegisterLayout curPage={3} canGoNext={Boolean(workTimeObj)} guideMessage="일하는 요일별 근무시간을 알려주세요">
 			{/* TODO: 다음으로 넘어가는 조건 다시 지정 (더 자세하게) */}
@@ -97,12 +97,12 @@ function SetTimeScreen() {
 						<h2 className="text-g6 text-body2">근무요일(복수선택 가능)</h2>
 						<ul className="grid  grid-cols-7 max-w-[31rem] ml-[0.5rem] ">
 							{/* TODO: 간격 화면 크기별로 대응 */}
-							{['6', '0', '1', '2', '3', '4', '5'].map((item, index) => (
+							{DAY_NUM_LIST.map((item, index) => (
 								<li key={index} className="mx-auto">
 									<DayButton
 										name="day"
 										value={item}
-										item={mappedDay[item as DayType]}
+										item={dayMap.get(item) ?? ''}
 										onClick={(e) => {
 											// 하나만 입력되어 있으면
 											if (
@@ -110,15 +110,12 @@ function SetTimeScreen() {
 												workTimeObj?.[selectedDay] &&
 												Object.keys(workTimeObj?.[selectedDay]).length === 1
 											) {
-												console.log(workTimeObj?.[selectedDay]);
 												setIsAlertPop(true);
 												return;
 											}
 											selectedDayHandler(e);
 										}}
-										state={
-											selectedDay === item ? 'focus' : `${workTimeObj?.[item as DayType] ? 'selected' : 'default'}`
-										}
+										state={selectedDay === item ? 'focus' : `${workTimeObj?.[item] ? 'selected' : 'default'}`}
 									/>
 								</li>
 							))}

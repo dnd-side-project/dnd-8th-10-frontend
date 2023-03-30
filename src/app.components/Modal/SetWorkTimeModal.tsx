@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import SetTimeButtons from 'src/app.components/Button/SetTimeButtons';
-import { TimeType } from 'src/app.modules/types/workTime';
-import { WorkTimeOnModalType } from '../../app.features/mypage/screens/WorkTimeSettingScreen';
+import { CommuteType, WorkTimeOnModalType } from 'src/app.modules/types/workTime';
 
 interface Props {
 	closeModal: () => void;
 	onDone: () => void;
 	time: WorkTimeOnModalType;
 	onTimeChange: (e: React.BaseSyntheticEvent) => void;
-	openModalFlag: TimeType | null;
+	openModalFlag: CommuteType | null;
 }
 // TODO: 모달 대통합 이루기
 function SetWorkTimeModal({ closeModal, onDone, onTimeChange, time, openModalFlag }: Props) {

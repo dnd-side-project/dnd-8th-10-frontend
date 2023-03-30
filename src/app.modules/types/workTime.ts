@@ -1,6 +1,7 @@
-export type TimeType = 'startTime' | 'endTime';
-
-export const dayMap = new Map([
+// 월,화,수,목,금,토,일 순서로 정렬을 위해 일요일을 6으로 표기. js Date 객체와 관련 없음
+export type DayNumType = '0' | '1' | '2' | '3' | '4' | '5' | '6';
+export type DayTextType = '월' | '화' | '수' | '목' | '금' | '토' | '일';
+export const dayMap = new Map<DayNumType, DayTextType>([
 	['0', '월'],
 	['1', '화'],
 	['2', '수'],
@@ -9,7 +10,7 @@ export const dayMap = new Map([
 	['5', '토'],
 	['6', '일'],
 ]);
-export const dayMapReverse = new Map([
+export const dayMapReverse = new Map<DayTextType, DayNumType>([
 	['월', '0'],
 	['화', '1'],
 	['수', '2'],
@@ -19,41 +20,19 @@ export const dayMapReverse = new Map([
 	['일', '6'],
 ]);
 
-export type DayType = '0' | '1' | '2' | '3' | '4' | '5' | '6';
-export const mappedDay: { [key in DayType]: string } = {
-	'0': '월',
-	'1': '화',
-	'2': '수',
-	'3': '목',
-	'4': '금',
-	'5': '토',
-	'6': '일',
-};
-export const mappedDayReverse = {
-	월: '0',
-	화: '1',
-	수: '2',
-	목: '3',
-	금: '4',
-	토: '5',
-	일: '6',
-};
-export type TimeInfoType = {
-	meridiem: 'am' | 'pm' | null;
+export type WorkTimeInfoType = {
+	meridiem: 'am' | 'pm';
 	hour: string;
 	minute: string;
 };
-export type WorkTimeType = {
-	[day in DayType]: {
-		startTime: {
-			meridiem: 'am';
-			hour: '1';
-			minute: '0';
-		};
-		endTime: {
-			meridiem: 'am';
-			hour: '1';
-			minute: '0';
-		};
+export type CommuteType = 'startTime' | 'endTime';
+export type WeekWorkTimeType = {
+	[day in DayNumType]: {
+		[time in CommuteType]: WorkTimeInfoType;
 	};
+};
+export type WorkTimeOnModalType = {
+	meridiem: WorkTimeInfoType['meridiem'] | null;
+	hour: WorkTimeInfoType['hour'] | null;
+	minute: WorkTimeInfoType['minute'] | null;
 };

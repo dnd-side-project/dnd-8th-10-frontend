@@ -1,4 +1,4 @@
-import { dayMap, TimeInfoType, WorkTimeType } from '../types/workTime';
+import { dayMap, DayNumType, TimeInfoType, WeekWorkTimeType } from '../types/workTime';
 
 const timeFormatter = (timeObj: TimeInfoType): string => {
 	const { meridiem, hour, minute } = timeObj;
@@ -13,16 +13,16 @@ const timeFormatter = (timeObj: TimeInfoType): string => {
 };
 /**
  * 월(02:15~12:05),화(02:15~12:05) 형식으로 유저 정보에 등록된 주 전체 근무시간 정의
- * @param workTime 요일별 근무시간 WorkTimeType
+ * @param workTime 요일별 근무시간 WeekWorkTimeType
  * @return 월(02:15~11:05),화(02:15~10:05) 형식
  */
-export const getUserWeekWorkTimeString = (workTime: WorkTimeType): string => {
+export const getUserWeekWorkTimeString = (workTime: WeekWorkTimeType): string => {
 	try {
 		return Object.entries(workTime)
 			.sort(([a], [b]) => (a < b ? -1 : 1))
 			.map(([day, time]) => {
 				const { startTime, endTime } = time;
-				return `${dayMap.get(day)}(${timeFormatter(startTime)}~${timeFormatter(endTime)})`;
+				return `${dayMap.get(day as DayNumType)}(${timeFormatter(startTime)}~${timeFormatter(endTime)})`;
 			})
 			.toString();
 	} catch (e) {

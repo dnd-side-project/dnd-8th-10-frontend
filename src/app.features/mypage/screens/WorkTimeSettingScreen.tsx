@@ -7,7 +7,7 @@ import Overlay from 'src/app.components/Modal/Overlay';
 import TopModal from 'src/app.components/Modal/TopModal';
 import DayButton from 'src/app.features/register/components/DayButton';
 import { MutateTpye } from 'src/app.modules/api/client';
-import { mappedDay, dayMapReverse, DayType, TimeType, WorkTimeType } from 'src/app.modules/types/workTime';
+import { dayMap, dayMapReverse, DayType, TimeType, WorkTimeType } from 'src/app.modules/types/workTime';
 import { getUserWeekWorkTimeString } from 'src/app.modules/util/getWorkTimeString';
 import DeleteIcon from 'src/app.modules/assets/delete.svg';
 import useModal from 'src/app.modules/hooks/useModal';
@@ -149,7 +149,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 									<DayButton
 										name="day"
 										value={item}
-										item={mappedDay[item as DayType]}
+										item={dayMap.get(item)}
 										onClick={(e) => {
 											// 하나만 입력되어 있으면
 											if (

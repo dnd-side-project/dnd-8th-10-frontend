@@ -1,8 +1,8 @@
 import { IUser } from 'src/app.modules/types/user';
-import { WorkTimeType } from 'src/app.modules/types/workTime';
+import { WeekWorkTimeType } from 'src/app.modules/types/workTime';
 import create from 'zustand';
 
-type UserFormType = Partial<IUser> & { workTimeObj?: WorkTimeType }; // workTime -> 가공 전 상태
+type UserFormType = Partial<IUser> & { workTimeObj?: WeekWorkTimeType }; // workTime -> 가공 전 상태
 
 interface IState {
 	userForm: UserFormType;
@@ -17,7 +17,7 @@ interface IState {
 
 const initUserForm: UserFormType = {};
 // TODO: 이름 다시 짓기
-export const INIT_WORKTIME = {} as WorkTimeType;
+export const INIT_WORKTIME = {} as WeekWorkTimeType;
 
 const useRegisterUserStore = create<IState>((set) => ({
 	userForm: initUserForm,

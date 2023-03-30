@@ -1,16 +1,16 @@
 import React from 'react';
-import { DayType, mappedDay, TimeType } from 'src/app.modules/types/workTime';
+import { CommuteType, dayMap, DayNumType } from 'src/app.modules/types/workTime';
 import InputCancelIcon from 'src/app.modules/assets/inputCancel.svg';
 
 interface Props {
-	openSetTimeModalHandler: (flag: TimeType) => void;
+	openSetTimeModalHandler: (flag: CommuteType) => void;
 	isStartTimeSet: boolean;
 	isEndTimeSet: boolean;
-	focusedType?: TimeType | null;
+	focusedType?: CommuteType | null;
 	startTimeText: string;
 	endTimeText: string;
-	resetTimeHandler: (flag: TimeType) => void;
-	day?: DayType;
+	resetTimeHandler: (flag: CommuteType) => void;
+	day?: DayNumType;
 	isAlertPop?: boolean;
 }
 function OpenSetTimeModalButtons({
@@ -46,7 +46,7 @@ function OpenSetTimeModalButtons({
 									: 'text-g7 top-[1.4rem]  left-[1.2rem]'
 							}`}
 						>
-							{day && `${mappedDay[day]}요일 `}출근시간
+							{day && `${dayMap.get(day)}요일 `}출근시간
 						</span>
 					) : (
 						<span
@@ -90,7 +90,7 @@ function OpenSetTimeModalButtons({
 									: 'text-g7 top-[1.4rem]  left-[1.2rem]'
 							}`}
 						>
-							{day && `${mappedDay[day]}요일 `}퇴근시간
+							{day && `${dayMap.get(day)}요일 `}퇴근시간
 						</span>
 					) : (
 						<span
