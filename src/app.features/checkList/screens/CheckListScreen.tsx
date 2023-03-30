@@ -4,8 +4,6 @@ import Header from 'src/app.components/Header';
 import { MutateTpye } from 'src/app.modules/api/client';
 import SettingIcon from 'src/app.modules/assets/checklist/ellipsis.svg';
 import EmptyGraphic from 'src/app.modules/assets/checklist/emptyGraphic.svg';
-import AddTodoIcon from 'src/app.modules/assets/checklist/addTodo.svg';
-import AddTodoDecoIcon from 'src/app.modules/assets/checklist/addInputDeco.svg';
 import { formatDate } from 'src/app.modules/util/formatDate';
 import Divider from 'src/app.components/Divider';
 import { getCookie } from 'src/app.modules/cookie';
@@ -16,6 +14,7 @@ import { getWeekDateList } from '../utils/getWeekDateList';
 import { getKoreaTodayDateInfo } from '../utils/getKoreaTodayDateInfo';
 import NewbieGuide from '../components/NewbieGuide';
 import TodoForm from '../components/TodoForm';
+import AddTodo from '../components/AddTodo';
 
 interface Props {
 	isChecklistFetched: boolean;
@@ -48,23 +47,22 @@ function CheckListScreen({
 	isChecklistFetched,
 }: Props) {
 	const { year, month, date, day } = getKoreaTodayDateInfo();
-	const [addTodoInputOpen, setAddTodoInputOpen] = useState<boolean>(false);
+
 	const [editTodoInputOpenIdx, setEditTodoInputOpenIdx] = useState<number | null>(null);
 
 	const addTodoHandler = (newTodo: string) => {
 		if (postChecklistLoading) return;
 		if (!newTodo.trim()) return;
+		const status: ICheckList['status'] = 'N';
 		const body = {
 			date: searchDate,
 			content: newTodo,
-			status: 'N' as 'Y' | 'N',
+			status,
 		};
 
 		postChecklist(body);
 	};
-	const cancelAddTodoHandler = () => {
-		setAddTodoInputOpen(false);
-	};
+
 	const todoCheckStateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const {
 			target: {
@@ -186,29 +184,7 @@ function CheckListScreen({
 
 					{isChecklistFetched && isWorkDay ? (
 						<div className=" text-subhead2 space-y-[1.6rem] py-[2.4rem]  relative ">
-							<div className="w-full bg-white ">
-								<button
-									onClick={() => setAddTodoInputOpen(true)}
-									aria-hidden={addTodoInputOpen}
-									className="aria-hidden:hidden  flex items-center text-g7 space-x-[1rem]"
-								>
-									<AddTodoIcon />
-									<span>항목 추가하기</span>
-								</button>
-								{addTodoInputOpen && (
-									<div className="flex items-center space-x-[1rem]">
-										<div>
-											<AddTodoDecoIcon />
-										</div>
-										<TodoForm
-											onSubmit={addTodoHandler}
-											isHidden={!addTodoInputOpen}
-											onBlur={() => setAddTodoInputOpen(false)}
-											onTrashClick={cancelAddTodoHandler}
-										/>
-									</div>
-								)}
-							</div>
+							<AddTodo onAddTodo={addTodoHandler} />
 							<ul className=" text-g9 space-y-[1.6rem]  ">
 								{checklist?.map((todo, index) => (
 									<li key={todo.checkIdx ?? index} className="flex justify-between w-full ">
