@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Header from 'src/app.components/Header';
 import InfoBox from 'src/app.components/InfoBox';
 import ProfileImage from 'src/app.components/ProfileImage';
 import FilterButtons from '../components/FilterButtons';
-import { InventoryHistoryType, InvetoryFilterType, mappedInventoryFilter } from '../types';
+import { IInventory, InventoryHistoryType, InvetoryFilterType, mappedInventoryFilter } from '../types';
 
 interface Props {
 	inventoryHistory: InventoryHistoryType[];
 	filter: InvetoryFilterType;
-	filterHandler: (e: React.BaseSyntheticEvent) => void;
+	onFilterChange: (e: React.BaseSyntheticEvent) => void;
 }
 
-function InventoryHistoryScreen({ inventoryHistory, filterHandler, filter }: Props) {
-	const getInventoryImage = (category: string) => {
-		if (category === 'cigarette') return "before:content-[url('/images/checklist/history/CIGARETTE.svg')] ";
-		if (category === 'garbagebag') return "before:content-[url('/images/checklist/history/GARBAGEBAG.svg')] ";
+function InventoryHistoryScreen({ inventoryHistory, onFilterChange, filter }: Props) {
+	const getInventoryImage = (category: IInventory['category']) => {
+		if (category === 'CIGARETTE') return "before:content-[url('/images/checklist/history/CIGARETTE.svg')] ";
+		if (category === 'GARBAGEBAG') return "before:content-[url('/images/checklist/history/GARBAGEBAG.svg')] ";
 		return "before:content-[url('/images/checklist/history/GIFTCARD.svg')] ";
 	};
 
@@ -25,7 +25,7 @@ function InventoryHistoryScreen({ inventoryHistory, filterHandler, filter }: Pro
 			<main className="pb-[1.6rem] text-subhead1  text-g9 relative ">
 				<div className="sticky w-full pb-[1.6rem] top-0 z-[50] pt-[7.2rem] bg-w">
 					<FilterButtons
-						filterHandler={filterHandler}
+						filterHandler={onFilterChange}
 						selectedFilter={filter}
 						filters={Object.keys(mappedInventoryFilter)}
 					/>
@@ -50,11 +50,7 @@ function InventoryHistoryScreen({ inventoryHistory, filterHandler, filter }: Pro
 												className={`flex
 											items-center justify-between  `}
 											>
-												<div
-													className={`${getInventoryImage(
-														record.category as string
-													)} flex items-center before:mr-[0.8rem]`}
-												>
+												<div className={`${getInventoryImage(record.category)} flex items-center before:mr-[0.8rem]`}>
 													<span>{record.inventoryName}</span>
 												</div>
 												<span>

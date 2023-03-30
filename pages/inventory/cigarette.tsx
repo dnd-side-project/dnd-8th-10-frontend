@@ -10,8 +10,9 @@ import {
 	putInventory,
 } from 'src/app.modules/api/inventory';
 import useModal from 'src/app.modules/hooks/useModal';
+import { NextPage } from 'next';
 
-function CigaretteInventory() {
+const CigaretteInventory: NextPage = () => {
 	const { isModalOpen: isSavePopupOpen, openModal: openSavePopup, closeModal: closeSavePopup } = useModal();
 	const { isModalOpen: isAddPopupOpen, openModal: openAddPopup, closeModal: closeAddPopup } = useModal();
 	const { data: cigaretteList, refetch } = useQuery(['inventory', 'cigarette'], () => getInventory('CIGARETTE'), {
@@ -40,7 +41,7 @@ function CigaretteInventory() {
 		},
 		onError: (error) => alert('오류 발생.'),
 	});
-	const { mutate: editInventory, isLoading: editInventoryLoading } = useMutation(putInventory, {
+	const { mutate: editInventory } = useMutation(putInventory, {
 		onSuccess: (res) => {
 			refetch();
 			openSavePopup();
@@ -50,7 +51,7 @@ function CigaretteInventory() {
 		},
 		onError: (error) => alert('오류 발생.'),
 	});
-	const { mutate: deleteInventoryMutate, isLoading: deleteInventoryLoading } = useMutation(deleteInventory, {
+	const { mutate: deleteInventoryMutate } = useMutation(deleteInventory, {
 		onSuccess: (res) => {
 			refetch();
 		},
@@ -67,11 +68,10 @@ function CigaretteInventory() {
 				addCigarette={addCigarette}
 				addCigaretteLoading={addCigaretteLoading}
 				editInventory={editInventory}
-				editInventoryLoading={editInventoryLoading}
 				deleteInventoryMutate={deleteInventoryMutate}
 			/>
 		</>
 	);
-}
+};
 
 export default CigaretteInventory;

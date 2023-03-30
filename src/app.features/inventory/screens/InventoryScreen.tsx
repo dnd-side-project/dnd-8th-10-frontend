@@ -5,15 +5,14 @@ import Divider from 'src/app.components/Divider';
 import Header from 'src/app.components/Header';
 import InfoBox from 'src/app.components/InfoBox';
 import ProfileImage from 'src/app.components/ProfileImage';
-
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
-import { InventoryHistoryType } from '../types';
+import { InventoryHistoryType, InvetoryFilterType } from '../types';
 
 interface Props {
 	inventoryHistory: InventoryHistoryType[];
 }
 function InventoryScreen({ inventoryHistory }: Props) {
-	const LINKS = [
+	const LINKS: { name: InvetoryFilterType; imageRender: string; url: string }[] = [
 		{
 			name: '담배',
 			imageRender: "before:content-[url('/images/inventory/cigarette.svg')]",
@@ -30,7 +29,6 @@ function InventoryScreen({ inventoryHistory }: Props) {
 			url: SERVICE_URL.inventoryCard,
 		},
 	];
-	console.log(inventoryHistory);
 	return (
 		<>
 			<Header title="시재 점검" />

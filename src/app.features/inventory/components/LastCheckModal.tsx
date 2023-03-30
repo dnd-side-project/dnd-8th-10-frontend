@@ -1,5 +1,4 @@
 import React from 'react';
-import Bar from 'src/app.components/app.base/Button/Bar';
 import Overlay from 'src/app.components/Modal/Overlay';
 import TopModal from 'src/app.components/Modal/TopModal';
 import { CountHistoryType } from '../types';

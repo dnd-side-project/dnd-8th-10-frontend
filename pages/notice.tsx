@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { NextPage } from 'next';
 import React from 'react';
-import { boardCheckCategory } from 'src/app.features/board/api';
 import AlarmScreen from 'src/app.features/home/screens/AlarmScreen';
 import { getAlarmList } from 'src/app.modules/api/alram';
 

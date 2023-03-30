@@ -4,8 +4,9 @@ import SmallPopup from 'src/app.components/Modal/SmallPopup';
 import GiftcardInventoryScreen from 'src/app.features/inventory/screens/GiftcardInventoryScreen';
 import { getInventory, getIsWorkTime, putInventory } from 'src/app.modules/api/inventory';
 import useModal from 'src/app.modules/hooks/useModal';
+import { NextPage } from 'next';
 
-function GiftCard() {
+const GiftCard: NextPage = () => {
 	const { isModalOpen: isPopupOpen, openModal: openPopup, closeModal: closePopup } = useModal();
 	// 200 or 404
 	const { status: workTimeStatus } = useQuery(['inventory', 'isWorkTime'], getIsWorkTime, {
@@ -24,7 +25,7 @@ function GiftCard() {
 		},
 	});
 
-	const { mutate: editInventory, isLoading: editInventoryLoading } = useMutation(putInventory, {
+	const { mutate: editInventory } = useMutation(putInventory, {
 		onSuccess: (res) => {
 			refetch();
 			openPopup();
@@ -42,10 +43,9 @@ function GiftCard() {
 				workTimeStatus={workTimeStatus}
 				inventoryList={inventoryList}
 				editInventory={editInventory}
-				editInventoryLoading={editInventoryLoading}
 			/>
 		</>
 	);
-}
+};
 
 export default GiftCard;

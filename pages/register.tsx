@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { NextPage } from 'next';
 import Router, { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import CompleteSettingScreen from 'src/app.features/register/screens/CompleteSettingScreen';
 import SetPhoneNumScreen from 'src/app.features/register/screens/SetPhoneNumScreen';
 import SetStoreScreen from 'src/app.features/register/screens/SetWorkPlaceScreen';
