@@ -8,7 +8,7 @@ interface Props {
 	userRole: IUser['role'];
 	memberList: IUser[];
 }
-function MemberList({ userRole, memberList }: Props) {
+function StoreMemberList({ userRole, memberList }: Props) {
 	return (
 		<div className="space-y-[0.8rem]">
 			<span className=" text-g6 text-subhead1">{userRole === 'MANAGER' ? '점장' : '알바생'}</span>
@@ -48,4 +48,4 @@ function MemberList({ userRole, memberList }: Props) {
 	);
 }
 
-export default MemberList;
+export default StoreMemberList;

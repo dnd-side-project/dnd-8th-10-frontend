@@ -5,7 +5,7 @@ import InfoBox from 'src/app.components/InfoBox';
 import StoreIcon from 'src/app.modules/assets/mypage/store.svg';
 import { getBrandAndBranchString } from 'src/app.modules/util/getBrandAndBranchString';
 import { IStore } from '../types';
-import MemberList from '../components/StoreMemberList';
+import StoreMemberList from '../components/StoreMemberList';
 
 interface Props {
 	store: IStore;
@@ -28,8 +28,11 @@ function MyStoreScreen({ store }: Props) {
 				<div className=" px-[2rem]">
 					<Divider />
 					<div className="py-[2.4rem] space-y-[2.4rem]">
-						<MemberList userRole="MANAGER" memberList={store?.userList?.filter((item) => item.role === 'MANAGER')} />
-						<MemberList userRole="WORKER" memberList={store?.userList?.filter((item) => item.role === 'WORKER')} />
+						<StoreMemberList
+							userRole="MANAGER"
+							memberList={store?.userList?.filter((item) => item.role === 'MANAGER')}
+						/>
+						<StoreMemberList userRole="WORKER" memberList={store?.userList?.filter((item) => item.role === 'WORKER')} />
 					</div>
 				</div>
 			</main>
