@@ -1,6 +1,6 @@
-import { dayMap, DayNumType, TimeInfoType, WeekWorkTimeType } from '../types/workTime';
+import { dayMap, DayNumType, WeekWorkTimeType, WorkTimeInfoType } from '../types/workTime';
 
-const timeFormatter = (timeObj: TimeInfoType): string => {
+const timeFormatter = (timeObj: WorkTimeInfoType): string => {
 	const { meridiem, hour, minute } = timeObj;
 	// eslint-disable-next-line no-nested-ternary
 	let resHour: string = meridiem === 'am' ? (+hour < 10 ? `0${+hour}` : hour) : `${+hour + 12}`;
@@ -33,10 +33,10 @@ export const getUserWeekWorkTimeString = (workTime: WeekWorkTimeType): string =>
 
 /**
  * 근무시간  함수 포맷함수(for calendar)
- * @param startTime 출근시간 TimeInfoType
- * @param endTime 퇴근시간 TimeInfoType
+ * @param startTime 출근시간 WorkTimeInfoType
+ * @param endTime 퇴근시간 WorkTimeInfoType
  * @return 02:15~12:05 형식
  */
-export const getWorkTimeString = (startTime: TimeInfoType, endTime: TimeInfoType): string => {
+export const getWorkTimeString = (startTime: WorkTimeInfoType, endTime: WorkTimeInfoType): string => {
 	return `${timeFormatter(startTime)}~${timeFormatter(endTime)}`;
 };

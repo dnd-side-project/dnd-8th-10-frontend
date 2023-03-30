@@ -14,10 +14,7 @@ interface TempProps {
 
 function Button({ onClick, onReset, isFocused, isAlertPop, isSet, timeText, dayText }: TempProps) {
 	return (
-		<div
-			className={`  bg-g1
-			 w-full h-[4.8rem] rounded-[0.8rem]  text-body2  text-start  relative flex items-center`}
-		>
+		<div className="bg-g1 w-full h-[4.8rem] rounded-[0.8rem]  text-body2  text-start  relative flex items-center">
 			<button
 				onClick={onClick}
 				name="Set Time"
