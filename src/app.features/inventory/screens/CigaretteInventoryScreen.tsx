@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import Header from 'src/app.components/Header';
 import SearchInput from 'src/app.components/app.base/Input/SearchInput';
 import { MutateTpye } from 'src/app.modules/api/client';
-import Overlay from 'src/app.components/Modal/Overlay';
 import useModal from 'src/app.modules/hooks/useModal';
-import Modal from 'src/app.components/Modal/Modal';
-import { useRouter } from 'next/router';
 import { PostCigaretteBodyType, PutInventoryBodyType } from 'src/app.modules/api/inventory';
 import FilterButtons from '../components/FilterButtons';
 import CigaretteList from '../components/CigaretteList';
@@ -15,8 +11,7 @@ import { IInventory } from '../types';
 import InventoryCommonBottom from '../components/InventoryCommonFlow/InventoryCommonBottom';
 import { ChoType, CHO_BUTTONS } from '../types/ciga';
 import { getInitialSound } from '../utils/getInitialSound';
-
-// TODO: 타입 한 파일에 정리해 두기
+import InventoryHeader from '../components/InventoryHeader';
 
 interface Props {
 	inventoryList: IInventory[];
@@ -36,25 +31,14 @@ function CountCigaretteScreen({
 	deleteInventoryMutate,
 	workTimeStatus,
 }: Props) {
-	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
+	const { countHistory, changeDiffHandler, isModified } = useCountHistory(inventoryList);
 
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [searchCho, setSearchCho] = useState<ChoType>('전체');
 	const [newCiga, setNewCiga] = useState<string>('');
-	const [isSaveBtnClicked, setIsSaveBtnClicked] = useState(false);
+
 	const { isModalOpen: isAddModalOpen, closeAnimationModal: closeAddModal, openModal: openAddModal } = useModal();
-	const {
-		isModalOpen: isBackAlertModalOpen,
-		closeModal: closeBackAlertModal,
-		openModal: openBackAlertModal,
-	} = useModal();
-	const router = useRouter();
-	const goBackHandler = () => {
-		// Object.keys(countHistory).length &&
-		if (workTimeStatus !== 'error' && !isSaveBtnClicked) {
-			openBackAlertModal();
-		} else router.back();
-	};
+
 	const onSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value);
 	};
@@ -64,7 +48,6 @@ function CountCigaretteScreen({
 	const clearSearchTerm = () => {
 		setSearchTerm('');
 	};
-
 	const submitInventoryRecord = () => {
 		const list = Object.keys(countHistory).map((inventoryName) => ({
 			inventoryName,
@@ -73,7 +56,6 @@ function CountCigaretteScreen({
 		const category: IInventory['category'] = 'GIFTCARD';
 		const body = { category, list };
 		editInventory(body);
-		setIsSaveBtnClicked(true);
 	};
 	const submitNewCigarette = () => {
 		if (addCigaretteLoading) return;
@@ -98,11 +80,11 @@ function CountCigaretteScreen({
 	};
 	return (
 		<>
-			<Header title="담배" onBack={goBackHandler}>
+			<InventoryHeader title="담배" isNeedAlert={isModified}>
 				<button onClick={openAddModalHandler} className="text-primary text-subhead2">
 					항목추가
 				</button>
-			</Header>
+			</InventoryHeader>
 
 			<main className="overflow-y-scroll scrollbar-hidden h-full bg-w  text-g9 relative">
 				<div className="space-y-[1.2rem] sticky top-0 pt-[7.2rem]  pb-[1.6rem] bg-w z-[50]">
@@ -142,23 +124,6 @@ function CountCigaretteScreen({
 					/>
 				)}
 			</main>
-			{isBackAlertModalOpen && (
-				<Overlay
-					overlayClickFn={() => {
-						closeBackAlertModal();
-					}}
-				>
-					<Modal
-						iconView
-						title="시재점검을 종료하시는건가요?"
-						subTitle="점검 중인 내용이 저장되지 않습니다"
-						yesFn={() => router.back()}
-						yesTitle="종료"
-						noFn={closeBackAlertModal}
-						noTitle="아니오"
-					/>
-				</Overlay>
-			)}
 		</>
 	);
 }

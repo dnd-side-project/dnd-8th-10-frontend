@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useCountHistory from '../../hooks/useCountHistory';
 import { CountHistoryType, IInventory } from '../../types';
 import InventoryList from '../InventoryList';
@@ -8,10 +8,15 @@ interface Props {
 	inventoryList: IInventory[];
 	workTimeStatus: string;
 	onInventoryRecordSubmit: (countHistory: CountHistoryType) => void;
+	onModified: () => void;
 }
-function InventoryCommonFlow({ inventoryList, workTimeStatus, onInventoryRecordSubmit }: Props) {
-	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
-
+function InventoryCommonFlow({ inventoryList, workTimeStatus, onInventoryRecordSubmit, onModified }: Props) {
+	const { countHistory, changeDiffHandler, isModified } = useCountHistory(inventoryList);
+	useEffect(() => {
+		if (isModified) {
+			onModified();
+		}
+	}, [isModified]);
 	return (
 		<>
 			{inventoryList && (
