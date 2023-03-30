@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Bar from 'src/app.components/app.base/Button/Bar';
 import { KAKAO_OAUTH2_URL } from 'src/app.features/login/constants';
 import KaKaoIcon from 'src/app.modules/assets/login/kakao.svg';
@@ -6,20 +6,22 @@ import KaKaoIcon from 'src/app.modules/assets/login/kakao.svg';
 import lottie from 'lottie-web';
 import loginJson from 'public/lottie/login2.json';
 
-function Jsontest3() {
+function LoginJson() {
+	const containerRef = useRef<HTMLDivElement>(null);
 	useEffect(() => {
-		const container = document.querySelector('#container3');
-		if (!container) return;
+		const $container = containerRef.current;
+		if ($container === null) return;
 		lottie.loadAnimation({
-			container,
+			container: $container,
 			renderer: 'svg',
 			loop: true,
 			autoplay: true,
 			animationData: loginJson,
 		});
 	}, []);
-	return <div id="container3" className="w-full " />;
+	return <div ref={containerRef} />;
 }
+
 function LoginScreen() {
 	return (
 		<div className="h-full relative">
@@ -31,7 +33,7 @@ function LoginScreen() {
 					<br />
 					일하러 가볼까요?
 				</h1>
-				<Jsontest3 />
+				<LoginJson />
 			</div>
 			<div className="absolute w-full  bottom-[2rem]">
 				<Bar bgColor="bg-[#FAE64D]">
@@ -49,10 +51,3 @@ function LoginScreen() {
 }
 
 export default LoginScreen;
-/*
-
-	<Bar>
-				<a href={KAKAO_OAUTH2_URL}>테스트용 카카오로그인 버튼</a>
-			</Bar>
-
-*/
