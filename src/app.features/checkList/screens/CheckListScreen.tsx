@@ -13,41 +13,8 @@ import { getCookie } from 'src/app.modules/cookie';
 import { COOKIE_KEY } from 'src/app.modules/constants/Cookie';
 import { PostCheckListBodyType, PutCheckListBodyType } from 'src/app.modules/api/checklist';
 import { ICheckList } from '../\btypes';
-
-const getKoreaToday = () => {
-	const DATE = new Date(); // 현재 날짜(로컬 기준) 가져오기
-	const utc = DATE.getTime() + DATE.getTimezoneOffset() * 60 * 1000; // utc 표준시 도출
-	const kstGap = 9 * 60 * 60 * 1000; // 한국 kst 기준시간 더하기
-	const today = new Date(utc + kstGap); // 한국 시간으로 date 객체 만들기(오늘)
-	const year = today.getFullYear();
-	const month = today.getMonth() + 1;
-	const date = today.getDate();
-	const day = today.getDay();
-	return {
-		year,
-		month,
-		date,
-		day,
-	};
-};
-const getPrevMonthLastDayInfo = (curYear: number, curMonth: number) => {
-	// getDay() -> 월요일이 1번
-	// 이전 달의 마지막 날 날짜와 요일 구하기
-	const lastDay = new Date(curYear, curMonth - 1, 0);
-	const prevMonthLastDate = lastDay.getDate();
-	const prevMonthLastDay = lastDay.getDay();
-	return {
-		prevMonthLastDate,
-		prevMonthLastDay,
-	};
-};
-const getCurMonthLastDayInfo = (curYear: number, curMonth: number) => {
-	const lastDay = new Date(curYear, curMonth, 0);
-	const curMonthLastDate = lastDay.getDate();
-	return {
-		curMonthLastDate,
-	};
-};
+import { getWeekDateList } from '../utils/getWeekDateList';
+import { getKoreaTodayDateInfo } from '../utils/getKoreaTodayDateInfo';
 
 interface Props {
 	isChecklistFetched: boolean;
@@ -79,35 +46,11 @@ function CheckListScreen({
 	isWorkDay,
 	isChecklistFetched,
 }: Props) {
-	const { year, month, date, day } = getKoreaToday();
+	const { year, month, date, day } = getKoreaTodayDateInfo();
 	const [addTodoInputOpen, setAddTodoInputOpen] = useState<boolean>(false);
 	const [editTodoInputOpenIdx, setEditTodoInputOpenIdx] = useState<number | null>(null);
 	const [newTodo, setNewTodo] = useState<string>('');
-	const [selectedDateIdx, setSelectedDateIdx] = useState<number>(day === 6 ? 0 : day);
 	const [editContent, setEditContent] = useState<string>('');
-	const [isNewbie, setIsNewbie] = useState(getCookie(COOKIE_KEY.IS_NEWBIE));
-	const calcWeek = () => {
-		const { curMonthLastDate } = getCurMonthLastDayInfo(year, month);
-		const { prevMonthLastDate, prevMonthLastDay } = getPrevMonthLastDayInfo(year, month);
-		const DATE = date;
-		const DAY = day; // 일요일 처리
-		const res = [];
-		console.log(DAY, day, 'DAy');
-		for (let i = 0; i < DAY; i += 1) {
-			console.log(i);
-			if (DATE - (DAY - i) <= 0) {
-				res.push(prevMonthLastDate - (prevMonthLastDay - i));
-			} else res.push(DATE - (DAY - i));
-		}
-		res.push(DATE);
-		for (let i = 1; i < 7 - DAY; i += 1) {
-			if (DATE + i > curMonthLastDate) {
-				res.push(DATE + i - curMonthLastDate);
-			} else res.push(DATE + i);
-		}
-		return res;
-	};
-	const [week, setWeek] = useState<number[]>(calcWeek());
 
 	const addTodoHandler = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -188,7 +131,6 @@ function CheckListScreen({
 				value: selectedDate,
 			},
 		} = e;
-		setSelectedDateIdx(weekidx);
 		getSearchDateString(weekidx, selectedDate);
 		searchDateHandler(getSearchDateString(weekidx, selectedDate));
 	};
@@ -222,7 +164,7 @@ function CheckListScreen({
 							))}
 						</ul>
 						<ul className="grid grid-cols-7 text-center text-body2 ">
-							{week.map((w, index) => (
+							{getWeekDateList().map((w, index) => (
 								<li key={index} className="first:text-g7 text-g10 last:text-g7">
 									<button
 										name="searchDate"
@@ -254,7 +196,6 @@ function CheckListScreen({
 								<button
 									onClick={() => {
 										document.cookie = `${COOKIE_KEY.IS_NEWBIE}=false; max-age=-1 ;path=/;`;
-										setIsNewbie(false);
 									}}
 									className="text-primary w-full text-end"
 								>
@@ -370,8 +311,3 @@ function CheckListScreen({
 }
 
 export default CheckListScreen;
-/*
-
-
-
-*/
