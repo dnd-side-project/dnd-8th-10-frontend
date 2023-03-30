@@ -11,6 +11,7 @@ const timeFormatter = (timeObj: WorkTimeInfoType): string => {
 	const resMinute: string = +minute < 10 ? `0${+minute}` : minute;
 	return `${resHour}:${resMinute}`;
 };
+
 /**
  * 월(02:15~12:05),화(02:15~12:05) 형식으로 유저 정보에 등록된 주 전체 근무시간 정의
  * @param workTime 요일별 근무시간 WeekWorkTimeType
