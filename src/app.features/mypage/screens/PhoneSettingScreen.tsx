@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import TextInput from 'src/app.components/app.base/Input/TextInput';
 import InputInteractButton from 'src/app.components/Button/InputInteractButton';
 import Header from 'src/app.components/Header';
 import PhoneForm from 'src/app.components/UserForm/PhoneForm';
