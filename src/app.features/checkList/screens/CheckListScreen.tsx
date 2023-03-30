@@ -15,7 +15,6 @@ import WeekCalandar from '../components/WeekCalandar';
 
 interface Props {
 	isChecklistFetched: boolean;
-	todayString: string;
 	searchDate: string;
 	searchDateHandler: (searchDateString: string) => void;
 	checklist: ICheckList[];
@@ -29,7 +28,6 @@ interface Props {
 	isWorkDay: boolean;
 }
 function CheckListScreen({
-	todayString,
 	searchDate,
 	searchDateHandler,
 	checklist,
@@ -90,12 +88,7 @@ function CheckListScreen({
 			<Header title="내 할일 점검" />
 
 			<main className=" mx-[-2rem] pt-[7.2rem] ">
-				<WeekCalandar
-					weekState={weekState}
-					searchDate={searchDate}
-					todayString={todayString}
-					onSearchDateChange={setSearchDateHandler}
-				/>
+				<WeekCalandar weekState={weekState} searchDate={searchDate} onSearchDateChange={setSearchDateHandler} />
 
 				<div className=" overflow-x-hidden px-[2rem]    relative">
 					<Divider />

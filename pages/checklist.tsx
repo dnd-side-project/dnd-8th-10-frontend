@@ -9,22 +9,16 @@ import {
 	postCheckList,
 	putCheckList,
 } from 'src/app.modules/api/checklist';
-import { formatDate } from 'src/app.modules/util/formatDate';
+import { NextPage } from 'next';
+import { TODAY_STRING } from 'src/app.features/checkList/constants/todayString';
 
-function checkList() {
-	const todayDate = () => {
-		const today = new Date();
-		const year = today.getFullYear();
-		const month = today.getMonth() + 1;
-		const day = today.getDate();
-		return formatDate(year, month, day);
-	};
-
-	const [date, setDate] = useState<string>(todayDate());
+const checkList: NextPage = () => {
+	const [date, setDate] = useState<string>(TODAY_STRING);
 	const [localChecklist, setLocalChecklist] = useState<ICheckList[]>([]);
 	const searchDateHandler = (searchDateString: string) => {
 		setDate(searchDateString);
 	};
+
 	// TODO: useQueries로 데이터 병렬로 요청하기
 	const {
 		data: checklist,
@@ -108,7 +102,6 @@ function checkList() {
 		<CheckListScreen
 			isChecklistFetched={isChecklistFetched}
 			isWorkDay={checklist?.workDay}
-			todayString={todayDate()}
 			searchDate={date}
 			searchDateHandler={searchDateHandler}
 			checklist={localChecklist}
@@ -121,6 +114,6 @@ function checkList() {
 			deleteChecklistLoading={deleteChecklistLoading}
 		/>
 	);
-}
+};
 
 export default checkList;

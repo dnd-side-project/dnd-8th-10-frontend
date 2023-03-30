@@ -1,15 +1,15 @@
 import React from 'react';
 import { formatDate } from 'src/app.modules/util/formatDate';
+import { TODAY_STRING } from '../constants/todayString';
 import { getKoreaTodayDateInfo } from '../utils/getKoreaTodayDateInfo';
 import { getWeekDateList } from '../utils/getWeekDateList';
 
 interface Props {
 	weekState: boolean[];
 	searchDate: string;
-	todayString: string;
 	onSearchDateChange: (formattedSearchDate: string) => void;
 }
-function WeekCalandar({ weekState, searchDate, todayString, onSearchDateChange }: Props) {
+function WeekCalandar({ weekState, searchDate, onSearchDateChange }: Props) {
 	const { year, month, date, day } = getKoreaTodayDateInfo();
 	const getSearchDateString = (weekIdx: number, selectedDate: number) => {
 		const todayWeekIdx = day;
@@ -41,7 +41,7 @@ function WeekCalandar({ weekState, searchDate, todayString, onSearchDateChange }
 	};
 	const getDateButtonStyle = (weekIdx: number, selectedDate: number) => {
 		const todayStyle =
-			todayString === getSearchDateString(weekIdx, selectedDate) ? 'border-[0.15rem] border-primary' : '';
+			TODAY_STRING === getSearchDateString(weekIdx, selectedDate) ? 'border-[0.15rem] border-primary' : '';
 
 		if (weekState && weekState[weekIdx]) return `bg-primarySub text-primary ${todayStyle}`;
 		return '';
