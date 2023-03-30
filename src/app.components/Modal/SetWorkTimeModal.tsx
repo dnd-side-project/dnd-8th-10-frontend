@@ -5,14 +5,31 @@ import { CommuteType, WorkTimeOnModalType } from 'src/app.modules/types/workTime
 
 interface Props {
 	closeModal: () => void;
-	onDone: () => void;
-	time: WorkTimeOnModalType;
-	onTimeChange: (e: React.BaseSyntheticEvent) => void;
+	onDone: (workTimeOnModal: WorkTimeOnModalType) => void;
 	openModalFlag: CommuteType | null;
+	initWorkTime?: WorkTimeOnModalType;
 }
 // TODO: 모달 대통합 이루기
-function SetWorkTimeModal({ closeModal, onDone, onTimeChange, time, openModalFlag }: Props) {
+function SetWorkTimeModal({ closeModal, onDone, openModalFlag, initWorkTime }: Props) {
+	const INIT_WORK_TIME = {
+		meridiem: null,
+		hour: null,
+		minute: null,
+	};
 	const [isPop, setIsPop] = useState<boolean>();
+	const [workTimeOnModal, setWorkTimeOnModal] = useState<WorkTimeOnModalType>(initWorkTime ?? INIT_WORK_TIME);
+
+	// 출퇴근 시간 설정 모달 상에 시간 버튼 클릭 핸들러
+	const timeOnModalHandler = (e: React.BaseSyntheticEvent): void => {
+		const {
+			target: { name, value },
+		} = e;
+		const newValue = workTimeOnModal[name as keyof WorkTimeOnModalType] !== value ? value : null; // 기존에 눌려져 있었다면 not pressed 상태로 전환
+		setWorkTimeOnModal({
+			...workTimeOnModal,
+			[name]: newValue,
+		});
+	};
 	useEffect(() => {
 		setIsPop(true);
 	}, []);
@@ -43,12 +60,12 @@ function SetWorkTimeModal({ closeModal, onDone, onTimeChange, time, openModalFla
 						<span className="text-g10 text-subhead3">
 							언제 {openModalFlag === 'startTime' ? '출근' : '퇴근'}하시나요?
 						</span>
-						<SetTimeButtons timeHandler={onTimeChange} time={time} />
+						<SetTimeButtons timeHandler={timeOnModalHandler} time={workTimeOnModal} />
 
 						<Bar
 							ClickFn={() => {
 								setIsPop(false);
-								onDone();
+								onDone(workTimeOnModal);
 
 								closeModal();
 							}}

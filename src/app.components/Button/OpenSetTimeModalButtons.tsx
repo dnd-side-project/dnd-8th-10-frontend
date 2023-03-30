@@ -3,28 +3,25 @@ import { CommuteType, dayMap, DayNumType } from 'src/app.modules/types/workTime'
 import InputCancelIcon from 'src/app.modules/assets/inputCancel.svg';
 
 interface Props {
-	openSetTimeModalHandler: (flag: CommuteType) => void;
-	isStartTimeSet: boolean;
-	isEndTimeSet: boolean;
+	onOpenSetTimeModal: (flag: CommuteType) => void;
 	focusedType?: CommuteType | null;
 	startTimeText: string;
 	endTimeText: string;
-	resetTimeHandler: (flag: CommuteType) => void;
-	day?: DayNumType;
+	onResetTime: (flag: CommuteType) => void;
+	focusedDay?: DayNumType;
 	isAlertPop?: boolean;
 }
 function OpenSetTimeModalButtons({
-	openSetTimeModalHandler,
-	isStartTimeSet,
-	isEndTimeSet,
+	onOpenSetTimeModal,
 	startTimeText,
 	endTimeText,
-	resetTimeHandler,
+	onResetTime,
 	focusedType,
-	day,
+	focusedDay,
 	isAlertPop,
 }: Props) {
-	console.log('asdfasdfadfaas', focusedType);
+	const IS_STARTTIME_SET = Boolean(startTimeText.trim());
+	const IS_ENDTIME_SET = Boolean(endTimeText.trim());
 	return (
 		<div className="flex items-center space-x-[0.8rem] justify-between">
 			<div
@@ -32,13 +29,13 @@ function OpenSetTimeModalButtons({
 				 w-full h-[4.8rem] rounded-[0.8rem]  text-body2  text-start  relative flex items-center`}
 			>
 				<button
-					onClick={() => openSetTimeModalHandler('startTime')}
+					onClick={() => onOpenSetTimeModal('startTime')}
 					name="setStartTime"
 					className={`w-full h-full rounded-[0.8rem] relative text-start ${
 						focusedType === 'startTime' ? 'box-border border-[0.1rem] border-solid  border-primary text-primary' : ''
 					}  ${isAlertPop ? ' box-border border-[0.1rem] border-solid  border-secondary' : ''} `}
 				>
-					{!isStartTimeSet ? (
+					{!IS_STARTTIME_SET ? (
 						<span
 							className={`absolute h-full  ${
 								focusedType === 'startTime' || isAlertPop
@@ -46,7 +43,7 @@ function OpenSetTimeModalButtons({
 									: 'text-g7 top-[1.4rem]  left-[1.2rem]'
 							}`}
 						>
-							{day && `${dayMap.get(day)}요일 `}출근시간
+							{focusedDay && `${dayMap.get(focusedDay)}요일 `}출근시간
 						</span>
 					) : (
 						<span
@@ -60,9 +57,9 @@ function OpenSetTimeModalButtons({
 						</span>
 					)}
 				</button>
-				{isStartTimeSet && (
+				{IS_STARTTIME_SET && (
 					<button
-						onClick={() => resetTimeHandler('startTime')}
+						onClick={() => onResetTime('startTime')}
 						type="reset"
 						className="absolute right-[1.6rem] top-1/2 -translate-y-1/2"
 					>
@@ -76,13 +73,13 @@ function OpenSetTimeModalButtons({
 				w-full h-[4.8rem] rounded-[0.8rem] bg-g1  text-body2 text-start  relative flex items-center`}
 			>
 				<button
-					onClick={() => openSetTimeModalHandler('endTime')}
+					onClick={() => onOpenSetTimeModal('endTime')}
 					name="setEndTime"
 					className={`w-full h-full rounded-[0.8rem] relative text-start ${
 						focusedType === 'endTime' ? 'box-border border-[0.1rem] border-solid  border-primary text-primary' : ''
 					}  ${isAlertPop ? ' box-border border-[0.1rem] border-solid  border-secondary' : ''} `}
 				>
-					{!isEndTimeSet ? (
+					{!IS_ENDTIME_SET ? (
 						<span
 							className={`absolute h-full  ${
 								focusedType === 'endTime' || isAlertPop
@@ -90,7 +87,7 @@ function OpenSetTimeModalButtons({
 									: 'text-g7 top-[1.4rem]  left-[1.2rem]'
 							}`}
 						>
-							{day && `${dayMap.get(day)}요일 `}퇴근시간
+							{focusedDay && `${dayMap.get(focusedDay)}요일 `}퇴근시간
 						</span>
 					) : (
 						<span
@@ -102,9 +99,9 @@ function OpenSetTimeModalButtons({
 						</span>
 					)}
 				</button>
-				{isEndTimeSet && (
+				{IS_ENDTIME_SET && (
 					<button
-						onClick={() => resetTimeHandler('endTime')}
+						onClick={() => onResetTime('endTime')}
 						type="reset"
 						name="setEndTime"
 						className="absolute right-[1.6rem] top-1/2 -translate-y-1/2"
