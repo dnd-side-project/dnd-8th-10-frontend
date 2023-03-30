@@ -1,20 +1,19 @@
 /* eslint-disable react/no-this-in-sfc */
-import React, { useState } from 'react';
+import React from 'react';
 import Header from 'src/app.components/Header';
 import { MutateTpye } from 'src/app.modules/api/client';
-import SettingIcon from 'src/app.modules/assets/checklist/ellipsis.svg';
 import EmptyGraphic from 'src/app.modules/assets/checklist/emptyGraphic.svg';
 import { formatDate } from 'src/app.modules/util/formatDate';
 import Divider from 'src/app.components/Divider';
 import { getCookie } from 'src/app.modules/cookie';
 import { COOKIE_KEY } from 'src/app.modules/constants/Cookie';
 import { PostCheckListBodyType, PutCheckListBodyType } from 'src/app.modules/api/checklist';
-import { ICheckList } from '../\btypes';
+import { ICheckList } from '../types';
 import { getWeekDateList } from '../utils/getWeekDateList';
 import { getKoreaTodayDateInfo } from '../utils/getKoreaTodayDateInfo';
 import NewbieGuide from '../components/NewbieGuide';
-import TodoForm from '../components/TodoForm';
 import AddTodo from '../components/AddTodo';
+import CheckList from '../components/CheckList';
 
 interface Props {
 	isChecklistFetched: boolean;
@@ -48,8 +47,6 @@ function CheckListScreen({
 }: Props) {
 	const { year, month, date, day } = getKoreaTodayDateInfo();
 
-	const [editTodoInputOpenIdx, setEditTodoInputOpenIdx] = useState<number | null>(null);
-
 	const addTodoHandler = (newTodo: string) => {
 		if (postChecklistLoading) return;
 		if (!newTodo.trim()) return;
@@ -63,35 +60,28 @@ function CheckListScreen({
 		postChecklist(body);
 	};
 
-	const todoCheckStateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const {
-			target: {
-				checked,
-				dataset: { checkidx, content },
-			},
-		} = e;
+	const todoCheckStateHandler = (checkIdx: number, isChecked: boolean, content: string) => {
 		if (putChecklistLoading) return;
+		const status: ICheckList['status'] = isChecked ? 'Y' : 'N';
 		const body = {
-			checkIdx: +(checkidx ?? -1) as number,
-			content: content as string,
-			status: (checked ? 'Y' : 'N') as 'Y' | 'N',
-		};
-		console.log(body);
-		putChecklist(body);
-	};
-	const editTodoHandler = (content: string, status: ICheckList['status']) => {
-		const body = {
-			checkIdx: editTodoInputOpenIdx as number,
+			checkIdx,
 			content,
 			status,
 		};
 		putChecklist(body);
-		// TODO: 엔터치고 이전 데이터 잠시 보이는 현상 해결하기
-		setEditTodoInputOpenIdx(null);
 	};
-	const deleteTodoHandler = () => {
+	const editTodoHandler = (checkIdx: number, content: string, status: ICheckList['status']) => {
+		const body = {
+			checkIdx,
+			content,
+			status,
+		};
+		putChecklist(body);
+	};
+	const deleteTodoHandler = (checkIdx: number) => {
 		if (deleteChecklistLoading) return;
-		deleteChecklist(editTodoInputOpenIdx as number);
+		console.log(checkIdx);
+		deleteChecklist(checkIdx);
 	};
 	const getSearchDateString = (weekIdx: number, selectedDate: number) => {
 		const todayWeekIdx = day;
@@ -185,44 +175,12 @@ function CheckListScreen({
 					{isChecklistFetched && isWorkDay ? (
 						<div className=" text-subhead2 space-y-[1.6rem] py-[2.4rem]  relative ">
 							<AddTodo onAddTodo={addTodoHandler} />
-							<ul className=" text-g9 space-y-[1.6rem]  ">
-								{checklist?.map((todo, index) => (
-									<li key={todo.checkIdx ?? index} className="flex justify-between w-full ">
-										<div className="space-x-[1rem] flex items-center w-full">
-											<div>
-												<input
-													id={`checkbox-${todo.checkIdx}`}
-													type="checkbox"
-													data-checkidx={todo.checkIdx}
-													data-content={todo.content}
-													defaultChecked={todo.status === 'Y'}
-													className="checklist-checkbox"
-													onChange={todoCheckStateHandler}
-												/>
-												<label htmlFor={`checkbox-${todo.checkIdx}`} />
-											</div>
-											<div
-												aria-hidden={editTodoInputOpenIdx === todo.checkIdx}
-												className="aria-hidden:hidden flex items-center justify-between w-full"
-											>
-												<span className="mb-[0.4rem]">{todo.content}</span>
-												<button onClick={() => setEditTodoInputOpenIdx(todo.checkIdx)}>
-													<SettingIcon />
-												</button>
-											</div>
-											{editTodoInputOpenIdx === todo.checkIdx && (
-												<TodoForm
-													onSubmit={(modTodo: string) => editTodoHandler(modTodo, todo.status)}
-													isHidden={editTodoInputOpenIdx !== todo.checkIdx}
-													onBlur={() => setEditTodoInputOpenIdx(null)}
-													onTrashClick={deleteTodoHandler}
-													defaultValue={todo.content}
-												/>
-											)}
-										</div>
-									</li>
-								))}
-							</ul>
+							<CheckList
+								checklist={checklist}
+								onEditTodo={editTodoHandler}
+								onDeleteTodo={deleteTodoHandler}
+								onCheckTodo={todoCheckStateHandler}
+							/>
 						</div>
 					) : (
 						<EmptyGraphic className="mt-[7.2rem] mx-auto" />

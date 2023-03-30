@@ -8,7 +8,7 @@ interface Props {
 	onTrashClick: () => void;
 	defaultValue?: string;
 }
-
+// TODO: 휴지통 버튼 클릭 감지 못하는 이슈 처리하기
 function TodoForm({ onSubmit, isHidden, onBlur, onTrashClick, defaultValue = '' }: Props) {
 	const [todo, setTodo] = useState<string>(defaultValue);
 	const submitHandler = (e: React.FormEvent) => {

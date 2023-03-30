@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
-import { ICheckList } from 'src/app.features/checkList/\btypes';
+import { ICheckList } from 'src/app.features/checkList/types';
 import CheckListScreen from 'src/app.features/checkList/screens/CheckListScreen';
 import {
 	deleteCheckList,

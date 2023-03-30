@@ -1,4 +1,4 @@
-import { ICheckList } from 'src/app.features/checkList/\btypes';
+import { ICheckList } from 'src/app.features/checkList/types';
 import client from './client';
 
 // 2023-02-07
