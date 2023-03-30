@@ -13,38 +13,9 @@ import useCountHistory from '../hooks/useCountHistory';
 import NewCigaSaveModal from '../components/NewCigaSaveModal';
 import { IInventory } from '../types';
 import InventoryCommonBottom from '../components/InventoryCommonFlow/InventoryCommonBottom';
-import { ChoType } from '../types/ciga';
+import { ChoType, CHO_BUTTONS } from '../types/ciga';
+import { getInitialSound } from '../utils/getInitialSound';
 
-// 담배의 초성추출
-const getInitialSound = (str: string): string => {
-	const CHO_LIST = [
-		'ㄱ',
-		'ㄲ',
-		'ㄴ',
-		'ㄷ',
-		'ㄸ',
-		'ㄹ',
-		'ㅁ',
-		'ㅂ',
-		'ㅃ',
-		'ㅅ',
-		'ㅆ',
-		'ㅇ',
-		'ㅈ',
-		'ㅉ',
-		'ㅊ',
-		'ㅋ',
-		'ㅌ',
-		'ㅍ',
-		'ㅎ',
-	];
-	// 유니코드 한글 시작 위치 -> 44032
-	const word = str.charCodeAt(0) - 44032;
-	const jongseong = word % 28;
-	const jungseong = ((word - jongseong) / 28) % 21;
-	const choseong = ((word - jongseong) / 28 - jungseong) / 21;
-	return CHO_LIST[choseong];
-};
 // TODO: 타입 한 파일에 정리해 두기
 
 interface Props {
@@ -66,7 +37,7 @@ function CountCigaretteScreen({
 	workTimeStatus,
 }: Props) {
 	const { countHistory, changeDiffHandler } = useCountHistory(inventoryList);
-	const CHO_BUTTONS = ['전체', 'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [searchCho, setSearchCho] = useState<ChoType>('전체');
 	const [newCiga, setNewCiga] = useState<string>('');
