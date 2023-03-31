@@ -11,6 +11,7 @@ interface Props {
 }
 // TODO: 출퇴근 시간 모두 기입해야 수정,등록하게 수정필요
 export function WeekWorkTimeForm({ workTimeObj, onWorkTimeChange }: Props) {
+	console.log(workTimeObj);
 	const DAY_NUM_LIST: DayNumType[] = ['6', '0', '1', '2', '3', '4', '5'];
 	const [isAlertPop, setIsAlertPop] = useState<boolean>(false);
 	const [focusedDay, setFocusedDay] = useState<DayNumType>();
@@ -48,18 +49,25 @@ export function WeekWorkTimeForm({ workTimeObj, onWorkTimeChange }: Props) {
 	// 출 or 퇴근 시간설정 버튼 clear 버튼 눌렀을때
 	const resetTimeHandler = (flag: CommuteType): void => {
 		if (!focusedDay) return;
-		const temp = { ...workTimeObj?.[focusedDay] };
-		delete temp[flag];
-		const updatedWorkTime = {
-			...workTimeObj,
-			[focusedDay]: {
-				...temp,
-			},
-		} as WeekWorkTimeType;
-		onWorkTimeChange(updatedWorkTime); // 클리어
 		if (isAlertPop) {
 			setIsAlertPop(false);
 		}
+		let updatedWorkTime: WeekWorkTimeType;
+		const temp = { ...workTimeObj?.[focusedDay] };
+		delete temp[flag];
+		if (Object.keys(temp ?? {}).length === 0) {
+			// 포커싱된 요일의 출퇴근 시간 모두 클리어된상황
+			updatedWorkTime = { ...workTimeObj } as WeekWorkTimeType;
+			delete updatedWorkTime[focusedDay];
+		} else {
+			updatedWorkTime = {
+				...workTimeObj,
+				[focusedDay]: {
+					...temp,
+				},
+			} as WeekWorkTimeType;
+		}
+		onWorkTimeChange(updatedWorkTime); // 클리어
 	};
 	// 출 or 퇴근 시간설정 모달 오픈
 	const openSetTimeModalHandler = (flag: CommuteType): void => {
@@ -96,7 +104,11 @@ export function WeekWorkTimeForm({ workTimeObj, onWorkTimeChange }: Props) {
 								value={item}
 								item={dayMap.get(item) ?? ''}
 								onClick={focusedDayHandler}
-								state={focusedDay === item ? 'focus' : `${workTimeObj?.[item] ? 'selected' : 'default'}`}
+								state={
+									focusedDay === item
+										? 'focus'
+										: `${Object.keys(workTimeObj?.[item] ?? {}).length === 2 ? 'selected' : 'default'}`
+								}
 							/>
 						</li>
 					))}

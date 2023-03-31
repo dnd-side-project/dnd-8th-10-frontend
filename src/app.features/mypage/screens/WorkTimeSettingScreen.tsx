@@ -29,7 +29,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 			...user,
 			workTime: getUserWeekWorkTimeString(workTimeObj),
 		};
-
+		console.log(workTimeObj);
 		putUser(body);
 	};
 
