@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 import { useRouter } from 'next/router';
 import TopModal from 'src/app.components/Modal/TopModal';
@@ -13,7 +13,7 @@ import useModal from 'src/app.modules/hooks/useModal';
 import MakeCalendar from '../components/MakeCalendar';
 import { WEEK } from '../constants';
 import useStore from '../store';
-import { getGray, postWork } from '../api';
+import { getGray } from '../api';
 import ModalWrap from '../components/ModalWrap';
 import useKeypadStore from '../store/keypad';
 
@@ -53,14 +53,6 @@ function CalendarScreen({ currentUser }: Props) {
 		}
 	};
 
-	// 출근하기
-	const { data: WorkData, mutate: WorkMutate } = useMutation(postWork, {
-		onSuccess: (res) => {
-			// console.log(res);
-		},
-		onError: (error) => alert('오류 발생.'),
-	});
-
 	const { data, refetch: getGrayRefetch } = useQuery(
 		['gray'],
 		() =>
@@ -81,12 +73,14 @@ function CalendarScreen({ currentUser }: Props) {
 	);
 
 	useEffect(() => {
+		// 달력 변경시, 해당 달의 출근이력 갱신
 		getGrayRefetch();
+		// 점프는 키패드로 달 이동할 때 swiper 이동 동기화
 		if (isJump) {
 			swiperRef.current?.slideToLoop(month, 0, false);
 			keypadChange();
 		}
-	}, [month, getGrayRefetch, WorkData, isJump]);
+	}, [month, getGrayRefetch, isJump]);
 
 	useEffect(() => {
 		if (recordComplete) {
@@ -97,10 +91,6 @@ function CalendarScreen({ currentUser }: Props) {
 		}
 	}, []);
 
-	const salary = () => {
-		router.push(`${SERVICE_URL.calendarSalary}`);
-	};
-
 	return (
 		<div className="bg-w pb-[5.6rem] h-screen">
 			<header className="w-full h-[5.6rem] flex items-center justify-between relative">
@@ -109,6 +99,7 @@ function CalendarScreen({ currentUser }: Props) {
 						className="flex items-center"
 						type="button"
 						onClick={() => {
+							// 모달을 열고 모달의 타입은 keypad
 							openModal();
 							modalCalData('keypad');
 						}}
@@ -163,7 +154,7 @@ function CalendarScreen({ currentUser }: Props) {
 				</div>
 				<div
 					role="presentation"
-					onClick={() => salary()}
+					onClick={() => router.push(`${SERVICE_URL.calendarSalary}`)}
 					className="cursor-pointer w-[15.8rem] h-[4.8rem] flex items-center justify-center rounded-[2.4rem] bg-primary text-w text-subhead3"
 				>
 					<SalaryIcon fill="#FFFFFF" /> <span className="ml-[1.1rem]">급여 계산기</span>
