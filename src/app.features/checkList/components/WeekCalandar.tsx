@@ -72,7 +72,7 @@ function WeekCalandar({ weekState, searchDate, onSearchDateChange }: Props) {
 								className={`aria-pressed:bg-primary aria-pressed:text-w ${getDateButtonStyle(
 									index,
 									w
-								)}  w-[3.4rem] h-[3.4rem] text-center leading-[100%] rounded-[0.8rem]`}
+								)}  w-[3.4rem] h-[3.4rem] text-center leading-none rounded-[0.8rem]`}
 							>
 								<span>{w}</span>
 							</button>
