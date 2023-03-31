@@ -23,6 +23,7 @@ function LoginJson() {
 }
 
 function LoginScreen() {
+	console.log(KAKAO_OAUTH2_URL);
 	return (
 		<div className="h-full relative">
 			<div className="pt-[12vh]">
