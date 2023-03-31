@@ -40,3 +40,5 @@ export interface IBoardViewData {
 }
 
 export type WhoCheckPostType = Pick<IUser, 'userProfileCode' | 'userName' | 'email'> & { userCode: number };
+
+export type FocusCommentType = Pick<IComment, 'commentId' | 'content'>;
