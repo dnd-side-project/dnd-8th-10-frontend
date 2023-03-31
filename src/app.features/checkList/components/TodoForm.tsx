@@ -35,7 +35,7 @@ function TodoForm({ onSubmit, isHidden, onBlur, onTrashClick, defaultValue = '' 
 				onBlur={onBlur}
 				className="w-full  rounded-none outline-none border-b-[0.1rem] border-g6 text-g9"
 			/>
-			<button type="button" onClick={onTrashClick}>
+			<button type="button" onMouseDown={onTrashClick}>
 				<TrashIcon />
 			</button>
 		</form>
