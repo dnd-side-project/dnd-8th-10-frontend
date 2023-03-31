@@ -26,26 +26,6 @@ export function WeekWorkTimeForm({ workTimeObj, onWorkTimeChange }: Props) {
 		} // 출,퇴근 시간 모두 입력해야 다른 요일을 포커싱할수 있음.
 		setFocusedDay(e.target.value);
 	};
-
-	// 출 or 퇴근 시간 설정 모달 상에서 완료 버튼을 눌렀을 때, 이때 workTimeObj의 상태를 업데이트 해준다.
-	const workTimeObjHandler = (workTimeOnModal: WorkTimeOnModalType): void => {
-		const { meridiem, hour, minute } = workTimeOnModal;
-		if (!meridiem || !hour || !minute) return;
-		if (!focusedDay) return;
-		const updatedWorkTime = {
-			...(workTimeObj ?? {}),
-			[focusedDay]: {
-				...workTimeObj?.[focusedDay],
-				[openModalFlag as CommuteType]: {
-					...workTimeOnModal,
-				},
-			},
-		} as WeekWorkTimeType;
-
-		onWorkTimeChange(updatedWorkTime); // 1. workTimeObj의 상태를 업데이트
-		setOpenModalFlag(null); // 2. 모달 닫기
-	};
-
 	// 출 or 퇴근 시간설정 버튼 clear 버튼 눌렀을때
 	const resetTimeHandler = (flag: CommuteType): void => {
 		if (!focusedDay) return;
@@ -69,6 +49,30 @@ export function WeekWorkTimeForm({ workTimeObj, onWorkTimeChange }: Props) {
 		}
 		onWorkTimeChange(updatedWorkTime); // 클리어
 	};
+
+	// 출 or 퇴근 시간 설정 모달 상에서 완료 버튼을 눌렀을 때, 이때 workTimeObj의 상태를 업데이트 해준다.
+	const workTimeObjHandler = (workTimeOnModal: WorkTimeOnModalType): void => {
+		const { meridiem, hour, minute } = workTimeOnModal;
+		if (meridiem === null && hour === null && minute === null) {
+			resetTimeHandler(openModalFlag as CommuteType);
+			return;
+		}
+		if (!meridiem || !hour || !minute) return;
+		if (!focusedDay) return;
+		const updatedWorkTime = {
+			...(workTimeObj ?? {}),
+			[focusedDay]: {
+				...workTimeObj?.[focusedDay],
+				[openModalFlag as CommuteType]: {
+					...workTimeOnModal,
+				},
+			},
+		} as WeekWorkTimeType;
+
+		onWorkTimeChange(updatedWorkTime); // 1. workTimeObj의 상태를 업데이트
+		setOpenModalFlag(null); // 2. 모달 닫기
+	};
+
 	// 출 or 퇴근 시간설정 모달 오픈
 	const openSetTimeModalHandler = (flag: CommuteType): void => {
 		if (!focusedDay) return;
