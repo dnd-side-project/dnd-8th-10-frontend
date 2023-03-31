@@ -10,9 +10,13 @@ function SetTimeScreen() {
 		userForm: { workTimeObj },
 		setTime,
 	} = useRegisterUserStore();
-
+	const getTimeIsValid = (): boolean => {
+		// 선택된 요일마다 출,퇴근 시간이 모두 입력되어있는지 확인
+		if (workTimeObj === null || workTimeObj === undefined) return true;
+		return Boolean(Object.entries(workTimeObj).filter(([_, value]) => Object.keys(value).length !== 2).length);
+	};
 	return (
-		<RegisterLayout curPage={3} canGoNext={Boolean(workTimeObj)} guideMessage="일하는 요일별 근무시간을 알려주세요">
+		<RegisterLayout curPage={3} canGoNext={!getTimeIsValid()} guideMessage="일하는 요일별 근무시간을 알려주세요">
 			{/* TODO: 다음으로 넘어가는 조건 다시 지정 (더 자세하게) */}
 			<div className=" space-y-[3.2rem] mt-[2.4rem] ">
 				<WeekWorkTimeForm workTimeObj={workTimeObj} onWorkTimeChange={setTime} />

@@ -29,7 +29,6 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 			...user,
 			workTime: getUserWeekWorkTimeString(workTimeObj),
 		};
-		console.log(workTimeObj);
 		putUser(body);
 	};
 
@@ -61,6 +60,11 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 	const workTimeObjHandler = (newWorkTimeObj: WeekWorkTimeType) => {
 		setWorkTimeObj(newWorkTimeObj);
 	};
+	const getTimeIsValid = (): boolean => {
+		// 선택된 요일마다 출,퇴근 시간이 모두 입력되어있는지 확인
+		if (workTimeObj === null || workTimeObj === undefined) return true;
+		return Boolean(Object.entries(workTimeObj).filter(([_, value]) => Object.keys(value).length !== 2).length);
+	};
 	return (
 		<>
 			<Header title="근무시간 수정">
@@ -71,7 +75,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 			<main className="h-full pt-[7.2rem] relative">
 				<WeekWorkTimeForm workTimeObj={workTimeObj} onWorkTimeChange={workTimeObjHandler} />
 				<div className="absolute bottom-[2rem] w-full">
-					<Bar disabled={workTimeObj === null} ClickFn={submitHandler}>
+					<Bar disabled={getTimeIsValid()} ClickFn={submitHandler}>
 						수정
 					</Bar>
 				</div>
