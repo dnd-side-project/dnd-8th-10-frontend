@@ -13,7 +13,7 @@ export default function Document() {
 				<meta name="description" content="슬기로운 편의점 생활! 슬편생과 함께 일하러 가볼까요?" />
 				<meta property="og:title" content="슬편생" />
 				<meta property="og:url" content="https://www.wise24life.site" />
-				<meta property="og:image" content="https://www.wise24life.site/images/thumbnail.png" />
+				<meta property="og:image" content="https://www.wise24life.site/images/link_thumbnail.png" />
 				<meta property="og:description" content="슬기로운 편의점 생활! 슬편생과 함께 일하러 가볼까요?" />
 			</Head>
 			<body>
