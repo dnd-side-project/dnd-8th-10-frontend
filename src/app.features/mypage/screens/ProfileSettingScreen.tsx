@@ -23,37 +23,35 @@ function ProfileSettingScreen({ user, delelteUserMutate }: Props) {
 		<>
 			<Header title="회원정보 수정" />
 			<main className="h-full pt-[7.6rem] text-g9 relative">
-				<ul className="space-y-[2rem]">
-					<li className="flex items-center  justify-between border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
+				<div className="space-y-[2rem]">
+					<div className="flex items-center  justify-between border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
 						<span className="text-subhead2">이름</span>
 						<div className="text-body2">{user?.userName}</div>
-					</li>
-					<li className="flex items-center  justify-between border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
+					</div>
+					<div className="flex items-center  justify-between border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
 						<span className="text-subhead2">근무지</span>
 						<div className="text-body2">{user?.workPlace}</div>
-					</li>
-					<li className="flex items-start  justify-between border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
+					</div>
+					<div className="flex items-start  justify-between border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
 						<span className="text-subhead2">근무시간</span>
-						<ul className="text-body2 flex flex-col space-y-[1.2rem]">
+						<div className=" flex flex-col space-y-[1.2rem]">
 							{user?.workTime.split(',').map((partTime, idx) => (
-								<li key={`time-${idx}`}>
-									<button onClick={() => router.push(SERVICE_URL.editWorkTime)}>
-										<Badge size="small" color="warmGray">
-											<div className="flex items-center space-x-[0.4rem]">
-												<span className="text-body2">{getFormmatedWorkTime(partTime)}</span>
-												<div aria-label="수정하기">
-													<EditIcon />
-												</div>
+								<Link key={`time-${idx}`} href={SERVICE_URL.editWorkTime}>
+									<Badge size="small" color="warmGray">
+										<div className="flex items-center space-x-[0.4rem]">
+											<span className="text-body2">{getFormmatedWorkTime(partTime)}</span>
+											<div aria-label="수정하기">
+												<EditIcon />
 											</div>
-										</Badge>
-									</button>
-								</li>
+										</div>
+									</Badge>
+								</Link>
 							))}
-						</ul>
-					</li>
-					<li className="flex items-center  justify-between border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
+						</div>
+					</div>
+					<div className="flex items-center  justify-between border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
 						<span className="text-subhead2">개인연락처</span>
-						<Link className="text-body2" href={SERVICE_URL.editPhoneNumber}>
+						<Link href={SERVICE_URL.editPhoneNumber}>
 							<Badge size="small" color="warmGray">
 								<div className="flex items-center space-x-[0.4rem] text-body2">
 									<span>{user?.phoneNumber}</span>
@@ -63,10 +61,10 @@ function ProfileSettingScreen({ user, delelteUserMutate }: Props) {
 								</div>
 							</Badge>
 						</Link>
-					</li>
-					<li className="flex items-center  justify-between last:border-none  border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
+					</div>
+					<div className="flex items-center  justify-between last:border-none  border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
 						<span className="text-subhead2">시급</span>
-						<button className="text-body2" onClick={() => router.push(SERVICE_URL.editWage)}>
+						<Link href={SERVICE_URL.editWage}>
 							<Badge size="small" color="warmGray">
 								<div className="flex items-center space-x-[0.4rem] text-body2">
 									<span>{user?.wage.toLocaleString()} 원</span>
@@ -75,9 +73,9 @@ function ProfileSettingScreen({ user, delelteUserMutate }: Props) {
 									</div>
 								</div>
 							</Badge>
-						</button>
-					</li>
-				</ul>
+						</Link>
+					</div>
+				</div>
 				<div className="absolute bottom-[2rem] right-0">
 					<Badge color="white" size="large">
 						<button onClick={openModal} className="text-g9 text-subhead2 px-[0.6rem]">

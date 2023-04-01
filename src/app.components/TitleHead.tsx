@@ -7,7 +7,7 @@ interface Props {
 const TitleHead = ({ title }: Props) => {
 	return (
 		<Head>
-			<title>{title} | 슬편생</title>
+			<title>{`${title} - 슬편생`}</title>
 		</Head>
 	);
 };
