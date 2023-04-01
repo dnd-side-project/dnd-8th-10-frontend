@@ -26,7 +26,9 @@ function Header({ title, mode, children, onBack }: Props) {
 				}}
 				className="absolute left-[2rem] top-1/2 -translate-y-1/2"
 			>
-				<BackIcon stroke={`${mode === 'white' ? '#ffffff' : '#66666E'}`} />
+				<div aria-label="뒤로가기">
+					<BackIcon stroke={`${mode === 'white' ? '#ffffff' : '#66666E'}`} />
+				</div>
 			</button>
 			<h1 className="text-subhead4">{title}</h1>
 			<div className="absolute right-[2rem] top-1/2 -translate-y-1/2">{children}</div>
