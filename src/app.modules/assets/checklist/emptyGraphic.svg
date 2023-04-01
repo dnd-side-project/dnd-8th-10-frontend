@@ -1,4 +1,5 @@
-<svg width="180" height="206" viewBox="0 0 180 206" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="180" height="206" viewBox="0 0 180 206" fill="none" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" role="img">
+<title id="title">쉬는 날이에요</title>
 <path d="M133 23L133 163L38 163C35.2386 163 33 160.761 33 158L33 28C33 25.2386 35.2386 23 38 23L133 23Z" fill="#F0F0F3"/>
 <mask id="mask0_689_12947" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="56" y="28" width="77" height="135">
 <path d="M133 28L133 163L61 163C58.2386 163 56 160.761 56 158L56 33C56 30.2386 58.2386 28 61 28L133 28Z" fill="#F5F5F5"/>
