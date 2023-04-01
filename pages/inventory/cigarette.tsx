@@ -11,6 +11,7 @@ import {
 } from 'src/app.modules/api/inventory';
 import useModal from 'src/app.modules/hooks/useModal';
 import { NextPage } from 'next';
+import TitleHead from 'src/app.components/TitleHead';
 
 const CigaretteInventory: NextPage = () => {
 	const { isModalOpen: isSavePopupOpen, openModal: openSavePopup, closeModal: closeSavePopup } = useModal();
@@ -59,6 +60,7 @@ const CigaretteInventory: NextPage = () => {
 	});
 	return (
 		<>
+			<TitleHead title="담배 시재" />
 			{isSavePopupOpen && <SmallPopup message="점검사항이 저장됐어요! 👀" />}
 			{isAddPopupOpen && <SmallPopup message="담배 항목이 추가되었어요! 👀" />}
 

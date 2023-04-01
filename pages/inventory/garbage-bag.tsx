@@ -5,6 +5,7 @@ import GarbageBagInventoryScreen from 'src/app.features/inventory/screens/Garbag
 import { getInventory, getIsWorkTime, putInventory } from 'src/app.modules/api/inventory';
 import useModal from 'src/app.modules/hooks/useModal';
 import { NextPage } from 'next';
+import TitleHead from 'src/app.components/TitleHead';
 
 const GarbageBaInventory: NextPage = () => {
 	const { isModalOpen: isPopupOpen, openModal: openPopup, closeModal: closePopup } = useModal();
@@ -39,6 +40,7 @@ const GarbageBaInventory: NextPage = () => {
 
 	return (
 		<>
+			<TitleHead title="쓰레기 봉투 시재" />
 			{isPopupOpen && <SmallPopup message="점검사항이 저장됐어요! 👀" />}
 			<GarbageBagInventoryScreen
 				workTimeStatus={workTimeStatus}

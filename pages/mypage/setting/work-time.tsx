@@ -1,4 +1,5 @@
 import React from 'react';
+import TitleHead from 'src/app.components/TitleHead';
 import WorkTimeSettingScreen from 'src/app.features/mypage/screens/WorkTimeSettingScreen';
 import useLocalUserStore from 'src/app.features/mypage/store/user';
 import usePutUser from 'src/app.modules/hooks/user/usePutUser';
@@ -8,7 +9,12 @@ function workTime() {
 	const { data } = useUser();
 	const { putUserMutate, isLoading } = usePutUser();
 	const { localUser } = useLocalUserStore();
-	return <WorkTimeSettingScreen user={data ?? localUser} putUser={putUserMutate} isLoading={isLoading} />;
+	return (
+		<>
+			<TitleHead title="근무시간 수정" />
+			<WorkTimeSettingScreen user={data ?? localUser} putUser={putUserMutate} isLoading={isLoading} />
+		</>
+	);
 }
 
 export default workTime;
