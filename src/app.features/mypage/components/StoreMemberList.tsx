@@ -36,6 +36,7 @@ function StoreMemberList({ userRole, memberList }: Props) {
 						<a
 							href={`${item?.phoneNumber ? `tel:${item.phoneNumber}` : '#'}`}
 							target="_parent"
+							aria-label="전화 걸기"
 							aria-disabled={!item.phoneNumber}
 							className="  p-[0.8rem] bg-g4 aria-disabled:bg-g1 rounded-[0.8rem]"
 						>

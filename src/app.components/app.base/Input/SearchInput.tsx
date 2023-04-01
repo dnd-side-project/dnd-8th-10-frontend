@@ -46,7 +46,12 @@ function SearchInput({
 				} text-body2 bg-[#F8F8FA]  placeholder:text-g7 text-g9  pr-[1.2rem] py-[1.4rem] outline-none`}
 			/>
 			{searchTerm && (
-				<button onClick={resetSearchTerm} type="reset" className="absolute right-[1.6rem] top-1/2 -translate-y-1/2">
+				<button
+					onClick={resetSearchTerm}
+					type="reset"
+					aria-label="입력 정보 초기화"
+					className="absolute right-[1.6rem] top-1/2 -translate-y-1/2"
+				>
 					<InputCancelIcon />
 				</button>
 			)}

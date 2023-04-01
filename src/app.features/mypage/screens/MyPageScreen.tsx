@@ -27,7 +27,7 @@ function MyPageScreen({ user, logoutHandler }: Props) {
 		<>
 			<header className="flex items-center justify-between bg-white  h-[5.6rem] px-[2rem] fixed w-full max-w-[50rem] -translate-x-[2rem] mx-auto ">
 				<h1 className="text-subhead4 text-g10 ">마이페이지</h1>
-				<button onClick={() => router.push(SERVICE_URL.profileSetting)}>
+				<button aria-label="내 정보 수정" onClick={() => router.push(SERVICE_URL.profileSetting)}>
 					<SettingIcon />
 				</button>
 			</header>
