@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import { boardDelete } from 'src/app.features/board/api';
 import {
 	deleteComment,
@@ -11,8 +10,6 @@ import {
 	putComment,
 } from 'src/app.features/board/api/comment';
 import BoardViewScreen from 'src/app.features/board/screens/BoardViewScreen';
-import { IComment } from 'src/app.features/board/types';
-import { getCookie } from 'src/app.modules/cookie';
 import useBoardView from 'src/app.modules/hooks/board/useBoardView';
 import useUser from 'src/app.modules/hooks/user/useUser';
 

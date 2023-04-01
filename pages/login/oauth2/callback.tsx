@@ -1,20 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import type { NextPage } from 'next';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { oauth2 } from 'src/app.modules/api/auth';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
-import { AxiosHeaders } from 'axios';
 
 import client from 'src/app.modules/api/client';
-import { getCookie, setCookie } from 'src/app.modules/cookie';
 import { COOKIE_KEY } from 'src/app.modules/constants/Cookie';
 
-const test = {
-	get: {
-		Authoriazation: '',
-	},
-};
 const Login: NextPage = () => {
 	const router = useRouter();
 	const { data } = useQuery(

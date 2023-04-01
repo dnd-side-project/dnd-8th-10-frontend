@@ -1,17 +1,17 @@
 import { useRef } from 'react';
 import { getFormmatedWorkTime } from 'src/app.features/mypage/utils/getFormattedWorkTime';
+import { IUser } from 'src/app.modules/types/user';
 import Badge from '../app.base/Button/Badge';
 import ProfileImage from '../ProfileImage';
 
 interface Props {
-	userProfileCode: number;
-	userName: string;
-	workTime: string;
-	kakaoEmail?: string;
-	email: string;
+	userProfileCode: IUser['userProfileCode'];
+	userName: IUser['userName'];
+	workTime: IUser['workTime'];
+	email: IUser['email'];
 }
 
-function Profile({ userProfileCode, userName, workTime, kakaoEmail, email }: Props) {
+function Profile({ userProfileCode, userName, workTime, email }: Props) {
 	const scrollRef = useRef<HTMLDivElement>(null);
 	const handleMouseMove = (event: any) => {
 		const $scrollDiv = scrollRef.current;
