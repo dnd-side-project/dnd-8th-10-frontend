@@ -2,10 +2,11 @@ import React from 'react';
 
 interface Props {
 	size?: 'lg' | 'md' | 'sm' | 'xs'; // lg->3.8rem, md->3.4rem, sm->2.8rem
-	userProfileCode: number; // 1~10 사이 숫자
 	round?: boolean;
+	userProfileCode: number; // 1~10 사이 숫자
+	userName?: string;
 }
-function ProfileImage({ size, userProfileCode, round = false }: Props) {
+function ProfileImage({ size = 'xs', userProfileCode, userName = '알수 없음', round = false }: Props) {
 	const getSize = () => {
 		if (size === 'lg') return 'w-[3.8rem] h-[3.8rem] min-w-[3.8rem] min-h-[3.8rem]';
 		if (size === 'md') return 'w-[3.4rem] h-[3.4rem] min-w-[3.4rem] min-h-[3.4rem]';
@@ -17,15 +18,14 @@ function ProfileImage({ size, userProfileCode, round = false }: Props) {
 	};
 	return (
 		<>
-			{round ? (
-				<div className={getRoundSize()}>
-					{userProfileCode && <img alt="profile" src={`/images/user/round_profile${userProfileCode}.svg`} />}
-				</div>
-			) : (
-				<div className={getSize()}>
-					{userProfileCode && <img alt="profile" src={`/images/user/small_profile${userProfileCode}.svg`} />}
-				</div>
-			)}
+			<div className={round ? getRoundSize() : getSize()}>
+				{userProfileCode && (
+					<img
+						alt={`${userName}의 프로필 이미지`}
+						src={`/images/user/${round ? 'round' : 'small'}_profile${userProfileCode}.svg`}
+					/>
+				)}
+			</div>
 		</>
 	);
 }

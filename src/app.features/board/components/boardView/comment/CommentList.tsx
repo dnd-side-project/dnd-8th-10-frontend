@@ -64,7 +64,7 @@ function CommentList({ boardViewData, userData, onDeleteComment, focusedComment,
 				{boardViewData &&
 					sortedCommentList().map(({ commentId, content, userCode, userProfileCode, userName, createdDate, role }) => (
 						<li key={commentId} className="flex space-x-[0.8rem]">
-							<ProfileImage userProfileCode={userProfileCode} size="sm" />
+							<ProfileImage userName={userName} userProfileCode={userProfileCode} size="sm" />
 							<div className="w-full">
 								<div className="flex justify-between  items-center ">
 									<div className="flex space-x-[0.4rem]">

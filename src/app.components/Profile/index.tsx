@@ -1,17 +1,17 @@
 import { useRef } from 'react';
 import { getFormmatedWorkTime } from 'src/app.features/mypage/utils/getFormattedWorkTime';
+import { IUser } from 'src/app.modules/types/user';
 import Badge from '../app.base/Button/Badge';
 import ProfileImage from '../ProfileImage';
 
 interface Props {
-	userProfileCode: number;
-	userName: string;
-	workTime: string;
-	kakaoEmail?: string;
-	email: string;
+	userProfileCode: IUser['userProfileCode'];
+	userName: IUser['userName'];
+	workTime: IUser['workTime'];
+	email: IUser['email'];
 }
 
-function Profile({ userProfileCode, userName, workTime, kakaoEmail, email }: Props) {
+function Profile({ userProfileCode, userName, workTime, email }: Props) {
 	const scrollRef = useRef<HTMLDivElement>(null);
 	const handleMouseMove = (event: any) => {
 		const $scrollDiv = scrollRef.current;
@@ -37,7 +37,7 @@ function Profile({ userProfileCode, userName, workTime, kakaoEmail, email }: Pro
 
 	return (
 		<div className="flex  items-start space-x-[1.2rem]">
-			<ProfileImage round userProfileCode={userProfileCode} />
+			<ProfileImage round userProfileCode={userProfileCode} userName={userName} />
 			<div className=" space-y-[1rem]">
 				<div className="space-x-[0.8rem] flex items-start">
 					<span className="text-g10 text-subhead4">{userName}님</span>
