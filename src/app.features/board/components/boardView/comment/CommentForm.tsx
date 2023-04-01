@@ -189,6 +189,7 @@ function CommentForm({ onSubmitComment }: Props) {
 						<button
 							type="button"
 							name="submitComment"
+							aria-label="댓글 업로드"
 							onClick={(e) => {
 								e.stopPropagation();
 								const $comment = commentRef.current;
