@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { PutInventoryBodyType } from 'src/app.modules/api/inventory';
 import FilterButtons from '../components/FilterButtons';
-import InventoryCommonFlow from '../components/InventoryCommonFlow';
+import InventorySave from '../components/InventoryCommonFlow/InventorySave';
+
 import WorkTimeStatusModal from '../components/InventoryCommonFlow/WorkTimeStatusModal';
 import InventoryHeader from '../components/InventoryHeader';
-import { CountHistoryType, IInventory } from '../types';
+import InventoryList from '../components/InventoryList';
+import useCountHistory from '../hooks/useCountHistory';
+import { IInventory } from '../types';
 
 interface Props {
 	inventoryList: IInventory[];
@@ -14,8 +17,8 @@ interface Props {
 }
 
 function GarbageBagInventoryScreen({ inventoryList, editInventory, workTimeStatus }: Props) {
-	const [isModified, setIsModified] = useState<boolean>(false);
-	const submitInventoryRecord = (countHistory: CountHistoryType) => {
+	const { countHistory, changeDiffHandler, isModified } = useCountHistory(inventoryList);
+	const submitInventoryRecordHandler = () => {
 		const list = Object.keys(countHistory).map((inventoryName) => ({
 			inventoryName,
 			diff: countHistory[inventoryName],
@@ -42,11 +45,14 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, workTimeStatu
 						filters={['일반 쓰레기', '음식물 쓰레기']}
 					/>
 				</div>
-				<InventoryCommonFlow
-					inventoryList={inventoryList?.filter((item) => item.inventoryName.includes(filter))}
-					onInventoryRecordSubmit={submitInventoryRecord}
-					onModified={() => setIsModified(true)}
-				/>
+				{inventoryList && (
+					<InventoryList
+						inventoryList={inventoryList}
+						countHistory={countHistory}
+						changeDiffHandler={changeDiffHandler}
+					/>
+				)}
+				<InventorySave countHistory={countHistory} onInventoryRecordSubmit={submitInventoryRecordHandler} />
 			</main>
 		</>
 	);
