@@ -8,10 +8,11 @@ import CigaretteList from '../components/CigaretteList';
 import useCountHistory from '../hooks/useCountHistory';
 import NewCigaSaveModal from '../components/NewCigaSaveModal';
 import { IInventory } from '../types';
-import InventoryCommonBottom from '../components/InventoryCommonFlow/InventoryCommonBottom';
+import InventorySave from '../components/InventoryCommonFlow/InventorySave';
 import { ChoType, CHO_BUTTONS } from '../types/ciga';
 import { getInitialSound } from '../utils/getInitialSound';
 import InventoryHeader from '../components/InventoryHeader';
+import WorkTimeStatusModal from '../components/InventoryCommonFlow/WorkTimeStatusModal';
 
 interface Props {
 	inventoryList: IInventory[];
@@ -77,8 +78,10 @@ function CountCigaretteScreen({
 	const deletleInventoryHandler = (inventoryIdx: number) => {
 		deleteInventoryMutate(inventoryIdx);
 	};
+
 	return (
 		<>
+			<WorkTimeStatusModal workTimeStatus={workTimeStatus} />
 			<InventoryHeader title="담배" isNeedAlert={isModified}>
 				<button onClick={openAddModalHandler} className="text-primary text-subhead2">
 					항목추가
@@ -108,11 +111,7 @@ function CountCigaretteScreen({
 					/>
 				)}
 
-				<InventoryCommonBottom
-					countHistory={countHistory}
-					workTimeStatus={workTimeStatus}
-					onInventoryRecordSubmit={submitInventoryRecord}
-				/>
+				<InventorySave countHistory={countHistory} onInventoryRecordSubmit={submitInventoryRecord} />
 				{isAddModalOpen && (
 					<NewCigaSaveModal
 						closeModal={closeAddModal}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MutateTpye } from 'src/app.modules/api/client';
 import { PutInventoryBodyType } from 'src/app.modules/api/inventory';
 import InventoryCommonFlow from '../components/InventoryCommonFlow';
+import WorkTimeStatusModal from '../components/InventoryCommonFlow/WorkTimeStatusModal';
 import InventoryHeader from '../components/InventoryHeader';
 import { CountHistoryType, IInventory } from '../types';
 
@@ -24,12 +25,12 @@ function GiftcardInventoryScreen({ inventoryList, editInventory, workTimeStatus 
 
 	return (
 		<>
+			<WorkTimeStatusModal workTimeStatus={workTimeStatus} />
 			<InventoryHeader title="문화 상품권" isNeedAlert={isModified} />
 
 			<main className="pt-[7.2rem] space-y-[1.6rem] h-full  text-g9 relative">
 				<InventoryCommonFlow
 					inventoryList={inventoryList}
-					workTimeStatus={workTimeStatus}
 					onInventoryRecordSubmit={submitInventoryRecord}
 					onModified={() => setIsModified(true)}
 				/>

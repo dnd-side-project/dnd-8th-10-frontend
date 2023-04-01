@@ -3,6 +3,7 @@ import { MutateTpye } from 'src/app.modules/api/client';
 import { PutInventoryBodyType } from 'src/app.modules/api/inventory';
 import FilterButtons from '../components/FilterButtons';
 import InventoryCommonFlow from '../components/InventoryCommonFlow';
+import WorkTimeStatusModal from '../components/InventoryCommonFlow/WorkTimeStatusModal';
 import InventoryHeader from '../components/InventoryHeader';
 import { CountHistoryType, IInventory } from '../types';
 
@@ -30,6 +31,7 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, workTimeStatu
 
 	return (
 		<>
+			<WorkTimeStatusModal workTimeStatus={workTimeStatus} />
 			<InventoryHeader title="쓰레기봉투" isNeedAlert={isModified} />
 
 			<main className="overflow-y-scroll scrollbar-hidden  h-full text-g9 relative ">
@@ -42,7 +44,6 @@ function GarbageBagInventoryScreen({ inventoryList, editInventory, workTimeStatu
 				</div>
 				<InventoryCommonFlow
 					inventoryList={inventoryList?.filter((item) => item.inventoryName.includes(filter))}
-					workTimeStatus={workTimeStatus}
 					onInventoryRecordSubmit={submitInventoryRecord}
 					onModified={() => setIsModified(true)}
 				/>
