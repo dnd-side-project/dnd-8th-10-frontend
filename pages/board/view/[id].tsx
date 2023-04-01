@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import TitleHead from 'src/app.components/TitleHead';
 import { boardDelete } from 'src/app.features/board/api';
 import {
 	deleteComment,
@@ -77,16 +78,19 @@ const ViewPage: NextPage = () => {
 	const { data: userData, isLoading: LoadingData } = useUser();
 
 	return (
-		<BoardViewScreen
-			userData={userData}
-			boardCheckPerson={boardCheckPerson}
-			boardViewData={boardViewData}
-			DelMutate={DelMutate}
-			ViewCheckMutate={ViewCheckMutate}
-			PostCommentMutate={PostCommentMutate}
-			DeleteCommentMutate={DeleteCommentMutate}
-			PutCommentMutate={PutCommentMutate}
-		/>
+		<>
+			<TitleHead title={boardViewData?.title ?? ''} />
+			<BoardViewScreen
+				userData={userData}
+				boardCheckPerson={boardCheckPerson}
+				boardViewData={boardViewData}
+				DelMutate={DelMutate}
+				ViewCheckMutate={ViewCheckMutate}
+				PostCommentMutate={PostCommentMutate}
+				DeleteCommentMutate={DeleteCommentMutate}
+				PutCommentMutate={PutCommentMutate}
+			/>
+		</>
 	);
 };
 

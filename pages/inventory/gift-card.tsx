@@ -5,6 +5,7 @@ import GiftcardInventoryScreen from 'src/app.features/inventory/screens/Giftcard
 import { getInventory, getIsWorkTime, putInventory } from 'src/app.modules/api/inventory';
 import useModal from 'src/app.modules/hooks/useModal';
 import { NextPage } from 'next';
+import TitleHead from 'src/app.components/TitleHead';
 
 const GiftCard: NextPage = () => {
 	const { isModalOpen: isPopupOpen, openModal: openPopup, closeModal: closePopup } = useModal();
@@ -38,6 +39,7 @@ const GiftCard: NextPage = () => {
 
 	return (
 		<>
+			<TitleHead title="문화 상품권 시재" />
 			{isPopupOpen && <SmallPopup message="점검사항이 저장됐어요! 👀" />}
 			<GiftcardInventoryScreen
 				workTimeStatus={workTimeStatus}

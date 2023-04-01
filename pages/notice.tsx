@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { NextPage } from 'next';
 import React from 'react';
+import TitleHead from 'src/app.components/TitleHead';
 import AlarmScreen from 'src/app.features/home/screens/AlarmScreen';
 import { getAlarmList } from 'src/app.modules/api/alram';
 
@@ -15,7 +16,12 @@ const Notice: NextPage = () => {
 			console.log(error);
 		},
 	});
-	return <AlarmScreen AlarmData={data ?? []} />;
+	return (
+		<>
+			<TitleHead title="알림" />
+			<AlarmScreen AlarmData={data ?? []} />
+		</>
+	);
 };
 
 export default Notice;

@@ -11,6 +11,7 @@ import {
 } from 'src/app.modules/api/checklist';
 import { NextPage } from 'next';
 import { TODAY_STRING } from 'src/app.features/checkList/constants/todayString';
+import TitleHead from 'src/app.components/TitleHead';
 
 const checkList: NextPage = () => {
 	const [date, setDate] = useState<string>(TODAY_STRING);
@@ -99,20 +100,24 @@ const checkList: NextPage = () => {
 	}, [date, refetch]);
 
 	return (
-		<CheckListScreen
-			isChecklistFetched={isChecklistFetched}
-			isWorkDay={checklist?.workDay}
-			searchDate={date}
-			searchDateHandler={searchDateHandler}
-			checklist={localChecklist}
-			weekState={weekState}
-			postChecklist={postChecklist}
-			postChecklistLoading={postChecklistLoading}
-			putChecklist={putChecklist}
-			putChecklistLoading={putChecklistLoading}
-			deleteChecklist={deleteChecklist}
-			deleteChecklistLoading={deleteChecklistLoading}
-		/>
+		<>
+			<TitleHead title="내 할일 점검" />
+
+			<CheckListScreen
+				isChecklistFetched={isChecklistFetched}
+				isWorkDay={checklist?.workDay}
+				searchDate={date}
+				searchDateHandler={searchDateHandler}
+				checklist={localChecklist}
+				weekState={weekState}
+				postChecklist={postChecklist}
+				postChecklistLoading={postChecklistLoading}
+				putChecklist={putChecklist}
+				putChecklistLoading={putChecklistLoading}
+				deleteChecklist={deleteChecklist}
+				deleteChecklistLoading={deleteChecklistLoading}
+			/>
+		</>
 	);
 };
 

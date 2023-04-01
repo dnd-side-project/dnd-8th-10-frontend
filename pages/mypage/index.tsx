@@ -1,4 +1,5 @@
 import React from 'react';
+import TitleHead from 'src/app.components/TitleHead';
 import MyPageScreen from 'src/app.features/mypage/screens/MyPageScreen';
 import useLocalUserStore from 'src/app.features/mypage/store/user';
 import { logout } from 'src/app.modules/api/auth';
@@ -13,7 +14,12 @@ function Mypage() {
 		deleteAllCookie();
 		routeToLoginPage();
 	};
-	return <MyPageScreen user={data ?? localUser} logoutHandler={logoutHandler} />;
+	return (
+		<>
+			<TitleHead title="마이페이지" />
+			<MyPageScreen user={data ?? localUser} logoutHandler={logoutHandler} />
+		</>
+	);
 }
 
 export default Mypage;

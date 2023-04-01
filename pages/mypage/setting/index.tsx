@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import React from 'react';
+import TitleHead from 'src/app.components/TitleHead';
 import ProfileSettingScreen from 'src/app.features/mypage/screens/ProfileSettingScreen';
 import useLocalUserStore from 'src/app.features/mypage/store/user';
 import { deleteUser } from 'src/app.modules/api/user';
@@ -22,7 +23,12 @@ function Setting() {
 		},
 	});
 
-	return <ProfileSettingScreen user={data ?? localUser} delelteUserMutate={delelteUserMutate} />;
+	return (
+		<>
+			<TitleHead title="회원정보 수정" />
+			<ProfileSettingScreen user={data ?? localUser} delelteUserMutate={delelteUserMutate} />;
+		</>
+	);
 }
 
 export default Setting;
