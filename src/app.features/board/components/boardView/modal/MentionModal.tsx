@@ -33,7 +33,7 @@ function MentionModal({ userList, onMetionUserClick, closeModal }: Props) {
 							className="flex items-center space-x-[0.8rem]"
 							name="mention"
 						>
-							<ProfileImage userProfileCode={userProfileCode} size="xs" />
+							<ProfileImage userName={userName} userProfileCode={userProfileCode} size="xs" />
 							<span className="text-subhead2 text-g9">{userName}</span>
 							<span className="text-body2 text-g6">{email}</span>
 						</button>

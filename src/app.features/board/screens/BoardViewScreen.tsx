@@ -123,7 +123,7 @@ function BoardViewScreen({
 									<ul className="space-y-[2.4rem]">
 										{boardCheckPerson?.map(({ userProfileCode, email, userName }) => (
 											<li className="flex items-center space-x-[0.8rem]">
-												<ProfileImage userProfileCode={userProfileCode} size="xs" />
+												<ProfileImage userName={userName} userProfileCode={userProfileCode} size="xs" />
 												<span className="text-subhead2 text-g9">{userName}</span>
 												<span className="text-body2 text-g6">{email}</span>
 											</li>

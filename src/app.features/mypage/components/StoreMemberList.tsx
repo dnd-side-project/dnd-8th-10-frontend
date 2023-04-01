@@ -16,7 +16,7 @@ function StoreMemberList({ userRole, memberList }: Props) {
 				{memberList?.map((item, index) => (
 					<li key={index} className="flex items-start justify-between">
 						<div className="flex space-x-[0.8rem]">
-							<ProfileImage userProfileCode={item.userProfileCode} size="lg" />
+							<ProfileImage userName={item.userName} userProfileCode={item.userProfileCode} size="lg" />
 							<div className="flex flex-col space-y-[0.4rem]">
 								<div className="space-x-[0.6rem]">
 									<span className="text-subhead2">{item.userName}</span>

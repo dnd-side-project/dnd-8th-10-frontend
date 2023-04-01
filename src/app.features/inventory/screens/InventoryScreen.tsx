@@ -76,7 +76,7 @@ function InventoryScreen({ inventoryHistory }: Props) {
 								{inventoryHistory?.map((item) => (
 									<li className="flex items-center justify-between ">
 										<div className="flex items-center space-x-[0.8rem]">
-											<ProfileImage userProfileCode={item.userProfileCode} />
+											<ProfileImage userName={item.userName} userProfileCode={item.userProfileCode} />
 											<span className=" text-subhead2">{item.userName}</span>
 											<span className="text-g6 text-subhead1">{item.workTime}</span>
 										</div>

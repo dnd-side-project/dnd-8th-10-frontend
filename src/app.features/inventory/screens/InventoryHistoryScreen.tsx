@@ -37,7 +37,7 @@ function InventoryHistoryScreen({ inventoryHistory, onFilterChange, filter }: Pr
 							<li key={index}>
 								<InfoBox className="space-y-[0.8rem]">
 									<div className="space-x-[0.8rem] flex items-center">
-										<ProfileImage size="md" userProfileCode={item.userProfileCode} />
+										<ProfileImage userName={item.userName} size="md" userProfileCode={item.userProfileCode} />
 										<span className="text-subhead2">{item.userName}</span>
 										<span className="text-g7 text-subhead1 ">
 											{item.workDay}/{item.workTime}

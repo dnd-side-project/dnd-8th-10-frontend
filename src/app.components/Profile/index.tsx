@@ -37,7 +37,7 @@ function Profile({ userProfileCode, userName, workTime, email }: Props) {
 
 	return (
 		<div className="flex  items-start space-x-[1.2rem]">
-			<ProfileImage round userProfileCode={userProfileCode} />
+			<ProfileImage round userProfileCode={userProfileCode} userName={userName} />
 			<div className=" space-y-[1rem]">
 				<div className="space-x-[0.8rem] flex items-start">
 					<span className="text-g10 text-subhead4">{userName}님</span>
