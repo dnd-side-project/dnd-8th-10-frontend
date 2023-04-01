@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import Link from 'next/link';
 import React from 'react';
 import Badge from 'src/app.components/app.base/Button/Badge';
@@ -65,8 +66,11 @@ function InventoryScreen({ inventoryHistory }: Props) {
 							</Badge>
 						</div>
 
-						<Link href={SERVICE_URL.inventoryHistory}>
-							<span className="text-primary text-subhead1 ">전체보기</span>
+						<Link href={SERVICE_URL.inventoryHistory} className="text-primary w-fit text-subhead1 ">
+							<button disabled className="opacity-0 cursor-default">
+								시재 기록
+							</button>
+							전체보기
 						</Link>
 					</div>
 					<InfoBox className="flex flex-col space-y-[1.6rem] text-subhead1">

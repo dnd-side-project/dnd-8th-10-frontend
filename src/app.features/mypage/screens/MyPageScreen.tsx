@@ -33,8 +33,12 @@ function MyPageScreen({ user, logoutHandler }: Props) {
 				<div className="pb-[1.6rem] space-y-[1.6rem]">
 					{user && <Profile {...user} />}
 					<InfoBox>
-						<Link href={SERVICE_URL.myStore} className="w-full h-full flex items-center justify-between">
-							<div className="flex items-center space-x-[0.8rem]">
+						<Link
+							href={SERVICE_URL.myStore}
+							aria-label="편의점 정보 조회 바로가기"
+							className="w-full h-full flex items-center justify-between"
+						>
+							<div aria-hidden className="flex items-center space-x-[0.8rem]">
 								<StoreIcon />
 								<span className="text-subhead1 text-g9">{getBrandAndBranchString(user?.workPlace ?? '')}</span>
 							</div>
