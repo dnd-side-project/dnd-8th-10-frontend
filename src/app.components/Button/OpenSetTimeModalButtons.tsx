@@ -41,7 +41,12 @@ function Button({ onClick, onReset, isFocused, isAlertPop, isSet, timeText, dayT
 				)}
 			</button>
 			{isSet && (
-				<button onClick={onReset} type="reset" className="absolute right-[1.6rem] top-1/2 -translate-y-1/2">
+				<button
+					onClick={onReset}
+					aria-label="입력 정보 초기화"
+					type="reset"
+					className="absolute right-[1.6rem] top-1/2 -translate-y-1/2"
+				>
 					<InputCancelIcon />
 				</button>
 			)}

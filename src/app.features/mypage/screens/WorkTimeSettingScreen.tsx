@@ -68,7 +68,7 @@ function WorkTimeSettingScreen({ user, putUser, isLoading }: Props) {
 	return (
 		<>
 			<Header title="근무시간 수정">
-				<button onClick={openDeleteModal}>
+				<button aria-label="근무시간 전체 삭제" onClick={openDeleteModal}>
 					<DeleteIcon />
 				</button>
 			</Header>

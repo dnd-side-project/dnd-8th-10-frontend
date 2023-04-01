@@ -62,12 +62,18 @@ function TextInput({
 				onKeyDown={onKeyDown}
 			/>
 			{Boolean(value) && mode === 'default' && (
-				<button onClick={resetHandler} type="reset" className="absolute right-[1.6rem] top-1/2 -translate-y-1/2">
+				<button
+					aria-label="입력 정보 초기화"
+					onClick={resetHandler}
+					type="reset"
+					className="absolute right-[1.6rem] top-1/2 -translate-y-1/2"
+				>
 					<InputCancelIcon />
 				</button>
 			)}
 			{Boolean(value) && mode === 'wide' && (
 				<button
+					aria-label="댓글 업로드"
 					type={mode === 'wide' ? 'submit' : 'reset'}
 					className="absolute right-[1.6rem] top-1/2 -translate-y-1/2"
 				>

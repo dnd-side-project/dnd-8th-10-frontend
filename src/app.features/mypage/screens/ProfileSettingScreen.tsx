@@ -8,6 +8,7 @@ import useModal from 'src/app.modules/hooks/useModal';
 import Overlay from 'src/app.components/Modal/Overlay';
 import Modal from 'src/app.components/Modal/Modal';
 import { IUser } from 'src/app.modules/types/user';
+import Link from 'next/link';
 import { getFormmatedWorkTime } from '../utils/getFormattedWorkTime';
 
 interface Props {
@@ -39,7 +40,10 @@ function ProfileSettingScreen({ user, delelteUserMutate }: Props) {
 									<button onClick={() => router.push(SERVICE_URL.editWorkTime)}>
 										<Badge size="small" color="warmGray">
 											<div className="flex items-center space-x-[0.4rem]">
-												<span className="text-body2">{getFormmatedWorkTime(partTime)}</span> <EditIcon />
+												<span className="text-body2">{getFormmatedWorkTime(partTime)}</span>
+												<div aria-label="수정하기">
+													<EditIcon />
+												</div>
 											</div>
 										</Badge>
 									</button>
@@ -49,20 +53,26 @@ function ProfileSettingScreen({ user, delelteUserMutate }: Props) {
 					</li>
 					<li className="flex items-center  justify-between border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
 						<span className="text-subhead2">개인연락처</span>
-						<button className="text-body2" onClick={() => router.push(SERVICE_URL.editPhoneNumber)}>
+						<Link className="text-body2" href={SERVICE_URL.editPhoneNumber}>
 							<Badge size="small" color="warmGray">
 								<div className="flex items-center space-x-[0.4rem] text-body2">
-									<span>{user?.phoneNumber}</span> <EditIcon />
+									<span>{user?.phoneNumber}</span>
+									<div aria-label="수정하기">
+										<EditIcon />
+									</div>
 								</div>
 							</Badge>
-						</button>
+						</Link>
 					</li>
 					<li className="flex items-center  justify-between last:border-none  border-solid border-b-[0.1rem] border-g3 pb-[2rem]">
 						<span className="text-subhead2">시급</span>
 						<button className="text-body2" onClick={() => router.push(SERVICE_URL.editWage)}>
 							<Badge size="small" color="warmGray">
 								<div className="flex items-center space-x-[0.4rem] text-body2">
-									<span>{user?.wage.toLocaleString()} 원</span> <EditIcon />
+									<span>{user?.wage.toLocaleString()} 원</span>
+									<div aria-label="수정하기">
+										<EditIcon />
+									</div>
 								</div>
 							</Badge>
 						</button>
