@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { postWork, putWorkModify } from 'src/app.features/calendar/api';
+import { delWorkModify, postWork, putWorkModify } from 'src/app.features/calendar/api';
 import WorkRecordScreen from 'src/app.features/calendar/screens/WorkRecordScreen';
 import useUser from 'src/app.modules/hooks/user/useUser';
 
@@ -27,8 +27,24 @@ const WorkRecord: NextPage = () => {
 		},
 		onError: (error) => console.log(error),
 	});
+
+	// 삭제하기
+	const { mutate: DeleteMutate } = useMutation(delWorkModify, {
+		onSuccess: (res) => {
+			// console.log(res);
+		},
+		onError: (error) => console.log(error),
+	});
+
 	return (
-		<WorkRecordScreen WorkMutate={WorkMutate} ModifyMutate={ModifyMutate} UserData={UserData} title={title} id={id} />
+		<WorkRecordScreen
+			WorkMutate={WorkMutate}
+			ModifyMutate={ModifyMutate}
+			DeleteMutate={DeleteMutate}
+			UserData={UserData}
+			title={title}
+			id={id}
+		/>
 	);
 };
 

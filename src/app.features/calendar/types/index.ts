@@ -47,8 +47,16 @@ export interface ISalaryDetail {
 	totalSalary: number;
 	wage: number;
 }
+
 export interface Time {
 	hour: string;
 	minute: string;
 	meridiem: 'am' | 'pm' | null;
+}
+
+export interface WorkInfo {
+	name: string;
+	timeCardId: number;
+	userProfileCode: number;
+	workTime: string;
 }

@@ -1,6 +1,6 @@
 import PlusIcon from 'src/app.modules/assets/calendar/plus.svg';
 import EmptyWork from 'src/app.modules/assets/calendar/emptyWork.svg';
-import { formatTimeView, WorkListTimeView } from 'src/app.modules/util/calendar';
+import { WorkListTimeView } from 'src/app.modules/util/calendar';
 import { ISalaryProps } from '../types';
 
 function SalaryDetail({ data }: ISalaryProps) {

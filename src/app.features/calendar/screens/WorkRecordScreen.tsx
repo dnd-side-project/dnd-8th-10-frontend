@@ -13,17 +13,19 @@ import useModal from 'src/app.modules/hooks/useModal';
 import { MutateTpye } from 'src/app.modules/api/client';
 import useStore from '../store';
 import useTimeSetStore, { IUser } from '../store/time';
-import { delWorkModify, getToDay, getWorkList, MutateBody } from '../api';
+import { getToDay, getWorkList, MutateBody } from '../api';
+import { WorkInfo } from '../types';
 
 type Flag = 'startTime' | 'endTime' | null;
 interface Props {
 	WorkMutate: MutateTpye<MutateBody>;
 	ModifyMutate: MutateTpye<MutateBody>;
+	DeleteMutate: MutateTpye<number>;
 	UserData: { userName: string };
 	title: string | string[] | undefined;
 	id: string | string[] | undefined;
 }
-function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Props) {
+function WorkRecordScreen({ WorkMutate, ModifyMutate, DeleteMutate, UserData, title, id }: Props) {
 	const { isModalOpen: isDelModalOpen, openModal: delOpenModal, closeModal: delCloseModal } = useModal();
 	const { isModalOpen: isDupleModalOpen, openModal: DupleOpenModal, closeModal: DupleCloseModal } = useModal();
 	const { isModalOpen: isRecordModalOpen, openModal: RecordOpenModal, closeModal: RecordCloseModal } = useModal();
@@ -81,11 +83,9 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 
 	// 삭제 버튼
 	const delBtn = async () => {
-		const data = delWorkModify(Number(id));
-		data.then((res) => {
-			setRecordComplete();
-			router.back();
-		});
+		DeleteMutate(Number(id));
+		setRecordComplete();
+		router.back();
 	};
 
 	// 자신의 출근한 리스트 가져옴 (중복 방지를 위해)
@@ -104,29 +104,33 @@ function WorkRecordScreen({ WorkMutate, ModifyMutate, UserData, title, id }: Pro
 		});
 	};
 
+	const handleTodayData = (res: string) => {
+		if (res !== '') {
+			setInitTime(parseSetWorkTime(res));
+			setCurrentTime(parseSetWorkTime(res));
+		}
+	};
+
+	const handleModifyData = (res: WorkInfo[]) => {
+		const getWorkTime = res.filter((val: { timeCardId: number }) => val.timeCardId === Number(id));
+		if (getWorkTime.length > 0) {
+			setInitTime(parseSetWorkTime(getWorkTime[0].workTime));
+			setCurrentTime(parseSetWorkTime(getWorkTime[0].workTime));
+		}
+	};
+
 	useEffect(() => {
 		if (UserData) {
 			if (title === 'add') {
 				getWorkListData();
 				// 추가일시
 				const toDayData = getToDay(getDayOfWeek(clickDay));
-				toDayData.then((res) => {
-					if (res.data !== '') {
-						setInitTime(parseSetWorkTime(res.data));
-						setCurrentTime(parseSetWorkTime(res.data));
-					}
-				});
+				toDayData.then((res) => handleTodayData(res.data));
 			} else {
 				// 수정일시
 				getWorkListData('modify');
 				const data = getWorkList({ year, month, day });
-				data.then((res) => {
-					const getWorkTime = res.data.data.filter((val: { timeCardId: number }) => val.timeCardId === Number(id));
-					if (getWorkTime.length > 0) {
-						setInitTime(parseSetWorkTime(getWorkTime[0].workTime));
-						setCurrentTime(parseSetWorkTime(getWorkTime[0].workTime));
-					}
-				});
+				data.then((res) => handleModifyData(res.data.data));
 			}
 		}
 		return () => initUser();

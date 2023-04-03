@@ -61,11 +61,12 @@ function CalendarScreen({ currentUser }: Props) {
 				month: String(month + 1),
 			}),
 		{
+			select: (res) => res.data.data,
 			onSuccess: (res) => {
-				if (res.data.data) {
+				if (res) {
 					setSchedule({
 						month,
-						day: res.data.data.map(Number),
+						day: res.map(Number),
 					});
 				}
 			},
@@ -152,13 +153,13 @@ function CalendarScreen({ currentUser }: Props) {
 				<div className="mb-[1.2rem]">
 					<span className="text-subhead1 text-g8">지금까지 일한 급여를 계산해 보세요.</span>
 				</div>
-				<div
-					role="presentation"
+				<button
+					type="button"
 					onClick={() => router.push(`${SERVICE_URL.calendarSalary}`)}
 					className="cursor-pointer w-[15.8rem] h-[4.8rem] flex items-center justify-center rounded-[2.4rem] bg-primary text-w text-subhead3"
 				>
 					<SalaryIcon fill="#FFFFFF" /> <span className="ml-[1.1rem]">급여 계산기</span>
-				</div>
+				</button>
 			</div>
 			{isModalOpen && (
 				<Overlay

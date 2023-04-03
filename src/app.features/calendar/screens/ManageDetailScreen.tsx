@@ -21,8 +21,9 @@ function ManageDetailScreen({ id }: { id: string | string[] | undefined }) {
 		['salaryList'],
 		() => getUserSalary({ year: String(year), month: String(month + 1), userCode: Number(id) }),
 		{
+			select: (res) => res.data.data,
 			onSuccess: (res) => {
-				setSalaryData(res.data.data);
+				setSalaryData(res);
 			},
 			onError: (error) => {
 				console.log(error);

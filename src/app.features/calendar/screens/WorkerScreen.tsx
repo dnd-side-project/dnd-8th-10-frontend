@@ -31,12 +31,10 @@ function WorkerScreen() {
 		['salary'],
 		() => getSalary({ year: String(year), month: String(month + 1) }),
 		{
+			select: (res) => res.data.data,
 			onSuccess: (res) => {
-				setSalaryData(res.data.data);
-				const workHourFilter = res.data.data.reduce(
-					(acc: number, current: { workHour: number }) => acc + current.workHour,
-					-1
-				);
+				setSalaryData(res);
+				const workHourFilter = res.reduce((acc: number, current: { workHour: number }) => acc + current.workHour, -1);
 				setWorkHour(workHourFilter);
 			},
 			onError: (error) => {

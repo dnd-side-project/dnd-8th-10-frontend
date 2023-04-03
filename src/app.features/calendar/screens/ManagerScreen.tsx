@@ -17,7 +17,7 @@ import { getSalaryList } from '../api';
 
 function ManagerScreen() {
 	// 점장 급여 페이지
-	const { year, month, modalCalData, toDay } = useStore();
+	const { year, month, modalCalData } = useStore();
 	const { isModalOpen, openModal, closeAnimationModal } = useModal();
 	const router = useRouter();
 	const [UserData, setUserData] = useState<ISalaryList[]>([]);
@@ -26,12 +26,13 @@ function ManagerScreen() {
 		['salaryList'],
 		() => getSalaryList({ year: String(year), month: String(month + 1) }),
 		{
+			select: (res) => res.data.data,
 			onSuccess: (res) => {
-				const newSalaryData = res.data.data.filter((val: { role: string }) => val.role === 'MANAGER');
+				const newSalaryData = res.filter((val: { role: string }) => val.role === 'MANAGER');
 				if (newSalaryData.length > 0) {
 					setManageData(newSalaryData);
 				}
-				setUserData(res.data.data.filter((val: { role: string }) => val.role !== 'MANAGER'));
+				setUserData(res.filter((val: { role: string }) => val.role !== 'MANAGER'));
 			},
 			onError: (error) => {
 				console.log(error);

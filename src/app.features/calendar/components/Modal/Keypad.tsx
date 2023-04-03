@@ -3,11 +3,11 @@ import Bar from 'src/app.components/app.base/Button/Bar';
 import useStore from '../../store';
 import useKeypadStore from '../../store/keypad';
 
-type keypad = 'year' | 'month' | null;
 interface Props {
 	year: number;
 	month: number;
 }
+
 function Keypad({ year, month }: Props) {
 	const [keypadYear, setKeypadYear] = useState<string>(String(year));
 	const [keypadMonth, setKeypadMonth] = useState<string>(''); // String(month + 1)
