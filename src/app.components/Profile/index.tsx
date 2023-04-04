@@ -40,8 +40,8 @@ function Profile({ userProfileCode, userName, workTime, email }: Props) {
 			<ProfileImage round userProfileCode={userProfileCode} userName={userName} />
 			<div className=" space-y-[1rem]">
 				<div className="space-x-[0.8rem] flex items-start">
-					<span className="text-g10 text-subhead4">{userName}님</span>
-					<span className="text-g7 text-body2">{email}</span>
+					<span className="text-g10 text-subhead4">{userName ?? ''}님</span>
+					<span className="text-g7 text-body2">{email ?? ''}</span>
 				</div>
 				<div
 					ref={scrollRef}
@@ -49,7 +49,7 @@ function Profile({ userProfileCode, userName, workTime, email }: Props) {
 					onMouseDown={handleMouseDown}
 					className="absolute z-[100] flex gap-[0.8rem]  overflow-x-scroll   touch-pan-x w-[calc(100vw-9.2rem)] max-w-[calc(50rem-9.2rem)] scrollbar-hidden "
 				>
-					{workTime.split(',').map((partTime, index) => (
+					{workTime?.split(',')?.map((partTime, index) => (
 						<Badge key={index} color="warmGray" size="small">
 							<span className="text-body1 whitespace-nowrap cursor-pointer">{getFormmatedWorkTime(partTime)}</span>
 						</Badge>

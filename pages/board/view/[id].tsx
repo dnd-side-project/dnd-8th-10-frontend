@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import TitleHead from 'src/app.components/TitleHead';
 import { boardDelete } from 'src/app.features/board/api';
@@ -14,7 +13,7 @@ import BoardViewScreen from 'src/app.features/board/screens/BoardViewScreen';
 import useBoardView from 'src/app.modules/hooks/board/useBoardView';
 import useUser from 'src/app.modules/hooks/user/useUser';
 
-const ViewPage: NextPage = () => {
+const ViewPage = () => {
 	const router = useRouter();
 	const { id } = router.query;
 	const queryClient = useQueryClient();

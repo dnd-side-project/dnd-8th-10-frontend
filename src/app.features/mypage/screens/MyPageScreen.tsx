@@ -40,7 +40,7 @@ function MyPageScreen({ user, logoutHandler }: Props) {
 						>
 							<div aria-hidden className="flex items-center space-x-[0.8rem]">
 								<StoreIcon />
-								<span className="text-subhead1 text-g9">{getBrandAndBranchString(user?.workPlace ?? '')}</span>
+								<span className="text-subhead1 text-g9">{user && getBrandAndBranchString(user.workPlace)}</span>
 							</div>
 							<LeftArrowIcon />
 						</Link>

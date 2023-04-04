@@ -42,7 +42,7 @@ client.interceptors.response.use(
 					originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 					client.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
 					console.log('엑세스 토큰 갱신 완료됨. ');
-					console.log('리프레시 토큰 갱신 완료됨. ', res);
+					console.log('리프레시 토큰 갱신 완료됨. ');
 					// TODO: 쿠키만료기한 고려해서 로직 다시 짜기
 					document.cookie = `${COOKIE_KEY.ACCESS_TOKEN}=${newAccessToken}; max-age=-1; Path=/;`;
 					document.cookie = `${COOKIE_KEY.REFRESH_TOKEN}=${newRefreshToken}; max-age=-1; Path=/;`;
