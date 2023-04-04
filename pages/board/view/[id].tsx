@@ -1,6 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
-import type { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import TitleHead from 'src/app.components/TitleHead';
 import { boardDelete } from 'src/app.features/board/api';
@@ -15,20 +13,7 @@ import BoardViewScreen from 'src/app.features/board/screens/BoardViewScreen';
 import useBoardView from 'src/app.modules/hooks/board/useBoardView';
 import useUser from 'src/app.modules/hooks/user/useUser';
 
-interface Props {
-	serverData: any;
-}
-export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
-	const { req } = context;
-	const API_URL = 'https://wise24life.shop/api/myPost';
-
-	const { boardView, token } = req.cookies;
-	const headers = { Authorization: `Bearer ${token}`, BoardView: boardView }; // 헤더 설정
-	const { data } = await axios.get(API_URL, { headers }); // API 요청
-	return { props: { serverData: data } };
-};
-
-const ViewPage = ({ serverData }: Props) => {
+const ViewPage = () => {
 	const router = useRouter();
 	const { id } = router.query;
 	const queryClient = useQueryClient();
@@ -93,11 +78,11 @@ const ViewPage = ({ serverData }: Props) => {
 
 	return (
 		<>
-			<TitleHead title={boardViewData?.title ?? serverData?.title ?? ''} />
+			<TitleHead title={boardViewData?.title ?? ''} />
 			<BoardViewScreen
 				userData={userData}
 				boardCheckPerson={boardCheckPerson}
-				boardViewData={boardViewData ?? serverData}
+				boardViewData={boardViewData}
 				DelMutate={DelMutate}
 				ViewCheckMutate={ViewCheckMutate}
 				PostCommentMutate={PostCommentMutate}
