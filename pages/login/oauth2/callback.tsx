@@ -1,5 +1,5 @@
-import React from 'react';
-import type { NextPage } from 'next';
+import React, { useEffect } from 'react';
+import type { GetServerSideProps, NextPage } from 'next';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { oauth2 } from 'src/app.modules/api/auth';
@@ -7,10 +7,41 @@ import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
 
 import client from 'src/app.modules/api/client';
 import { COOKIE_KEY } from 'src/app.modules/constants/Cookie';
+import axios from 'axios';
+import { IUser } from 'src/app.modules/types/user';
+import { getCookie } from 'src/app.modules/cookie';
 
-const Login: NextPage = () => {
+interface Props {
+	data: { role: IUser['role']; userName: IUser['userName']; accessToken: string };
+}
+export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+	const {
+		query: { code },
+	} = context;
+	const isLocal = Boolean(process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI?.includes('localhost'));
+	const res = await axios.get(`https://wise24life.shop/oauth/token?code=${code}&isLocal=${isLocal}`);
+
+	const { headers, data } = res;
+	const accessToken = headers?.['authorization'].split(' ')[1];
+	console.dir(accessToken);
+	context.res.setHeader('Set-Cookie', headers?.['set-cookie']?.[0] as string);
+	const { role, userName } = res.data.data;
+	return { props: { data: { role, userName, accessToken } } };
+};
+const Login = ({ data }: Props) => {
 	const router = useRouter();
-	const { data } = useQuery(
+	useEffect(() => {
+		const { role, userName, accessToken } = data;
+		const isNewbie = !role;
+		document.cookie = `${COOKIE_KEY.ACCESS_TOKEN}=${accessToken}; max-age=${3600 * 24 * 7}; Path=/;`;
+		client.defaults.headers.Authorization = `Bearer ${getCookie(COOKIE_KEY.ACCESS_TOKEN)}`;
+		console.log(accessToken, getCookie(COOKIE_KEY.ACCESS_TOKEN));
+		if (isNewbie) {
+			router.push(`${SERVICE_URL.register}?page=1&userName=${userName}`);
+			document.cookie = `${COOKIE_KEY.IS_NEWBIE}=${true}; max-age=${3600 * 24 * 7}; Path=/;`;
+		} else router.push(SERVICE_URL.home);
+	}, []);
+	/* const { data } = useQuery(
 		['oauth2', 'google'],
 		() => oauth2(new URL(document.location.toString()).searchParams.get('code') as string),
 		{
@@ -38,11 +69,7 @@ const Login: NextPage = () => {
 				console.log(error);
 			},
 		}
-	);
-	/* useEffect(() => {
-		const code = new URL(document.location.toString()).searchParams.get('code') as string;
-		console.log('인가코드 : ', code);
-	}, []); */
+	); */
 
 	return <div />;
 };
