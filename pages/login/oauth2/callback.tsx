@@ -21,8 +21,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
 
 	const { headers, data } = res;
 	const accessToken = headers?.['authorization'].split(' ')[1];
-	console.dir(accessToken);
-	context.res.setHeader('Set-Cookie', headers?.['set-cookie']?.[0] as string);
+	console.dir(headers);
+	context.res.setHeader(
+		'Set-Cookie',
+		`Refresh=${(headers?.['refresh'] as string)?.split(' ')[1]}; max-age=${3600 * 24 * 7}; Path=/;`
+	);
 	const { role, userName } = data.data;
 	return { props: { data: { role, userName, accessToken } } };
 };
