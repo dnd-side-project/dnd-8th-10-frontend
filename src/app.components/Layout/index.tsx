@@ -6,13 +6,15 @@ interface Props {
 
 function Layout({ children }: Props) {
 	useEffect(() => {
-		const setProperty = () => {
-			const vh = window.innerHeight * 0.01;
-			document.documentElement.style.setProperty('--vh', `${vh}px`);
-		};
-		setProperty();
-		window.addEventListener('resize', setProperty);
-		return () => window.removeEventListener('resize', setProperty);
+		const userAgent = window.navigator.userAgent.toLowerCase();
+		const isIOS = /iphone|ipad|ipod/.test(userAgent);
+		if (isIOS) {
+			const setProperty = () => {
+				const vh = window.innerHeight * 0.01;
+				document.documentElement.style.setProperty('--vh', `${vh}px`);
+			};
+			setProperty();
+		}
 	}, []);
 
 	return (

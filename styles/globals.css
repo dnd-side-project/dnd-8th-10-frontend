@@ -16,7 +16,6 @@ body{
   display: none;
 }
 .app-wrap{
-  height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
   overflow-y: scroll;
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
