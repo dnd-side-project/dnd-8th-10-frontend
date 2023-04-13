@@ -61,7 +61,7 @@ function WeekCalandar({ weekState, searchDate, onSearchDateChange }: Props) {
 						</li>
 					))}
 				</ul>
-				<ul className="grid grid-cols-7 text-center text-body2 ">
+				<ul className="grid grid-cols-7 text-center  ">
 					{getWeekDateList().map((w, index) => (
 						<li key={index} className="first:text-g7 text-g10 last:text-g7">
 							<button
@@ -72,9 +72,9 @@ function WeekCalandar({ weekState, searchDate, onSearchDateChange }: Props) {
 								className={`aria-pressed:bg-primary aria-pressed:text-w ${getDateButtonStyle(
 									index,
 									w
-								)}  w-[3.4rem] h-[3.4rem] text-center rounded-[0.8rem]`}
+								)}  w-[3.4rem] h-[3.4rem] font-[400] leading-[100%] text-center rounded-[0.8rem]`}
 							>
-								<span className=" align-text-middle">{w}</span>
+								<span className=" text-[1.4rem] ">{w}</span>
 							</button>
 						</li>
 					))}
