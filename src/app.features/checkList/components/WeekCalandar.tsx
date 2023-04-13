@@ -74,7 +74,7 @@ function WeekCalandar({ weekState, searchDate, onSearchDateChange }: Props) {
 									w
 								)}  w-[3.4rem] h-[3.4rem] text-center leading-none rounded-[0.8rem]`}
 							>
-								<span>{w}</span>
+								<span className=" align-text-top">{w}</span>
 							</button>
 						</li>
 					))}
