@@ -9,43 +9,43 @@
 @layer components {
 
     .text-title2{
-       @apply font-bold text-[2rem] leading-[2.8rem] -tracking-[0.06rem];
+       @apply font-bold text-[2rem] leading-[2.8] -tracking-[0.06rem];
     }
     .text-title1{
-       @apply font-bold text-[1.8rem] leading-[2.8rem] -tracking-[0.06rem];
+       @apply font-bold text-[1.8rem] leading-[2.8] -tracking-[0.06rem];
     }
     .text-subhead4{
-       @apply font-bold text-[1.6rem] leading-[2.2rem] -tracking-[0.06rem];
+       @apply font-bold text-[1.6rem] leading-[2.2] -tracking-[0.06rem];
     }
     .text-subhead-long4{
-       @apply font-bold text-[1.6rem] leading-[2.8rem] -tracking-[0.06rem];
+       @apply font-bold text-[1.6rem] leading-[2.8] -tracking-[0.06rem];
     }
     .text-subhead3{
-       @apply font-medium text-[1.6rem] leading-[2.2rem] -tracking-[0.06rem];
+       @apply font-medium text-[1.6rem] leading-[2.2] -tracking-[0.06rem];
     }
     .text-subhead2{
-       @apply font-[500] text-[1.4rem] leading-[2rem] -tracking-[0.06rem];
+       @apply font-[500] text-[1.4rem] leading-[2] -tracking-[0.06rem];
     }
     .text-subhead-long2{
-       @apply font-medium text-[1.4rem] leading-[2.4rem] -tracking-[0.06rem];
+       @apply font-medium text-[1.4rem] leading-[2.4] -tracking-[0.06rem];
     }
     .text-subhead1{
-       @apply font-medium text-[1.2rem] leading-[1.8rem] -tracking-[0.06rem];
+       @apply font-medium text-[1.2rem] leading-[1.8] -tracking-[0.06rem];
     }
     .text-body3{ 
-       @apply font-[400]  text-[1.6rem] leading-[2.4rem] -tracking-[0.06rem];
+       @apply font-[400]  text-[1.6rem] leading-[2.4] -tracking-[0.06rem];
     }
     .text-body-long3{
-       @apply font-[400] text-[1.6rem] leading-[2.8rem] -tracking-[0.06rem];
+       @apply font-[400] text-[1.6rem] leading-[2.8] -tracking-[0.06rem];
     }
     .text-body2{
-       @apply font-[400] text-[1.4rem] leading-[2.0rem] -tracking-[0.06rem];
+       @apply font-[400] text-[1.4rem] leading-[2.0] -tracking-[0.06rem];
     }
     .text-body-long2{
-       @apply font-[400] text-[1.4rem] leading-[2.4rem] -tracking-[0.06rem];
+       @apply font-[400] text-[1.4rem] leading-[2.4] -tracking-[0.06rem];
     }
     .text-body1{
-        @apply font-[400] text-[1.2rem] leading-[1.8rem] -tracking-[0.06rem];
+        @apply font-[400] text-[1.2rem] leading-[1.8] -tracking-[0.06rem];
      }
   
 }
