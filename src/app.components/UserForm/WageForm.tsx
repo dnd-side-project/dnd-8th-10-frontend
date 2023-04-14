@@ -24,6 +24,7 @@ function WageForm({ wage, onWageChange }: Props) {
 			resetHandler={resetWageHandler}
 			mode="default"
 			placeholder="9,620 원"
+			type="number"
 		/>
 	);
 }
