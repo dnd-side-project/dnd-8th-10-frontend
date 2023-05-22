@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BoardModal from 'src/app.components/Modal/BoardModal';
 import Modal from 'src/app.components/Modal/Modal';
 import Overlay from 'src/app.components/Modal/Overlay';
@@ -9,6 +9,7 @@ import { formatDate } from 'src/app.features/board/utils';
 import useModal from 'src/app.modules/hooks/useModal';
 import CommentSettingIcon from 'src/app.modules/assets/board/ellipsis.svg';
 import { SERVICE_URL } from 'src/app.modules/constants/ServiceUrl';
+import dompurify from 'isomorphic-dompurify';
 
 interface Props {
 	boardViewData: IBoardViewData;
@@ -23,7 +24,7 @@ interface Props {
 function CommentList({ boardViewData, userData, onDeleteComment, focusedComment, onFocusedCommentChange }: Props) {
 	const router = useRouter();
 	type SoryByType = 'earliest' | 'latest';
-
+	const sanitizer = dompurify.sanitize;
 	const {
 		isModalOpen: isDelCommentModalOpen,
 		closeModal: closeDelCommentModal,
@@ -41,6 +42,7 @@ function CommentList({ boardViewData, userData, onDeleteComment, focusedComment,
 		if (commentSortBy === 'earliest') return comments;
 		return [...comments].reverse();
 	}; // React.ChangeEvent<HTMLDivElement>
+
 	return (
 		<section className="py-[1.8rem]   space-y-[1.6rem]   ">
 			<div className="flex items-center space-x-[0.4rem]">
@@ -86,7 +88,10 @@ function CommentList({ boardViewData, userData, onDeleteComment, focusedComment,
 									</button>
 								</div>
 								{/* eslint-disable-next-line react/no-danger */}
-								<p dangerouslySetInnerHTML={{ __html: content }} className="text-body2 text-g9" />
+								<p
+									dangerouslySetInnerHTML={{ __html: sanitizer(content, { ALLOWED_TAGS: ['ws-mention'] }) }}
+									className="text-body2 text-g9"
+								/>
 							</div>
 						</li>
 					))}
